@@ -21,16 +21,15 @@ import javax.validation.constraints.Positive;
 @RequestMapping("/members")
 @Validated
 public class MemberController {
-    private final MemberService memberService;
-    private final MemberMapper memberMapper;
+//    private final MemberService memberService;
+//    private final MemberMapper memberMapper;
 
     // 회원 가입
     @PostMapping("/join")
     public ResponseEntity postMember(@RequestBody @Validated MemberPostDto requestBody){
 
-        return new ResponseEntity(
-                new SingleResponseDto<>(, HttpStatus.CREATED)
-        );
+        return null;
+//        return new ResponseEntity( new SingleResponseDto<>(, HttpStatus.CREATED));
     }
 
     // 회원 수정
@@ -38,24 +37,28 @@ public class MemberController {
     public ResponseEntity patchMember(@PathVariable("memberId") @Positive Long memberId,
                                       @RequestBody @Valid MemberPatchDto requestBody) {
 
-        return new ResponseEntity<>(, HttpStatus.OK);
+        return null;
+//        return new ResponseEntity<>(, HttpStatus.OK);
     }
 
     // 회원 단건 조회
     @GetMapping("/{memberId}")
     public ResponseEntity getMember(@PathVariable("memberId") @Positive Long memberId) {
-        return new ResponseEntity<>(, HttpStatus.OK);
+        return null;
+//        return new ResponseEntity<>(, HttpStatus.OK);
     }
 
     // 회원 전체 조회
     @GetMapping
     public ResponseEntity getAllMember(@PathVariable("memberId") @Positive Long memberId) {
-        return new ResponseEntity<>(, HttpStatus.OK);
+        return null;
+//        return new ResponseEntity<>(, HttpStatus.OK);
     }
 
     // 회원 탈퇴
     @DeleteMapping("/{memberId}")
     public ResponseEntity deleteMember(@PathVariable("memberId") @Positive Long memberId) {
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return null;
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
