@@ -2,6 +2,8 @@ package company.board_project.content.controller;
 
 import company.board_project.content.dto.ContentPatchDto;
 import company.board_project.content.dto.ContentPostDto;
+import company.board_project.content.mapper.ContentMapper;
+import company.board_project.content.service.ContentService;
 import company.board_project.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/contents")
 @RequiredArgsConstructor
 public class ContentController {
+    private final ContentService contentService;
+    private final ContentMapper contentMapper;
 
     // 게시글 생성 //
     @PostMapping
