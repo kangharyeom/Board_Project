@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Positive;
+
 @RestController
 @Validated
 @Slf4j
@@ -39,8 +41,11 @@ public class ContentController {
 
     // 게시글 전체 조회 //
     @GetMapping
-    public ResponseEntity getContents(@RequestParam("size") int size) {
-        return new ResponseEntity<>(, HttpStatus.OK);
+    public ResponseEntity getContents(@Positive @RequestParam("page") int page,
+                                      @Positive @RequestParam("size") int size) {
+
+        return new ResponseEntity<>(
+                HttpStatus.OK);
     }
 
     // 게시글 수정 //
