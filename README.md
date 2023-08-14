@@ -3,7 +3,7 @@
 
 ## 개발 환경
 - Java 11
-- Spring Boot 2.7.14
+- Spring Boot 2.1.15 (Gradle 5.3과 호환되는 버전)
 - Gradle 5.3
 - Maria DB
 - Java Server Page
