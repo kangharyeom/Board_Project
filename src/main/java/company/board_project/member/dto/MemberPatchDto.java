@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 public class MemberPatchDto {
+    private Long memberId;
 
     @Email(message = "올바른 형식으로 입력해야 합니다.")
     @Length(min = 1, max = 60, message = "사이즈를 확인하세요.")
