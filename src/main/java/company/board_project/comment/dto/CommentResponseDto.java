@@ -12,8 +12,15 @@ import java.time.LocalDateTime;
 @Builder
 public class CommentResponseDto {
     private Long commentId;
-    @NotBlank(message = "댓글의 내용을 입력해야 합니다.")
+    private Long memberId;
+    private Long contentId;
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    //유저 정보
+    private String name;
+
+    // 게시글 정보
+    private String title;
 }
