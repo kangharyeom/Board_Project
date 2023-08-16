@@ -5,6 +5,7 @@ import company.board_project.exception.Exceptions;
 import company.board_project.member.entity.Member;
 import company.board_project.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -76,5 +77,12 @@ public class MemberService {
         if(member.isPresent()) {
             throw new BusinessLogicException(Exceptions.EMAIL_EXISTS);
         }
+    }
+
+    // 로그인한 회원
+    public Member getLoginMember() {
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return memberRepository.findByEmail(email)
+                .orElseThrow(() -> new BusinessLogicException(Exceptions.MEMBER_NOT_FOUND));
     }
 }
