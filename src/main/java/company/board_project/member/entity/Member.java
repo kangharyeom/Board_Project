@@ -1,6 +1,7 @@
 package company.board_project.member.entity;
 
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.Role;
 import company.board_project.content.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,6 +34,9 @@ public class Member {
 
     @Column(nullable = false)
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     // 연관 관계 일대다 //
     @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
