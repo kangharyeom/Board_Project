@@ -12,10 +12,16 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 public class ContentPatchDto {
+    private Long contentId;
     @NotBlank(message = "게시글 제목을 입력해야 합니다.")
     private String title;
     @NotBlank(message = "게시글의 내용을 입력해야 합니다.")
     private String content;
     private LocalDateTime modifiedAt;
     public List<ContentFile> contentFileList;
+
+    // 생성자 //
+    public void updateId(Long id){
+        this.contentId = id;
+    }
 }

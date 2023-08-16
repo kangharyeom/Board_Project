@@ -1,24 +1,26 @@
 package company.board_project.content.dto;
 
+import company.board_project.comment.dto.CommentResponseDto;
 import company.board_project.content.entity.ContentFile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
 @Getter
 @Builder
-public class ContentResponseDto {
+public class ContentAllResponseDto {
     private Long contentId;
     private Long memberId;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-    public List<ContentFile> contentFileList;
+
+    // 게시글 작성 유저 정보 //
+    private String name;
+    private List<CommentResponseDto> comments;
 }
