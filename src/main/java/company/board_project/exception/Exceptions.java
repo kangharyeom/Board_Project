@@ -17,7 +17,7 @@ public enum Exceptions {
     // Member 예외 처리
     INVALID_MEMBER_STATUS(400, "Invalid Member status"),
     INVALID_PASSWORD (400, "Invalid Password"),
-    MEMBER_NOT_LOGIN(400, "Member is not login"),
+    MEMBER_NOT_LOGIN(400, "Member is not LoginResponseDto"),
     MEMBER_NOT_FOUND(404, "Member not found"),
     ID_NOT_EXIST(404, "ID is not exist"),
     MEMBER_EXISTS(409, "Member exists"),
