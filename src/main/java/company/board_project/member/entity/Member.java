@@ -1,11 +1,15 @@
 package company.board_project.member.entity;
 
+import company.board_project.comment.entity.Comment;
+import company.board_project.content.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -29,4 +33,11 @@ public class Member {
 
     @Column(nullable = false)
     private String phone;
+
+    // 연관 관계 일대다 //
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Content> contents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
 }
