@@ -1,4 +1,3 @@
-/*
 package company.board_project.awsS3;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -75,4 +74,4 @@ public class AwsS3Service {
 //        logger.info("Aws S3 Log:"+bucket);
 //        System.out.println(bucket);
     }
-}*/
+}

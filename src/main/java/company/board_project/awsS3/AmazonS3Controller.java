@@ -1,4 +1,3 @@
-/*
 package company.board_project.awsS3;
 
 import lombok.RequiredArgsConstructor;
@@ -25,4 +24,4 @@ public class AmazonS3Controller {
         awsS3Service.deleteFile(fileName);
         return ResponseEntity.ok(fileName);
     }
-}*/
+}
