@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 public class ContentAllResponseDto {
     private Long contentId;
-    private Long memberId;
+    private Long userId;
     private String title;
     private String content;
     private LocalDateTime createdAt;

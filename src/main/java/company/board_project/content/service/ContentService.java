@@ -6,9 +6,9 @@ import company.board_project.content.mapper.ContentMapper;
 import company.board_project.content.repository.ContentRepository;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.member.entity.Member;
-import company.board_project.member.repository.MemberRepository;
-import company.board_project.member.service.MemberService;
+import company.board_project.user.entity.User;
+import company.board_project.user.repository.UserRepository;
+import company.board_project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -23,15 +23,13 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class ContentService {
-    private final MemberRepository memberRepository;
-    private final MemberService memberService;
+    private final UserRepository userRepository;
+    private final UserService userService;
     private final ContentRepository contentRepository;
-    private final ContentMapper contentMapper;
-    private final CommentRepository commentRepository;
 
     // 게시글 생성 //
     public Content createContent(Content content) {
-        content.setMember(memberService.getLoginMember());
+//        content.setUser(userService.getLoginUser());
 
         contentRepository.save(content);
 
@@ -42,9 +40,9 @@ public class ContentService {
     public Content updateContent(Content content) {
         Content findContent = findVerifiedContent(content.getContentId());
 
-        Member writer = memberService.findMember(findContent.getMember().getMemberId()); // 작성자 찾기
-        if(memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)
+        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+       /* if(userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)*/
 
         Optional.ofNullable(content.getTitle())
                 .ifPresent(findContent::setTitle);
@@ -75,19 +73,19 @@ public class ContentService {
     public void deleteContent(Long contentId) {
         Content findContent = findVerifiedContent(contentId);
 
-        Member writer = memberService.findMember(findContent.getMember().getMemberId()); // 작성자 찾기
-        if(memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)
+        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+        /*if(userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)*/
         contentRepository.delete(findContent);
     }
 
     // 유저 검증 로직 //
-    public Member findVerifiedMember(Long memberId) {
-        Optional<Member> optionalUser = memberRepository.findById(memberId);
-        Member findMember =
+    public User findVerifiedUser(Long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User findUser =
                 optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.MEMBER_NOT_FOUND));
-        return findMember;
+                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
+        return findUser;
     }
 
     // 게시글 검증 로직 //

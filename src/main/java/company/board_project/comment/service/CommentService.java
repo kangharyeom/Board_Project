@@ -6,9 +6,9 @@ import company.board_project.content.entity.Content;
 import company.board_project.content.service.ContentService;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.member.entity.Member;
-import company.board_project.member.repository.MemberRepository;
-import company.board_project.member.service.MemberService;
+import company.board_project.user.entity.User;
+import company.board_project.user.repository.UserRepository;
+import company.board_project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,8 +24,8 @@ import java.util.Optional;
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final MemberRepository memberRepository;
-    private final MemberService memberService;
+    private final UserRepository userRepository;
+    private final UserService userService;
     private final ContentService contentService;
 
     // 댓글 등록
@@ -35,9 +35,9 @@ public class CommentService {
 
         // 이미 등록된 이메일인지 확인
         Content content = contentService.findContent(contentId);
-        Member member = memberService.getLoginMember();
+//        Member member = memberService.getLoginMember();
 
-        comment.setMember(member);
+//        comment.setMember(member);
         comment.setContent(content);
 
         return commentRepository.save(comment);
@@ -50,9 +50,9 @@ public class CommentService {
 
 
         Comment findComment = findVerifiedComment(commentId); //ID로 멤버 존재 확인하고 comment 정보 반환
-        Member writer = memberService.findMember(findComment.getMember().getMemberId()); // 작성자 찾기
-        if (memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+/*        if (memberService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);*/
 
         Optional.ofNullable(comment.getComment())
                 .ifPresent(findComment::setComment);
@@ -81,9 +81,9 @@ public class CommentService {
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
 
-        Member writer = memberService.findMember(findComment.getMember().getMemberId()); // 작성자 찾기
-        if (memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+      /*  if (memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);*/
 
         commentRepository.delete(findComment);
     }

@@ -1,7 +1,7 @@
-package company.board_project.member.entity;
+package company.board_project.user.entity;
 
+import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
-import company.board_project.constant.Role;
 import company.board_project.content.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,16 +12,16 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "USERS")
-public class Member {
+public class User extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private Long userId;
 
     @Column(nullable = false, unique = true, updatable = false)
     private String email;
@@ -35,13 +35,10 @@ public class Member {
     @Column(nullable = false)
     private String phone;
 
-    @Enumerated(EnumType.STRING)
-    private Role role;
-
     // 연관 관계 일대다 //
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
 }

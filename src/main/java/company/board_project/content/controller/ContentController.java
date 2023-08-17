@@ -7,6 +7,7 @@ import company.board_project.content.dto.ContentResponseDto;
 import company.board_project.content.entity.Content;
 import company.board_project.content.mapper.ContentMapper;
 import company.board_project.content.service.ContentService;
+import company.board_project.user.repository.UserRepository;
 import company.board_project.response.MultiResponseDto;
 import company.board_project.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
@@ -30,10 +32,9 @@ public class ContentController {
     private final ContentMapper contentMapper;
     private final CommentRepository commentRepository;
 
-
     // 게시글 생성 //
     @PostMapping
-    public ResponseEntity postContent(@RequestBody ContentPostDto requestBody) {
+    public ResponseEntity postContent(@Valid @RequestBody ContentPostDto requestBody) {
 
         Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody));
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content);
@@ -48,7 +49,7 @@ public class ContentController {
     public ResponseEntity getContent(@PathVariable("contentId") Long contentId) {
         Content content = contentService.findContent(contentId);
 
-        return new ResponseEntity<>(contentMapper.contentToContentAllResponse(content, commentRepository),
+        return new ResponseEntity<>(contentMapper.contentToContentAllResponse(content,commentRepository),
                 HttpStatus.OK);
     }
 

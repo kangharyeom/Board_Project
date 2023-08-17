@@ -5,25 +5,25 @@ import company.board_project.comment.entity.Comment;
 import company.board_project.comment.repository.CommentRepository;
 import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;
-import company.board_project.member.entity.Member;
+import company.board_project.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Mapper(componentModel = "spring")
 public interface ContentMapper {
-    Content contentPostDtoToContent(ContentPostDto requestBody);
 
+    Content contentPostDtoToContent(ContentPostDto requestBody);
     Content contentPatchDtoToContent(ContentPatchDto requestBody);
 
     default ContentResponseDto contentToContentResponse(Content content){
-        Member member = content.getMember();
+        User user = content.getUser();
 
         return ContentResponseDto.builder()
                 .contentId(content.getContentId())
-                .memberId(member.getMemberId())
+                .userId(user.getUserId())
+                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
                 .createdAt(content.getCreatedAt())
@@ -33,14 +33,14 @@ public interface ContentMapper {
 
     // 컨텐츠 to 컨텐트 단건 조회 //
     default ContentAllResponseDto contentToContentAllResponse(Content content, CommentRepository commentRepository){
-        Member member = content.getMember();
+        User user = content.getUser();
         List<Comment> comments = commentRepository.findAllByContentId(content.getContentId());
         Collections.reverse(comments);
 
         return ContentAllResponseDto.builder()
                 .contentId(content.getContentId())
-                .memberId(member.getMemberId())
-                .name(member.getName())
+                .userId(user.getUserId())
+                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
                 .comments(commentsToCommentResponseDtos(comments))
@@ -62,7 +62,8 @@ public interface ContentMapper {
         return contents.stream()
                 .map(content -> ContentResponseDto.builder()
                         .contentId(content.getContentId())
-                        .memberId(content.getMember().getMemberId())
+                        .userId(content.getUser().getUserId())
+                        .name(content.getUser().getName())
                         .title(content.getTitle())
                         .content(content.getContent())
                         .createdAt(content.getCreatedAt())
@@ -77,12 +78,13 @@ public interface ContentMapper {
                 .map(comment -> CommentResponseDto.builder()
                         .commentId(comment.getCommentId())
                         .contentId(comment.getContent().getContentId())
-                        .memberId(comment.getMember().getMemberId())
+                        .userId(comment.getUser().getUserId())
+                        .name(comment.getUser().getName())
                         .comment(comment.getComment())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())
                         .title(comment.getContent().getTitle())
-                        .name(comment.getMember().getName())
+                        .name(comment.getUser().getName())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -1,4 +1,4 @@
-package company.board_project.member.dto;
+package company.board_project.user.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -10,6 +10,6 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Builder
-public class MemberListDto {
-    List<MemberResponseDto> memberResponseDto;
+public class UserListDto {
+    List<UserResponseDto> userResponseDto;
 }

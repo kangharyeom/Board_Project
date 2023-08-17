@@ -15,12 +15,12 @@ public enum Exceptions {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
     // Member 예외 처리
-    INVALID_MEMBER_STATUS(400, "Invalid Member status"),
+    INVALID_MEMBER_STATUS(400, "Invalid User status"),
     INVALID_PASSWORD (400, "Invalid Password"),
-    MEMBER_NOT_LOGIN(400, "Member is not LoginResponseDto"),
-    MEMBER_NOT_FOUND(404, "Member not found"),
+    MEMBER_NOT_LOGIN(400, "User is not LoginResponseDto"),
+    USER_NOT_FOUND(404, "User not found"),
     ID_NOT_EXIST(404, "ID is not exist"),
-    MEMBER_EXISTS(409, "Member exists"),
+    MEMBER_EXISTS(409, "User exists"),
 
     // 게시글 예외 처리
     CONTENT_NOT_PATCHED(403, "Content not patched"),

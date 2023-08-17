@@ -15,10 +15,11 @@ import java.util.List;
 @Builder
 public class ContentResponseDto {
     private Long contentId;
-    private Long memberId;
+    private Long userId;
     private String title;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
     public List<ContentFile> contentFileList;
+    private String name;
 }

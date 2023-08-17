@@ -13,10 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class ContentPostDto {
-    @NotBlank(message = "게시글 제목을 입력해야 합니다.")
+    private Long userId;
+    @NotBlank(message = "게시글의 제목을 입력해야 합니다.")
     private String title;
     @NotBlank(message = "게시글의 내용을 입력해야 합니다.")
     private String content;
-    private LocalDateTime createdAt;
     public List<ContentFile> contentFileList;
+
+    // 유저 정보
+    private String name;
 }
