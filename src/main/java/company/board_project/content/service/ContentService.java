@@ -1,8 +1,11 @@
 package company.board_project.content.service;
 
+import company.board_project.awsS3.AwsS3Service;
 import company.board_project.comment.repository.CommentRepository;
 import company.board_project.content.entity.Content;
+import company.board_project.content.entity.ContentFile;
 import company.board_project.content.mapper.ContentMapper;
+import company.board_project.content.repository.ContentFileRepository;
 import company.board_project.content.repository.ContentRepository;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
@@ -16,6 +19,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,21 +30,36 @@ public class ContentService {
     private final UserRepository userRepository;
     private final UserService userService;
     private final ContentRepository contentRepository;
+    private final ContentMapper contentMapper;
+    private final CommentRepository commentRepository;
+    private final AwsS3Service awsS3Service;
+    private final ContentFileRepository contentFileRepository;
 
     // 게시글 생성 //
-    public Content createContent(Content content) {
+    public Content createContent(Content content, List<String> filePaths) {
+        blankCheck(filePaths);
+//        System.out.println("로그인한 user: "+userService.getLoginUser());
 //        content.setUser(userService.getLoginUser());
 
         contentRepository.save(content);
+
+        List<String> fileNameList = new ArrayList<>();
+        for (String contentFileUrl : filePaths) {
+            ContentFile file = new ContentFile(content.getContentId(),contentFileUrl);
+            file.setContentId(content.getContentId());
+            contentFileRepository.save(file);
+            fileNameList.add(file.getContentFileUrl());
+        }
 
         return content;
     }
 
     // 게시글 수정 //
     public Content updateContent(Content content) {
+
         Content findContent = findVerifiedContent(content.getContentId());
 
-        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+//        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
        /* if(userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)*/
 
@@ -73,7 +92,7 @@ public class ContentService {
     public void deleteContent(Long contentId) {
         Content findContent = findVerifiedContent(contentId);
 
-        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+//        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
         /*if(userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED); //예외 발생(권한 없음)*/
         contentRepository.delete(findContent);
@@ -97,5 +116,11 @@ public class ContentService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
 
         return findContent;
+    }
+
+    private void blankCheck(List<String> filePaths) {
+        if(filePaths == null || filePaths.isEmpty()){ //.isEmpty()도 되는지 확인해보기
+            throw new BusinessLogicException(Exceptions.CONTENT_FILE_CHECK_ERROR);
+        }
     }
 }

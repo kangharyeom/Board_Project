@@ -5,6 +5,8 @@ import company.board_project.comment.entity.Comment;
 import company.board_project.comment.repository.CommentRepository;
 import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;
+import company.board_project.content.entity.ContentFile;
+import company.board_project.content.repository.ContentFileRepository;
 import company.board_project.user.entity.User;
 import org.mapstruct.Mapper;
 
@@ -17,32 +19,35 @@ public interface ContentMapper {
     Content contentPostDtoToContent(ContentPostDto requestBody);
     Content contentPatchDtoToContent(ContentPatchDto requestBody);
 
-    default ContentResponseDto contentToContentResponse(Content content){
+    default ContentResponseDto contentToContentResponse(Content content, ContentFileRepository contentFileRepository){
         User user = content.getUser();
+        List<ContentFile> contentFile = contentFileRepository.findByContentId(content.getContentId());
 
         return ContentResponseDto.builder()
                 .contentId(content.getContentId())
-                .userId(user.getUserId())
-                .name(user.getName())
+//                .userId(user.getUserId())
+//                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
+                .contentFileList(contentFile)
                 .createdAt(content.getCreatedAt())
                 .modifiedAt(content.getModifiedAt())
                 .build();
     }
 
     // 컨텐츠 to 컨텐트 단건 조회 //
-    default ContentAllResponseDto contentToContentAllResponse(Content content, CommentRepository commentRepository){
+    default ContentAllResponseDto contentToContentAllResponse(Content content, ContentFileRepository contentFileRepository,CommentRepository commentRepository){
         User user = content.getUser();
         List<Comment> comments = commentRepository.findAllByContentId(content.getContentId());
         Collections.reverse(comments);
 
         return ContentAllResponseDto.builder()
                 .contentId(content.getContentId())
-                .userId(user.getUserId())
-                .name(user.getName())
+//                .userId(user.getUserId())
+//                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
+                .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
                 .comments(commentsToCommentResponseDtos(comments))
                 .createdAt(content.getCreatedAt())
                 .modifiedAt(content.getModifiedAt())
@@ -50,22 +55,23 @@ public interface ContentMapper {
     }
 
     // 컨텐츠 List 선언
-    default ContentListDto contentListDtoToContentResponse(List<Content> contents){
+    default ContentListDto contentListDtoToContentResponse(List<Content> contents, ContentFileRepository contentFileRepository){
 
         return ContentListDto.builder()
-                .contentResponseDto(contentsToContentsResponse(contents))
+                .contentResponseDto(contentsToContentsResponse(contents, contentFileRepository))
                 .build();
     }
 
     // 컨텐츠(다중) to 컨텐츠 리스폰스 (전체) //
-    default List<ContentResponseDto> contentsToContentsResponse(List<Content> contents){
+    default List<ContentResponseDto> contentsToContentsResponse(List<Content> contents, ContentFileRepository contentFileRepository){
         return contents.stream()
                 .map(content -> ContentResponseDto.builder()
                         .contentId(content.getContentId())
-                        .userId(content.getUser().getUserId())
-                        .name(content.getUser().getName())
+//                        .userId(content.getUser().getUserId())
+//                        .name(content.getUser().getName())
                         .title(content.getTitle())
                         .content(content.getContent())
+                        .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
                         .createdAt(content.getCreatedAt())
                         .modifiedAt(content.getModifiedAt())
                         .build())
@@ -78,8 +84,8 @@ public interface ContentMapper {
                 .map(comment -> CommentResponseDto.builder()
                         .commentId(comment.getCommentId())
                         .contentId(comment.getContent().getContentId())
-                        .userId(comment.getUser().getUserId())
-                        .name(comment.getUser().getName())
+//                        .userId(comment.getUser().getUserId())
+//                        .name(comment.getUser().getName())
                         .comment(comment.getComment())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())

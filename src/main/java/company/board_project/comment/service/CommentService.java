@@ -81,7 +81,7 @@ public class CommentService {
     public void deleteComment(long commentId) {
         Comment findComment = findVerifiedComment(commentId);
 
-        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+//        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
       /*  if (memberService.getLoginMember().getMemberId() != writer.getMemberId()) // 작성자와 로그인한 사람이 다를 경우
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED);*/
 

@@ -43,8 +43,8 @@ public interface CommentMapper {
 
         return CommentResponseDto.builder()
                 .commentId(comment.getCommentId())
-                .userId(user.getUserId())
-                .name(user.getName())
+//                .userId(user.getUserId())
+//                .name(user.getName())
                 .contentId(content.getContentId())
                 .title(content.getTitle())
                 .comment(comment.getComment())

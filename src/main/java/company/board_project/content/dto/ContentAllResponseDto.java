@@ -2,21 +2,22 @@ package company.board_project.content.dto;
 
 import company.board_project.comment.dto.CommentResponseDto;
 import company.board_project.content.entity.ContentFile;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ContentAllResponseDto {
     private Long contentId;
     private Long userId;
     private String title;
     private String content;
+    public List<ContentFile> contentFileList;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

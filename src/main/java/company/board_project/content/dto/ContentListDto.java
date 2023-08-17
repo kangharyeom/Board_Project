@@ -1,13 +1,13 @@
 package company.board_project.content.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ContentListDto {
     List<ContentResponseDto> contentResponseDto;

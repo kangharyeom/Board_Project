@@ -35,8 +35,11 @@ public enum Exceptions {
     // 댓글 예외 처리
     COMMENT_NOT_PATCHED(403, "Comment not patched"),
     COMMENT_NOT_FOUND(404, "Comment Not Found"),
-    COMMENT_CHECK_EXISTS(409, "Comment Check exists");
+    COMMENT_CHECK_EXISTS(409, "Comment Check exists"),
 
+    // 파일 업로드 예외 처리
+    CONTENT_FILE_NOT_FOUND(404, "Content_File Not Found"),
+    CONTENT_FILE_CHECK_ERROR(409, "Content_File Check ERROR");
 
     @Getter
     private int status;
