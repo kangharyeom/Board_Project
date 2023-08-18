@@ -14,11 +14,17 @@ import java.util.List;
 public interface CommentMapper {
     default Comment commentPostDtoToComment(CommentPostDto requestBody) {
         // content id, comment id 받아오기 + body 받아오기
+        User user = new User();
+        user.setUserId(requestBody.getUserId());
+        user.setName(requestBody.getName());
+
         Content content = new Content();
         content.setContentId(requestBody.getContentId());
 
         Comment comment = new Comment();
+        comment.setUser(user);
         comment.setContent(content);
+        comment.setName(user.getName());
         comment.setComment(requestBody.getComment());
 
         return comment;
@@ -43,8 +49,8 @@ public interface CommentMapper {
 
         return CommentResponseDto.builder()
                 .commentId(comment.getCommentId())
-//                .userId(user.getUserId())
-//                .name(user.getName())
+                .userId(user.getUserId())
+                .name(user.getName())
                 .contentId(content.getContentId())
                 .title(content.getTitle())
                 .comment(comment.getComment())

@@ -23,6 +23,10 @@ public class Comment extends Auditable {
     @Column(nullable = false)
     private String comment;
 
+    // 유저 이름
+    @Column(nullable = false)
+    private String name;
+
     // 연관 관계 다대일 //
     @ManyToOne
     @JoinColumn(name = "USER_ID")
