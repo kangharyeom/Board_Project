@@ -15,8 +15,8 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "USERS")
 public class User extends Auditable {
     @Id

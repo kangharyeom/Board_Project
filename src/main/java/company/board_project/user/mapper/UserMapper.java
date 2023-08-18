@@ -12,9 +12,28 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
-    User userPostDtoToUser(UserPostDto requestBody);
+    default User userPostDtoToUser(UserPostDto requestBody){
+        User user = new User();
 
-    User userPatchDtoToUser(UserPatchDto requestBody);
+        user.setEmail( requestBody.getEmail() );
+        user.setName( requestBody.getName() );
+        user.setPassword( requestBody.getPassword() );
+        user.setPhone( requestBody.getPhone() );
+
+        return user;
+    }
+
+    default User userPatchDtoToUser(UserPatchDto requestBody){
+        User user = new User();
+
+        user.setUserId( requestBody.getUserId() );
+        user.setEmail( requestBody.getEmail() );
+        user.setName( requestBody.getName() );
+        user.setPassword( requestBody.getPassword() );
+        user.setPhone( requestBody.getPhone() );
+
+        return user;
+    }
 
     // 회원 단건 조회
     default UserResponseDto userToUserResponseDto(User user) {
