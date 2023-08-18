@@ -15,6 +15,7 @@ public interface CommentMapper {
     default Comment commentPostDtoToComment(CommentPostDto requestBody) {
         // content id, comment id 받아오기 + body 받아오기
         User user = new User();
+
         user.setUserId(requestBody.getUserId());
         user.setName(requestBody.getName());
 

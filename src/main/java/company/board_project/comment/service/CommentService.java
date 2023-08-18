@@ -35,9 +35,9 @@ public class CommentService {
 
         // 이미 등록된 이메일인지 확인
         Content content = contentService.findContent(contentId);
-//        Member member = memberService.getLoginMember();
+//        User user = userService.getLoginUser();
 
-//        comment.setMember(member);
+//        comment.setUser(user);
         comment.setContent(content);
 
         return commentRepository.save(comment);
