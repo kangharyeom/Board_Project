@@ -30,6 +30,10 @@ public class Content extends Auditable {
     @Column(nullable = false)
     private String content;
 
+    // 유저 이름
+    @Column(nullable = false)
+    private String name;
+
     // 연관 관계 다대일 //
     @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
