@@ -24,6 +24,7 @@ public interface ContentMapper {
 
         Content content = new Content();
         content.setUser(user);
+        content.setName(requestBody.getName());
         content.setTitle( requestBody.getTitle() );
         content.setContent( requestBody.getContent() );
 
