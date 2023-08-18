@@ -1,5 +1,6 @@
 package company.board_project.board;
 
+import company.board_project.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -8,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -16,18 +19,26 @@ import java.util.Locale;
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
-    @GetMapping("/")
-    public String home() {
-        return "home";
+    @RequestMapping("/")
+    public String home(HttpServletRequest request, Model model) {
+
+        HttpSession session = request.getSession(false);
+
+        // 세션이 없으면 home
+        if(session == null) {
+            return "home";
+        }
+
+        User loginUser = (User)session.getAttribute("loginUser");
+        if(loginUser == null) {
+            return "home";
+        }
+
+        model.addAttribute("member",loginUser);
+        return "login";
     }
-
-    @RequestMapping(value = "/3000/homepage", method = RequestMethod.GET)
-    public String home(Locale locale, Model model) {
-        Date date = new Date();
-        DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-        String formattedDate = dateFormat.format(date);
-        model.addAttribute("serverTime", formattedDate);
-
-        return "homepage";
+    @RequestMapping("/join")
+    public String join(){
+        return "join";
     }
 }
