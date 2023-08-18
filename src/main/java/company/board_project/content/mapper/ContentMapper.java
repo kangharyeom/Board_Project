@@ -16,8 +16,28 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ContentMapper {
 
-    Content contentPostDtoToContent(ContentPostDto requestBody);
-    Content contentPatchDtoToContent(ContentPatchDto requestBody);
+    default Content contentPostDtoToContent(ContentPostDto requestBody){
+        User user = new User();
+
+        user.setUserId(requestBody.getUserId());
+        user.setName(requestBody.getName());
+
+        Content content = new Content();
+        content.setUser(user);
+        content.setTitle( requestBody.getTitle() );
+        content.setContent( requestBody.getContent() );
+
+        return content;
+    }
+    default Content contentPatchDtoToContent(ContentPatchDto requestBody) {
+        Content content = new Content();
+
+        content.setContentId( requestBody.getContentId() );
+        content.setTitle( requestBody.getTitle() );
+        content.setContent( requestBody.getContent() );
+
+        return content;
+    }
 
     default ContentResponseDto contentToContentResponse(Content content, ContentFileRepository contentFileRepository){
         User user = content.getUser();
@@ -25,8 +45,8 @@ public interface ContentMapper {
 
         return ContentResponseDto.builder()
                 .contentId(content.getContentId())
-//                .userId(user.getUserId())
-//                .name(user.getName())
+                .userId(user.getUserId())
+                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
                 .contentFileList(contentFile)
@@ -43,8 +63,8 @@ public interface ContentMapper {
 
         return ContentAllResponseDto.builder()
                 .contentId(content.getContentId())
-//                .userId(user.getUserId())
-//                .name(user.getName())
+                .userId(user.getUserId())
+                .name(user.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
                 .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
@@ -67,8 +87,8 @@ public interface ContentMapper {
         return contents.stream()
                 .map(content -> ContentResponseDto.builder()
                         .contentId(content.getContentId())
-//                        .userId(content.getUser().getUserId())
-//                        .name(content.getUser().getName())
+                        .userId(content.getUser().getUserId())
+                        .name(content.getUser().getName())
                         .title(content.getTitle())
                         .content(content.getContent())
                         .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
@@ -84,8 +104,8 @@ public interface ContentMapper {
                 .map(comment -> CommentResponseDto.builder()
                         .commentId(comment.getCommentId())
                         .contentId(comment.getContent().getContentId())
-//                        .userId(comment.getUser().getUserId())
-//                        .name(comment.getUser().getName())
+                        .userId(comment.getUser().getUserId())
+                        .name(comment.getUser().getName())
                         .comment(comment.getComment())
                         .createdAt(comment.getCreatedAt())
                         .modifiedAt(comment.getModifiedAt())

@@ -31,7 +31,7 @@ public class Content extends Auditable {
     private String content;
 
     // 연관 관계 다대일 //
-    @ManyToOne
+    @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
 
