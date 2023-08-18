@@ -20,8 +20,8 @@ public class UserService {
 
     // 회원 가입
     public User createUser(User user) {
-        // 이메일 유무 확인
-        verifiedUser(user.getEmail());
+        // 아이디 유무 확인
+        verifiedUser(user.getLoginId());
 
         // repository에 회원 등록
         userRepository.save(user);
@@ -71,18 +71,18 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 
-    // 이메일 중복 검사
-    public void verifiedUser(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
+    // 아이디 중복 검사
+    public void verifiedUser(String loginId) {
+        Optional<User> user = userRepository.findByLoginId(loginId);
         if(user.isPresent()) {
-            throw new BusinessLogicException(Exceptions.EMAIL_EXISTS);
+            throw new BusinessLogicException(Exceptions.LOGINID_EXISTS);
         }
     }
 
     /*// 로그인한 회원
     public User getLoginUser() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email)
+        String loginId = SecurityContextHolder.getContext().getAuthentication().getLoginId();
+        return userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }*/
 }

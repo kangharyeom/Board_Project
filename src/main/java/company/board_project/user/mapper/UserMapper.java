@@ -15,6 +15,7 @@ public interface UserMapper {
     default User userPostDtoToUser(UserPostDto requestBody){
         User user = new User();
 
+        user.setLoginId(requestBody.getLoginId());
         user.setEmail( requestBody.getEmail() );
         user.setName( requestBody.getName() );
         user.setPassword( requestBody.getPassword() );
@@ -39,6 +40,7 @@ public interface UserMapper {
     default UserResponseDto userToUserResponseDto(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
+                .loginId(user.getLoginId())
                 .email(user.getEmail())
                 .name(user.getName())
                 .password(user.getPassword())
@@ -60,6 +62,7 @@ public interface UserMapper {
         return users.stream()
                 .map(user -> UserResponseDto.builder()
                         .userId(user.getUserId())
+                        .loginId(user.getLoginId())
                         .email(user.getEmail())
                         .name(user.getName())
                         .password(user.getPassword())

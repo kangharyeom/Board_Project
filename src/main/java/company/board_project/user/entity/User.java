@@ -23,7 +23,10 @@ public class User extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(nullable = false, unique = true, updatable = false)
+    @Column(nullable = false, unique = false, updatable = false)
+    private String loginId;
+
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)

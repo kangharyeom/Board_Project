@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,6 +14,9 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPostDto {
+    @NotBlank(message = "아이디는 공백이 아니어야 합니다.")
+    private String loginId;
+
     @Email(message = "올바른 형식으로 입력해야 합니다.")
     @Length(min = 1, max = 60, message = "사이즈를 확인하세요.")
     @NotBlank(message = "이메일은 공백이 아니어야 합니다.")
