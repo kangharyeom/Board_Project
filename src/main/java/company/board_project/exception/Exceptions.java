@@ -11,6 +11,7 @@ public enum Exceptions {
     ACCESS_FORBIDDEN(403, "Access forbidden"),
     METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
     EMAIL_EXISTS(409, "Email exists"),
+    LOGINID_EXISTS(409, "Login Id exists"),
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
