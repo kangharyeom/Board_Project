@@ -36,7 +36,16 @@ public class ContentService {
     private final ContentFileRepository contentFileRepository;
 
     // 게시글 생성 //
-    public Content createContent(Content content, List<String> filePaths) {
+    public Content createContent(Content content) {
+//        System.out.println("로그인한 user: "+userService.getLoginUser());
+//        content.setUser(userService.getLoginUser());
+        contentRepository.save(content);
+
+        return content;
+    }
+
+    // 게시글 생성 (파일 추가)
+    public Content createContentFile(Content content, List<String> filePaths) {
         blankCheck(filePaths);
 //        System.out.println("로그인한 user: "+userService.getLoginUser());
 //        content.setUser(userService.getLoginUser());
@@ -86,6 +95,21 @@ public class ContentService {
     // 검색 기능 //
     public List<Content> findAllSearch(String keyword){
         return contentRepository.findAllSearch(keyword);
+    }
+
+    // 회원 이름(닉네임) 단위 검색
+    public List<Content> findAllSearchByUserName(String name){
+        return contentRepository.findAllSearchByUserName(name);
+    }
+
+    // 최신 순서 필터
+    public List<Content> findContentsNewest() {
+        return contentRepository.findContentsNewest();
+    }
+
+    // 오래된 순서 필터
+    public List<Content> findContentsLatest() {
+        return contentRepository.findContentsLatest();
     }
 
     // 게시글 삭제 //

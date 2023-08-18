@@ -94,4 +94,16 @@ public interface ContentMapper {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    // 컨텐츠 to 최신 오래된 순서 리스폰스 //
+    default List<ContentNewestAndLatestResponseDto> contentsToContentNewestAndLatestResponseDto(List<Content> contents, ContentFileRepository contentFileRepository){
+        return contents.stream()
+                .map(content -> ContentNewestAndLatestResponseDto.builder()
+                        .contentId(content.getContentId())
+                        .title(content.getTitle())
+                        .content(content.getContent())
+                        .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
+                        .build())
+                .collect(Collectors.toList());
+    }
 }
