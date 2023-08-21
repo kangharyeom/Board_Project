@@ -1,88 +1,66 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
     <meta charset="UTF-8">
-    <title>게시판 만들기 프로젝트</title>
-    <style>
-    	#imageArea{
-    		width: 800px;
-    		margin: 100px auto;
-    		display: flex;
-    		justify-content : center;
-    		align-items : center;
-    		height: 70vh;
-    	}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <table>
+        <tr height="50">
+            <td height="50">유저아이디</td>
+            <td height="50"><input type="number" name="userId" id="idInput"></td>
+        </tr>
+        <tr height="50">
+            <td height="50">이름</td>
+            <td height="50"><input type="text" name="name" id="nameInput"></td>
+        </tr>
+        <tr height="50">
+            <td height="50">제목</td>
+            <td height="50"><input type="text" name="title" id="titleInput"></td>
+        </tr>
+        <tr height="50">
+            <td height="50">내용</td>
+            <td height="50"><input type="text" name="content" id="contentInput"></td>
+        </tr>
+    </table>
+    <button type="button" id="join_btn">제출</button>
 
-    	button {
+    <script>
+        $(document).ready(function () {
+            // 버튼 클릭 시
+            $("#join_btn").click(function () {
+                console.log("join_btn clicked");
 
-        }
+                var jsonData = {
+                    "userId": $('#idInput').val(),
+                    "name": $('#nameInput').val(),
+                    "title": $('#titleInput').val(),
+                    "content": $('#contentInput').val(),
+                };
 
-        body {
-         display:flex;
-         flex-direction: column;
-        }
+                $.ajax({
+                    url: "/api/contents",
+                    type: "POST",
+                    data: JSON.stringify(jsonData),
+                    contentType: "application/json; charset=utf-8",
+                    success: function (response) {
+                        // 서버 응답 처리
+                        console.log("Response from server: " + response);
+                        alert("게시글이 성공적으로 등록되었습니다.");
+                        window.location.href = "/";
+                        },
+                        error: function (error) {
 
-        header {
-            display:flex;
-            flex-direction: row;
+                        // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
+                        console.log("Error from server: " + error.statusText);
+                        alert("정보를 확인 해주세요");
+                        window.location.href = "/board/post";
 
-                }
-
-    	#imageArea{
-            		width: 800px;
-            		margin: 100px auto;
-            		display: flex;
-            		justify-content : center;
-            		align-items : center;
-            		height: 70vh;
-            	}
-
-    </style>
-
-    </head>
-
-    <body>
-        <h2>JSON Data Input</h2>
-        <form id="jsonDataForm">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title"><br>
-
-            <label for="content">Content:</label>
-            <textarea id="content" name="content"></textarea><br>
-
-            <input type="submit" value="Submit">
-        </form>
-
-        <script>
-            $(document).ready(function () {
-                $("#jsonDataForm").submit(function (event) {
-                    event.preventDefault(); // 폼 기본 동작 방지
-
-                    // 입력된 title 및 content 값을 가져옵니다.
-                    var title = $("#title").val();
-                    var content = $("#content").val();
-
-                    // JSON 데이터 생성
-                    var jsonData = {
-                        title: title,
-                        content: content,
-                    };
-
-                    // JSON 데이터를 서버로 POST 요청으로 보냅니다.
-                    $.ajax({
-                        type: "POST",
-                        url: "/contents", // 엔드포인트를 "/contents"로 변경
-                        contentType: "application/json",
-                        data: JSON.stringify(jsonData),
-                        success: function (response) {
-                            // 서버 응답 처리
-                            console.log("Response from server: " + response);
-                        }
-                    });
+                    }
                 });
             });
-        </script>
-    </body>
+        });
+    </script>
+</body>
 </html>
