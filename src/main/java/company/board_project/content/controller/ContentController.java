@@ -29,7 +29,7 @@ import java.util.List;
 @RestController
 @Validated
 @Slf4j
-@RequestMapping("/contents")
+@RequestMapping("/api/contents")
 @RequiredArgsConstructor
 public class ContentController {
     private final ContentService contentService;

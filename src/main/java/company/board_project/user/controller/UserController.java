@@ -23,7 +23,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 @Validated
 public class UserController {
     private final UserService userService;
@@ -33,6 +33,8 @@ public class UserController {
     // 회원 가입
     @PostMapping("/join")
     public ResponseEntity postUser(@RequestBody @Validated UserPostDto requestBody){
+        log.info(requestBody.toString());
+
         User user = userService.createUser(userMapper.userPostDtoToUser(requestBody));
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 

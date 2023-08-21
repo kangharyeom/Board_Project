@@ -21,11 +21,10 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@RequestMapping("/comments")
+@RequestMapping("/api/comments")
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
-
     // 댓글 생성 //
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentPostDto requestBody ){
