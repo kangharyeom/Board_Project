@@ -84,10 +84,11 @@ public class ContentController {
     // 게시글 전체 조회 //
     @GetMapping
     public ResponseEntity getContents(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
-                                      @Positive @RequestParam(value = "page", defaultValue = "40") int size){
+                                      @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
         Page<Content> pageContents = contentService.findContents(page - 1, size);
         List<Content> contents = pageContents.getContent();
+        log.info("전체 요청 :" + contents);
         return new ResponseEntity<>(
                 new MultiResponseDto<>(contentMapper.contentsToContentsResponse(contents, contentFileRepository),
                         pageContents),

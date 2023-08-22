@@ -8,6 +8,7 @@ import company.board_project.comment.mapper.CommentMapper;
 import company.board_project.comment.service.CommentService;
 import company.board_project.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +22,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("/api/comments")
 public class CommentController {
     private final CommentService commentService;
@@ -30,7 +32,8 @@ public class CommentController {
     public ResponseEntity postComment(@Valid @RequestBody CommentPostDto requestBody ){
         Comment comment = commentService.createComment(
                 commentMapper.commentPostDtoToComment(requestBody),
-                requestBody.getContentId()
+                requestBody.getContentId(),
+                requestBody.getUserId()
         );
         CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
 

@@ -23,9 +23,9 @@ public interface CommentMapper {
         content.setContentId(requestBody.getContentId());
 
         Comment comment = new Comment();
-        comment.setUser(user);
         comment.setContent(content);
-        comment.setName(user.getName());
+        comment.setUser(user);
+        comment.setName(requestBody.getName());
         comment.setComment(requestBody.getComment());
 
         return comment;

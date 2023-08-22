@@ -31,13 +31,14 @@ public class CommentService {
     // 댓글 등록
     public Comment createComment(
             Comment comment,
-            Long contentId) {
+            Long contentId,
+            Long userId) {
 
         // 이미 등록된 이메일인지 확인
         Content content = contentService.findContent(contentId);
-//        User user = userService.getLoginUser();
+        User user = userService.findUser(userId);
 
-//        comment.setUser(user);
+        comment.setUser(user);
         comment.setContent(content);
 
         return commentRepository.save(comment);
