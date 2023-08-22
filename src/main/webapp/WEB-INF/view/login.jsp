@@ -20,7 +20,7 @@
     <button onclick="location.href='/join'">회원가입</button>
 </tr>
 <tr height="50">
-    <form method="post" action="http://localhost:8080/login">
+    <form method="post" action="/login">
 	<td height="50"><input type="submit" value="로그인"></td>
 </tr>
 </table>

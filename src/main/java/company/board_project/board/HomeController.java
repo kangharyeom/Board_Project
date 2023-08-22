@@ -51,4 +51,9 @@ public class HomeController {
     public String boardPost(){
         return "/board/boardPost";
     }
+
+    @RequestMapping("/board/detail")
+    public String boardDetail(){
+        return "/board/boardDetail";
+    }
 }

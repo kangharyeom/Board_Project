@@ -7,6 +7,7 @@
     </head>
 
     <body>
-		    <button onclick="location.href='/board/post'">글쓰기</button>
+        <headerFirst>
+        </headerFirst>
     </body>
 </html>
