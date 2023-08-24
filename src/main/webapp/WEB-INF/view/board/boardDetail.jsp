@@ -9,6 +9,8 @@
 contentDetail{
     margin-top: 50px;
     width: 900px;
+    border-bottom: 2px solid #DCDCDC;
+    
 }
 
 commentPost{

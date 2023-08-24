@@ -11,10 +11,12 @@
     <title>게시판 만들기 프로젝트</title>
 <style>
 
-body {
-display:flex;
-align-items: center;
-flex-direction: column;
+bodyContainer{
+	display:flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	width: 900px;
 }
 
 button{
@@ -31,14 +33,14 @@ display:flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
-width: 1264px;
+width: 900px;
 }
+
 contentColumnBody{
 display:flex;
 justify-content: center;
 align-items: center;
-width: 1264px;
-
+width: 900px;
 }
 
 </style>
@@ -46,19 +48,37 @@ width: 1264px;
     </head>
 
     <body>
-        <header>
-			<%@ include file="/WEB-INF/view/header/header.jsp" %>
-		</header>
+		<bodyContainer>
+
+			<header>
+				<%@ include file="/WEB-INF/view/header/header.jsp" %>
+			</header>
 			
-		<contentContainer>
+			<contentContainer>
 			<contentColumnHeader>
+				<%@ include file="/WEB-INF/view/board/boardHeader.jsp" %>
 			</contentColumnHeader>
 			
 			<contentColumnBody>
-				<%@ include file="/WEB-INF/view/board/boardList.jsp" %>
+				<contentListDefault>
+					<%@ include file="/WEB-INF/view/board/boardList.jsp" %>
+				</contentListDefault>
+				<contentkeyword>
+					
+				</contentkeyword>
+				<contentSearchByName>
+					
+				</contentSearchByName>
+				<contentNewest>
+
+				</contentNewest>
+				<contentLatest>
+					
+				</contentLatest>
 			</contentColumnBody>
 			<contentColumnFooter>
 			</contentColumnFooter>
 		</contentContainer>
-    </body>
+	</bodyContainer>
+</body>
 </html>

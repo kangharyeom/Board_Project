@@ -42,7 +42,6 @@ contentHeader{
     border-top: 2px solid 	#DCDCDC	;
     width: 900px;
     height: 200px;
-    margin-bottom: 20px;
     padding: 10px 0 10px 30px;
     background-color: white;
 }
@@ -79,12 +78,6 @@ p5{
     </head>
     <body>
         <div id="contentDiv">
-            <contentHeader>
-                <h3>All Questions</h3>
-                <postContent onclick="location.href='/board/post'">
-                   Ask Question
-                </postContent>
-            </contentHeader>
             <contentList  onclick="location.href='/board/detail'">
                 <script>
             $(document).ready(function () {

@@ -61,6 +61,19 @@ phoneInfo{
 input {
     width: 240px;
     height: 24px;
+    border: 4px solid #DCDCDC;
+}
+
+input::placeholder{
+    padding-left: 10px;
+}
+
+#join_btn{
+    border: 4px solid #DCDCDC;
+    background-color: #ececec;
+    color: black;
+    width: 240px;
+    height: 40px;
 }
 
 </style>
@@ -73,26 +86,26 @@ input {
     <joinContainer>
         <idInfo height="50">
             <td height="50">아이디</td>
-            <td height="50"><input type="text" name="loginId" id="idInput"></td>
+            <td height="50"><input placeholder="아이디를 입력하세요." type="text" name="loginId" id="idInput"></td>
         </idInfo>
         <emailInfo height="50">
             <td height="50">이메일</td>
-            <td height="50"><input type="text" name="email" id="emailInput"></td>
+            <td height="50"><input placeholder="이메일을 입력하세요." type="text" name="email" id="emailInput"></td>
         </emailInfo>
         <nameInfo height="50">
             <td height="50">이름</td>
-            <td height="50"><input type="text" name="name" id="nameInput"></td>
+            <td height="50"><input placeholder="이름을 입력하세요." type="text" name="name" id="nameInput"></td>
         </nameInfo>
         <passwordInfo height="50">
             <td height="50">패스워드</td>
-            <td height="50"><input type="password" name="password" id="passInput"></td>
+            <td height="50"><input placeholder="비밀번호를 입력하세요." type="password" name="password" id="passInput"></td>
         </passwordInfo>
         <phoneInfo height="50">
             <td height="50">휴대폰 번호</td>
-            <td height="50"><input type="text" name="phone" id="phoneInput"></td>
+            <td height="50"><input placeholder="휴대폰 번호를 입력하세요." type="text" name="phone" id="phoneInput"></td>
         </phoneInfo>
     </joinContainer>
-    <button type="button" id="join_btn">제출</button>
+    <button type="button" id="join_btn">회원 등록</button>
 
     <script>
         $(document).ready(function () {

@@ -30,6 +30,7 @@ passwordInfo{
 input{
 	margin-top: 10px;
 	height: 30px;
+	border: 4px solid #DCDCDC;
 }
 
 input::placeholder{
@@ -74,7 +75,7 @@ button{
 		<loginContainer>
 			<loginInfo height="50">
 				<login height="50">ID</login>
-				<loginSource height="50"><input type="text" name="id"></loginSource>
+				<loginSource height="50"><input placeholder="아이디를 입력하세요." type="text" name="id"></loginSource>
 			</loginInfo>
 			<passwordInfo height="50">
 				<password height="50">password</password>

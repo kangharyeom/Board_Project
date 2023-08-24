@@ -43,11 +43,28 @@ postInfo{
 .postClass{
     width: 595px;
     height: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
 #contentInput{
     height: 200px;
+}
+input{
+    border: 4px solid #DCDCDC;
+}
+
+contentPostButton{
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+#contentPost_btn{
+    border: 4px solid #DCDCDC;
+    background-color: #DCDCDC;
+    width: 150px;
+    height: 40px;
+    color: black;
 }
     
 </style>
@@ -81,7 +98,9 @@ postInfo{
             </boardContent>
         </postInfo>
 
-        <button type="button" id="join_btn">제출</button>
+        <contentPostButton>
+            <button type="button" id="contentPost_btn">게시글 등록하기</button>
+        </contentPostButton>
     </boardPostContainer>
 
     <script>
