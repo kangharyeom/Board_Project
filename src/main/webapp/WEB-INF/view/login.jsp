@@ -4,26 +4,93 @@
 <html>
 <head>
 <meta charset="UTF-8">
-</head>
-<body>
+<style>
 
-<table>
-<tr height="50">
-	<td height="50">로그인</td>
-	<td height="50"><input type="text" name="id"></td>
-</tr>
-<tr height="50">
-	<td height="50">패스워드</td>
-	<td height="50"><input type="password" name="pass"></td>
-</tr>
-<tr height="50">
-    <button onclick="location.href='/join'">회원가입</button>
-</tr>
-<tr height="50">
-    <form method="post" action="/login">
-	<td height="50"><input type="submit" value="로그인"></td>
-</tr>
-</table>
-</form>
-</body>
+loginContainer{
+	font-weight: bold;
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 400px;
+}
+
+loginInfo{
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+passwordInfo{
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 10px;
+}
+
+input{
+	margin-top: 10px;
+	height: 30px;
+}
+
+input::placeholder{
+	padding: 10px 10px;
+}
+
+RegisterButtons{
+	margin-top: 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+#registerButton{
+	font-weight: bold;
+	height: 30px;
+	width: 200px;
+	margin-bottom: 20px;
+}
+
+.loginButton{
+	height: 30px;
+	width: 200px;
+}
+
+button{
+	font-weight: bold;
+	background-color:  #107dc9;
+    cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	border: 1px solid;
+	margin: 0 10px 0 10px;
+}
+
+</style>
+</head>
+	<body>
+		<header>
+			<%@ include file="/WEB-INF/view/header/header.jsp" %>
+		</header>
+
+		<loginContainer>
+			<loginInfo height="50">
+				<login height="50">ID</login>
+				<loginSource height="50"><input type="text" name="id"></loginSource>
+			</loginInfo>
+			<passwordInfo height="50">
+				<password height="50">password</password>
+				<passwordSource height="50"><input placeholder="비밀번호를 입력하세요." type="password" name="pass"></passwordSource>
+			</passwordInfo>
+			<RegisterButtons>
+
+				<RegisterInfo height="50">
+					<button id="registerButton" onclick="location.href='/join'">회원가입</button>
+				</RegisterInfo>
+				
+				<loginButton height="50">
+					<button class="loginButton" onclick="location.href='/login'">로그인</button>
+				</loginButton>
+
+			</RegisterButtons>
+		</loginContainer>
+	</body>
 </html>

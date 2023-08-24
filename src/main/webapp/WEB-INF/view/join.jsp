@@ -4,30 +4,94 @@
 <head>
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+ 
+ button{
+	background-color:  #107dc9;
+    cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	border: 1px solid;
+	margin: 0 10px 0 10px;
+} 
+
+joinContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 30px 0 30px 0;
+    height: 400px;
+}
+
+#join_btn{
+    width: 300px;
+    height: 30px;
+}
+
+idInfo{
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+emailInfo{
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+nameInfo{
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+passwordInfo{
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+phoneInfo{
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 240px;
+    height: 24px;
+}
+
+</style>
 </head>
 <body>
-    <table>
-        <tr height="50">
+    <header>
+        <%@ include file="/WEB-INF/view/header/header.jsp" %>
+    </header>
+
+    <joinContainer>
+        <idInfo height="50">
             <td height="50">아이디</td>
             <td height="50"><input type="text" name="loginId" id="idInput"></td>
-        </tr>
-        <tr height="50">
+        </idInfo>
+        <emailInfo height="50">
             <td height="50">이메일</td>
             <td height="50"><input type="text" name="email" id="emailInput"></td>
-        </tr>
-        <tr height="50">
+        </emailInfo>
+        <nameInfo height="50">
             <td height="50">이름</td>
             <td height="50"><input type="text" name="name" id="nameInput"></td>
-        </tr>
-        <tr height="50">
+        </nameInfo>
+        <passwordInfo height="50">
             <td height="50">패스워드</td>
             <td height="50"><input type="password" name="password" id="passInput"></td>
-        </tr>
-        <tr height="50">
+        </passwordInfo>
+        <phoneInfo height="50">
             <td height="50">휴대폰 번호</td>
             <td height="50"><input type="text" name="phone" id="phoneInput"></td>
-        </tr>
-    </table>
+        </phoneInfo>
+    </joinContainer>
     <button type="button" id="join_btn">제출</button>
 
     <script>

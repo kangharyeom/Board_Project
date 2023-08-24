@@ -5,26 +5,84 @@
     <meta charset="UTF-8">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
+<style>
+
+button{
+    font-weight: bold;
+	background-color:  #107dc9;
+    cursor: pointer;
+	color: white;
+	border-radius: 5px;
+	border: 1px solid;
+	margin: 0 10px 0 10px;
+}
+
+boardpostContainer{
+    font-weight: bold;
+    margin-top: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    width: 600px;
+}
+userInfo{
+    display: flex;
+    width: 400px;
+    justify-content: space-between;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+.userInfoClass{
+    width: 150px;
+}
+postInfo{
+    display: flex;
+    flex-direction: column;
+}
+.postClass{
+    width: 595px;
+    height: 30px;
+    margin-bottom: 30px;
+}
+
+#contentInput{
+    height: 200px;
+}
+    
+</style>
+
 <body>
-    <table>
-        <tr height="50">
-            <td height="50">유저아이디</td>
-            <td height="50"><input type="number" name="userId" id="idInput"></td>
-        </tr>
-        <tr height="50">
-            <td height="50">이름</td>
-            <td height="50"><input type="text" name="name" id="nameInput"></td>
-        </tr>
-        <tr height="50">
-            <td height="50">제목</td>
-            <td height="50"><input type="text" name="title" id="titleInput"></td>
-        </tr>
-        <tr height="50">
-            <td height="50">내용</td>
-            <td height="50"><input type="text" name="content" id="contentInput"></td>
-        </tr>
-    </table>
-    <button type="button" id="join_btn">제출</button>
+    <header>
+        <%@ include file="/WEB-INF/view/header/header.jsp" %>
+    </header>
+
+    <boardPostContainer>
+        
+        <userInfo>
+            <userId height="50">
+                <td height="50">유저아이디</td>
+                <td height="50"><input type="number" name="userId" id="idInput" class="userInfoClass"></td>
+            </userId>
+            <userName height="50">
+                <td height="50">이름</td>
+                <td height="50"><input type="text" name="name" id="nameInput" class="userInfoClass"></td>
+            </userName>
+        </userInfo>
+
+        <postInfo>
+            <boardTitle height="50">
+                <td height="50">제목</td>
+                <td height="50"><input type="text" name="title" id="titleInput" class="postClass"></td>
+            </boardTitle>
+            <boardContent height="50">
+                <td height="50">내용</td>
+                <td height="50"><input type="text" name="content" id="contentInput" class="postClass"></td>
+            </boardContent>
+        </postInfo>
+
+        <button type="button" id="join_btn">제출</button>
+    </boardPostContainer>
 
     <script>
         $(document).ready(function () {

@@ -29,8 +29,11 @@ postContent{
     border-radius: 10px;
     cursor: pointer;
 }
-
-
+contentHeader{
+    display: flex;
+    justify-content: space-around;
+    width: 900px;
+}
 .contentListBody{
     cursor: pointer;
     display: flex;
@@ -79,7 +82,7 @@ p5{
             <contentHeader>
                 <h3>All Questions</h3>
                 <postContent onclick="location.href='/board/post'">
-                   aks Question
+                   Ask Question
                 </postContent>
             </contentHeader>
             <contentList  onclick="location.href='/board/detail'">
