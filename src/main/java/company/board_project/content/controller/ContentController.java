@@ -116,7 +116,7 @@ public class ContentController {
     public ResponseEntity getContentsNewest() {
         List<Content> contents = contentService.findContentsNewest();
 
-        return new ResponseEntity<>(contentMapper.contentsToContentNewestAndLatestResponseDto(contents, contentFileRepository),
+        return new ResponseEntity<>(contentMapper.contentsToContentsResponse(contents, contentFileRepository),
                 HttpStatus.OK);
     }
 
@@ -125,7 +125,7 @@ public class ContentController {
     public ResponseEntity getContentsLatest() {
         List<Content> contents = contentService.findContentsLatest();
 
-        return new ResponseEntity<>(contentMapper.contentsToContentNewestAndLatestResponseDto(contents, contentFileRepository),
+        return new ResponseEntity<>(contentMapper.contentsToContentsResponse(contents, contentFileRepository),
                 HttpStatus.OK);
     }
 

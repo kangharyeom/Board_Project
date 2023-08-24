@@ -43,6 +43,75 @@ align-items: center;
 width: 900px;
 }
 
+contentHeader{
+    margin-top: 10px;
+    height: 150px;
+}
+
+contentHeaderContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 200px;
+}
+
+searchBar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+#titleAndContentFilter{
+    width: 90px;
+    height: 30px;
+}
+
+#ContentFilterByUserName{
+    width: 90px;
+    height: 30px;
+}
+
+titleAndContentUserName{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+titleAndPost{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 900px;
+    
+}
+
+Input{
+    border-radius: 5px;
+    width: 500px;
+    height: 50px;
+    border: 4px solid #DCDCDC;
+}
+
+Input::placeholder{
+    padding-left: 10px;
+}
+
+#newestFilter{
+    width: 90px;
+    height: 30px;
+}
+
+#latestFilter{
+    width: 90px;
+    height: 30px;
+}
+
 </style>
 
     </head>
@@ -56,27 +125,16 @@ width: 900px;
 			
 			<contentContainer>
 			<contentColumnHeader>
-				<%@ include file="/WEB-INF/view/board/boardHeader.jsp" %>
+				<%@ include file="/WEB-INF/view/header/boardHeader.jsp" %>
 			</contentColumnHeader>
 			
 			<contentColumnBody>
 				<contentListDefault>
 					<%@ include file="/WEB-INF/view/board/boardList.jsp" %>
 				</contentListDefault>
-				<contentkeyword>
-					
-				</contentkeyword>
-				<contentSearchByName>
-					
-				</contentSearchByName>
-				<contentNewest>
-
-				</contentNewest>
-				<contentLatest>
-					
-				</contentLatest>
 			</contentColumnBody>
 			<contentColumnFooter>
+				
 			</contentColumnFooter>
 		</contentContainer>
 	</bodyContainer>

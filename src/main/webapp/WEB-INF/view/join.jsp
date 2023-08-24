@@ -19,7 +19,7 @@ joinContainer{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 30px 0 30px 0;
+    margin: 40px 0 30px 0;
     height: 400px;
 }
 
@@ -69,10 +69,11 @@ input::placeholder{
 }
 
 #join_btn{
+    margin-top: 10px;
     border: 4px solid #DCDCDC;
     background-color: #ececec;
     color: black;
-    width: 240px;
+    width: 250px;
     height: 40px;
 }
 

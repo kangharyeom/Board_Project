@@ -56,4 +56,57 @@ public class HomeController {
     public String boardDetail(){
         return "/board/boardDetail";
     }
+
+    @RequestMapping("/contents/search")
+    public String homeKeyword(){
+        return "/home/homeKeyword";
+    }
+    @RequestMapping("/contents/search/username")
+    public String homeSearchByName(){
+        return "/home/homeSearchByName";
+    }
+    @RequestMapping("/contents/newest")
+    public String homeNewest(){
+        return "/home/homeNewest";
+    }
+
+    @RequestMapping("/contents/latest")
+    public String homeLatest(){
+        return "/home/homeLatest";
+    }
+
+    @RequestMapping("/contents/delete")
+    public String contentDelete(){
+        return "/board/boardDelete";
+    }
+
+    @RequestMapping("/comments/delete")
+    public String commentDelete(){
+        return "/comment/commentDelete";
+    }
+
+    @RequestMapping("/users/delete")
+    public String userDelete(){
+        return "/users/userDelete";
+    }
+
+    @RequestMapping("/contents/update")
+    public String contentUpdate(){
+        return "/board/boardUpdate";
+    }
+
+    @RequestMapping("/comments/update")
+    public String commentUpdate(){
+        return "/comment/commentUpdate";
+    }
+
+    @RequestMapping("/users/update")
+    public String userUpdate(){
+        return "/users/userUpdate";
+    }
+
+    @RequestMapping("/users/mypage")
+    public String userMypage(){
+        return "/users/userMypage";
+    }
 }
