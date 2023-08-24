@@ -1,0 +1,6 @@
+<!-- 로그인한 회원 정보 -->
+<select id="getUserByEmail" resulttype="">
+    SELECT *
+    FROM USER
+    WHERE email = # {email}
+</select>
