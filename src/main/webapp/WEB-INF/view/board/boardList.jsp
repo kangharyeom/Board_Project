@@ -21,11 +21,11 @@ postContent{
     display: flex;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: black;
     width: 160px;
     height: 40px;
     border: 1px solid;
-    background-color: #107dc9;
+    background-color: #DCDCDC;
     border-radius: 10px;
     cursor: pointer;
 }

@@ -57,9 +57,9 @@ RegisterButtons{
 
 button{
 	font-weight: bold;
-	background-color:  #107dc9;
+	background-color:  #DCDCDC;
     cursor: pointer;
-	color: white;
+	color: black;
 	border-radius: 5px;
 	border: 1px solid;
 	margin: 0 10px 0 10px;
