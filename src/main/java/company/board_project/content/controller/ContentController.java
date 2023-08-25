@@ -2,9 +2,7 @@ package company.board_project.content.controller;
 
 import company.board_project.awsS3.AwsS3Service;
 import company.board_project.comment.repository.CommentRepository;
-import company.board_project.content.dto.ContentPatchDto;
-import company.board_project.content.dto.ContentPostDto;
-import company.board_project.content.dto.ContentResponseDto;
+import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;
 import company.board_project.content.mapper.ContentMapper;
 import company.board_project.content.repository.ContentFileRepository;
@@ -46,10 +44,7 @@ public class ContentController {
         Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody));
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(contentResponse) , HttpStatus.CREATED
-        );
-
+        return ResponseEntity.ok(contentResponse);
     }
 
     // 게시글 파일 첨부 생성
@@ -67,18 +62,16 @@ public class ContentController {
         Content content = contentService.createContentFile(contentMapper.contentPostDtoToContent(requestBody),filePaths);
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
 
-        return new ResponseEntity<>(
-                new SingleResponseDto<>(contentResponse) , HttpStatus.CREATED
-        );
+        return ResponseEntity.ok(contentResponse);
     }
 
     // 게시글 단건 조회 //
     @GetMapping("/{contentId}")
     public ResponseEntity getContent(@PathVariable("contentId") Long contentId) {
         Content content = contentService.findContent(contentId);
+        ContentAllResponseDto contentAllResponseDto = contentMapper.contentToContentAllResponse(content, contentFileRepository, commentRepository);
 
-        return new ResponseEntity<>(contentMapper.contentToContentAllResponse(content,contentFileRepository,commentRepository),
-                HttpStatus.OK);
+        return ResponseEntity.ok(contentAllResponseDto);
     }
 
     // 게시글 전체 조회 //
@@ -99,34 +92,36 @@ public class ContentController {
     @GetMapping("/search")
     public ResponseEntity getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
         List<Content> contents = contentService.findAllSearch(keyword);
-        return new ResponseEntity<>(contentMapper.contentListDtoToContentResponse(contents, contentFileRepository),
-                HttpStatus.OK);
+        ContentListDto contentListDto = contentMapper.contentListDtoToContentResponse(contents, contentFileRepository);
+
+        return ResponseEntity.ok(contentListDto);
     }
 
     // 회원 이름(닉네임) 단위 검색
     @GetMapping("/search/username")
     public ResponseEntity getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
         List<Content> contents = contentService.findAllSearchByUserName(name);
-        return new ResponseEntity<>(contentMapper.contentListDtoToContentResponse(contents, contentFileRepository),
-                HttpStatus.OK);
+        ContentListDto contentListDto = contentMapper.contentListDtoToContentResponse(contents, contentFileRepository);
+
+        return ResponseEntity.ok(contentListDto);
     }
 
     // 최신 순서 필터
     @GetMapping("/newest")
     public ResponseEntity getContentsNewest() {
         List<Content> contents = contentService.findContentsNewest();
+        List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
 
-        return new ResponseEntity<>(contentMapper.contentsToContentsResponse(contents, contentFileRepository),
-                HttpStatus.OK);
+        return ResponseEntity.ok(contentResponseDtos);
     }
 
     // 오래된 순서 필터
     @GetMapping("/latest")
     public ResponseEntity getContentsLatest() {
         List<Content> contents = contentService.findContentsLatest();
+        List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
 
-        return new ResponseEntity<>(contentMapper.contentsToContentsResponse(contents, contentFileRepository),
-                HttpStatus.OK);
+        return ResponseEntity.ok(contentResponseDtos);
     }
 
     // 게시글 수정 //
@@ -139,7 +134,7 @@ public class ContentController {
 
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
 
-        return new ResponseEntity<>(contentResponse, HttpStatus.OK);
+        return ResponseEntity.ok(contentResponse);
     }
 
     // 게시글 삭제 //
@@ -147,6 +142,6 @@ public class ContentController {
     public ResponseEntity deleteContent(@PathVariable("contentId") Long contentId) {
         contentService.deleteContent(contentId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 }
