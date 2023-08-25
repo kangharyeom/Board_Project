@@ -18,7 +18,8 @@ commentpostcontainer{
     flex-direction: column;
     border-bottom: 1px solid #DCDCDC;
     width: 700px;
-    margin-bottom: 90px;
+    margin: 40px 0 30px 0;
+    height: 400px;
 }
 
 .commentPostSources{
@@ -27,13 +28,15 @@ commentpostcontainer{
     align-items: center;
     border: 3px solid #DCDCDC;
     height: 30px;
+    width: 80px;
+    margin-left: 5px;
     padding: 1px 10px 1px 10px;
 }
 
-.Answer123Input{
+.Answer1234Input{
     border: 3px solid #DCDCDC;
     height: 30px;
-    width: 90px;
+    width: 150px;
 }
 
 youranswercontainer{
@@ -45,16 +48,31 @@ youranswercontainer{
     margin: 0 0 10px 0;
 }
 
+Answer1234{
+    margin: 30px 0 20px 10px ;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    flex-direction: column;
+    justify-content: left;
+    width: 900px;
+}
 Answer12{
-    margin-left: 20px ;
+    width: 600px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+}
+Answer34{
+    width: 600px;
+    display: flex;
+    gap: 10px;
+    flex-direction: row;
+}
+AnswerZero{
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    justify-content: left;
-    width: 600px;
-    margin-bottom: 10px;
-    gap: 10px;
 }
 
 AnswerFirst{
@@ -75,18 +93,18 @@ AnswerThird{
     align-items: center;
     width: 900px;
 }
+#commentIdInput{
+    border: 3px solid #DCDCDC;
+    background-color: white;
+}
 
 #idInput{
     border: 3px solid #DCDCDC;
-    width: 204px;
-    height: 30px;
     background-color: white;
 }
 
 #nameInput{
     border: 3px solid #DCDCDC;
-    width: 204px;
-    height: 30px;
     background-color: white;
 }
 
@@ -102,7 +120,7 @@ commentpostbutton{
     justify-content: right;
 }
 
-#join_btn{
+#commentUpdate_btn{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -118,6 +136,8 @@ commentpostbutton{
 
 input::placeholder{
     padding-left: 5%;
+    color: #8b8b8b;
+    font-weight: 3px;
 }
 
 </style>
@@ -129,20 +149,14 @@ input::placeholder{
     
         <commentPostcontainer>
             <yourAnswerContainer>
-                <Answer12>
-                    <AnswerZero height="50">
-                        <sourceFirst class="commentPostSources" height="50">commentId</sourceFirst>
-                        <sourceFisrt height="50"><input type="number" name="commentId" id="commentIdInput" class="Answer123Input"></sourceFisrt>
-                    </AnswerZero>
-                    <AnswerFirst height="50">
-                            <sourceFirst class="commentPostSources" height="50">userId</sourceFirst>
-                            <sourceFisrt height="50"><input type="number" name="userId" id="idInput" class="Answer123Input"></sourceFisrt>
-                    </AnswerFirst>
-                    <AnswerSecond height="50">
-                        <sourceSecond class="commentPostSources" height="50">닉네임</sourceSecond>
-                        <sourceSecond height="50"><input placeholder="작성자명" type="text" name="name" id="nameInput" class="Answer123Input"></sourceSecond>
-                    </AnswerSecond>
-                </Answer12>
+                <Answer1234>
+                    <Answer12>
+                        <AnswerZero height="50">
+                            <sourceFirst class="commentPostSources" height="50">commentId</sourceFirst>
+                            <sourceFisrt height="50"><input type="number" name="commentId" id="commentIdInput" class="Answer1234Input"></sourceFisrt>
+                        </AnswerZero>
+                    </Answer12>
+                </Answer1234>
                 
                 <AnswerThird height="50">
                     <sourceThird height="50"><input type="text" name="comment" id="commentInput"></sourceThird>
@@ -153,20 +167,20 @@ input::placeholder{
             </commentpostbutton>
             <script>
                 $(document).ready(function () {
-                    var postId = window.location.href.match(/\/board\/detail\?id=(\d+)/)[1];
                     // 버튼 클릭 시
                     $("#commentUpdate_btn").click(function () {
+                        var commentId = $('#commentIdInput').val();
                         console.log("commentUpdate_btn clicked");
-        
-                        var jsonData = {
-                            "userId": $('#idInput').val(),
-                            "contentId": postId,
-                            "name": $('#nameInput').val(),
-                            "comment": $('#commentInput').val(),
-                        };
-        
+                        
+                        var jsonData = {};
+
+                        var commentValue = $('#commentInput').val();
+                        if (commentValue) {
+                            jsonData["comment"] = commentValue;
+                        }
+
                         $.ajax({
-                            url: "/api/comments",
+                            url: "/api/comments/" + commentId,
                             type: "PATCH",
                             data: JSON.stringify(jsonData),
                             contentType: "application/json; charset=utf-8",
@@ -174,7 +188,7 @@ input::placeholder{
                                 // 서버 응답 처리
                                 console.log("Response from server: " + response);
                                 alert("댓글이 성공적으로 수정되었습니다.")
-                                window.location.href = "/board/detail?id="+postId;
+                                window.location.href = "/board/detail?id="+commentId;
                                 },
                                 error: function (error) {
                                 

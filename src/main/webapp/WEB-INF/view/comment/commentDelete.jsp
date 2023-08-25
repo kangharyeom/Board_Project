@@ -28,7 +28,8 @@ boardpostContainer{
 }
 
 #contentInput{
-    height: 200px;
+    height: 30px;
+    width: 200px;
 }
 input{
     border: 4px solid #DCDCDC;
@@ -37,12 +38,13 @@ input{
 </style>
 
 <body>
+
     <boardPostContainer>
         
         <deleteWarn>
             <warnId height="50">
                 <td height="50">댓글을 삭제 하시고 싶으시다면 "댓글 삭제" 버튼을 눌러주세요</td>
-                <td height="50"><input type="number" name="commentId" id="idInput" class="commentDeleteButtonClass"></td>
+                <td height="50"><input type="number" name="commentId" id="contentInput" class="commentDeleteButtonClass"></td>
             </warnId>
         </deleteWarn>>
 
@@ -55,7 +57,7 @@ input{
         $(document).ready(function () {
             // 버튼 클릭 시
             $("#delete_btn").click(function () {
-                var commentId = $('#idInput').val()
+                var commentId = $('#contentInput').val()
 
                 console.log("delete_btn");
 

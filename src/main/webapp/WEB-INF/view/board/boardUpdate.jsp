@@ -78,10 +78,6 @@ contentUpdateButton{
     <boardPostContainer>
         
         <userInfo>
-            <userId height="50">
-                <td height="50">유저아이디</td>
-                <td height="50"><input type="number" name="userId" id="idInput" class="userInfoClass"></td>
-            </userId>
             <contentId height="50">
                 <td height="50">게시글아이디</td>
                 <td height="50"><input type="number" name="contentId" id="contentIdInput" class="userInfoClass"></td>
@@ -110,20 +106,27 @@ contentUpdateButton{
 
     <script>
         $(document).ready(function () {
+           
             // 버튼 클릭 시
-            $("#contentPost_btn").click(function () {
+            $("#contentUpdate_btn").click(function () {
+                var contentId = $('#contentIdInput').val();
                 console.log("contentPost_btn clicked");
 
-                var jsonData = {
-                    "userId": $('#idInput').val(),
-                    "name": $('#nameInput').val(),
-                    "title": $('#titleInput').val(),
-                    "content": $('#contentInput').val(),
-                };
+                var jsonData = {};
+
+                var titleValue = $('#titleInput').val();
+                if (titleValue) {
+                    jsonData["title"] = titleValue;
+                }
+
+                var contentValue = $('#contentInput').val();
+                if (contentValue) {
+                    jsonData["password"] = contentValue;
+                }
 
                 $.ajax({
-                    url: "/api/contents",
-                    type: "POST",
+                    url: "/api/contents/"+contentId,
+                    type: "PATCH",
                     data: JSON.stringify(jsonData),
                     contentType: "application/json; charset=utf-8",
                     success: function (response) {
@@ -137,7 +140,7 @@ contentUpdateButton{
                         // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
                         console.log("Error from server: " + error.statusText);
                         alert("정보를 확인 해주세요");
-                        window.location.href = "/board/post";
+                        window.location.href = "/contents/upadate";
 
                     }
                 });

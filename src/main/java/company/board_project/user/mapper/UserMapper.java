@@ -29,6 +29,7 @@ public interface UserMapper {
 
         user.setUserId( requestBody.getUserId() );
         user.setEmail( requestBody.getEmail() );
+        user.setLoginId( requestBody.getLoginId() );
         user.setName( requestBody.getName() );
         user.setPassword( requestBody.getPassword() );
         user.setPhone( requestBody.getPhone() );

@@ -16,44 +16,46 @@
 } 
 
 joinContainer{
+    font-weight: bold;
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     margin: 40px 0 30px 0;
     height: 400px;
+    width: 900px;
 }
 
 #join_btn{
     width: 300px;
     height: 30px;
 }
+userIdInfo{
+    display: flex;
+    flex-direction: column;
+}
 
 idInfo{
-    font-weight: bold;
     display: flex;
     flex-direction: column;
 }
 
 emailInfo{
-    font-weight: bold;
     display: flex;
     flex-direction: column;
 }
 
 nameInfo{
-    font-weight: bold;
     display: flex;
     flex-direction: column;
 }
 
 passwordInfo{
-    font-weight: bold;
     display: flex;
     flex-direction: column;
 }
 
 phoneInfo{
-    font-weight: bold;
     display: flex;
     flex-direction: column;
 }
@@ -67,8 +69,14 @@ input {
 input::placeholder{
     padding-left: 10px;
 }
+userUpdateButtonContainer{
+    width: 900px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
-#join_btn{
+#userUpdate_btn{
     margin-top: 10px;
     border: 4px solid #DCDCDC;
     background-color: #ececec;
@@ -106,25 +114,48 @@ input::placeholder{
             <td height="50"><input placeholder="휴대폰 번호를 입력하세요." type="text" name="phone" id="phoneInput"></td>
         </phoneInfo>
     </joinContainer>
-    <button type="button" id="join_btn">회원 정보 수정 </button>
 
+    <userUpdateButtonContainer>
+        <button type="button" id="userUpdate_btn">회원 정보 수정 </button>
+    </userUpdateButtonContainer>
+    
     <script>
         $(document).ready(function () {
-            var userId = $('#userIdInput').val();
+           
             // 버튼 클릭 시
-            $("#join_btn").click(function () {
-                console.log("join_btn clicked");
+            $("#userUpdate_btn").click(function () {
+                var userId = $('#userIdInput').val();
+                console.log("userUpdate_btn clicked");
 
-                var jsonData = {
-                    "email": $('#emailInput').val(),
-                    "loginId": $('#idInput').val(),
-                    "name": $('#nameInput').val(),
-                    "password": $('#passInput').val(),
-                    "phone": $('#phoneInput').val()
-                };
+                var jsonData = {};
+
+                var emailValue = $('#emailInput').val();
+                if (emailValue) {
+                    jsonData["email"] = emailValue;
+                }
+
+                var loginIdValue = $('#idInput').val();
+                if (loginIdValue) {
+                    jsonData["loginId"] = loginIdValue;
+                }
+
+                var nameValue = $('#nameInput').val();
+                if (nameValue) {
+                    jsonData["name"] = nameValue;
+                }
+
+                var passwordValue = $('#passInput').val();
+                if (passwordValue) {
+                    jsonData["password"] = passwordValue;
+                }
+
+                var phoneValue = $('#phoneInput').val();
+                if (phoneValue) {
+                    jsonData["phone"] = phoneValue;
+                }
 
                 $.ajax({
-                    url: "/api/users/"+ userId,
+                    url: "/api/users/"+userId,
                     type: "PATCH",
                     data: JSON.stringify(jsonData),
                     contentType: "application/json; charset=utf-8",
@@ -132,14 +163,15 @@ input::placeholder{
                         // 서버 응답 처리
                         console.log("Response from server: " + response);
                         alert("회원정보 수정이 성공적으로 처리되었습니다.");
-                        window.location.href = "/users/mypage";
+                        window.location.href = "/";
                         },
                         error: function (error) {
 
                         // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
                         console.log("Error from server: " + error.statusText);
+                        alert(userId)
                         alert("정보를 확인 해주세요");
-                        window.location.href = "/users/mypage"+ userId;
+                        // window.location.href = "/users/mypage"+ userId;
 
                     }
                 });
