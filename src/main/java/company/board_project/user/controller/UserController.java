@@ -36,6 +36,7 @@ public class UserController {
         log.info(requestBody.toString());
 
         User user = userService.createUser(userMapper.userPostDtoToUser(requestBody));
+
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 
         return new ResponseEntity(

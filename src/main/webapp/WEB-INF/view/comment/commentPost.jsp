@@ -143,7 +143,6 @@ input::placeholder{
             <commentpostbutton>
                 <button type="button" id="join_btn">댓글 등록</button>
             </commentpostbutton>
-            <!-- "contentId": $('#contentIdInput').val(), -->
             <script>
                 $(document).ready(function () {
                     var postId = window.location.href.match(/\/board\/detail\?id=(\d+)/)[1];
