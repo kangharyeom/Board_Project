@@ -10,8 +10,15 @@ commentContainer{
     margin-top: 30px;
     width: 900px;
 }
-answer{
-    width: 900px;
+commentButtonContainer{
+    display: flex;
+    justify-content: right;
+}
+
+#commentUpdate_btn{
+    width: 90px;
+    height: 20px;
+    margin: 30px 30px 0 0px;
 }
 .commentListBody{
     display: flex;
@@ -40,7 +47,9 @@ p9{
     </head>    
     <body>
         <commentContainer>
-            <answer> </answer>
+            <commentButtonContainer>
+                <button onclick="location.href='/comments/update'" id="commentUpdate_btn"> 댓글 수정 </button>
+            </commentButtonContainer>
             <div id="commentDiv">
                 <commentListBody>
                     <script>

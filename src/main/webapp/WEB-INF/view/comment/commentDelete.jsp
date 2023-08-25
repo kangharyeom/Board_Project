@@ -37,10 +37,6 @@ input{
 </style>
 
 <body>
-    <header>
-        <%@ include file="/WEB-INF/view/header/header.jsp" %>
-    </header>
-
     <boardPostContainer>
         
         <deleteWarn>

@@ -32,6 +32,7 @@ userInfo{
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: 20px;
+    gap: 10px;
 }
 .userInfoClass{
     width: 150px;
@@ -53,13 +54,13 @@ input{
     border: 4px solid #DCDCDC;
 }
 
-contentPostButton{
+contentUpdateButton{
     display: flex;
     align-items: center;
     justify-content: right;
 }
 
-#contentPost_btn{
+#contentUpdate_btn{
     border: 4px solid #DCDCDC;
     background-color: #DCDCDC;
     width: 150px;
@@ -81,6 +82,10 @@ contentPostButton{
                 <td height="50">유저아이디</td>
                 <td height="50"><input type="number" name="userId" id="idInput" class="userInfoClass"></td>
             </userId>
+            <contentId height="50">
+                <td height="50">게시글아이디</td>
+                <td height="50"><input type="number" name="contentId" id="contentIdInput" class="userInfoClass"></td>
+            </contentId>
             <userName height="50">
                 <td height="50">이름</td>
                 <td height="50"><input type="text" name="name" id="nameInput" class="userInfoClass"></td>
@@ -98,9 +103,9 @@ contentPostButton{
             </boardContent>
         </postInfo>
 
-        <contentPostButton>
-            <button type="button" id="contentPost_btn">게시글 등록하기</button>
-        </contentPostButton>
+        <contentUpdateButton>
+            <button type="button" id="contentUpdate_btn">게시글 수정하기</button>
+        </contentUpdateButton>
     </boardPostContainer>
 
     <script>
@@ -124,7 +129,7 @@ contentPostButton{
                     success: function (response) {
                         // 서버 응답 처리
                         console.log("Response from server: " + response);
-                        alert("게시글이 성공적으로 등록되었습니다.");
+                        alert("게시글이 성공적으로 수정되었습니다.");
                         window.location.href = "/";
                         },
                         error: function (error) {
@@ -139,5 +144,9 @@ contentPostButton{
             });
         });
     </script>
+
+    <boardDeleteContainer>
+        <%@ include file="/WEB-INF/view/board/boardDelete.jsp" %>
+    </boardDeleteContainer>
 </body>
 </html>
