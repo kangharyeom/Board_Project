@@ -51,7 +51,8 @@ public class CommentService {
 
 
         Comment findComment = findVerifiedComment(commentId); //ID로 멤버 존재 확인하고 comment 정보 반환
-        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+
+//        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
 /*        if (memberService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED);*/
 

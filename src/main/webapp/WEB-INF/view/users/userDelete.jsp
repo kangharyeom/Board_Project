@@ -10,11 +10,25 @@
 
 boardpostContainer{
     font-weight: bold;
-    margin-top: 30px;
+    margin-top: 60px;
     display: flex;
     flex-direction: column;
     justify-content: left;
-    width: 600px;
+    width: 900px;
+}
+deleteWarn{
+    width: 900px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+warnId{
+    width: 500px;
+}
+deldeteButton{
+    width: 500px;
 }
 
 input{
@@ -25,18 +39,18 @@ input{
 </style>
 
 <body>
-       <boardPostContainer>
+    <boardPostContainer>
         
         <deleteWarn>
             <warnId height="50">
                 <td height="50">회원을 탈퇴 하시고 싶으시다면 "회원 탈퇴" 버튼을 눌러주세요</td>
                 <td height="50"><input type="number" name="userId" id="idInput" class="userDeleteClass"></td>
             </warnId>
-        </deleteWarn>>
+            <deldeteButton>
+                <button type="button" id="delete_btn">회원 탈퇴</button>
+            </deldeteButton>
+        </deleteWarn>
 
-        <deldeteButton>
-            <button type="button" id="delete_btn">회원 탈퇴</button>
-        </deldeteButton>
     </boardPostContainer>
 
     <script>

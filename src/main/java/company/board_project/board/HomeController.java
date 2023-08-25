@@ -65,6 +65,10 @@ public class HomeController {
     public String homeSearchByName(){
         return "/home/homeSearchByName";
     }
+    @RequestMapping("/contents/search/username/result")
+    public String homeSearchByNameResult(){
+        return "/home/homeSearchByName/result";
+    }
     @RequestMapping("/contents/newest")
     public String homeNewest(){
         return "/home/homeNewest";

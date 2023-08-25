@@ -24,19 +24,21 @@ searchBar{
     align-items: center;
     flex-direction: row;
     margin-bottom: 20px;
+    width: 900px;
 }
 
 #titleAndContentFilter{
     width: 90px;
     height: 30px;
-    background-color: rgb(107, 107, 238);
-    color: white;
-    border: 2px solid blue;
+    
 }
 
 #ContentFilterByUserName{
     width: 90px;
     height: 30px;
+    background-color: rgb(107, 107, 238);
+    color: white;
+    border: 2px solid blue;
 }
 
 #searchButtonId{
@@ -89,7 +91,7 @@ Input::placeholder{
     <contentHeader class="contentHeader">
         <contentHeaderContainer>
             <searchBar>
-                <input placeholder="검색어를 입력해주세요." id="searchBarInput">
+                <input placeholder="검색어를 입력해주세요.">
                 <titleAndContentUserName>
                     <titleAndContentFilter>
                         <button class="titleAndContentFilter" id="titleAndContentFilter" onclick="location.href='/contents/search'">제목/내용</button>
@@ -99,7 +101,7 @@ Input::placeholder{
                     </nameFilter>
                 </titleAndContentUserName>
                 <searchButton>
-                    <button class="titleAndContentFilter" id="searchButtonId" onclick="location.href='/contents/search'">검색</button>
+                    <button class="titleAndContentFilter" id="searchButtonId" onclick="location.href='/contents/search/username'">검색</button>
                 </searchButton>
             </searchBar>
             
