@@ -37,7 +37,7 @@ public class CommentController {
         );
         CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
 
-        return new ResponseEntity(commentResponseDto, HttpStatus.CREATED);
+        return ResponseEntity.ok(commentResponseDto);
     }
 
     // 댓글 수정 //
@@ -51,7 +51,7 @@ public class CommentController {
         comment.setCommentId(commentId);
         CommentResponseDto userResponseDto = commentMapper.commentToCommentResponseDto(comment);
 
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     // 댓글 조회 //
@@ -60,16 +60,15 @@ public class CommentController {
         Comment comment = commentService.findComment(commentId);
         CommentResponseDto commentResponse = commentMapper.commentToCommentResponseDto(comment);
 
-        return new ResponseEntity<>(commentResponse, HttpStatus.OK);
+        return ResponseEntity.ok(commentResponse);
     }
 
     // 특정 게시글 ID에 있는 댓글 전체 조회 //
     @GetMapping("/contents/{contentId}")
     public ResponseEntity getContentComments(@PathVariable("contentId") @Positive int contentId) {
         List<Comment> comments = commentService.findContentComments(contentId);
-
-        return new ResponseEntity<>(commentMapper.contentCommentsToCommentResponseDtos(comments),
-                HttpStatus.OK);
+        List<CommentResponseDto> commentResponseDtos = commentMapper.contentCommentsToCommentResponseDtos(comments);
+        return ResponseEntity.ok(commentResponseDtos);
     }
 
     // 댓글 전체 조회 //
@@ -90,6 +89,6 @@ public class CommentController {
     public ResponseEntity deleteComment(@PathVariable("commentId") @Positive Long commentId) {
         commentService.deleteComment(commentId);
 
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 }

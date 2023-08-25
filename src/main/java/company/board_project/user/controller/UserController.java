@@ -7,9 +7,9 @@ import company.board_project.user.entity.User;
 import company.board_project.user.mapper.UserMapper;
 import company.board_project.user.repository.UserRepository;
 import company.board_project.user.service.UserService;
-import company.board_project.response.SingleResponseDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -20,27 +20,24 @@ import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 @Validated
 public class UserController {
+    private static final Logger logger = LogManager.getLogger(UserController.class);
     private final UserService userService;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
     // 회원 가입
     @PostMapping("/join")
-    public ResponseEntity postUser(@RequestBody @Validated UserPostDto requestBody){
-        log.info(requestBody.toString());
+    public ResponseEntity postUser(@RequestBody @Validated UserPostDto requestBody) {
 
         User user = userService.createUser(userMapper.userPostDtoToUser(requestBody));
-
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 
-        return new ResponseEntity(
-                new SingleResponseDto<>(userResponseDto), HttpStatus.CREATED);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     // 회원 정보 수정
@@ -54,30 +51,32 @@ public class UserController {
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 
-        return new ResponseEntity<>(userResponseDto, HttpStatus.OK);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     // 회원 단건 조회
     @GetMapping("/{userId}")
     public ResponseEntity getUser(@PathVariable("userId") @Positive Long userId) {
         User user = userService.findUser(userId);
+        UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 
-        return new ResponseEntity<>(userMapper.userToUserResponseDto(user), HttpStatus.OK);
+        return ResponseEntity.ok(userResponseDto);
     }
 
     // 회원 전체 조회
     @GetMapping
     public ResponseEntity getAllUser() {
         List<User> users = userService.findAllUser();
+        List<UserResponseDto> userResponseDtos = userMapper.usersToUsersResponse(users);
 
-        return new ResponseEntity<>(userMapper.usersToUsersResponse(users), HttpStatus.OK);
+        return ResponseEntity.ok(userResponseDtos);
     }
 
     // 회원 탈퇴
     @DeleteMapping("/{userId}")
     public ResponseEntity deleteUser(@PathVariable("userId") @Positive Long userId) {
         userService.deleteUser(userId);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity.ok(HttpStatus.NO_CONTENT);
     }
 
 
