@@ -133,9 +133,6 @@ Input::placeholder{
 					<%@ include file="/WEB-INF/view/board/boardList.jsp" %>
 				</contentListDefault>
 			</contentColumnBody>
-			<contentColumnFooter>
-				
-			</contentColumnFooter>
 		</contentContainer>
 	</bodyContainer>
 </body>
