@@ -3,24 +3,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <style>
-
-button{
-    font-weight: bold;
-	background-color:  #DCDCDC;
-    cursor: pointer;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid;
-	margin: 0 10px 0 10px;
-}
-
 boardpostContainer{
     font-weight: bold;
-    margin-top: 30px;
     display: flex;
     flex-direction: column;
     justify-content: left;
@@ -31,46 +21,44 @@ userInfo{
     width: 400px;
     justify-content: space-between;
     flex-direction: row;
-    margin-bottom: 20px;
+    margin: 50px 0 30px 0;
     gap: 10px;
 }
 .userInfoClass{
-    width: 150px;
+    width: 200px;
+    height: 40px;
 }
 postInfo{
     display: flex;
     flex-direction: column;
 }
-.postClass{
-    width: 595px;
-    height: 30px;
-    margin-bottom: 20px;
-}
 
+#titleInput{
+    height: 40px;
+    margin-bottom: 30px;
+}
 #contentInput{
     height: 200px;
 }
 input{
     border: 4px solid #DCDCDC;
 }
+input::placeholder{
+    padding-left: 10px;
+}
 
 contentUpdateButton{
+    margin: 20px 0 50px 0;
     display: flex;
     align-items: center;
     justify-content: right;
-}
-
-#contentUpdate_btn{
-    border: 4px solid #DCDCDC;
-    background-color: #DCDCDC;
-    width: 150px;
-    height: 40px;
-    color: black;
 }
     
 </style>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <header>
         <%@ include file="/WEB-INF/view/header/header.jsp" %>
     </header>
@@ -78,29 +66,29 @@ contentUpdateButton{
     <boardPostContainer>
         
         <userInfo>
-            <contentId height="50">
-                <td height="50">게시글아이디</td>
-                <td height="50"><input type="number" name="contentId" id="contentIdInput" class="userInfoClass"></td>
+            <contentId class="form-floating">
+                <input type="number" class="form-control"  id="contentIdInput" placeholder="contentId">
+                <label for="floatingPassword">contentId</label>
             </contentId>
-            <userName height="50">
-                <td height="50">이름</td>
-                <td height="50"><input type="text" name="name" id="nameInput" class="userInfoClass"></td>
+            <userName class="form-floating">
+                <input type="text" class="form-control"  id="nameInput" placeholder="Name">
+                <label for="floatingPassword">Name</label>
             </userName>
         </userInfo>
 
         <postInfo>
-            <boardTitle height="50">
-                <td height="50">제목</td>
-                <td height="50"><input type="text" name="title" id="titleInput" class="postClass"></td>
+            <boardTitle class="form-floating">
+                <td >제목</td>
+                <input type="text" class="form-control"  id="titleInput" placeholder="제목">
             </boardTitle>
-            <boardContent height="50">
-                <td height="50">내용</td>
-                <td height="50"><input type="text" name="content" id="contentInput" class="postClass"></td>
+            <boardContent class="form-floating">
+                <td >내용</td>
+                <input type="text" class="form-control"  id="contentInput" placeholder="내용">
             </boardContent>
         </postInfo>
 
         <contentUpdateButton>
-            <button type="button" id="contentUpdate_btn">게시글 수정하기</button>
+            <button class="btn btn-primary" type="button" id="contentUpdate_btn">게시글 수정하기</button>
         </contentUpdateButton>
     </boardPostContainer>
 

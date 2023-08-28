@@ -8,17 +8,9 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 <style>
-
-button{
-    font-weight: bold;
-	background-color:  #DCDCDC;
-    cursor: pointer;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid;
-	margin: 0 10px 0 10px;
-}
 
 body {
 display:flex;
@@ -44,65 +36,40 @@ align-items: center;
 border-bottom: 1px solid #DCDCDC;
 }
 
-#homeButton { 
-    width: 90px;
-    height: 30px;
-}
-
-#postButton { 
-    width: 90px;
-    height: 30px;
-}
-
-#loginButton { 
-    width: 90px;
-    height: 30px;
-}
-
-#logOutButton { 
-    width: 90px;
-    height: 30px;
-}
-
 </style>
 
 </head>
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <headerContainer>
-            <headerFirst>
-                <button id="homeButton" onclick="location.href='/'">Home</button>
-            </headerFirst>
-            
-            <headerSecond>
-                <button id="postButton" onclick="location.href='/board/post'">글쓰기</button>
-            </headerSecond>
-            <headerThird>
-                <%
-                String id = (String)session.getAttribute("id");
-                String center = request.getParameter("center");
-                %>
-                <%
-                if(id!=null){
-                    %>
-                    <%=id %> 님
-                    <button id="logOutButton" onclick="location.href='/'">로그아웃</button>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <button id="homeButton" onclick="location.href='/'" type="button" class="btn btn-primary">Home</button>
+                    <button  id="postButton" onclick="location.href='/board/post'" type="button" class="btn btn-primary">New Post</button>
                     <%
-                    
-                }else if(center==null){
-                    //center에 값이 존재하는 경우에만 로그인버튼을 띄움.
-                    //처리를 안해주고 로그인 버튼을 누를시 LoginForm.jsp로 넘어가면 Top.jsp에 있는 로그인 버튼이 그대로 나옴.
+                    String id = (String)session.getAttribute("id");
+                    String center = request.getParameter("center");
                     %>
-                    <button id="loginButton" onclick="location.href='/login'">로그인</button>
                     <%
-                }
-                else{
+                    if(id!=null){
+                        %>
+                        <%=id %> 님
+                            <button id="logOutButton" onclick="location.href='/'" type="button" class="btn btn-primary">로그아웃</button>
+                        <%
+                        
+                    }else if(center==null){
+                        //center에 값이 존재하는 경우에만 로그인버튼을 띄움.
+                        //처리를 안해주고 로그인 버튼을 누를시 LoginForm.jsp로 넘어가면 Top.jsp에 있는 로그인 버튼이 그대로 나옴.
+                        %>
+                            <button id="loginButton" onclick="location.href='/login'"  type="button" class="btn btn-primary">Login</button>
+                        <%
+                    }
+                    else{
                     %>
                     <%}
                     %>
-            </headerThird>
-            <headerFourth>
-                <button id="postButton" onclick="location.href='/users/mypage'">마이페이지</button>
-            </headerFourth>
+                        <button id="postButton" onclick="location.href='/users/mypage'" type="button" class="btn btn-primary" >My Page</button>
+            </div>
         </headerContainer>
     </body>
 </html>

@@ -20,7 +20,7 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
 
     // 회원 이름(닉네임) 단위 검색
     @Query(value = "select * from contents where name like :name", nativeQuery = true)
-    List<Content> findAllSearchByUserName(@Param(value = "name")String keyword);
+    List<Content> findAllSearchByUserName(@Param(value = "name")String name);
 
     // 최신 순서 필터
     @Query(value = "select * from contents order by created_at desc", nativeQuery = true)

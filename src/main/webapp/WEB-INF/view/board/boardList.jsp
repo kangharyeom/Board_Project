@@ -3,6 +3,8 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 contentHeader{
@@ -47,7 +49,7 @@ contentHeader{
 }
 p1{
     font-size: 15px;
-    padding-left: 810px;
+    padding-left: 790px;
     font-weight: bold;
     color: 	black;	
 }
@@ -77,12 +79,15 @@ p5{
 </style>
     </head>
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <div id="contentDiv">
             <contentList  onclick="location.href='/board/detail'">
                 <script>
             $(document).ready(function () {
                 let index = 1;
                 let item = 40;
+                
                 $.ajax({
                     type: "GET",
                     url: "/api/contents", // 실제 엔드포인트에 맞게 변경
@@ -90,7 +95,7 @@ p5{
                     success: function (data) {
                         console.log("통신성공");
                         console.log(data);
-                        
+
                         // 데이터를 동적으로 생성하고 화면에 추가
                         $.each(data.data, function(index, item) {
                             let contentItem = $("<div>", {
@@ -101,11 +106,17 @@ p5{
                             }
                         });
                         
+                        function formatDateTime(dateString) {
+                            var date = new Date(dateString);
+                            var formattedDate = date.toLocaleString(); // "YYYY-MM-DD HH:mm" 형식으로 변환
+                            return formattedDate;
+                        }
+
                         $("<p1>").html(item.name).appendTo(contentItem);
                         $("<p2>").html(item.title).appendTo(contentItem);
                         $("<p3>").html(item.content).appendTo(contentItem);
-                        $("<p4>").html("<strong>작성됨:</strong> " + item.createdAt).appendTo(contentItem);
-                        $("<p5>").html("<strong>수정됨:</strong> " + item.modifiedAt).appendTo(contentItem);
+                        $("<p4>").html("<strong>작성됨:</strong> " + formatDateTime(item.createdAt)).appendTo(contentItem);
+                        $("<p5>").html("<strong>수정됨:</strong> " + formatDateTime(item.modifiedAt)).appendTo(contentItem);
                                             
                                             contentItem.appendTo("#contentDiv");
                                         });

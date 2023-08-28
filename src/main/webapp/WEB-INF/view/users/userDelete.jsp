@@ -3,6 +3,8 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
@@ -14,7 +16,7 @@ boardpostContainer{
     display: flex;
     flex-direction: column;
     justify-content: left;
-    width: 900px;
+    width: 800px;
 }
 deleteWarn{
     width: 900px;
@@ -39,15 +41,17 @@ input{
 </style>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <boardPostContainer>
         
         <deleteWarn>
-            <warnId height="50">
-                <td height="50">회원을 탈퇴 하시고 싶으시다면 "회원 탈퇴" 버튼을 눌러주세요</td>
-                <td height="50"><input type="number" name="userId" id="idInput" class="userDeleteClass"></td>
+            <warnId>
+                <td>회원을 탈퇴 하시고 싶으시다면 "회원 탈퇴" 버튼을 눌러주세요</td>
+                <td><input type="number" name="userId" id="idInput" class="userDeleteClass"></td>
             </warnId>
             <deldeteButton>
-                <button type="button" id="delete_btn">회원 탈퇴</button>
+                <button class="btn btn-primary" type="button" id="delete_btn">회원 탈퇴</button>
             </deldeteButton>
         </deleteWarn>
 
@@ -77,7 +81,7 @@ input{
                         // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
                         console.log("Error from server: " + error.statusText);
                         alert("정보를 확인 해주세요");
-                        window.location.href = "/board/post";
+                        window.location.href = "/";
 
                     }
                 });

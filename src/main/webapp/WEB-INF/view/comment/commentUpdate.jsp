@@ -3,6 +3,8 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 
@@ -57,53 +59,8 @@ Answer1234{
     justify-content: left;
     width: 900px;
 }
-Answer12{
-    width: 600px;
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-}
-Answer34{
-    width: 600px;
-    display: flex;
-    gap: 10px;
-    flex-direction: row;
-}
-AnswerZero{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
-AnswerFirst{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-AnswerSecond{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-AnswerThird{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 900px;
-}
 #commentIdInput{
-    border: 3px solid #DCDCDC;
-    background-color: white;
-}
-
-#idInput{
-    border: 3px solid #DCDCDC;
-    background-color: white;
-}
-
-#nameInput{
     border: 3px solid #DCDCDC;
     background-color: white;
 }
@@ -118,20 +75,7 @@ AnswerThird{
 commentpostbutton{
     display: flex;
     justify-content: right;
-}
-
-#commentUpdate_btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 40px;
-    color: black;
-    font-size: 18px;
-    font-weight: 3px;
-    background-color: #eeeded;
-    border: 3px solid #DCDCDC;
-    margin: 0 60px 100px 0 ;
+    margin-right: 64px;
 }
 
 input::placeholder{
@@ -143,27 +87,26 @@ input::placeholder{
 </style>
     </head>    
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <header>
             <%@ include file="/WEB-INF/view/header/header.jsp" %>
         </header>
     
         <commentPostcontainer>
             <yourAnswerContainer>
-                <Answer1234>
-                    <Answer12>
-                        <AnswerZero height="50">
-                            <sourceFirst class="commentPostSources" height="50">commentId</sourceFirst>
-                            <sourceFisrt height="50"><input type="number" name="commentId" id="commentIdInput" class="Answer1234Input"></sourceFisrt>
-                        </AnswerZero>
-                    </Answer12>
-                </Answer1234>
-                
-                <AnswerThird height="50">
-                    <sourceThird height="50"><input type="text" name="comment" id="commentInput"></sourceThird>
-                </AnswerThird>
+                <contentId class="form-floating">
+                    <input type="number" class="form-control"  id="commentIdInput" placeholder="commentId">
+                    <label for="floatingPassword">commentId</label>
+                </contentId>
+                <commentWrite class="form-floating">
+                    <td >내용</td>
+                    <input type="text" class="form-control"  id="commentInput" placeholder="내용">
+                </commentWrite>
             </yourAnswerContainer>
+
             <commentpostbutton>
-                <button type="button" id="commentUpdate_btn">댓글 수정</button>
+                <button type="button" id="commentUpdate_btn" class="btn btn-primary">댓글 수정</button>
             </commentpostbutton>
             <script>
                 $(document).ready(function () {

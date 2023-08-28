@@ -3,20 +3,12 @@
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 
 <style>
-
-button{
-    font-weight: bold;
-	background-color:  #DCDCDC;
-    cursor: pointer;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid;
-	margin: 0 10px 0 10px;
-}
 
 boardpostContainer{
     font-weight: bold;
@@ -32,74 +24,69 @@ userInfo{
     justify-content: space-between;
     flex-direction: row;
     margin-bottom: 20px;
+    gap: 10px;
 }
-.userInfoClass{
-    width: 150px;
-}
+
 postInfo{
     display: flex;
     flex-direction: column;
 }
-.postClass{
-    width: 595px;
-    height: 30px;
-    margin-bottom: 20px;
-}
+
 
 #contentInput{
+    margin-top: 0px;
     height: 200px;
-}
-input{
-    border: 4px solid #DCDCDC;
 }
 
 contentPostButton{
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: right;
 }
 
-#contentPost_btn{
-    border: 4px solid #DCDCDC;
-    background-color: #DCDCDC;
-    width: 150px;
-    height: 40px;
-    color: black;
+fileInput{
+    margin-top: 20px;
 }
-    
+
 </style>
 
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
     <header>
         <%@ include file="/WEB-INF/view/header/header.jsp" %>
     </header>
 
     <boardPostContainer>
-        
         <userInfo>
-            <userId height="50">
-                <td height="50">유저아이디</td>
-                <td height="50"><input type="number" name="userId" id="idInput" class="userInfoClass"></td>
+            <userId class="form-floating">
+                <input type="number" class="form-control"  id="userIdInput" placeholder="Id">
+                <label for="floatingPassword">userId</label>
             </userId>
-            <userName height="50">
-                <td height="50">이름</td>
-                <td height="50"><input type="text" name="name" id="nameInput" class="userInfoClass"></td>
+            <userName class="form-floating">
+                <input type="text" class="form-control"  id="nameInput" placeholder="Name">
+            <label for="floatingPassword">Name</label>
             </userName>
         </userInfo>
 
         <postInfo>
-            <boardTitle height="50">
-                <td height="50">제목</td>
-                <td height="50"><input type="text" name="title" id="titleInput" class="postClass"></td>
+            <boardTitle class="form-floating">
+                <input type="text" class="form-control"  id="titleInput" placeholder="Name">
+            <label for="floatingPassword">제목</label>
             </boardTitle>
-            <boardContent height="50">
-                <td height="50">내용</td>
-                <td height="50"><input type="text" name="content" id="contentInput" class="postClass"></td>
+            <fileInput class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">Upload</label>
+                <input type="file" class="form-control" id="inputGroupFile01">
+              </fileInput>
+            <boardContent class="form-floating">
+                <input type="text" class="form-control"  id="contentInput" placeholder="Name">
+            <label for="floatingPassword">내용</label>
             </boardContent>
         </postInfo>
 
         <contentPostButton>
-            <button type="button" id="contentPost_btn">게시글 등록하기</button>
+            <button class="btn btn-primary" type="button" id="contentPost_btn">게시글 등록하기</button>
         </contentPostButton>
     </boardPostContainer>
 
@@ -110,7 +97,7 @@ contentPostButton{
                 console.log("contentPost_btn clicked");
 
                 var jsonData = {
-                    "userId": $('#idInput').val(),
+                    "userId": $('#userIdInput').val(),
                     "name": $('#nameInput').val(),
                     "title": $('#titleInput').val(),
                     "content": $('#contentInput').val(),
