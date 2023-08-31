@@ -125,6 +125,7 @@ userUpdateButtonContainer{
 
                         // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
                         console.log("Error from server: " + error.statusText);
+                        alert(userId)
                         alert("정보를 확인 해주세요");
                         // window.location.href = "/users/mypage"+ userId;
 

@@ -46,6 +46,7 @@ searchBar{
     width: 90px;
     height: 50px;
     border: 3px solid rgb(185, 185, 185);
+
 }
 
 titleAndContentUserName{
@@ -101,6 +102,7 @@ buttonsContainer{
                 <input placeholder="검색어를 입력해주세요." id="searchBarInput">
                 <searchButton>
                     <button class="btn btn-primary" id="searchButtonId" >검색</button>
+
                 </searchButton>
             </searchBar>
             <btttonsContainer>

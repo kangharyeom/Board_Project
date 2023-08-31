@@ -10,6 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 
@@ -157,6 +158,7 @@ searchBar{
     width: 90px;
     height: 50px;
     border: 3px solid rgb(185, 185, 185);
+
 }
 
 titleAndContentUserName{
@@ -164,6 +166,7 @@ titleAndContentUserName{
     justify-content: center;
     align-items: center;
     flex-direction: row;
+
 }
 
 titleAndPost{
@@ -186,6 +189,7 @@ Input{
 Input::placeholder{
     padding-left: 10px;
 }
+
 
 /* boardSearchByNameBody */
 
@@ -316,7 +320,7 @@ p5{
                                 let index = 1;
                                 let item = 40;
                                 $("#searchButtonId").click(function () {
-                                    var name= $("#searchBarInput").val();
+
                                     $.ajax({
                                         type: "GET",
                                         url: "/api/contents/search/username?name="+name, // 실제 엔드포인트에 맞게 변경

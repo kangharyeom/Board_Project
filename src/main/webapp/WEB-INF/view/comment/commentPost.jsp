@@ -103,6 +103,7 @@ commentpostbutton{
                     <button class="btn btn-primary" type="button" id="commentPost_btn">댓글 등록</button>
                 </commentpostbutton>
             </yourAnswerContainer>
+
             <script>
                 $(document).ready(function () {
                     var postId = window.location.href.match(/\/board\/detail\?id=(\d+)/)[1];

@@ -62,6 +62,7 @@ padding: 0 0 20px 750px;
             <div id="contentDiv">
                 <contentUpdateButton>
                     <button class="btn btn-primary" id="contentUpdate" onclick="location.href='/contents/update/'">게시글 수정</button>
+
                 </contentUpdateButton>
                 <contentListBody>
                     <p1><span id="title"></span></p1>

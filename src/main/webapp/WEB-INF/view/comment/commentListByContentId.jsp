@@ -15,6 +15,7 @@ commentButtonContainer{
     margin-top: 30px;
     display: flex;
     justify-content: right;
+
 }
 
 .commentListBody{
@@ -53,6 +54,7 @@ p9{
         <commentContainer>
             <commentButtonContainer>
                 <button class="btn btn-primary" onclick="location.href='/comments/update'" id="commentUpdate_btn"> 댓글 수정 </button>
+
             </commentButtonContainer>
             <div id="commentDiv">
                 <commentListBody>

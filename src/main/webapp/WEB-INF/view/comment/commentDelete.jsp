@@ -38,6 +38,7 @@ input{
             <warnId >
                 <td >댓글을 삭제 하시고 싶으시다면 "댓글 삭제" 버튼을 눌러주세요</td>
                 <td ><input type="number" name="commentId" id="contentInput" class="commentDeleteButtonClass"></td>
+
             </warnId>
         </deleteWarn>
 

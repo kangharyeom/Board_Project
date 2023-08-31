@@ -16,7 +16,7 @@ boardpostContainer{
     display: flex;
     flex-direction: column;
     justify-content: left;
-    width: 800px;
+
 }
 deleteWarn{
     width: 900px;
@@ -41,8 +41,7 @@ input{
 </style>
 
 <body>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
+
     <boardPostContainer>
         
         <deleteWarn>
@@ -52,6 +51,7 @@ input{
             </warnId>
             <deldeteButton>
                 <button class="btn btn-primary" type="button" id="delete_btn">회원 탈퇴</button>
+                <button type="button" id="delete_btn">회원 탈퇴</button>
             </deldeteButton>
         </deleteWarn>
 
