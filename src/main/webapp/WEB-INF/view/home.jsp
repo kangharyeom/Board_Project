@@ -8,6 +8,8 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <title>게시판 만들기 프로젝트</title>
 <style>
 
@@ -17,15 +19,6 @@ bodyContainer{
 	align-items: center;
 	flex-direction: column;
 	width: 900px;
-}
-
-button{
-	background-color:  #DCDCDC;
-    cursor: pointer;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid;
-	margin: 0 10px 0 10px;
 }
 
 contentContainer{
@@ -117,8 +110,9 @@ Input::placeholder{
     </head>
 
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 		<bodyContainer>
-
 			<header>
 				<%@ include file="/WEB-INF/view/header/header.jsp" %>
 			</header>

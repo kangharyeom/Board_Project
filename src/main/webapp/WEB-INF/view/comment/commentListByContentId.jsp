@@ -3,23 +3,21 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 
 commentContainer{
-    margin-top: 30px;
     width: 900px;
 }
 commentButtonContainer{
+    margin-top: 30px;
     display: flex;
     justify-content: right;
+
 }
 
-#commentUpdate_btn{
-    width: 90px;
-    height: 20px;
-    margin: 30px 30px 0 0px;
-}
 .commentListBody{
     display: flex;
     flex-direction: column;
@@ -43,12 +41,20 @@ p9{
     font-weight: bold;
 }
 
+#commentUpdate_btn{
+    width: 150px;
+    margin-right: 30px;
+}
+
 </style>
     </head>    
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <commentContainer>
             <commentButtonContainer>
-                <button onclick="location.href='/comments/update'" id="commentUpdate_btn"> 댓글 수정 </button>
+                <button class="btn btn-primary" onclick="location.href='/comments/update'" id="commentUpdate_btn"> 댓글 수정 </button>
+
             </commentButtonContainer>
             <div id="commentDiv">
                 <commentListBody>

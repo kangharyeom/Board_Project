@@ -3,6 +3,8 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 
@@ -30,23 +32,17 @@ commentpostcontainer{
     padding: 1px 10px 1px 10px;
 }
 
-.Answer123Input{
-    border: 3px solid #DCDCDC;
-    height: 30px;
-    width: 90px;
-}
-
 youranswercontainer{
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     font-weight: bold;
-    margin: 0 0 10px 0;
+    margin: 0 0 30px 0;
+    width: 700px;
 }
 
 Answer12{
-    margin-left: 20px ;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -57,98 +53,63 @@ Answer12{
     gap: 10px;
 }
 
-AnswerFirst{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-AnswerSecond{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-AnswerThird{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 900px;
-}
-
-#idInput{
-    border: 3px solid #DCDCDC;
-    width: 204px;
-    height: 30px;
-    background-color: white;
-}
-
-#nameInput{
-    border: 3px solid #DCDCDC;
-    width: 204px;
-    height: 30px;
-    background-color: white;
-}
-
-#commentInput{
-    border: 3px solid #DCDCDC;
-    width: 572px;
-    height: 200px;
-    background-color: #eeeded;
-}
-
 commentpostbutton{
     display: flex;
     justify-content: right;
 }
 
-#join_btn{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 150px;
-    height: 40px;
-    color: black;
-    font-size: 18px;
-    font-weight: 3px;
-    background-color: #eeeded;
-    border: 3px solid #DCDCDC;
-    margin: 0 60px 100px 0 ;
+#commentPost_btn{
+    margin: 10px 0px 30px 0 ;
+    width: 600px;
+
 }
 
-input::placeholder{
-    padding-left: 5%;
+#commentInput{
+    width: 600px;
+    height: 200px;
 }
 
 </style>
     </head>    
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <commentPostcontainer>
             <yourAnswerContainer>
-                <Answer12>
-                    <AnswerFirst height="50">
-                            <sourceFirst class="commentPostSources" height="50">userId</sourceFirst>
-                            <sourceFisrt height="50"><input type="number" name="userId" id="idInput" class="Answer123Input"></sourceFisrt>
-                        </AnswerFirst>
-                    <AnswerSecond height="50">
-                        <sourceSecond class="commentPostSources" height="50">닉네임</sourceSecond>
-                        <sourceSecond height="50"><input placeholder="작성자명" type="text" name="name" id="nameInput" class="Answer123Input"></sourceSecond>
-                    </AnswerSecond>
-                </Answer12>
-                
-                <AnswerThird height="50">
-                    <sourceThird height="50"><input type="text" name="comment" id="commentInput"></sourceThird>
-                </AnswerThird>
+                    <Answer12>
+                        <div class="form-floating">
+                            <input type="number" class="form-control"  id="userIdInput" placeholder="Id">
+                            <label for="floatingPassword">userId</label>
+                        </div>
+                        
+                        <div class="form-floating">
+                            <input type="number" class="form-control"  id="idInput" placeholder="Id">
+                            <label for="floatingPassword">Id</label>
+                        </div>
+                        
+                        <div class="form-floating">
+                            <input type="text" class="form-control"  id="nameInput" placeholder="Name">
+                        <label for="floatingPassword">Name</label>
+                        </div>
+                    </Answer12>
+                    
+                    <Answer4 height="50">
+                        <commentTextContainer class="form-floating">
+                            <input type="textarea" class="form-control"  id="commentInput" placeholder="댓글을 작성해주세요.">
+                            <label for="floatingPassword">댓글을 작성해주세요.</label>
+                        </commentTextContainer>
+                    </Answer4>
+                <commentpostbutton>
+                    <button class="btn btn-primary" type="button" id="commentPost_btn">댓글 등록</button>
+                </commentpostbutton>
             </yourAnswerContainer>
-            <commentpostbutton>
-                <button type="button" id="join_btn">댓글 등록</button>
-            </commentpostbutton>
+
             <script>
                 $(document).ready(function () {
                     var postId = window.location.href.match(/\/board\/detail\?id=(\d+)/)[1];
                     // 버튼 클릭 시
-                    $("#join_btn").click(function () {
-                        console.log("join_btn clicked");
+                    $("#commentPost_btn").click(function () {
+                        console.log("commentPost_btn clicked");
         
                         var jsonData = {
                             "userId": $('#idInput').val(),

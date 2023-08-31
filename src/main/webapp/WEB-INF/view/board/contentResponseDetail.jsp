@@ -3,6 +3,8 @@
 <html>
     <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
 #contentDiv{
@@ -15,7 +17,7 @@ contentUpdateButton{
     justify-content: right;
 }
 #contentUpdate{
-    width: 90px;
+    width: 150px;
 }
     
 contentContainer{
@@ -54,10 +56,13 @@ padding: 0 0 20px 750px;
 </style>
     </head>    
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
         <contentContainer>
             <div id="contentDiv">
                 <contentUpdateButton>
-                    <button id="contentUpdate" onclick="location.href='/contents/update/'">게시글 수정</button>
+                    <button class="btn btn-primary" id="contentUpdate" onclick="location.href='/contents/update/'">게시글 수정</button>
+
                 </contentUpdateButton>
                 <contentListBody>
                     <p1><span id="title"></span></p1>
@@ -82,18 +87,25 @@ padding: 0 0 20px 750px;
                         success: function (data) {
                             // 서버 응답을 받았을 때 화면에 표시합니다.
                             console.log("Response from server: " + data);
-                            $("#title").text(data.title);
-                            $("#content").text(data.content);
-                            $("#name").text(data.name);
-                            $("#createdAt").text(data.createdAt);
-                            $("#modifiedAt").text(data.modifiedAt);
-                        },
-                        error: function () {
-                            alert("데이터를 가져올 수 없습니다.");
+                           
+                            function formatDate(dateString) {
+                            var date = new Date(dateString);
+                            var formattedDate = date.toLocaleString(); // "YYYY-MM-DD HH:mm" 형식으로 변환
+                            return formattedDate;
                         }
-                    });
+
+                        $("#title").text(data.title);
+                        $("#content").text(data.content);
+                        $("#name").text(data.name);
+                        $("#createdAt").text(formatDate(data.createdAt)); // 날짜 형식 변환 적용
+                        $("#modifiedAt").text(formatDate(data.modifiedAt)); // 날짜 형식 변환 적용
+                    },
+                    error: function () {
+                        alert("데이터를 가져올 수 없습니다.");
+                    }
                 });
-            </script>
+            });
+        </script>
             
         </contentContainer>
     </body>

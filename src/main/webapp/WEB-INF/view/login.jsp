@@ -3,7 +3,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<meta charset="UTF-8">
 <style>
 
 loginContainer{
@@ -15,82 +18,76 @@ loginContainer{
 	width: 400px;
 }
 
-loginInfo{
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-passwordInfo{
-	display: flex;
-	flex-direction: column;
-	margin-bottom: 10px;
-}
-
-input{
-	margin-top: 10px;
-	height: 30px;
-	border: 4px solid #DCDCDC;
-}
-
-input::placeholder{
-	padding: 10px 10px;
-}
-
 RegisterButtons{
 	margin-top: 30px;
 	display: flex;
 	flex-direction: column;
+	gap: 10px;
+	width: 260px;
 }
 
-#registerButton{
+#loginButtonBottom{
+	width: 260px;
+}
+
+.IdAndPassword{
+	width: 300px;
+}
+
+IdContainer{
+	margin-top: 30px;
+}
+PasswordContainer{
+	margin-top: 30px;
+}
+
+#exampleModalLabel{
 	font-weight: bold;
-	height: 30px;
-	width: 200px;
-	margin-bottom: 20px;
-}
-
-.loginButton{
-	height: 30px;
-	width: 200px;
-}
-
-button{
-	font-weight: bold;
-	background-color:  #DCDCDC;
-    cursor: pointer;
-	color: black;
-	border-radius: 5px;
-	border: 1px solid;
-	margin: 0 10px 0 10px;
 }
 
 </style>
 </head>
 	<body>
+		<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.min.js" integrity="sha384-Rx+T1VzGupg4BHQYs2gCW9It+akI2MM/mndMCy36UVfodzcJcF0GGLxZIzObiEfa" crossorigin="anonymous"></script>
 		<header>
 			<%@ include file="/WEB-INF/view/header/header.jsp" %>
 		</header>
-
-		<loginContainer>
-			<loginInfo height="50">
-				<login height="50">ID</login>
-				<loginSource height="50"><input placeholder="아이디를 입력하세요." type="text" name="id"></loginSource>
-			</loginInfo>
-			<passwordInfo height="50">
-				<password height="50">password</password>
-				<passwordSource height="50"><input placeholder="비밀번호를 입력하세요." type="password" name="pass"></passwordSource>
-			</passwordInfo>
+				<IdContainer class="form-floating">
+					<input type="text" class="form-control"  id="idInput" placeholder="Id">
+					<label for="floatingPassword">아이디</label>
+				  </IdContainer>
+				  <PasswordContainer class="form-floating">
+					<input type="password" class="form-control" id="passInput" placeholder="Password">
+					<label for="floatingPassword">비밀번호</label>
+				  </PasswordContainer>
 			<RegisterButtons>
-
-				<RegisterInfo height="50">
-					<button id="registerButton" onclick="location.href='/join'">회원가입</button>
-				</RegisterInfo>
-				
+				<!-- Button trigger modal -->
+			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+				회원가입
+			</button>
+			
+			<!-- Modal -->
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">sign up</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<%@ include file="/WEB-INF/view/join.jsp" %>
+					</div>
+					<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					<button type="button" class="btn btn-primary"  id="join_btn">등록</button>
+					</div>
+				</div>
+				</div>
+			</div>
 				<loginButton height="50">
-					<button class="loginButton" onclick="location.href='/login'">로그인</button>
+					<button class="btn btn-primary" onclick="location.href='/login'" id="loginButtonBottom">로그인</button>
 				</loginButton>
-
 			</RegisterButtons>
 		</loginContainer>
 	</body>

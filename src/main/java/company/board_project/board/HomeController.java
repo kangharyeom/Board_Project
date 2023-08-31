@@ -113,4 +113,9 @@ public class HomeController {
     public String userMypage(){
         return "/users/userMypage";
     }
+
+    @RequestMapping("/boot/strap")
+    public String bootStrap(){
+        return "/bootStrap";
+    }
 }
