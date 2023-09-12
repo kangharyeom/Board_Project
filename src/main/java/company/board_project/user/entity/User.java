@@ -2,6 +2,7 @@ package company.board_project.user.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.UserRole;
 import company.board_project.content.entity.Content;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,9 @@ public class User extends Auditable {
 
     @Column(nullable = false)
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole USER_ROLE;
 
     // 연관 관계 일대다 //
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
