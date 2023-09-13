@@ -57,7 +57,6 @@ public interface ContentMapper {
                 .build();
     }
 
-    // 컨텐츠 to 컨텐트 단건 조회 //
     default ContentAllResponseDto contentToContentAllResponse(Content content, ContentFileRepository contentFileRepository,CommentRepository commentRepository){
         User user = content.getUser();
         List<Comment> comments = commentRepository.findAllByContentId(content.getContentId());
@@ -76,7 +75,6 @@ public interface ContentMapper {
                 .build();
     }
 
-    // 컨텐츠 List 선언
     default ContentListDto contentListDtoToContentResponse(List<Content> contents, ContentFileRepository contentFileRepository){
 
         return ContentListDto.builder()
@@ -84,7 +82,6 @@ public interface ContentMapper {
                 .build();
     }
 
-    // 컨텐츠(다중) to 컨텐츠 리스폰스 (전체) //
     default List<ContentResponseDto> contentsToContentsResponse(List<Content> contents, ContentFileRepository contentFileRepository){
         return contents.stream()
                 .map(content -> ContentResponseDto.builder()
@@ -100,7 +97,6 @@ public interface ContentMapper {
                 .collect(Collectors.toList());
     }
 
-    // 커멘츠 to 커멘트 리스폰스 (전체) //
     default List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments){
         return comments.stream()
                 .map(comment -> CommentResponseDto.builder()

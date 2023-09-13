@@ -21,7 +21,6 @@ public class ContentAllResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    // 게시글 작성 유저 정보 //
     private String name;
     private List<CommentResponseDto> comments;
 }

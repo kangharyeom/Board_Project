@@ -5,7 +5,6 @@ import company.board_project.exception.Exceptions;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-//import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

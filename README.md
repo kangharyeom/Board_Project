@@ -1,4 +1,4 @@
-# Board_Project v0.5(project_whistle) - 2023.09.04
+# Board_Project v0.6(project_whistle) - 2023.09.13
 게시판 만들기 과제 수행을 위한 프로젝트 레파지토리 입니다.
 
 축구 매치업 프로젝트로 구체화 됨
@@ -12,12 +12,13 @@
 - Java Server Page ( 컨펌 완료 및 리액트로 변경 2023.09/04 )
 - React
 
-
-## 필요 기능 
+## 추가 예정 기능 - 2023.09.13
+- 팀 관리 및 팀 정보 확인
+- 나만의 리그 (생성, 조회, 수정, 삭제)
+- 경기 매칭 (생성, 조회, 수정, 삭제)
 - 로그 찍히기
 - 게시글 pageNation(1개 페이지에 40개)
 - 기타 필요한 기능 추가
-
 
 ## 구현 완료
 - Member Crud, Centent Crud, Comment Crud

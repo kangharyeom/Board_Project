@@ -1,5 +1,8 @@
 package company.board_project.league.entity;
 
+import company.board_project.audit.Auditable;
+import company.board_project.constant.*;
+import company.board_project.content.entity.Content;
 import company.board_project.match.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -16,37 +19,48 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "LEAGUES")
-public class League {
+public class League extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leagueId;
 
     @Column(nullable = false)
-    private String leagueName;
+    private Long matchCount;
 
-    @Enumerated(EnumType.STRING)
-    private String sportType;
-
-    @Enumerated(EnumType.STRING)
-    private String ageType;
+    private Long teamCount;
 
     @Column(nullable = false)
-    private String location;
+    private String leagueName;
+
+    @Column
+    private String participantTeamName;
+
+    @Enumerated(EnumType.STRING)
+    private SportsType sportType;
+
+    @Enumerated(EnumType.STRING)
+    private AgeType ageType;
+
+    @Enumerated(EnumType.STRING)
+    private LocationType locationType;
 
     @Column(nullable = false)
     private String period;
 
     @Enumerated(EnumType.STRING)
-    private String levelType;
+    private LevelType levelType;
 
     @Column
     private String leagueRules;
 
     @Enumerated(EnumType.STRING)
-    private String frequency;
+    private Frequency frequency;
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Match> matchs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Content> contents = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
@@ -56,5 +70,6 @@ public class League {
     @JoinColumn(name = "TEAM_ID")
     private Team team;
 
-
 }
+
+

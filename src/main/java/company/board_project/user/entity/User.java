@@ -4,6 +4,10 @@ import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
 import company.board_project.constant.UserRole;
 import company.board_project.content.entity.Content;
+import company.board_project.league.entity.League;
+import company.board_project.match.entity.Match;
+import company.board_project.matchSuggestionList.Entity.MatchSuggestionList;
+import company.board_project.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,10 +46,22 @@ public class User extends Auditable {
     @Enumerated(EnumType.STRING)
     private UserRole USER_ROLE;
 
-    // 연관 관계 일대다 //
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Match> matchs = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Team> teams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<League> leagues = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<MatchSuggestionList> matchSuggestionLists = new ArrayList<>();
+
 }
