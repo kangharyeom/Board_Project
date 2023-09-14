@@ -1,4 +1,4 @@
-package company.board_project.awsS3;
+package company.board_project.aws_s3;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
