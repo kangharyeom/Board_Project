@@ -1,13 +1,13 @@
-package company.board_project.matchSuggestionList.dto;
+package company.board_project.suggestionlist.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
-public class MatchSuggestionListPostDto {
+@Builder
+public class SuggestionListResponseDto {
     private Long userId;
     private Long teamId;
     private Long teamName;
