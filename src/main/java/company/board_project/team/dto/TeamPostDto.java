@@ -1,6 +1,5 @@
 package company.board_project.team.dto;
 
-import company.board_project.constant.SportsType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,19 +11,7 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class TeamPostDto {
     private Long userId;
-    private Long championCount;
-    private Long memberCount;
-    private Long leagueWinRecord;
-    private Long leagueDrawRecord;
-    private Long leagueLoseRecord;
-    private Long totalWinRecord;
-    private Long totalDrawRecord;
-    private Long totalLoseRecord;
-    private Long honorScore;
-    private Long ranking;
-    private Long mostGoals;
-    private Long mostAssist;
-    private Long mostMom;
+    private Long leagueId;
 
     @NotBlank(message = "팀 이름을 입력 해야 합니다.")
     private String teamName;
@@ -34,12 +21,26 @@ public class TeamPostDto {
     @NotBlank(message = "지역을 입력 해야 합니다.")
     private String locationType;
     @NotBlank(message = "운동 유형을 입력 해야 합니다.")
-    private String sportType;
+    private String sportsType;
     @NotBlank(message = "팀 실력을 입력 해야 합니다.")
     private String levelType;
     private String managerName;
     private String subManagerName;
-    private String uniform;
+    private String uniformType;
 
+    private Long championCount = 0L ;
+    private Long memberCount = 0L ;
+    private Long leagueMatchCount = 0L;
+    private Long leagueWinRecord = 0L ;
+    private Long leagueDrawRecord = 0L ;
+    private Long leagueLoseRecord = 0L ;
+    private Long totalMatchCount = 0L;
+    private Long totalWinRecord = 0L ;
+    private Long totalDrawRecord = 0L ;
+    private Long totalLoseRecord = 0L ;
+    private Long honorScore = 0L ;
+    private Long mostGoals = 0L ;
+    private Long mostAssist = 0L ;
+    private Long mostMom = 0L ;
 
 }

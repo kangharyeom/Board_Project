@@ -14,9 +14,11 @@ public class TeamPatchDto {
     private Long userId;
     private Long championCount;
     private Long memberCount;
+    private Long leagueMatchCount;
     private Long leagueWinRecord;
     private Long leagueDrawRecord;
     private Long leagueLoseRecord;
+    private Long totalMatchCount;
     private Long totalWinRecord;
     private Long totalDrawRecord;
     private Long totalLoseRecord;
@@ -32,10 +34,10 @@ public class TeamPatchDto {
     @NotBlank(message = "지역을 입력 해야 합니다.")
     private String locationType;
     @NotBlank(message = "운동 유형을 입력 해야 합니다.")
-    private String sportType;
+    private String sportsType;
     @NotBlank(message = "팀 실력을 입력 해야 합니다.")
     private String levelType;
     private String managerName;
     private String subManagerName;
-    private String uniform;
+    private String uniformType;
 }

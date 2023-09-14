@@ -13,13 +13,14 @@ public class LeaguePostDto {
     private Long userId;
     private Long teamId;
     private Long matchCount;
-    private Long teamCount;
-    private String participantTeamName;
-
+    private Long teamCount = 1L;
+    private Long honorScore;
+    private Long winPoints = 0L;
+    private String leagueManagerName;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
-    private String sportType;
+    private String sportsType;
     @NotBlank(message = "연령대를 입력 해야 합니다.")
     private String ageType;
     @NotBlank(message = "지역을 입력 해야 합니다.")
@@ -34,6 +35,4 @@ public class LeaguePostDto {
     private String title;
     private String content;
 
-    // 유저 정보
-    private String name;
 }

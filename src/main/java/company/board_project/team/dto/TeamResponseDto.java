@@ -1,13 +1,11 @@
 package company.board_project.team.dto;
 
-import company.board_project.constant.SportsType;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestionlist.Entity.SuggestionList;
+import company.board_project.suggestion.entity.Suggestion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,9 +20,11 @@ public class TeamResponseDto {
     private Long suggestionListId;
     private Long championCount;
     private Long memberCount;
+    private Long leagueMatchCount;
     private Long leagueWinRecord;
     private Long leagueDrawRecord;
     private Long leagueLoseRecord;
+    private Long totalMatchCount;
     private Long totalWinRecord;
     private Long totalDrawRecord;
     private Long totalLoseRecord;
@@ -38,15 +38,15 @@ public class TeamResponseDto {
     private String introduction;
     private String ageType;
     private String locationType;
-    private String sportType;
+    private String sportsType;
     private String levelType;
     private String managerName;
     private String subManagerName;
     private String frequency;
-    private String uniform;
+    private String uniformType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     private List<Schedule> scheduleList;
-    private List<SuggestionList> suggestionLists;
+    private List<Suggestion> suggestions;
 }

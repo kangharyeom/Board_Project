@@ -22,18 +22,25 @@ public interface LeagueMapper {
         User user = new User();
 
         user.setUserId(requestBody.getUserId());
-        user.setName(requestBody.getName());
+        user.setName(requestBody.getLeagueManagerName());
+
+        Team team = new Team();
+        team.setHonorScore(requestBody.getHonorScore());
+        team.setTeamId(requestBody.getTeamId());
 
         List<Content> contents = new ArrayList<>();
 
         League league = new League();
+        league.setTeam(team);
         league.setUser(user);
         league.setContents(contents);
+        league.setHonorScore(requestBody.getHonorScore());
         league.setMatchCount(requestBody.getMatchCount());
         league.setTeamCount(requestBody.getTeamCount());
+        league.setWinPoints(requestBody.getWinPoints());
         league.setLeagueName(requestBody.getLeagueName());
-        league.setParticipantTeamName(requestBody.getParticipantTeamName());
-        league.setSportType(SportsType.valueOf(requestBody.getSportType()));
+        league.setLeagueManagerName(requestBody.getLeagueManagerName());
+        league.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         league.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         league.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         league.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
@@ -49,9 +56,10 @@ public interface LeagueMapper {
         league.setLeagueId( requestBody.getLeagueId() );
         league.setMatchCount(requestBody.getMatchCount());
         league.setTeamCount(requestBody.getTeamCount());
+        league.setHonorScore(requestBody.getHonorScore());
+        league.setWinPoints(requestBody.getWinPoints());
         league.setLeagueName(requestBody.getLeagueName());
-        league.setParticipantTeamName(requestBody.getParticipantTeamName());
-        league.setSportType(SportsType.valueOf(requestBody.getSportType()));
+        league.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         league.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         league.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         league.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
@@ -76,16 +84,17 @@ public interface LeagueMapper {
                 .matchs(mathchs)
                 .matchCount(league.getMatchCount())
                 .teamCount(league.getTeamCount())
+                .honorScore(league.getHonorScore())
+                .winPoints(league.getWinPoints())
                 .leagueName(league.getLeagueName())
                 .leagueManagerName(user.getName())
-                .sportType(String.valueOf(league.getSportType()))
+                .sportsType(String.valueOf(league.getSportsType()))
                 .ageType(String.valueOf(league.getAgeType()))
                 .locationType(String.valueOf(league.getLocationType()))
                 .period(league.getPeriod())
                 .levelType(String.valueOf(league.getLevelType()))
                 .leagueRules(league.getLeagueRules())
                 .frequency(String.valueOf(league.getFrequency()))
-                .participantTeamName(league.getParticipantTeamName())
                 .createdAt(league.getCreatedAt())
                 .modifiedAt(league.getModifiedAt())
                 .build();
@@ -105,17 +114,18 @@ public interface LeagueMapper {
                         .userId(league.getUser().getUserId())
                         .leagueManagerName(league.getUser().getName())
                         .teamId(league.getTeam().getTeamId())
+                        .honorScore(league.getHonorScore())
+                        .winPoints(league.getWinPoints())
                         .matchCount(league.getMatchCount())
                         .teamCount(league.getTeamCount())
                         .leagueName(league.getLeagueName())
-                        .sportType(String.valueOf(league.getSportType()))
+                        .sportsType(String.valueOf(league.getSportsType()))
                         .ageType(String.valueOf(league.getAgeType()))
                         .locationType(String.valueOf(league.getLocationType()))
                         .period(league.getPeriod())
                         .levelType(String.valueOf(league.getLevelType()))
                         .leagueRules(league.getLeagueRules())
                         .frequency(String.valueOf(league.getFrequency()))
-                        .participantTeamName(league.getParticipantTeamName())
                         .createdAt(league.getCreatedAt())
                         .modifiedAt(league.getModifiedAt())
                         .build())

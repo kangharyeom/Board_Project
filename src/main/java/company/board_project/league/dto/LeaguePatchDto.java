@@ -13,12 +13,12 @@ public class LeaguePatchDto {
     private Long userId;
     private Long teamId;
     private Long matchCount;
-    private String participantTeamName;
-
+    private Long honorScore;
+    private Long winPoints;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
-    private String sportType;
+    private String sportsType;
     private Long teamCount;
     @NotBlank(message = "연령대를 입력 해야 합니다.")
     private String ageType;

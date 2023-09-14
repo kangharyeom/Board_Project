@@ -30,7 +30,7 @@ public class LeagueController {
     @PostMapping
     public ResponseEntity postLeague(@RequestBody LeaguePostDto requestBody){
 
-        League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody));
+        League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
         LeagueResponseDto leagueResponse = leagueMapper.leagueToLeagueResponse(league);
 
         return ResponseEntity.ok(leagueResponse);
@@ -73,6 +73,14 @@ public class LeagueController {
         return ResponseEntity.ok(leagueResponseDtos);
     }
 
+    @GetMapping("/score")
+    public ResponseEntity getLeaguesHonorScore() {
+        List<League> leagues = leagueService.findHonorScore();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
     @PatchMapping("/{leagueId}")
     public ResponseEntity patchLeague(@RequestBody LeaguePatchDto requestBody,
                                        @PathVariable("leagueId") Long leagueId) {
@@ -84,7 +92,7 @@ public class LeagueController {
         return ResponseEntity.ok(leagueResponse);
     }
 
-    @DeleteMapping("/{contentId}")
+    @DeleteMapping("/{leagueId}")
     public ResponseEntity deleteLeague(@PathVariable("leagueId") Long leagueId) {
         leagueService.deleteLeague(leagueId);
 

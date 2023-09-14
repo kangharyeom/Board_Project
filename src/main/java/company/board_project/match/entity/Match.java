@@ -73,8 +73,12 @@ public class Match extends Auditable {
 
 
 
-    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-    private List<Team> teams = new ArrayList<>();
+//    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
+//    private List<Team> teams = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

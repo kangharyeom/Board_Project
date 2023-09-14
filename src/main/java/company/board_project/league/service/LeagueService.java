@@ -4,6 +4,8 @@ import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
+import company.board_project.team.entity.Team;
+import company.board_project.team.service.TeamService;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
 import company.board_project.user.service.UserService;
@@ -23,9 +25,20 @@ import java.util.Optional;
 @Transactional
 public class LeagueService {
     private final LeagueRepository leagueRepository;
+    private final UserService userService;
     private final UserRepository userRepository;
+    private final TeamService teamService;
 
-    public League createLeague(League league) {
+    public League createLeague(League league, Long userId, Long teamId) {
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+
+        league.setUser(user);
+        league.setTeam(team);
+        league.setLeagueManagerName(user.getName());
+        league.setHonorScore(team.getHonorScore());
+
+
         leagueRepository.save(league);
 
         return league;
@@ -39,8 +52,8 @@ public class LeagueService {
         Optional.ofNullable(league.getLeagueName())
                 .ifPresent(findLeague::setLeagueName);
 
-        Optional.ofNullable(league.getSportType())
-                .ifPresent(findLeague::setSportType);
+        Optional.ofNullable(league.getSportsType())
+                .ifPresent(findLeague::setSportsType);
 
         Optional.ofNullable(league.getParticipantTeamName())
                 .ifPresent(findLeague::setParticipantTeamName);
@@ -89,6 +102,10 @@ public class LeagueService {
 
     public List<League> findLeaguesLatest() {
         return leagueRepository.findLeaguesLatest();
+    }
+
+    public List<League> findHonorScore() {
+        return leagueRepository.findHonorScore();
     }
 
     public void deleteLeague(Long leagueId) {

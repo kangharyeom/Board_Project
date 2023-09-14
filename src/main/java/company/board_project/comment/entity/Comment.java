@@ -19,15 +19,12 @@ public class Comment extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long commentId;
 
-    // 댓글 내용
     @Column(nullable = false)
     private String comment;
 
-    // 유저 이름
     @Column(nullable = false)
     private String name;
 
-    // 연관 관계 다대일 //
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;

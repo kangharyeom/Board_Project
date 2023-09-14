@@ -18,21 +18,20 @@ public class LeagueResponseDto {
     private Long teamId;
     private Long matchCount;
     private Long teamCount;
+    private Long honorScore;
+    private Long winPoints;
     private String leagueName;
     private String leagueManagerName;
-    private String sportType;
+    private String sportsType;
     private String ageType;
     private String locationType;
     private String period;
     private String levelType;
     private String leagueRules;
     private String frequency;
-    private String participantTeamName;
 
     private List<Content> contents;
     private List<Match> matchs;
-
-    private String name;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

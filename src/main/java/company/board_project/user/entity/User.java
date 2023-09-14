@@ -7,7 +7,7 @@ import company.board_project.content.entity.Content;
 import company.board_project.league.entity.League;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestionlist.Entity.SuggestionList;
+import company.board_project.suggestion.entity.Suggestion;
 import company.board_project.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,6 +66,6 @@ public class User extends Auditable {
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<SuggestionList> suggestionLists = new ArrayList<>();
+    private List<Suggestion> suggestions = new ArrayList<>();
 
 }

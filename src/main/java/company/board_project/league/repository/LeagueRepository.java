@@ -22,4 +22,7 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
 
     @Query(value = "select * from leagues order by created_at asc", nativeQuery = true)
     List<League> findLeaguesLatest();
+
+    @Query(value = "select * from leagues order by honor_score desc", nativeQuery = true)
+    List<League> findHonorScore();
 }

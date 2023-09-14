@@ -4,6 +4,8 @@ import company.board_project.comment.entity.Comment;
 import company.board_project.content.entity.Content;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
+import company.board_project.league.entity.League;
+import company.board_project.league.service.LeagueService;
 import company.board_project.team.entity.Team;
 import company.board_project.team.repository.TeamRepository;
 import company.board_project.user.entity.User;
@@ -31,6 +33,7 @@ public class TeamService {
         User user = userService.findUser(userId);
 
         team.setUser(user);
+        team.setManagerName(user.getName());
 
         return teamRepository.save(team);
     }
@@ -97,8 +100,8 @@ public class TeamService {
         Optional.ofNullable(team.getSubManagerName())
                 .ifPresent(findTeam::setSubManagerName);
 
-        Optional.ofNullable(team.getUniform())
-                .ifPresent(findTeam::setUniform);
+        Optional.ofNullable(team.getUniformType())
+                .ifPresent(findTeam::setUniformType);
 
         return teamRepository.save(findTeam);
     }

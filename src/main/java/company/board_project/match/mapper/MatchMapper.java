@@ -18,10 +18,14 @@ import java.util.stream.Collectors;
 public interface MatchMapper {
     default Match matchPostDtoToMatch(MatchPostDto requestBody){
         User user = new User();
-
         user.setUserId(requestBody.getUserId());
 
+        Team team = new Team();
+        team.setTeamId(requestBody.getTeamId());
+        team.setTeamName(requestBody.getHomeTeamName());
+
         Match match = new Match();
+        match.setTeam(team);
         match.setUser(user);
         match.setHomeTeamName(requestBody.getHomeTeamName());
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));

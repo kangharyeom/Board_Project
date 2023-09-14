@@ -3,9 +3,10 @@ package company.board_project.team.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
+import company.board_project.leagueteamlist.entity.LeagueTeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestionlist.Entity.SuggestionList;
+import company.board_project.suggestion.entity.Suggestion;
 import company.board_project.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,9 @@ public class Team extends Auditable {
     private Long memberCount;
 
     @Column
+    private Long leagueMatchCount;
+
+    @Column
     private Long leagueWinRecord;
 
     @Column
@@ -39,6 +43,9 @@ public class Team extends Auditable {
 
     @Column
     private Long leagueLoseRecord;
+
+    @Column
+    private Long totalMatchCount;
 
     @Column
     private Long totalWinRecord;
@@ -77,13 +84,10 @@ public class Team extends Auditable {
     private SportsType sportsType;
 
     @Enumerated(EnumType.STRING)
-    private SportsType levelType;
+    private LevelType levelType;
 
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
-
-    @Enumerated(EnumType.STRING)
-    private SportsType sportType;
 
     @Column(nullable = false)
     private String managerName;
@@ -92,20 +96,26 @@ public class Team extends Auditable {
     private String subManagerName;
 
     @Enumerated(EnumType.STRING)
-    private Frequency frequency = Frequency.NONE;
+    private Frequency frequency;
 
     @Enumerated(EnumType.STRING)
-    private UniformType uniform;
+    private UniformType uniformType;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<SuggestionList> suggestionLists = new ArrayList<>();
+    private List<Suggestion> suggestions = new ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "MATCH_ID")
-    private Match match;
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    private List<LeagueTeamList> leagueTeamLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    private List<Match> matchs = new ArrayList<>();
+
+//    @ManyToOne(cascade = CascadeType.DETACH)
+//    @JoinColumn(name = "MATCH_ID")
+//    private Match match;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "LEAGUE_ID")

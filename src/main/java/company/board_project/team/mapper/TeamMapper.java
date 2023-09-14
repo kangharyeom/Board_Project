@@ -1,14 +1,10 @@
 package company.board_project.team.mapper;
 
 import company.board_project.constant.*;
-import company.board_project.league.dto.LeagueListDto;
-import company.board_project.league.dto.LeagueResponseDto;
-import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
-import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestionlist.Entity.SuggestionList;
-import company.board_project.suggestionlist.Repository.SuggestionListRepository;
+import company.board_project.suggestion.entity.Suggestion;
+import company.board_project.suggestion.repository.SuggestionRepository;
 import company.board_project.team.dto.TeamListDto;
 import company.board_project.team.dto.TeamPatchDto;
 import company.board_project.team.dto.TeamPostDto;
@@ -25,8 +21,7 @@ import java.util.stream.Collectors;
 public interface TeamMapper {
     default Team teamPostDtoToTeam(TeamPostDto requestBody, LeagueRepository leagueRepository){
         User user = new User();
-        Match mathch = new Match();
-        League league = new League();
+        user.setName(requestBody.getManagerName());
 
         user.setUserId(requestBody.getUserId());
 
@@ -34,24 +29,27 @@ public interface TeamMapper {
         team.setUser(user);
         team.setChampionCount(requestBody.getChampionCount());
         team.setMemberCount(requestBody.getMemberCount());
-        team.setLeagueWinRecord(league.getLeagueWinRecord());
-        team.setLeagueDrawRecord(league.getLeagueDrawRecord());
-        team.setLeagueLoseRecord(league.getLeagueLoseRecord());
+        team.setLeagueMatchCount(requestBody.getLeagueMatchCount());
+        team.setLeagueWinRecord(requestBody.getLeagueWinRecord());
+        team.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
+        team.setLeagueLoseRecord(requestBody.getLeagueLoseRecord());
+        team.setTotalMatchCount(requestBody.getTotalMatchCount());
         team.setTotalWinRecord(requestBody.getTotalWinRecord());
         team.setTotalDrawRecord(requestBody.getTotalDrawRecord());
         team.setTotalLoseRecord(requestBody.getTotalLoseRecord());
         team.setHonorScore(requestBody.getHonorScore());
-        team.setRanking(requestBody.getRanking());
         team.setMostGoals(requestBody.getMostGoals());
         team.setMostAssist(requestBody.getMostAssist());
         team.setMostMom(requestBody.getMostMom());
         team.setTeamName(requestBody.getTeamName());
         team.setIntroduction(requestBody.getIntroduction());
         team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        team.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
+        team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-        team.setManagerName(user.getName());
+//        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
+        team.setManagerName(requestBody.getManagerName());
         team.setSubManagerName(requestBody.getSubManagerName());
-        team.setUniform(UniformType.valueOf(requestBody.getUniform()));
 
         return team;
     }
@@ -60,9 +58,11 @@ public interface TeamMapper {
 
         team.setChampionCount(requestBody.getChampionCount());
         team.setMemberCount(requestBody.getMemberCount());
+        team.setLeagueMatchCount(requestBody.getLeagueMatchCount());
         team.setLeagueWinRecord(requestBody.getLeagueWinRecord());
         team.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
         team.setLeagueLoseRecord(requestBody.getLeagueLoseRecord());
+        team.setTotalMatchCount(requestBody.getTotalMatchCount());
         team.setTotalWinRecord(requestBody.getTotalWinRecord());
         team.setTotalDrawRecord(requestBody.getTotalDrawRecord());
         team.setTotalLoseRecord(requestBody.getTotalLoseRecord());
@@ -76,28 +76,40 @@ public interface TeamMapper {
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         team.setManagerName(requestBody.getManagerName());
         team.setSubManagerName(requestBody.getSubManagerName());
-        team.setUniform(UniformType.valueOf(requestBody.getUniform()));
+        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
 
         return team;
     }
 
-    default TeamResponseDto teamToTeamResponseDto(Team team, SuggestionListRepository suggestionListRepository){
+    default TeamResponseDto teamToTeamResponseDto(Team team, SuggestionRepository suggestionRepository){
         List<Schedule> schedules = new ArrayList<>();
 
         User user = team.getUser();
-        Match mathch = team.getMatch();
-        League league = team.getLeague();
-        List<SuggestionList> suggestionLists = new ArrayList<>();
+        List<Suggestion> suggestions = new ArrayList<>();
 
         return TeamResponseDto.builder()
-                .leagueId(league.getLeagueId())
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
-                .matchId(mathch.getMatchId())
-                .suggestionLists(suggestionLists)
+                .championCount(team.getChampionCount())
+                .memberCount(team.getMemberCount())
+                .leagueMatchCount(team.getLeagueMatchCount())
+                .leagueWinRecord(team.getLeagueWinRecord())
+                .leagueDrawRecord(team.getLeagueDrawRecord())
+                .leagueLoseRecord(team.getLeagueLoseRecord())
+                .totalMatchCount(team.getTotalMatchCount())
+                .totalWinRecord(team.getTotalWinRecord())
+                .totalDrawRecord(team.getTotalDrawRecord())
+                .totalLoseRecord(team.getTotalLoseRecord())
+                .honorScore(team.getHonorScore())
+                .ranking(team.getRanking())
+                .mostGoals(team.getMostGoals())
+                .mostAssist(team.getMostAssist())
+                .mostMom(team.getMostMom())
+                .teamName(team.getTeamName())
+                .suggestions(suggestions)
                 .scheduleList(schedules)
                 .managerName(user.getName())
-                .sportType(String.valueOf(team.getSportType()))
+                .sportsType(String.valueOf(team.getSportsType()))
                 .ageType(String.valueOf(team.getAgeType()))
                 .locationType(String.valueOf(team.getLocationType()))
                 .levelType(String.valueOf(team.getLevelType()))
@@ -120,7 +132,23 @@ public interface TeamMapper {
                 .map(team -> TeamResponseDto.builder()
                         .teamId(team.getTeamId())
                         .managerName(team.getManagerName())
-                        .sportType(String.valueOf(team.getSportType()))
+                        .championCount(team.getChampionCount())
+                        .memberCount(team.getMemberCount())
+                        .leagueMatchCount(team.getLeagueMatchCount())
+                        .leagueWinRecord(team.getLeagueWinRecord())
+                        .leagueDrawRecord(team.getLeagueDrawRecord())
+                        .leagueLoseRecord(team.getLeagueLoseRecord())
+                        .totalMatchCount(team.getTotalMatchCount())
+                        .totalWinRecord(team.getTotalWinRecord())
+                        .totalDrawRecord(team.getTotalDrawRecord())
+                        .totalLoseRecord(team.getTotalLoseRecord())
+                        .honorScore(team.getHonorScore())
+                        .ranking(team.getRanking())
+                        .mostGoals(team.getMostGoals())
+                        .mostAssist(team.getMostAssist())
+                        .mostMom(team.getMostMom())
+                        .teamName(team.getTeamName())
+                        .sportsType(String.valueOf(team.getSportsType()))
                         .ageType(String.valueOf(team.getAgeType()))
                         .locationType(String.valueOf(team.getLocationType()))
                         .levelType(String.valueOf(team.getLevelType()))
