@@ -27,8 +27,11 @@ public class MatchResponseDto {
     private String homeTeamName;
     private String awayTeamName;
     private String name;
+    private String matchStatus;
+    private String homeTeamMatchResultStatus;
+    private String awayTeamMatchResultStatus;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    private List<Team> TeamList;
+    private List<Team> teamList;
 }

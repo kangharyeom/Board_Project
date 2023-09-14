@@ -24,7 +24,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     public Team createTeam(
             Team team, Long userId) {
@@ -44,8 +43,8 @@ public class TeamService {
         Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
 
 
-        Optional.ofNullable(team.getWinCount())
-                .ifPresent(findTeam::setWinCount);
+        Optional.ofNullable(team.getChampionCount())
+                .ifPresent(findTeam::setChampionCount);
 
         Optional.ofNullable(team.getMemberCount())
                 .ifPresent(findTeam::setMemberCount);
@@ -108,6 +107,9 @@ public class TeamService {
         return findVerifiedTeam(teamId);
     }
 
+    public List<Team> findAllTeamsByLeagueId(long leagueId) {
+        return teamRepository.findAllTeamsByLeagueId(leagueId);
+    }
 
     public Page<Team> findTeams(int page, int size) {
         return teamRepository.findAll(PageRequest.of(page, size,

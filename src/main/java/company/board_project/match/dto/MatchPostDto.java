@@ -24,6 +24,7 @@ public class MatchPostDto {
     private String matchTime;
     @NotBlank(message = "경기의 난이도를 입력 해야 합니다.")
     private String levelType;
+    private String matchStatus;
     private String matchRules;
     private String homeTeamName;
     private Long homeScore;

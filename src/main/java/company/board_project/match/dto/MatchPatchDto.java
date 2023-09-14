@@ -27,8 +27,12 @@ public class MatchPatchDto {
     private String matchTime;
     @NotBlank(message = "경기의 난이도를 입력 해야 합니다.")
     private String levelType;
+    private String matchStatus;
     private String matchRules;
     private String awayTeamName;
+    private String homeTeamMatchResultStatus;
+    private String awayTeamMatchResultStatus;
+
 
     public void updateId(Long id){
         this.matchId = id;

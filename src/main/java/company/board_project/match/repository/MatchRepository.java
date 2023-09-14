@@ -21,6 +21,9 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query(value = "select * from matchs where user_id = :userId", nativeQuery = true)
     List<Match> findByUserId(@Param("userId") long userId);
 
+    @Query(value = "select * from matchs where schedule_id = :scheduleId", nativeQuery = true)
+    List<Match> findByScheduleId(@Param("scheduleId") long scheduleId);
+
     Optional<Match> findByMatchId(long contentId);
 
     @Query(value = "select * from matchs where title like %:keyword% or content like %:keyword% ", nativeQuery = true)

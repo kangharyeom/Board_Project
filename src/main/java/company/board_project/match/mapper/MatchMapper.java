@@ -39,6 +39,9 @@ public interface MatchMapper {
 
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         match.setSportType(SportsType.valueOf(requestBody.getSportType()));
+        match.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
+        match.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getAwayTeamMatchResultStatus()));
+        match.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getHomeTeamMatchResultStatus()));
         match.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchTime(requestBody.getMatchTime());
@@ -62,6 +65,9 @@ public interface MatchMapper {
                 .ageType(String.valueOf(match.getAgeType()))
                 .locationType(String.valueOf(match.getLocationType()))
                 .levelType(String.valueOf(match.getLevelType()))
+                .matchStatus(String.valueOf(match.getMatchStatus()))
+                .awayTeamMatchResultStatus(String.valueOf(match.getAwayTeamMatchResultStatus()))
+                .homeTeamMatchResultStatus(String.valueOf(match.getHomeTeamMatchResultStatus()))
                 .createdAt(match.getCreatedAt())
                 .modifiedAt(match.getModifiedAt())
                 .build();
@@ -79,12 +85,15 @@ public interface MatchMapper {
                 .map(match -> MatchResponseDto.builder()
                         .userId(match.getUser().getUserId())
                         .name(match.getUser().getName())
-                        .homeTeamName(teamRepository.findByMatchId(match.getMatchId()).toString())
-                        .awayTeamName(teamRepository.findByMatchId(match.getMatchId()).toString())
+                        .teamList(teamRepository.findByMatchId(match.getMatchId()))
+                        .teamList(teamRepository.findByMatchId(match.getMatchId()))
                         .sportType(String.valueOf(match.getSportType()))
                         .ageType(String.valueOf(match.getAgeType()))
                         .locationType(String.valueOf(match.getLocationType()))
                         .levelType(String.valueOf(match.getLevelType()))
+                        .matchStatus(String.valueOf(match.getMatchStatus()))
+                        .awayTeamMatchResultStatus(String.valueOf(match.getAwayTeamMatchResultStatus()))
+                        .homeTeamMatchResultStatus(String.valueOf(match.getHomeTeamMatchResultStatus()))
                         .createdAt(match.getCreatedAt())
                         .modifiedAt(match.getModifiedAt())
                         .build())

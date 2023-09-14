@@ -1,6 +1,6 @@
 package company.board_project.content.controller;
 
-import company.board_project.awsS3.AwsS3Service;
+import company.board_project.aws_s3.AwsS3Service;
 import company.board_project.comment.repository.CommentRepository;
 import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;

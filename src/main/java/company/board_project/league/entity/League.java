@@ -4,6 +4,7 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
 import company.board_project.match.entity.Match;
+import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import lombok.Getter;
@@ -56,11 +57,27 @@ public class League extends Auditable {
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
+    @Column
+    private Long memberCount;
+
+    @Column
+    private Long leagueWinRecord;
+
+    @Column
+    private Long leagueDrawRecord;
+
+    @Column
+    private Long leagueLoseRecord;
+
+
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Match> matchs = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
+    private List<Schedule> schedules = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

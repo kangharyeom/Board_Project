@@ -58,6 +58,16 @@ public class MatchService {
         Optional.ofNullable(match.getLevelType())
                 .ifPresent(findMatch::setLevelType);
 
+        Optional.ofNullable(match.getMatchStatus())
+                .ifPresent(findMatch::setMatchStatus);
+
+        Optional.ofNullable(match.getHomeTeamMatchResultStatus())
+                .ifPresent(findMatch::setHomeTeamMatchResultStatus);
+
+        Optional.ofNullable(match.getAwayTeamMatchResultStatus())
+                .ifPresent(findMatch::setAwayTeamMatchResultStatus);
+
+
         return matchRepository.save(findMatch);
     }
 
@@ -87,9 +97,9 @@ public class MatchService {
     }
 
     public void deleteMatch(Long matchId) {
-        Match findContent = findVerifiedMatch(matchId);
+        Match findMatch = findVerifiedMatch(matchId);
 
-        matchRepository.delete(findContent);
+        matchRepository.delete(findMatch);
     }
 
     public User findVerifiedUser(Long userId) {
