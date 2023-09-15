@@ -1,5 +1,5 @@
 package company.board_project.constant;
 
-public enum SuggestionType {
+public enum ApplyType {
     LEAGUE, TEAM, MATCH
 }

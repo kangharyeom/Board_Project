@@ -5,6 +5,7 @@ import company.board_project.exception.Exceptions;
 import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
 import company.board_project.team.entity.Team;
+import company.board_project.team.repository.TeamRepository;
 import company.board_project.team.service.TeamService;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
@@ -28,6 +29,7 @@ public class LeagueService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final TeamService teamService;
+    private final TeamRepository teamRepository;
 
     public League createLeague(League league, Long userId, Long teamId) {
         User user = userService.findUser(userId);
@@ -35,10 +37,11 @@ public class LeagueService {
 
         league.setUser(user);
         league.setTeam(team);
+        team.setLeagueName(league.getLeagueName());
         league.setLeagueManagerName(user.getName());
         league.setHonorScore(team.getHonorScore());
 
-
+        teamRepository.save(team);
         leagueRepository.save(league);
 
         return league;

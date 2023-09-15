@@ -2,7 +2,6 @@ package company.board_project.user.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Getter
@@ -12,6 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDto {
     private Long userId;
+    private Long userTeamApplyId;
+    private Long userMatchApplyId;
+    private Long userLeagueApplyId;
     private String loginId;
     private String email;
     private String name;

@@ -40,4 +40,5 @@ public class TeamPatchDto {
     private String managerName;
     private String subManagerName;
     private String uniformType;
+    private String leagueName;
 }

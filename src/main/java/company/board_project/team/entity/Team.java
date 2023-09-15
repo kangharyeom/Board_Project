@@ -3,10 +3,10 @@ package company.board_project.team.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
-import company.board_project.leagueteamlist.entity.LeagueTeamList;
+import company.board_project.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestion.entity.Suggestion;
+import company.board_project.apply.entity.Apply;
 import company.board_project.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -93,6 +93,9 @@ public class Team extends Auditable {
     private String managerName;
 
     @Column
+    private String leagueName;
+
+    @Column
     private String subManagerName;
 
     @Enumerated(EnumType.STRING)
@@ -105,21 +108,24 @@ public class Team extends Auditable {
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<Suggestion> suggestions = new ArrayList<>();
+    private List<League> leagues = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<LeagueTeamList> leagueTeamLists = new ArrayList<>();
+    private List<Apply> applies = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<Match> matchs = new ArrayList<>();
+    private List<TeamList> teamLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
+    private List<Match> matches = new ArrayList<>();
 
 //    @ManyToOne(cascade = CascadeType.DETACH)
 //    @JoinColumn(name = "MATCH_ID")
 //    private Match match;
 
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_ID")
-    private League league;
+//    @ManyToOne(cascade = CascadeType.DETACH)
+//    @JoinColumn(name = "LEAGUE_ID")
+//    private League league;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

@@ -2,7 +2,7 @@ package company.board_project.team.controller;
 
 import company.board_project.league.repository.LeagueRepository;
 import company.board_project.response.MultiResponseDto;
-import company.board_project.suggestion.repository.SuggestionRepository;
+import company.board_project.apply.repository.ApplyRepository;
 import company.board_project.team.dto.TeamListDto;
 import company.board_project.team.dto.TeamPatchDto;
 import company.board_project.team.dto.TeamPostDto;
@@ -31,14 +31,14 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
     private final LeagueRepository leagueRepository;
-    private final SuggestionRepository suggestionRepository;
+    private final ApplyRepository applyRepository;
     @PostMapping
     public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
                 teamMapper.teamPostDtoToTeam(requestBody, leagueRepository),
                 requestBody.getUserId()
         );
-        TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team, suggestionRepository);
+        TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team, applyRepository);
 
         return ResponseEntity.ok(teamResponseDto);
     }
@@ -51,7 +51,7 @@ public class TeamController {
                 teamId);
 
         team.setTeamId(teamId);
-        TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team, suggestionRepository);
+        TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team, applyRepository);
 
         return ResponseEntity.ok(userResponseDto);
     }
@@ -59,7 +59,7 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.findTeam(teamId);
-        TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team, suggestionRepository);
+        TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team, applyRepository);
 
         return ResponseEntity.ok(teamResponse);
     }

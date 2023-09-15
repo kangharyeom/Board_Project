@@ -30,7 +30,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/matchs")
+@RequestMapping("/api/matches")
 public class MatchController {
     private final MatchService matchService;
     private final MatchMapper matchMapper;
@@ -39,7 +39,7 @@ public class MatchController {
     @PostMapping
     public ResponseEntity postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
-        Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody));
+        Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
         MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match, teamRepository);
 
         return ResponseEntity.ok(matchResponseDto);
@@ -54,46 +54,46 @@ public class MatchController {
     }
 
     @GetMapping
-    public ResponseEntity getMatchs(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity getMatches(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                       @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
-        Page<Match> pageMatchs = matchService.findMatchs(page - 1, size);
-        List<Match> matchs = pageMatchs.getContent();
-        log.info("전체 요청 :" + matchs);
+        Page<Match> pageMatches = matchService.findMatches(page - 1, size);
+        List<Match> matches = pageMatches.getContent();
+        log.info("전체 요청 :" + matches);
         return new ResponseEntity<>(
-                new MultiResponseDto<>(matchMapper.matchsToMatchsResponse(matchs, teamRepository),
-                        pageMatchs),
+                new MultiResponseDto<>(matchMapper.matchesToMatchesResponse(matches, teamRepository),
+                        pageMatches),
                 HttpStatus.OK);
     }
 
     @GetMapping("/search")
     public ResponseEntity getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
-        List<Match> matchs = matchService.findAllSearch(keyword);
-        MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matchs, teamRepository);
+        List<Match> matches = matchService.findAllSearch(keyword);
+        MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matches, teamRepository);
 
         return ResponseEntity.ok(matchListDto);
     }
 
     @GetMapping("/search/username")
     public ResponseEntity getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
-        List<Match> matchs = matchService.findAllSearchByUserName(name);
-        MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matchs, teamRepository);
+        List<Match> matches = matchService.findAllSearchByUserName(name);
+        MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matches, teamRepository);
 
         return ResponseEntity.ok(matchListDto);
     }
 
     @GetMapping("/newest")
-    public ResponseEntity getMatchsNewest() {
-        List<Match> matchs = matchService.findMatchsNewest();
-        List<MatchResponseDto> matchResponseDto = matchMapper.matchsToMatchsResponse(matchs, teamRepository);
+    public ResponseEntity getMatchesNewest() {
+        List<Match> matches = matchService.findMatchesNewest();
+        List<MatchResponseDto> matchResponseDto = matchMapper.matchesToMatchesResponse(matches, teamRepository);
 
         return ResponseEntity.ok(matchResponseDto);
     }
 
     @GetMapping("/latest")
-    public ResponseEntity getMatchsLatest() {
-        List<Match> matchs = matchService.findMatchsLatest();
-        List<MatchResponseDto> matchResponseDto = matchMapper.matchsToMatchsResponse(matchs, teamRepository);
+    public ResponseEntity getMatchesLatest() {
+        List<Match> matches = matchService.findMatchesLatest();
+        List<MatchResponseDto> matchResponseDto = matchMapper.matchesToMatchesResponse(matches, teamRepository);
 
         return ResponseEntity.ok(matchResponseDto);
     }

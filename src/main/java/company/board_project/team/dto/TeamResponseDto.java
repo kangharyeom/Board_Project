@@ -1,7 +1,7 @@
 package company.board_project.team.dto;
 
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestion.entity.Suggestion;
+import company.board_project.apply.entity.Apply;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +15,6 @@ import java.util.List;
 public class TeamResponseDto {
     private Long teamId;
     private Long userId;
-    private Long leagueId;
-    private Long matchId;
-    private Long suggestionListId;
     private Long championCount;
     private Long memberCount;
     private Long leagueMatchCount;
@@ -44,9 +41,10 @@ public class TeamResponseDto {
     private String subManagerName;
     private String frequency;
     private String uniformType;
+    private String leagueName;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
     private List<Schedule> scheduleList;
-    private List<Suggestion> suggestions;
+    private List<Apply> applies;
 }

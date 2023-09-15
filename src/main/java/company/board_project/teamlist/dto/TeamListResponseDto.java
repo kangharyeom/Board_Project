@@ -1,13 +1,14 @@
-package company.board_project.leagueteamlist.dto;
+package company.board_project.teamlist.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
-public class LeagueTeamListPostDto {
+@Builder
+public class TeamListResponseDto {
+    private Long teamListId;
     private Long leagueId;
     private Long teamId;
 }

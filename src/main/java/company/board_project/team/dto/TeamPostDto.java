@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 @Getter
 public class TeamPostDto {
     private Long userId;
-    private Long leagueId;
 
     @NotBlank(message = "팀 이름을 입력 해야 합니다.")
     private String teamName;
@@ -27,6 +26,7 @@ public class TeamPostDto {
     private String managerName;
     private String subManagerName;
     private String uniformType;
+    private String leagueName;
 
     private Long championCount = 0L ;
     private Long memberCount = 0L ;

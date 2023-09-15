@@ -1,11 +1,11 @@
 package company.board_project.match.service;
 
-import company.board_project.content.entity.Content;
-import company.board_project.content.entity.ContentFile;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.match.entity.Match;
 import company.board_project.match.repository.MatchRepository;
+import company.board_project.team.entity.Team;
+import company.board_project.team.service.TeamService;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
 import company.board_project.user.service.UserService;
@@ -16,7 +16,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,9 +26,15 @@ public class MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
     private final UserRepository userRepository;
-    public Match createMatch(Match match) {
+    private final TeamService teamService;
 
+    public Match createMatch(Match match, Long userId, Long teamId) {
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
 
+        match.setUser(user);
+        match.setTeam(team);
+        match.setHomeTeamName(team.getTeamName());
 
         matchRepository.save(match);
 
@@ -78,7 +83,7 @@ public class MatchService {
         return findVerifiedMatch(matchId);
     }
 
-    public Page<Match> findMatchs(int page, int size) {
+    public Page<Match> findMatches(int page, int size) {
         return matchRepository.findAll(PageRequest.of(page, size,
                 Sort.by("matchId").descending()));
     }
@@ -91,11 +96,11 @@ public class MatchService {
         return matchRepository.findAllSearchByUserName(name);
     }
 
-    public List<Match> findMatchsNewest() {
+    public List<Match> findMatchesNewest() {
         return matchRepository.findMatchsNewest();
     }
 
-    public List<Match> findMatchsLatest() {
+    public List<Match> findMatchesLatest() {
         return matchRepository.findMatchsLatest();
     }
 

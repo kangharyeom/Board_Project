@@ -74,14 +74,14 @@ public interface LeagueMapper {
         User user = league.getUser();
         List<Content> contents = league.getContents();
         Team team = league.getTeam();
-        List<Match> mathchs = league.getMatchs();
+        List<Match> matches = league.getMatches();
 
         return LeagueResponseDto.builder()
                 .leagueId(league.getLeagueId())
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .contents(contents)
-                .matchs(mathchs)
+                .matches(matches)
                 .matchCount(league.getMatchCount())
                 .teamCount(league.getTeamCount())
                 .honorScore(league.getHonorScore())

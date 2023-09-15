@@ -77,15 +77,15 @@ public interface MatchMapper {
                 .build();
     }
 
-    default MatchListDto matchListDtoToMatchResponse(List<Match> matchs, TeamRepository teamRepository){
+    default MatchListDto matchListDtoToMatchResponse(List<Match> matches, TeamRepository teamRepository){
 
         return MatchListDto.builder()
-                .matchResponseDto(matchsToMatchsResponse(matchs, teamRepository))
+                .matchResponseDto(matchesToMatchesResponse(matches, teamRepository))
                 .build();
     }
 
-    default List<MatchResponseDto> matchsToMatchsResponse(List<Match> matchs, TeamRepository teamRepository){
-        return matchs.stream()
+    default List<MatchResponseDto> matchesToMatchesResponse(List<Match> matches, TeamRepository teamRepository){
+        return matches.stream()
                 .map(match -> MatchResponseDto.builder()
                         .userId(match.getUser().getUserId())
                         .name(match.getUser().getName())

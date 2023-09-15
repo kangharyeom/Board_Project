@@ -4,6 +4,7 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
 import company.board_project.schedule.entity.Schedule;
+import company.board_project.apply.entity.Apply;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import lombok.Getter;
@@ -51,8 +52,6 @@ public class Match extends Auditable {
     @Column
     private String matchRules;
 
-
-
     // DB Input
 
     @Column(nullable = false)
@@ -70,11 +69,11 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private MatchResultStatus awayTeamMatchResultStatus = MatchResultStatus.NONE;
 
-
-
-
 //    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
 //    private List<Team> teams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
+    private List<Apply> applies = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

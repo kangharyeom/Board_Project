@@ -1,0 +1,64 @@
+package company.board_project.apply.entity;
+
+import company.board_project.audit.Auditable;
+import company.board_project.constant.ApplyType;
+import company.board_project.constant.LevelType;
+import company.board_project.league.entity.League;
+import company.board_project.teamlist.entity.TeamList;
+import company.board_project.match.entity.Match;
+import company.board_project.team.entity.Team;
+import company.board_project.user.entity.User;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@NoArgsConstructor
+@Getter
+@Setter
+@Entity
+@Table(name = "applies")
+public class Apply extends Auditable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long applyId;
+
+    private Long userTeamApplyId;
+    private Long userMatchApplyId;
+    private Long userLeagueApplyId;
+
+
+    @Column(nullable = false)
+    private String managerName;
+
+    private String teamName;
+
+    @Enumerated(EnumType.STRING)
+    private LevelType levelType;
+
+    @Enumerated(EnumType.STRING)
+    private ApplyType applyType;
+
+    @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
+    private List<TeamList> teamLists = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "USER_ID")
+    private User user;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "LEAGUE_ID")
+    private League league;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "MATCH_ID")
+    private Match match;
+
+}

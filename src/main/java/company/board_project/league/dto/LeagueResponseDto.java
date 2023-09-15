@@ -31,7 +31,7 @@ public class LeagueResponseDto {
     private String frequency;
 
     private List<Content> contents;
-    private List<Match> matchs;
+    private List<Match> matches;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

@@ -1,10 +1,11 @@
 package company.board_project.team.mapper;
 
 import company.board_project.constant.*;
+import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
 import company.board_project.schedule.entity.Schedule;
-import company.board_project.suggestion.entity.Suggestion;
-import company.board_project.suggestion.repository.SuggestionRepository;
+import company.board_project.apply.entity.Apply;
+import company.board_project.apply.repository.ApplyRepository;
 import company.board_project.team.dto.TeamListDto;
 import company.board_project.team.dto.TeamPatchDto;
 import company.board_project.team.dto.TeamPostDto;
@@ -49,6 +50,7 @@ public interface TeamMapper {
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
 //        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
         team.setManagerName(requestBody.getManagerName());
+        team.setLeagueName(requestBody.getLeagueName());
         team.setSubManagerName(requestBody.getSubManagerName());
 
         return team;
@@ -75,17 +77,20 @@ public interface TeamMapper {
         team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         team.setManagerName(requestBody.getManagerName());
+        team.setLeagueName(requestBody.getLeagueName());
         team.setSubManagerName(requestBody.getSubManagerName());
         team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
 
         return team;
     }
 
-    default TeamResponseDto teamToTeamResponseDto(Team team, SuggestionRepository suggestionRepository){
+    default TeamResponseDto teamToTeamResponseDto(Team team, ApplyRepository applyRepository){
         List<Schedule> schedules = new ArrayList<>();
 
         User user = team.getUser();
-        List<Suggestion> suggestions = new ArrayList<>();
+        List<Apply> applies = new ArrayList<>();
+
+        List<League> leagues = new ArrayList<>();
 
         return TeamResponseDto.builder()
                 .userId(user.getUserId())
@@ -106,9 +111,13 @@ public interface TeamMapper {
                 .mostAssist(team.getMostAssist())
                 .mostMom(team.getMostMom())
                 .teamName(team.getTeamName())
-                .suggestions(suggestions)
+                .applies(applies)
                 .scheduleList(schedules)
+                .leagueWinRecord(team.getLeagueWinRecord())
+                .leagueDrawRecord(team.getLeagueDrawRecord())
+                .leagueLoseRecord(team.getLeagueLoseRecord())
                 .managerName(user.getName())
+                .leagueName(team.getLeagueName())
                 .sportsType(String.valueOf(team.getSportsType()))
                 .ageType(String.valueOf(team.getAgeType()))
                 .locationType(String.valueOf(team.getLocationType()))
@@ -142,6 +151,7 @@ public interface TeamMapper {
                         .totalWinRecord(team.getTotalWinRecord())
                         .totalDrawRecord(team.getTotalDrawRecord())
                         .totalLoseRecord(team.getTotalLoseRecord())
+                        .leagueName(team.getLeagueName())
                         .honorScore(team.getHonorScore())
                         .ranking(team.getRanking())
                         .mostGoals(team.getMostGoals())
