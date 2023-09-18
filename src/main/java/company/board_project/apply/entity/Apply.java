@@ -4,7 +4,9 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.ApplyType;
 import company.board_project.constant.LevelType;
 import company.board_project.league.entity.League;
-import company.board_project.teamlist.entity.TeamList;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.matchlist.entity.MatchList;
+import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -44,6 +46,12 @@ public class Apply extends Auditable {
 
     @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
     private List<TeamList> teamLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
+    private List<MatchList> matchLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
+    private List<LeagueList> leagueLists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

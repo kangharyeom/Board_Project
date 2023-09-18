@@ -17,7 +17,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,7 +37,7 @@ public class LeagueService {
         league.setUser(user);
         league.setTeam(team);
         team.setLeagueName(league.getLeagueName());
-        league.setLeagueManagerName(user.getName());
+        league.setManagerName(user.getName());
         league.setHonorScore(team.getHonorScore());
 
         teamRepository.save(team);
@@ -47,7 +46,6 @@ public class LeagueService {
         return league;
     }
 
-    // 게시글 수정 //
     public League updateLeague(League league) {
 
         League findLeague = findVerifiedLeague(league.getLeagueId());
@@ -88,12 +86,10 @@ public class LeagueService {
         return leagueRepository.save(findLeague);
     }
 
-    // 게시글 단건 조회 //
     public League findLeague(Long leagueId) {
         return findVerifiedLeague(leagueId);
     }
 
-    // 게시글 전체 조회 //
     public Page<League> findLeagues(int page, int size) {
         return leagueRepository.findAll(PageRequest.of(page, size,
                 Sort.by("leagueId").descending()));

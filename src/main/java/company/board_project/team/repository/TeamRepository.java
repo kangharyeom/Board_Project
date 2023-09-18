@@ -22,4 +22,5 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
 
     @Query(value = "select AwayTeamName from teams where match_id = :matchId", nativeQuery = true)
     List<Team> findByMatchAwayId(@Param("matchId") long matchId);
+
 }

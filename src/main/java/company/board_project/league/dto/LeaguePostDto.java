@@ -12,11 +12,17 @@ import javax.validation.constraints.NotBlank;
 public class LeaguePostDto {
     private Long userId;
     private Long teamId;
+    private Long memberCount;
     private Long matchCount;
     private Long teamCount = 1L;
     private Long honorScore;
-    private Long winPoints = 0L;
-    private String leagueManagerName;
+    private String teamName;
+    private Long ranking;
+    private Long teamGoals = 0L;
+    private Long teamAssist = 0L;
+    private Long cleanSheet = 0L;
+    private String managerName;
+    private String subManagerName;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
@@ -27,10 +33,10 @@ public class LeaguePostDto {
     private String locationType;
     @NotBlank(message = "리그 경기 기간을 입력 해야 합니다.")
     private String period;
-    @NotBlank(message = "리그의 난이도를 입력 해야 합니다.")
+    @NotBlank(message = "리그의 실력을 입력 해야 합니다.")
     private String levelType;
     private String leagueRules;
-    @NotBlank(message = "리그의 경기 빈도를 입력 해야 합니다.")
+    @NotBlank(message = "리그의 선호 경기 빈도를 입력 해야 합니다.")
     private String frequency;
     private String title;
     private String content;

@@ -22,7 +22,7 @@ public interface LeagueMapper {
         User user = new User();
 
         user.setUserId(requestBody.getUserId());
-        user.setName(requestBody.getLeagueManagerName());
+        user.setName(requestBody.getManagerName());
 
         Team team = new Team();
         team.setHonorScore(requestBody.getHonorScore());
@@ -35,11 +35,11 @@ public interface LeagueMapper {
         league.setUser(user);
         league.setContents(contents);
         league.setHonorScore(requestBody.getHonorScore());
+        league.setMemberCount(requestBody.getMemberCount());
         league.setMatchCount(requestBody.getMatchCount());
         league.setTeamCount(requestBody.getTeamCount());
-        league.setWinPoints(requestBody.getWinPoints());
         league.setLeagueName(requestBody.getLeagueName());
-        league.setLeagueManagerName(requestBody.getLeagueManagerName());
+        league.setManagerName(requestBody.getManagerName());
         league.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         league.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         league.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
@@ -50,11 +50,46 @@ public interface LeagueMapper {
 
         return league;
     }
+
+    default League leagueApplyToLeague(LeaguePostDto requestBody){
+        User user = new User();
+
+        user.setUserId(requestBody.getUserId());
+        user.setName(requestBody.getManagerName());
+
+        Team team = new Team();
+        team.setHonorScore(requestBody.getHonorScore());
+        team.setTeamId(requestBody.getTeamId());
+
+        List<Content> contents = new ArrayList<>();
+
+        League league = new League();
+        league.setTeam(team);
+        league.setUser(user);
+        league.setContents(contents);
+        league.setHonorScore(requestBody.getHonorScore());
+        league.setMemberCount(requestBody.getMemberCount());
+        league.setMatchCount(requestBody.getMatchCount());
+        league.setTeamCount(requestBody.getTeamCount());
+        league.setLeagueName(requestBody.getLeagueName());
+        league.setManagerName(requestBody.getManagerName());
+        league.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
+        league.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        league.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        league.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
+        league.setPeriod(requestBody.getPeriod());
+        league.setLeagueRules(requestBody.getLeagueRules());
+        league.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
+
+        return league;
+    }
+
     default League leaguePatchDtoToLeague(LeaguePatchDto requestBody) {
         League league = new League();
 
         league.setLeagueId( requestBody.getLeagueId() );
         league.setMatchCount(requestBody.getMatchCount());
+        league.setMemberCount(requestBody.getMemberCount());
         league.setTeamCount(requestBody.getTeamCount());
         league.setHonorScore(requestBody.getHonorScore());
         league.setWinPoints(requestBody.getWinPoints());
@@ -82,12 +117,13 @@ public interface LeagueMapper {
                 .teamId(team.getTeamId())
                 .contents(contents)
                 .matches(matches)
+                .memberCount(league.getMemberCount())
                 .matchCount(league.getMatchCount())
                 .teamCount(league.getTeamCount())
                 .honorScore(league.getHonorScore())
                 .winPoints(league.getWinPoints())
                 .leagueName(league.getLeagueName())
-                .leagueManagerName(user.getName())
+                .managerName(user.getName())
                 .sportsType(String.valueOf(league.getSportsType()))
                 .ageType(String.valueOf(league.getAgeType()))
                 .locationType(String.valueOf(league.getLocationType()))
@@ -112,8 +148,9 @@ public interface LeagueMapper {
                 .map(league -> LeagueResponseDto.builder()
                         .leagueId(league.getLeagueId())
                         .userId(league.getUser().getUserId())
-                        .leagueManagerName(league.getUser().getName())
+                        .managerName(league.getUser().getName())
                         .teamId(league.getTeam().getTeamId())
+                        .memberCount(league.getMemberCount())
                         .honorScore(league.getHonorScore())
                         .winPoints(league.getWinPoints())
                         .matchCount(league.getMatchCount())

@@ -16,12 +16,13 @@ public class LeagueResponseDto {
     private Long leagueId;
     private Long userId;
     private Long teamId;
+    private Long memberCount;
     private Long matchCount;
     private Long teamCount;
     private Long honorScore;
     private Long winPoints;
     private String leagueName;
-    private String leagueManagerName;
+    private String managerName;
     private String sportsType;
     private String ageType;
     private String locationType;

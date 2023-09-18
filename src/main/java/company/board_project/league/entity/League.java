@@ -3,7 +3,8 @@ package company.board_project.league.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
-import company.board_project.teamlist.entity.TeamList;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
@@ -36,7 +37,7 @@ public class League extends Auditable {
     private String leagueName;
 
     @Column(nullable = false)
-    private String leagueManagerName;
+    private String managerName;
 
     @Column
     private String participantTeamName;
@@ -90,7 +91,7 @@ public class League extends Auditable {
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
-    private List<TeamList> teamLists = new ArrayList<>();
+    private List<LeagueList> leagueLists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
@@ -99,6 +100,10 @@ public class League extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
+
+//    @ManyToOne(cascade = CascadeType.DETACH)
+//    @JoinColumn(name = "TEAM_LIST_ID")
+//    private LeagueList teamList;
 
 }
 

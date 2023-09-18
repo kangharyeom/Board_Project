@@ -1,5 +1,6 @@
 package company.board_project.user.mapper;
 
+import company.board_project.constant.Position;
 import company.board_project.user.dto.UserListDto;
 import company.board_project.user.dto.UserPatchDto;
 import company.board_project.user.dto.UserPostDto;
@@ -20,6 +21,7 @@ public interface UserMapper {
         user.setName( requestBody.getName() );
         user.setPassword( requestBody.getPassword() );
         user.setPhone( requestBody.getPhone() );
+        user.setPosition(Position.valueOf(requestBody.getPosition()));
 
         return user;
     }
@@ -33,6 +35,7 @@ public interface UserMapper {
         user.setName( requestBody.getName() );
         user.setPassword( requestBody.getPassword() );
         user.setPhone( requestBody.getPhone() );
+        user.setPosition(Position.valueOf(requestBody.getPosition()));
 
         return user;
     }
@@ -49,6 +52,7 @@ public interface UserMapper {
                 .name(user.getName())
                 .password(user.getPassword())
                 .phone(user.getPhone())
+                .position(String.valueOf(user.getPosition()))
                 .createdAt(user.getCreatedAt())
                 .modifiedAt(user.getModifiedAt())
                 .build();
@@ -74,6 +78,7 @@ public interface UserMapper {
                         .name(user.getName())
                         .password(user.getPassword())
                         .phone(user.getPhone())
+                        .position(String.valueOf(user.getPosition()))
                         .createdAt(user.getCreatedAt())
                         .modifiedAt(user.getModifiedAt())
                         .build())

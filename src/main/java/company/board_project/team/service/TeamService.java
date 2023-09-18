@@ -1,15 +1,10 @@
 package company.board_project.team.service;
 
-import company.board_project.comment.entity.Comment;
-import company.board_project.content.entity.Content;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.league.entity.League;
-import company.board_project.league.service.LeagueService;
 import company.board_project.team.entity.Team;
 import company.board_project.team.repository.TeamRepository;
 import company.board_project.user.entity.User;
-import company.board_project.user.repository.UserRepository;
 import company.board_project.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

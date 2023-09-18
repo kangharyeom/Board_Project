@@ -3,6 +3,7 @@ package company.board_project.match.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
+import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.apply.entity.Apply;
 import company.board_project.team.entity.Team;
@@ -19,7 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "MATCHS")
+@Table(name = "MATCHES")
 public class Match extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -74,6 +75,10 @@ public class Match extends Auditable {
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
+    private List<MatchList> matchList = new ArrayList<>();
+
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

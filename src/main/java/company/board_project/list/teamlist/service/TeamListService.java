@@ -1,0 +1,204 @@
+package company.board_project.list.teamlist.service;
+
+import company.board_project.apply.entity.Apply;
+import company.board_project.apply.service.ApplyService;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
+import company.board_project.league.entity.League;
+import company.board_project.league.service.LeagueService;
+import company.board_project.list.teamlist.entity.TeamList;
+import company.board_project.list.teamlist.repository.TeamListRepository;
+import company.board_project.team.entity.Team;
+import company.board_project.team.service.TeamService;
+import company.board_project.user.entity.User;
+import company.board_project.user.service.UserService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@Transactional
+@RequiredArgsConstructor
+public class TeamListService {
+    private final TeamListRepository teamListRepository;
+    private final TeamService teamService;
+    private final LeagueService leagueService;
+    private final UserService userService;
+    private final ApplyService applyService;
+    public TeamList createTeamList(
+            TeamList teamList, Long userId, Long teamId, Long applyId) {
+
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+        Apply apply = applyService.findApply(applyId);
+
+        teamList.setUser(user);
+        teamList.setTeam(team);
+        teamList.setApply(apply);
+        teamList.setManagerName(user.getName());
+
+        return teamListRepository.save(teamList);
+    }
+
+    public TeamList createLeagueTeamListByLeagueController(
+            TeamList teamList, Long userId, Long teamId, Long leagueId) {
+
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+
+        teamList.setUser(user);
+        teamList.setTeam(team);
+
+        teamList.setTeamName(team.getTeamName());
+        teamList.setSubManagerName(team.getSubManagerName());
+        teamList.setChampionCount(team.getChampionCount());
+        teamList.setMemberCount(team.getMemberCount());
+        teamList.setHonorScore(team.getHonorScore());
+        teamList.setAgeType(team.getAgeType());
+        teamList.setLocationType(team.getLocationType());
+        teamList.setLevelType(team.getLevelType());
+        teamList.setFrequency(team.getFrequency());
+        teamList.setUniformType(team.getUniformType());
+
+        teamList.setManagerName(user.getName());
+
+        return teamListRepository.save(teamList);
+    }
+
+    public TeamList createLeagueTeamList(
+            TeamList teamList, Long userId, Long teamId, Long applyId) {
+
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+        Apply apply = applyService.findApply(applyId);
+
+//        League league = new League();
+
+        teamList.setUser(user);
+        teamList.setTeam(team);
+//        teamList.setLeague(league);
+        teamList.setApply(apply);
+
+//        teamList.setLeagueName(league.getLeagueName());
+
+        teamList.setTeamName(team.getTeamName());
+        teamList.setSubManagerName(team.getSubManagerName());
+        teamList.setChampionCount(team.getChampionCount());
+        teamList.setMemberCount(team.getMemberCount());
+        teamList.setHonorScore(team.getHonorScore());
+        teamList.setAgeType(team.getAgeType());
+        teamList.setLocationType(team.getLocationType());
+        teamList.setLevelType(team.getLevelType());
+        teamList.setFrequency(team.getFrequency());
+        teamList.setUniformType(team.getUniformType());
+
+        teamList.setManagerName(user.getName());
+
+        return teamListRepository.save(teamList);
+    }
+
+    public TeamList updateTeamList(
+            TeamList teamList,
+            Long teamListId) {
+
+        TeamList findTeamList = findVerifiedTeamList(teamListId);
+
+        Optional.ofNullable(teamList.getPosition())
+                .ifPresent(findTeamList::setPosition);
+
+        Optional.ofNullable(teamList.getChampionCount())
+                .ifPresent(findTeamList::setChampionCount);
+
+        Optional.ofNullable(teamList.getMemberCount())
+                .ifPresent(findTeamList::setMemberCount);
+
+        Optional.ofNullable(teamList.getLeagueWinRecord())
+                .ifPresent(findTeamList::setLeagueWinRecord);
+
+        Optional.ofNullable(teamList.getLeagueDrawRecord())
+                .ifPresent(findTeamList::setLeagueDrawRecord);
+
+        Optional.ofNullable(teamList.getLeagueLoseRecord())
+                .ifPresent(findTeamList::setLeagueLoseRecord);
+
+        Optional.ofNullable(teamList.getHonorScore())
+                .ifPresent(findTeamList::setHonorScore);
+
+        Optional.ofNullable(teamList.getRanking())
+                .ifPresent(findTeamList::setRanking);
+
+        Optional.ofNullable(teamList.getAgeType())
+                .ifPresent(findTeamList::setAgeType);
+
+        Optional.ofNullable(teamList.getLocationType())
+                .ifPresent(findTeamList::setLocationType);
+
+        Optional.ofNullable(teamList.getManagerName())
+                .ifPresent(findTeamList::setManagerName);
+
+        Optional.ofNullable(teamList.getSubManagerName())
+                .ifPresent(findTeamList::setSubManagerName);
+
+        Optional.ofNullable(teamList.getUniformType())
+                .ifPresent(findTeamList::setUniformType);
+
+
+
+        /*Optional.ofNullable(teamList.getMostGoals())
+                .ifPresent(findTeamList::setMostGoals);
+
+        Optional.ofNullable(teamList.getMostAssist())
+                .ifPresent(findTeamList::setMostAssist);
+
+        Optional.ofNullable(teamList.getMostMom())
+                .ifPresent(findTeamList::setMostMom);*/
+
+        return teamListRepository.save(findTeamList);
+    }
+
+    public TeamList findTeamList(long teamListId) {
+        return findVerifiedTeamList(teamListId);
+    }
+
+    public List<TeamList> findTeamListsNewest() {
+        return teamListRepository.findTeamListsNewest();
+    }
+
+    public List<TeamList> findTeamListsLatest() {
+        return teamListRepository.findTeamListsLatest();
+    }
+
+    public List<TeamList> findHonorScore() {
+        return teamListRepository.findHonorScore();
+    }
+
+
+    public List<TeamList> findAllTeamsByLeagueId(long leagueId) {
+        return teamListRepository.findAllTeamsByLeagueId(leagueId);
+    }
+
+    public List<TeamList> findTeamLists() {
+        return teamListRepository.findAll();
+    }
+
+    public TeamList findTeamList(int teamListId) {
+        return findVerifiedTeamList(teamListId);
+    }
+
+    public void deleteTeamList(long teamListId) {
+        TeamList findTeamList = findVerifiedTeamList(teamListId);
+
+        teamListRepository.delete(findTeamList);
+    }
+
+    public TeamList findVerifiedTeamList(long teamListId) {
+        Optional<TeamList> optionalTeam = teamListRepository.findById(teamListId);
+        TeamList findTeamList =
+                optionalTeam.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
+        return findTeamList;
+    }
+}

@@ -1,6 +1,7 @@
 package company.board_project.apply.mapper;
 
 import company.board_project.constant.*;
+import company.board_project.league.entity.League;
 import company.board_project.match.entity.Match;
 import company.board_project.apply.dto.ApplyListDto;
 import company.board_project.apply.dto.ApplyPostDto;
@@ -59,7 +60,11 @@ public interface ApplyMapper {
         Team team = new Team();
         team.setTeamId(requestBody.getTeamId());
 
+        League league = new League();
+        league.setLeagueId(requestBody.getLeagueId());
+
         Apply apply = new Apply();
+        apply.setLeague(league);
         apply.setTeam(team);
         apply.setUser(user);
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
@@ -100,10 +105,12 @@ public interface ApplyMapper {
 
         User user = apply.getUser();
         Team team = apply.getTeam();
+        League league = apply.getLeague();
 
         return ApplyResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
+                .leagueId(league.getLeagueId())
                 .applyId(apply.getApplyId())
                 .teamName(apply.getTeam().getTeamName())
                 .createdAt(apply.getCreatedAt())
@@ -120,6 +127,7 @@ public interface ApplyMapper {
         return ApplyResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
+                .matchId(match.getMatchId())
                 .applyId(apply.getApplyId())
                 .teamName(apply.getTeam().getTeamName())
                 .createdAt(apply.getCreatedAt())

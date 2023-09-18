@@ -2,9 +2,13 @@ package company.board_project.user.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.Position;
 import company.board_project.constant.UserRole;
 import company.board_project.content.entity.Content;
 import company.board_project.league.entity.League;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.matchlist.entity.MatchList;
+import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.apply.entity.Apply;
@@ -49,6 +53,9 @@ public class User extends Auditable {
     private String phone;
 
     @Enumerated(EnumType.STRING)
+    private Position position;
+
+    @Enumerated(EnumType.STRING)
     private UserRole USER_ROLE;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
@@ -71,5 +78,14 @@ public class User extends Auditable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<TeamList> teamLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<MatchList> matchLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<LeagueList> leagueLists = new ArrayList<>();
 
 }

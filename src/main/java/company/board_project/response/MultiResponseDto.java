@@ -1,5 +1,6 @@
 package company.board_project.response;
 
+import company.board_project.league.dto.LeagueResponseDto;
 import lombok.Getter;
 import org.springframework.data.domain.Page;
 
