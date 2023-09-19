@@ -28,9 +28,50 @@ public class Match extends Auditable {
 
     //유저 Input
 
-    private Long homeScore = 0L ;
+    @Column
+    private Long homeTeamScore;
 
-    private Long awayScore = 0L ;
+    @Column
+    private Long homeTeamHonorScore;
+
+    @Column
+    private String homeTeamName;
+
+    @Column
+    private String homeTeamManagerName;
+
+    @Column
+    private Long homeTeamLeagueMatchPoints;
+
+    @Column
+    private Long homeTeamLeagueWinRecord;
+
+    @Column
+    private Long homeTeamLeagueDrawRecord;
+
+    @Column
+    private Long homeTeamLeagueLoseRecord;
+
+    @Column
+    private Long homeTeamTotalWinRecord;
+
+    @Column
+    private Long homeTeamTotalDrawRecord;
+
+    @Column
+    private Long homeTeamTotalLoseRecord;
+
+    @Column
+    private Long homeTeamRanking;
+
+    @Enumerated(EnumType.STRING)
+    private LevelType homeTeamLevelType;
+
+    @Enumerated(EnumType.STRING)
+    private AgeType homeTeamAgeType;
+
+    @Enumerated(EnumType.STRING)
+    private UniformType homeTeamUniformType;
 
     @Enumerated(EnumType.STRING)
     private MatchType matchType;
@@ -38,28 +79,13 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private SportsType sportType;
 
-    @Enumerated(EnumType.STRING)
-    private AgeType ageType;
-
-    @Enumerated(EnumType.STRING)
-    private LocationType locationType;
-
     @Column(nullable = false)
     private String matchTime;
-
-    @Enumerated(EnumType.STRING)
-    private LevelType levelType;
 
     @Column
     private String matchRules;
 
     // DB Input
-
-    @Column(nullable = false)
-    private String homeTeamName;
-
-    @Column
-    private String awayTeamName;
 
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus = MatchStatus.BEFORE;

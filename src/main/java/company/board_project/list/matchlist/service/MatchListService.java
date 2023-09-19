@@ -43,15 +43,42 @@ public class MatchListService {
         matchList.setUser(user);
         matchList.setTeam(team);
         matchList.setApply(apply);
+        matchList.setMatch(match);
 
-        matchList.setAwayTeamName(team.getTeamName());
-        matchList.setHonorScore(team.getHonorScore());
-        matchList.setAgeType(team.getAgeType());
-        matchList.setLevelType(team.getLevelType());
+        matchList.setHomeTeamScore(match.getHomeScore());
+        matchList.setHomeTeamHonorScore(match.getHonorScore());
+        matchList.setHomeTeamName(match.getHomeTeamName());
+        matchList.setHomeTeamManagerName(match.getHomeTeamName());
+        matchList.setHomeTeamLeagueMatchPoints(match.get());
+        matchList.setHomeTeamLeagueWinRecord(match.get());
+        matchList.setHomeTeamLeagueDrawRecord(match.get());
+        matchList.setHomeTeamLeagueLoseRecord(match.get());
+        matchList.setHomeTeamTotalWinRecord(match.get());
+        matchList.setHomeTeamTotalDrawRecord(match.get());
+        matchList.setHomeTeamTotalLoseRecord(match.get());
+        matchList.setHomeTeamRanking(match.get());
+        matchList.setHomeTeamLevelType(match.get());
+        matchList.setHomeTeamAgeType(match.get());
+        matchList.setHomeTeamUniformType(match.get());
+
+        matchList.setAwayTeamScore(team.get());
+        matchList.setAwayTeamHonorScore(team.get());
+        matchList.setAwayTeamName(team.get());
+        matchList.setAwayTeamManagerName(team.get());
+        matchList.setAwayTeamLeagueMatchPoints(team.get());
+        matchList.setAwayTeamLeagueWinRecord(team.get());
+        matchList.setAwayTeamLeagueDrawRecord(team.get());
+        matchList.setAwayTeamLeagueLoseRecord(team.get());
+        matchList.setAwayTeamTotalWinRecord(team.get());
+        matchList.setAwayTeamTotalDrawRecord(team.get());
+        matchList.setAwayTeamTotalLoseRecord(team.get());
+        matchList.setAwayTeamRanking(team.get());
+        matchList.setAwayTeamLevelType(team.get());
+        matchList.setAwayTeamAgeType(team.get());
+        matchList.setAwayTeamUniformType(team.get());
+
 
         matchList.setHomeTeamName(match.getHomeTeamName());
-
-        matchList.setManagerName(user.getName());
 
         return matchListRepository.save(matchList);
     }

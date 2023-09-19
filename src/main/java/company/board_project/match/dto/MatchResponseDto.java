@@ -15,21 +15,30 @@ public class MatchResponseDto {
     private Long matchId;
     private Long userId;
     private Long teamId;
-    private Long homeScore;
-    private Long awayScore;
+    private Long homeTeamScore;
+    private Long homeTeamHonorScore;
+    private String homeTeamName;
+    private String homeTeamManagerName;
+    private Long homeTeamLeagueMatchPoints;
+    private Long homeTeamLeagueWinRecord;
+    private Long homeTeamLeagueDrawRecord;
+    private Long homeTeamLeagueLoseRecord;
+    private Long homeTeamTotalWinRecord;
+    private Long homeTeamTotalDrawRecord;
+    private Long homeTeamTotalLoseRecord;
+    private Long homeTeamRanking;
+    private String homeTeamLevelType;
+    private String homeTeamAgeType;
+    private String homeTeamUniformType;
     private String matchType;
     private String sportType;
     private String ageType;
     private String locationType;
     private String matchTime;
     private String levelType;
-    private String matchRules;
-    private String homeTeamName;
-    private String awayTeamName;
-    private String name;
     private String matchStatus;
-    private String homeTeamMatchResultStatus;
-    private String awayTeamMatchResultStatus;
+    private String matchRules;
+
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
