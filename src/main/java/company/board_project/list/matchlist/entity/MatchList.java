@@ -3,7 +3,6 @@ package company.board_project.list.matchlist.entity;
 import company.board_project.apply.entity.Apply;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
-import company.board_project.league.entity.League;
 import company.board_project.match.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -22,72 +21,100 @@ public class MatchList extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchListId;
-    
-    @Column
-    private Long honorScore;
 
     @Column
-    private String teamName;
+    private Long homeTeamScore;
 
     @Column
-    private String managerName;
+    private Long awayTeamScore;
 
     @Column
-    private String matchRules;
+    private Long homeTeamHonorScore;
+
+    @Column
+    private Long awayTeamHonorScore;
+
+    @Column
+    private String homeTeamName;
+
+    @Column
+    private String awayTeamName;
+
+    @Column
+    private String homeTeamManagerName;
+
+    @Column
+    private String awayTeamManagerName;
+
+    @Column
+    private Long homeTeamLeagueMatchPoints;
+
+    @Column
+    private Long awayTeamLeagueMatchPoints;
+
+    @Column
+    private Long homeTeamLeagueWinRecord;
+
+    @Column
+    private Long awayTeamLeagueWinRecord;
+
+    @Column
+    private Long homeTeamLeagueDrawRecord;
+
+    @Column
+    private Long awayTeamLeagueDrawRecord;
+
+    @Column
+    private Long homeTeamLeagueLoseRecord;
+
+    @Column
+    private Long awayTeamLeagueLoseRecord;
+
+    @Column
+    private Long homeTeamTotalWinRecord;
+
+    @Column
+    private Long awayTeamTotalWinRecord;
+
+    @Column
+    private Long homeTeamTotalDrawRecord;
+
+    @Column
+    private Long awayTeamTotalDrawRecord;
+
+    @Column
+    private Long homeTeamTotalLoseRecord;
+
+    @Column
+    private Long awayTeamTotalLoseRecord;
+
+    @Column
+    private Long homeTeamRanking;
+
+    @Column
+    private Long awayTeamRanking;
 
     @Enumerated(EnumType.STRING)
-    private AgeType ageType;
+    private LevelType homeTeamLevelType;
 
     @Enumerated(EnumType.STRING)
-    private LocationType locationType;
+    private LevelType awayTeamLevelType;
 
     @Enumerated(EnumType.STRING)
-    private LevelType levelType;
+    private AgeType homeTeamAgeType;
 
     @Enumerated(EnumType.STRING)
-    private UniformType uniformType;
+    private AgeType awayTeamAgeType;
 
-    @Column
-    private Long leagueMatchPoints;
+    @Enumerated(EnumType.STRING)
+    private UniformType homeTeamUniformType;
 
-    @Column
-    private Long winRecord;
-
-    @Column
-    private Long drawRecord;
-
-    @Column
-    private Long loseRecord;
-
-    @Column
-    private Long ranking;
-
-    @Column
-    private Long teamGoals;
-
-    @Column
-    private Long teamAssist;
-
-    @Column
-    private Long cleanSheet;
-
-    /*@Column
-    private Long mostGoals;
-    @Column
-    private Long mostAssists;
-    @Column
-    private Long mostMoMs;*/
-
-//    @OneToMany(mappedBy = "teamList", cascade = CascadeType.REMOVE)
-//    private List<League> leagues = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    private UniformType awayTeamUniformType;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_ID")
-    private League league;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

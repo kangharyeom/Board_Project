@@ -3,14 +3,12 @@ package company.board_project.league.controller;
 import company.board_project.league.dto.LeaguePatchDto;
 import company.board_project.league.dto.LeaguePostDto;
 import company.board_project.league.dto.LeagueResponseDto;
-import company.board_project.league.dto.LeagueToTeamListPostDto;
 import company.board_project.league.entity.League;
 import company.board_project.league.mapper.LeagueMapper;
 import company.board_project.league.service.LeagueService;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.leaguelist.service.LeagueListService;
 import company.board_project.response.MultiResponseDto;
-import company.board_project.list.teamlist.entity.TeamList;
-import company.board_project.list.teamlist.mapper.TeamListMapper;
-import company.board_project.list.teamlist.service.TeamListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,16 +28,15 @@ import java.util.List;
 public class LeagueController {
     private final LeagueService leagueService;
     private final LeagueMapper leagueMapper;
-    private final TeamListService teamListService;
-    private final TeamListMapper teamListMapper;
+    private final LeagueListService leagueListService;
 
     @PostMapping
-    public ResponseEntity postLeague(@RequestBody LeaguePostDto requestBody, LeagueToTeamListPostDto leagueToTeamListPostDto){
+    public ResponseEntity postLeague(@RequestBody LeaguePostDto requestBody){
 
         League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
-        teamListService.createLeagueTeamListByLeagueController(new TeamList(), leagueResponseDto.getLeagueId(), requestBody.getTeamId(),requestBody.getUserId());
+        leagueListService.createLeagueListByLeagueController(new LeagueList(), leagueResponseDto.getLeagueId(), requestBody.getTeamId(),requestBody.getUserId());
 
         return ResponseEntity.ok(leagueResponseDto);
     }

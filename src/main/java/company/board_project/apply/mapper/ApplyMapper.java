@@ -23,6 +23,7 @@ public interface ApplyMapper {
         Apply apply = new Apply();
         apply.setUser(user);
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
 
         return apply;
     }
@@ -34,6 +35,7 @@ public interface ApplyMapper {
         Apply apply = new Apply();
         apply.setUser(user);
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
 
         return apply;
     }
@@ -45,10 +47,15 @@ public interface ApplyMapper {
         Team team = new Team();
         team.setTeamId(requestBody.getTeamId());
 
+        Match match = new Match();
+        match.setMatchId(requestBody.getMatchId());
+
         Apply apply = new Apply();
         apply.setTeam(team);
         apply.setUser(user);
+        apply.setMatch(match);
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
 
         return apply;
     }
@@ -68,6 +75,7 @@ public interface ApplyMapper {
         apply.setTeam(team);
         apply.setUser(user);
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
 
         return apply;
     }

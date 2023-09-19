@@ -15,10 +15,11 @@ public class LeagueListResponseDto {
     private Long teamId;
     private Long leagueId;
     private Long applyId;
+    private Long leagueHonorScore;
     private Long honorScore;
     private Long championCount;
     private Long memberCount;
-    private String position;
+    private String formation;
     private String teamName;
     private String managerName;
     private String subManagerName;
@@ -26,7 +27,6 @@ public class LeagueListResponseDto {
     private String ageType;
     private String locationType;
     private String levelType;
-    private String leagueRules;
     private String frequency;
     private String uniformType;
     private Long leagueMatchPoints;

@@ -22,12 +22,10 @@ public interface MatchMapper {
 
         Team team = new Team();
         team.setTeamId(requestBody.getTeamId());
-        team.setTeamName(requestBody.getHomeTeamName());
 
         Match match = new Match();
         match.setTeam(team);
         match.setUser(user);
-        match.setHomeTeamName(requestBody.getHomeTeamName());
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         match.setSportType(SportsType.valueOf(requestBody.getSportType()));
         match.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
@@ -38,14 +36,13 @@ public interface MatchMapper {
 
         return match;
     }
+
     default Match matchPatchDtoToMatch(MatchPatchDto requestBody) {
         Match match = new Match();
 
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         match.setSportType(SportsType.valueOf(requestBody.getSportType()));
         match.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
-        match.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getAwayTeamMatchResultStatus()));
-        match.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getHomeTeamMatchResultStatus()));
         match.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchTime(requestBody.getMatchTime());
@@ -56,14 +53,16 @@ public interface MatchMapper {
         return match;
     }
 
-    default MatchResponseDto matchToMatchResponse(Match match, TeamRepository teamRepository){
+    default MatchResponseDto matchToMatchResponse(Match match){
         User user = match.getUser();
-        List<Team> teams = teamRepository.findByMatchId(match.getMatchId());
+        Team team = match.getTeam();
 
         return MatchResponseDto.builder()
+                .matchId(match.getMatchId())
                 .userId(user.getUserId())
-                .homeTeamName(teams.toString())
-                .awayTeamName(teams.toString())
+                .teamId(team.getTeamId())
+                .homeTeamName(match.toString())
+                .awayTeamName(match.toString())
                 .name(user.getName())
                 .sportType(String.valueOf(match.getSportType()))
                 .ageType(String.valueOf(match.getAgeType()))
@@ -88,6 +87,8 @@ public interface MatchMapper {
         return matches.stream()
                 .map(match -> MatchResponseDto.builder()
                         .userId(match.getUser().getUserId())
+                        .teamId(match.getTeam().getTeamId())
+                        .matchId(match.getMatchId())
                         .name(match.getUser().getName())
                         .teamList(teamRepository.findByMatchId(match.getMatchId()))
                         .teamList(teamRepository.findByMatchId(match.getMatchId()))

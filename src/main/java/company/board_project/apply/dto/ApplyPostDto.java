@@ -16,6 +16,7 @@ public class ApplyPostDto {
     private String managerName;
     private String teamName;
     private String levelType;
+    private String ageType;
     private Long userTeamApplyId;
     private Long userMatchApplyId;
     private Long userLeagueApplyId;

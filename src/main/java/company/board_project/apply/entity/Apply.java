@@ -1,6 +1,7 @@
 package company.board_project.apply.entity;
 
 import company.board_project.audit.Auditable;
+import company.board_project.constant.AgeType;
 import company.board_project.constant.ApplyType;
 import company.board_project.constant.LevelType;
 import company.board_project.league.entity.League;
@@ -40,6 +41,9 @@ public class Apply extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private LevelType levelType;
+
+    @Enumerated(EnumType.STRING)
+    private AgeType ageType;
 
     @Enumerated(EnumType.STRING)
     private ApplyType applyType;

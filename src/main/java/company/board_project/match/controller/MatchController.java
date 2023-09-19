@@ -4,6 +4,9 @@ import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.matchlist.entity.MatchList;
+import company.board_project.list.matchlist.service.MatchListService;
 import company.board_project.match.dto.MatchListDto;
 import company.board_project.match.dto.MatchPatchDto;
 import company.board_project.match.dto.MatchPostDto;
@@ -35,12 +38,16 @@ public class MatchController {
     private final MatchService matchService;
     private final MatchMapper matchMapper;
     private final TeamRepository teamRepository;
+    private final MatchListService matchListService;
 
     @PostMapping
     public ResponseEntity postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
         Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
-        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match, teamRepository);
+        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+
+        matchListService.createMatchListByMatchController(new MatchList(), matchResponseDto.getMatchId(), matchResponseDto.getTeamId(),matchResponseDto.getUserId());
+
 
         return ResponseEntity.ok(matchResponseDto);
     }
@@ -48,7 +55,7 @@ public class MatchController {
     @GetMapping("/{matchId}")
     public ResponseEntity getMatch(@PathVariable("matchId") Long matchId) {
         Match match = matchService.findMatch(matchId);
-        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match, teamRepository);
+        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
 
         return ResponseEntity.ok(matchResponseDto);
     }
@@ -105,7 +112,7 @@ public class MatchController {
         Match match = matchService.updateMatch(
                 matchMapper.matchPatchDtoToMatch(requestBody));
 
-        MatchResponseDto matchResponse = matchMapper.matchToMatchResponse(match, teamRepository);
+        MatchResponseDto matchResponse = matchMapper.matchToMatchResponse(match);
 
         return ResponseEntity.ok(matchResponse);
     }

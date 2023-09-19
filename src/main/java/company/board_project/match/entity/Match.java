@@ -70,15 +70,11 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private MatchResultStatus awayTeamMatchResultStatus = MatchResultStatus.NONE;
 
-//    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-//    private List<Team> teams = new ArrayList<>();
-
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<MatchList> matchList = new ArrayList<>();
-
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

@@ -19,13 +19,13 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/teamLists")
+@RequestMapping("/api/lists/team")
 public class TeamListController {
     private final TeamListService teamListService;
     private final TeamListMapper teamListMapper;
     private final LeagueRepository leagueRepository;
 
-    @PostMapping("/team")
+    @PostMapping
     public ResponseEntity postTeamList(@RequestBody TeamListPostDto requestBody){
 
         TeamList teamList = teamListService.createTeamList(teamListMapper.teamListPostDtoToTeamList(requestBody), requestBody.getUserId(), requestBody.getTeamId(), requestBody.getApplyId());

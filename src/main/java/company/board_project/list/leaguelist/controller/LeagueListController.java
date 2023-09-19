@@ -19,27 +19,33 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/leagueLists")
+@RequestMapping("/api/lists/league")
 public class LeagueListController {
     private final LeagueListService leagueListService;
     private final LeagueListMapper leagueListMapper;
-    private final LeagueRepository leagueRepository;
 
     @PostMapping
-    public ResponseEntity postLeagueLeagueList(@RequestBody LeagueListPostDto requestBody) {
+    public ResponseEntity postLeagueList(@RequestBody LeagueListPostDto requestBody) {
 
-        LeagueList leagueList = leagueListService.createLeagueLeagueList(leagueListMapper.leagueLeagueListPostDtoToLeagueList(requestBody), requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getApplyId());
-        LeagueListResponseDto leagueLeagueListResponse = leagueListMapper.leagueListToLeagueLeagueListResponse(leagueList);
+        LeagueList leagueList = leagueListService.createLeagueList(leagueListMapper.leagueListPostDtoToLeagueList(requestBody),
+                requestBody.getUserId(),
+                requestBody.getTeamId(),
+                requestBody.getLeagueId(),
+                requestBody.getApplyId()
+        );
+        System.out.println("requestBody.getApplyId() 1"+ requestBody.getApplyId());
 
-        return ResponseEntity.ok(leagueLeagueListResponse);
+        LeagueListResponseDto leagueListResponse = leagueListMapper.leagueListToLeagueListResponse(leagueList);
+
+        return ResponseEntity.ok(leagueListResponse);
     }
 
     @GetMapping("/{leagueListId}")
     public ResponseEntity getLeagueList(@PathVariable("leagueListId") Long leagueListId) {
         LeagueList leagueList = leagueListService.findLeagueList(leagueListId);
-        LeagueListResponseDto leagueLeagueListResponse = leagueListMapper.leagueListToLeagueListResponse(leagueList);
+        LeagueListResponseDto leagueListResponse = leagueListMapper.leagueListToLeagueListResponse(leagueList);
 
-        return ResponseEntity.ok(leagueLeagueListResponse);
+        return ResponseEntity.ok(leagueListResponse);
     }
 
     @GetMapping

@@ -79,6 +79,15 @@ public class Team extends Auditable {
     @Column
     private String introduction;
 
+    @Column(nullable = false)
+    private String managerName;
+
+    @Column
+    private String leagueName;
+
+    @Column
+    private String subManagerName;
+
     @Enumerated(EnumType.STRING)
     private AgeType ageType;
 
@@ -91,20 +100,14 @@ public class Team extends Auditable {
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
 
-    @Column(nullable = false)
-    private String managerName;
-
-    @Column
-    private String leagueName;
-
-    @Column
-    private String subManagerName;
-
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
     @Enumerated(EnumType.STRING)
     private UniformType uniformType;
+
+    @Enumerated(EnumType.STRING)
+    private Formation formation;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<>();

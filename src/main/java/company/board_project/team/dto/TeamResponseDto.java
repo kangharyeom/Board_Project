@@ -31,6 +31,7 @@ public class TeamResponseDto {
     private Long mostAssist;
     private Long mostMom;
 
+    private String formation;
     private String teamName;
     private String introduction;
     private String ageType;

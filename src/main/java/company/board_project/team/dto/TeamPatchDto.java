@@ -28,6 +28,7 @@ public class TeamPatchDto {
     private Long mostAssist;
     private Long mostMom;
 
+    private String formation;
     private String introduction;
     @NotBlank(message = "연령대를 입력 해야 합니다.")
     private String ageType;

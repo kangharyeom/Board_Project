@@ -48,6 +48,7 @@ public interface TeamMapper {
         team.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
+        team.setFormation(Formation.valueOf(requestBody.getFormation()));
 //        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
         team.setManagerName(requestBody.getManagerName());
         team.setLeagueName(requestBody.getLeagueName());
@@ -76,6 +77,7 @@ public interface TeamMapper {
         team.setIntroduction(requestBody.getIntroduction());
         team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
+        team.setFormation(Formation.valueOf(requestBody.getFormation()));
         team.setManagerName(requestBody.getManagerName());
         team.setLeagueName(requestBody.getLeagueName());
         team.setSubManagerName(requestBody.getSubManagerName());
@@ -84,13 +86,11 @@ public interface TeamMapper {
         return team;
     }
 
-    default TeamResponseDto teamToTeamResponseDto(Team team, ApplyRepository applyRepository){
+    default TeamResponseDto teamToTeamResponseDto(Team team){
         List<Schedule> schedules = new ArrayList<>();
 
         User user = team.getUser();
         List<Apply> applies = new ArrayList<>();
-
-        List<League> leagues = new ArrayList<>();
 
         return TeamResponseDto.builder()
                 .userId(user.getUserId())
@@ -122,6 +122,7 @@ public interface TeamMapper {
                 .ageType(String.valueOf(team.getAgeType()))
                 .locationType(String.valueOf(team.getLocationType()))
                 .levelType(String.valueOf(team.getLevelType()))
+                .formation(String.valueOf(team.getFormation()))
                 .introduction(team.getIntroduction())
                 .frequency(String.valueOf(team.getFrequency()))
                 .createdAt(team.getCreatedAt())
@@ -162,6 +163,7 @@ public interface TeamMapper {
                         .ageType(String.valueOf(team.getAgeType()))
                         .locationType(String.valueOf(team.getLocationType()))
                         .levelType(String.valueOf(team.getLevelType()))
+                        .formation(String.valueOf(team.getFormation()))
                         .introduction(team.getIntroduction())
                         .frequency(String.valueOf(team.getFrequency()))
                         .createdAt(team.getCreatedAt())

@@ -25,7 +25,6 @@ import java.util.Optional;
 public class TeamListService {
     private final TeamListRepository teamListRepository;
     private final TeamService teamService;
-    private final LeagueService leagueService;
     private final UserService userService;
     private final ApplyService applyService;
     public TeamList createTeamList(
@@ -43,46 +42,14 @@ public class TeamListService {
         return teamListRepository.save(teamList);
     }
 
-    public TeamList createLeagueTeamListByLeagueController(
-            TeamList teamList, Long userId, Long teamId, Long leagueId) {
+    public TeamList createTeamListByTeamController(
+            TeamList teamList, Long userId, Long teamId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
         teamList.setUser(user);
         teamList.setTeam(team);
-
-        teamList.setTeamName(team.getTeamName());
-        teamList.setSubManagerName(team.getSubManagerName());
-        teamList.setChampionCount(team.getChampionCount());
-        teamList.setMemberCount(team.getMemberCount());
-        teamList.setHonorScore(team.getHonorScore());
-        teamList.setAgeType(team.getAgeType());
-        teamList.setLocationType(team.getLocationType());
-        teamList.setLevelType(team.getLevelType());
-        teamList.setFrequency(team.getFrequency());
-        teamList.setUniformType(team.getUniformType());
-
-        teamList.setManagerName(user.getName());
-
-        return teamListRepository.save(teamList);
-    }
-
-    public TeamList createLeagueTeamList(
-            TeamList teamList, Long userId, Long teamId, Long applyId) {
-
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-        Apply apply = applyService.findApply(applyId);
-
-//        League league = new League();
-
-        teamList.setUser(user);
-        teamList.setTeam(team);
-//        teamList.setLeague(league);
-        teamList.setApply(apply);
-
-//        teamList.setLeagueName(league.getLeagueName());
 
         teamList.setTeamName(team.getTeamName());
         teamList.setSubManagerName(team.getSubManagerName());

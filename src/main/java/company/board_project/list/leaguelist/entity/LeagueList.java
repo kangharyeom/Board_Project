@@ -21,7 +21,10 @@ public class LeagueList extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leagueListId;
-    
+
+    @Column
+    private Long leagueHonorScore;
+
     @Column
     private Long honorScore;
 
@@ -35,9 +38,6 @@ public class LeagueList extends Auditable {
     private String teamName;
 
     @Column
-    private Position position;
-
-    @Column
     private String managerName;
 
     @Column
@@ -45,10 +45,10 @@ public class LeagueList extends Auditable {
     
     @Column
     private String leagueName;
-    
-    @Column
-    private String leagueRules;
 
+    @Enumerated(EnumType.STRING)
+    private Formation formation;
+    
     @Enumerated(EnumType.STRING)
     private AgeType ageType;
 

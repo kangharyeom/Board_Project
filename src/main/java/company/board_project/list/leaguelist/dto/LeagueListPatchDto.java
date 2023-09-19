@@ -13,9 +13,11 @@ public class LeagueListPatchDto {
     private Long teamId;
     private Long leagueId;
     private Long applyId;
+    private Long leagueHonorScore;
     private Long honorScore;
     private Long memberCount;
-    private String position;
+    private Long championCount;
+    private String formation;
     private String subManagerName;
     private String ageType;
     private String locationType;

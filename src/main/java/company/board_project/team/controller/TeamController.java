@@ -38,7 +38,7 @@ public class TeamController {
                 teamMapper.teamPostDtoToTeam(requestBody, leagueRepository),
                 requestBody.getUserId()
         );
-        TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team, applyRepository);
+        TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(teamResponseDto);
     }
@@ -51,7 +51,7 @@ public class TeamController {
                 teamId);
 
         team.setTeamId(teamId);
-        TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team, applyRepository);
+        TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(userResponseDto);
     }
@@ -59,7 +59,7 @@ public class TeamController {
     @GetMapping("/{teamId}")
     public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.findTeam(teamId);
-        TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team, applyRepository);
+        TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(teamResponse);
     }

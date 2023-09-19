@@ -12,9 +12,11 @@ public class LeagueListPostDto {
     private Long teamId;
     private Long leagueId;
     private Long applyId;
+    private Long leagueHonorScore;
     private Long honorScore;
     private Long memberCount;
-    private String position;
+    private Long championCount;
+    private String formation;
     private String teamName;
     private String managerName;
     private String subManagerName;
@@ -28,10 +30,10 @@ public class LeagueListPostDto {
     private Long leagueWinRecord = 0L;
     private Long leagueDrawRecord = 0L;
     private Long leagueLoseRecord = 0L;
+    private Long cleanSheet = 0L;
     private Long ranking;
     private Long teamGoals = 0L;
     private Long teamAssist = 0L;
-    private Long cleanSheet = 0L;
 
    /* private Long mostGoals = 0L;
     private Long mostAssists = 0L;

@@ -4,10 +4,12 @@ import company.board_project.apply.entity.Apply;
 import company.board_project.apply.service.ApplyService;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.league.entity.League;
-import company.board_project.league.service.LeagueService;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.leaguelist.service.LeagueListService;
 import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.list.matchlist.repository.MatchListRepository;
+import company.board_project.match.entity.Match;
+import company.board_project.match.service.MatchService;
 import company.board_project.team.entity.Team;
 import company.board_project.team.service.TeamService;
 import company.board_project.user.entity.User;
@@ -25,71 +27,55 @@ import java.util.Optional;
 public class MatchListService {
     private final MatchListRepository matchListRepository;
     private final TeamService teamService;
-    private final LeagueService leagueService;
     private final UserService userService;
     private final ApplyService applyService;
+    private final MatchService matchService;
+    private final LeagueListService leagueListService;
+
     public MatchList createMatchList(
-            MatchList matchList, Long userId, Long teamId, Long applyId) {
+            MatchList matchList, Long userId, Long teamId, Long applyId, Long matchId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
         Apply apply = applyService.findApply(applyId);
+        Match match = matchService.findMatch(matchId);
 
         matchList.setUser(user);
         matchList.setTeam(team);
         matchList.setApply(apply);
-        matchList.setManagerName(user.getName());
 
-        return matchListRepository.save(matchList);
-    }
-
-    public MatchList createLeagueTeamListByLeagueController(
-            MatchList matchList, Long userId, Long teamId, Long leagueId) {
-
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-
-
-        League league = leagueService.findLeague(leagueId);
-
-        matchList.setUser(user);
-        matchList.setTeam(team);
-        matchList.setLeague(league);
-
-        matchList.setTeamName(team.getTeamName());
+        matchList.setAwayTeamName(team.getTeamName());
         matchList.setHonorScore(team.getHonorScore());
         matchList.setAgeType(team.getAgeType());
-        matchList.setLocationType(team.getLocationType());
         matchList.setLevelType(team.getLevelType());
-        matchList.setUniformType(team.getUniformType());
+
+        matchList.setHomeTeamName(match.getHomeTeamName());
 
         matchList.setManagerName(user.getName());
 
         return matchListRepository.save(matchList);
     }
 
-    public MatchList createLeagueTeamList(
-            MatchList matchList, Long userId, Long teamId, Long applyId) {
+    public MatchList createLeagueMatchList(
+            MatchList matchList, Long userId, Long teamId, Long applyId, Long matchId, Long leagueListId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
         Apply apply = applyService.findApply(applyId);
-
-//        League league = new League();
+        Match match = matchService.findMatch(matchId);
+        LeagueList leagueList = leagueListService.findLeagueList(leagueListId);
 
         matchList.setUser(user);
         matchList.setTeam(team);
-//        teamList.setLeague(league);
         matchList.setApply(apply);
 
-//        teamList.setLeagueName(league.getLeagueName());
-
-        matchList.setTeamName(team.getTeamName());
+        matchList.setAwayTeamName(team.getTeamName());
         matchList.setHonorScore(team.getHonorScore());
         matchList.setAgeType(team.getAgeType());
-        matchList.setLocationType(team.getLocationType());
         matchList.setLevelType(team.getLevelType());
-        matchList.setUniformType(team.getUniformType());
+        matchList.setLeagueMatchPoints(leagueList.getLeagueMatchPoints());
+
+        matchList.setHomeTeamName(match.getHomeTeamName());
 
         matchList.setManagerName(user.getName());
 
@@ -119,9 +105,6 @@ public class MatchListService {
 
         Optional.ofNullable(matchList.getAgeType())
                 .ifPresent(findMatchList::setAgeType);
-
-        Optional.ofNullable(matchList.getLocationType())
-                .ifPresent(findMatchList::setLocationType);
 
         Optional.ofNullable(matchList.getManagerName())
                 .ifPresent(findMatchList::setManagerName);

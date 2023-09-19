@@ -18,27 +18,23 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/matchLists")
+@RequestMapping("/api/lists/match")
 public class MatchListController {
     private final MatchListService matchListService;
     private final MatchListMapper matchListMapper;
 
-    @PostMapping("/match")
+    @PostMapping
     public ResponseEntity postMatchList(@RequestBody MatchListPostDto requestBody){
 
-        MatchList matchList = matchListService.createMatchList(matchListMapper.matchListPostDtoToMatchList(requestBody), requestBody.getUserId(), requestBody.getMatchId(), requestBody.getApplyId());
+        MatchList matchList = matchListService.createMatchList(matchListMapper.matchListPostDtoToMatchList(requestBody),
+                requestBody.getUserId(),
+                requestBody.getMatchId(),
+                requestBody.getApplyId(),
+                requestBody.getTeamId()
+        );
         MatchListResponseDto matchListResponse = matchListMapper.matchListToMatchListResponse(matchList);
 
         return ResponseEntity.ok(matchListResponse);
-    }
-
-    @PostMapping("/league")
-    public ResponseEntity postMatchLeagueList(@RequestBody MatchListPostDto requestBody){
-
-        MatchList matchList = matchListService.createMatchList(matchListMapper.leagueMatchListPostDtoToMatchList(requestBody), requestBody.getUserId(), requestBody.getMatchId(), requestBody.getApplyId());
-        MatchListResponseDto leagueMatchListResponse = matchListMapper.matchListToMatchListResponse(matchList);
-
-        return ResponseEntity.ok(leagueMatchListResponse);
     }
 
     @GetMapping("/{matchListId}")

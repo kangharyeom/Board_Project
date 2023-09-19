@@ -27,9 +27,10 @@ public class TeamPostDto {
     private String subManagerName;
     private String uniformType;
     private String leagueName;
+    private String formation;
 
     private Long championCount = 0L ;
-    private Long memberCount = 0L ;
+    private Long memberCount = 1L ;
     private Long leagueMatchCount = 0L;
     private Long leagueWinRecord = 0L ;
     private Long leagueDrawRecord = 0L ;

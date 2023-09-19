@@ -28,27 +28,46 @@ public class LeagueListService {
     private final LeagueService leagueService;
     private final UserService userService;
     private final ApplyService applyService;
-    public LeagueList createTeamList(
-            LeagueList leagueList, Long userId, Long teamId, Long applyId) {
+    public LeagueList createLeagueList(
+            LeagueList leagueList, Long userId, Long teamId, Long applyId, Long leagueId) {
+
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
         Apply apply = applyService.findApply(applyId);
+        League league = leagueService.findLeague(leagueId);
+
+        System.out.println("requestBody.getApplyId() 2"+ apply.getApplyId());
 
         leagueList.setUser(user);
         leagueList.setTeam(team);
         leagueList.setApply(apply);
+        leagueList.setLeague(league);
+
         leagueList.setManagerName(user.getName());
+
+        leagueList.setHonorScore(team.getHonorScore());
+        leagueList.setChampionCount(team.getChampionCount());
+        leagueList.setMemberCount(team.getMemberCount());
+        leagueList.setTeamName(team.getTeamName());
+        leagueList.setSubManagerName(team.getSubManagerName());
+
+        leagueList.setLeagueName(league.getLeagueName());
+
+        leagueList.setTeamAssist(leagueList.getTeamAssist());
+        leagueList.setTeamGoals(leagueList.getTeamGoals());
+        leagueList.setLeagueHonorScore(leagueList.getLeagueHonorScore());
+
+        System.out.println("requestBody.getApplyId() 3"+ apply.getApplyId());
 
         return leagueListRepository.save(leagueList);
     }
 
-    public LeagueList createLeagueTeamListByLeagueController(
+    public LeagueList createLeagueListByLeagueController(
             LeagueList leagueList, Long userId, Long teamId, Long leagueId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
-
 
         League league = leagueService.findLeague(leagueId);
 
@@ -57,38 +76,10 @@ public class LeagueListService {
         leagueList.setLeague(league);
 
         leagueList.setLeagueName(league.getLeagueName());
-
-        leagueList.setTeamName(team.getTeamName());
-        leagueList.setSubManagerName(team.getSubManagerName());
-        leagueList.setChampionCount(team.getChampionCount());
-        leagueList.setMemberCount(team.getMemberCount());
-        leagueList.setHonorScore(team.getHonorScore());
-        leagueList.setAgeType(team.getAgeType());
-        leagueList.setLocationType(team.getLocationType());
-        leagueList.setLevelType(team.getLevelType());
-        leagueList.setFrequency(team.getFrequency());
-        leagueList.setUniformType(team.getUniformType());
-
-        leagueList.setManagerName(user.getName());
-
-        return leagueListRepository.save(leagueList);
-    }
-
-    public LeagueList createLeagueLeagueList(
-            LeagueList leagueList, Long userId, Long teamId, Long applyId) {
-
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-        Apply apply = applyService.findApply(applyId);
-
-//        League league = new League();
-
-        leagueList.setUser(user);
-        leagueList.setTeam(team);
-//        leagueList.setLeague(league);
-        leagueList.setApply(apply);
-
-//        leagueList.setLeagueName(league.getLeagueName());
+        leagueList.setLeagueWinRecord(0L);
+        leagueList.setLeagueLoseRecord(0L);
+        leagueList.setLeagueDrawRecord(0L);
+        leagueList.setLeagueMatchPoints(0L);
 
         leagueList.setTeamName(team.getTeamName());
         leagueList.setSubManagerName(team.getSubManagerName());
@@ -112,8 +103,8 @@ public class LeagueListService {
 
         LeagueList findLeagueList = findVerifiedLeagueList(leagueListId);
 
-        Optional.ofNullable(leagueList.getPosition())
-                .ifPresent(findLeagueList::setPosition);
+        Optional.ofNullable(leagueList.getFormation())
+                .ifPresent(findLeagueList::setFormation);
 
         Optional.ofNullable(leagueList.getChampionCount())
                 .ifPresent(findLeagueList::setChampionCount);
