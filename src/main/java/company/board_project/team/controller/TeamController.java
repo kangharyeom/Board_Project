@@ -1,8 +1,8 @@
 package company.board_project.team.controller;
 
-import company.board_project.league.repository.LeagueRepository;
+import company.board_project.list.teamlist.entity.TeamList;
+import company.board_project.list.teamlist.service.TeamListService;
 import company.board_project.response.MultiResponseDto;
-import company.board_project.apply.repository.ApplyRepository;
 import company.board_project.team.dto.TeamListDto;
 import company.board_project.team.dto.TeamPatchDto;
 import company.board_project.team.dto.TeamPostDto;
@@ -30,15 +30,16 @@ import java.util.List;
 public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
-    private final LeagueRepository leagueRepository;
-    private final ApplyRepository applyRepository;
+    private final TeamListService teamListService;
     @PostMapping
     public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
-                teamMapper.teamPostDtoToTeam(requestBody, leagueRepository),
+                teamMapper.teamPostDtoToTeam(requestBody),
                 requestBody.getUserId()
         );
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
+
+        teamListService.createTeamListByTeamController(new TeamList(), teamResponseDto.getTeamId(),teamResponseDto.getUserId());
 
         return ResponseEntity.ok(teamResponseDto);
     }

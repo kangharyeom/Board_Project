@@ -1,11 +1,8 @@
 package company.board_project.team.mapper;
 
 import company.board_project.constant.*;
-import company.board_project.league.entity.League;
-import company.board_project.league.repository.LeagueRepository;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.apply.entity.Apply;
-import company.board_project.apply.repository.ApplyRepository;
 import company.board_project.team.dto.TeamListDto;
 import company.board_project.team.dto.TeamPatchDto;
 import company.board_project.team.dto.TeamPostDto;
@@ -20,7 +17,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface TeamMapper {
-    default Team teamPostDtoToTeam(TeamPostDto requestBody, LeagueRepository leagueRepository){
+    default Team teamPostDtoToTeam(TeamPostDto requestBody){
         User user = new User();
         user.setName(requestBody.getManagerName());
 
@@ -49,7 +46,7 @@ public interface TeamMapper {
         team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         team.setFormation(Formation.valueOf(requestBody.getFormation()));
-//        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
+        team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
         team.setManagerName(requestBody.getManagerName());
         team.setLeagueName(requestBody.getLeagueName());
         team.setSubManagerName(requestBody.getSubManagerName());
@@ -95,6 +92,7 @@ public interface TeamMapper {
         return TeamResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
+                .honorScore(team.getHonorScore())
                 .championCount(team.getChampionCount())
                 .memberCount(team.getMemberCount())
                 .leagueMatchCount(team.getLeagueMatchCount())
@@ -123,6 +121,7 @@ public interface TeamMapper {
                 .locationType(String.valueOf(team.getLocationType()))
                 .levelType(String.valueOf(team.getLevelType()))
                 .formation(String.valueOf(team.getFormation()))
+                .uniformType(String.valueOf(team.getUniformType()))
                 .introduction(team.getIntroduction())
                 .frequency(String.valueOf(team.getFrequency()))
                 .createdAt(team.getCreatedAt())
@@ -166,9 +165,11 @@ public interface TeamMapper {
                         .formation(String.valueOf(team.getFormation()))
                         .introduction(team.getIntroduction())
                         .frequency(String.valueOf(team.getFrequency()))
+                        .uniformType(String.valueOf(team.getUniformType()))
                         .createdAt(team.getCreatedAt())
                         .modifiedAt(team.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
     }
+
 }
