@@ -22,31 +22,14 @@ public class TeamList extends Auditable {
     private Long teamListId;
     
     @Column
-    private Long honorScore;
+    private String name;
 
-    @Column
-    private Long memberCount;
 
-    @Column
-    private Long championCount;
-
-    @Column
-    private String teamName;
-
-    @Column
+    @Enumerated(EnumType.STRING)
     private Position position;
 
-    @Column
-    private String managerName;
-
-    @Column
-    private String subManagerName;
-    
-    @Column
-    private String leagueName;
-    
-    @Column
-    private String leagueRules;
+    @Enumerated(EnumType.STRING)
+    private TeamMemberType teamMemberType;
 
     @Enumerated(EnumType.STRING)
     private AgeType ageType;
@@ -59,33 +42,6 @@ public class TeamList extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
-
-    @Enumerated(EnumType.STRING)
-    private UniformType uniformType;
-
-    @Column
-    private Long leagueMatchPoints;
-
-    @Column
-    private Long leagueWinRecord;
-
-    @Column
-    private Long leagueDrawRecord;
-
-    @Column
-    private Long leagueLoseRecord;
-
-    @Column
-    private Long ranking;
-
-    @Column
-    private Long teamGoals;
-
-    @Column
-    private Long teamAssist;
-
-    @Column
-    private Long cleanSheet;
 
     /*@Column
     private Long mostGoals;

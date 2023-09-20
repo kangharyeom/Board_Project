@@ -11,24 +11,12 @@ public class TeamListPatchDto {
     private Long teamListId;
     private Long userId;
     private Long teamId;
-    private Long leagueId;
     private Long applyId;
-    private Long honorScore;
-    private Long memberCount;
+    private String name;
     private String position;
-    private String subManagerName;
+    private String teamMemberType;
     private String ageType;
     private String locationType;
     private String levelType;
-    private String leagueRules;
     private String frequency;
-    private String uniformType;
-    private Long leagueMatchPoints;
-    private Long leagueWinRecord;
-    private Long leagueDrawRecord;
-    private Long leagueLoseRecord;
-    private Long ranking;
-    private Long teamGoals;
-    private Long teamAssist;
-    private Long cleanSheet;
 }

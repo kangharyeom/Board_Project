@@ -2,10 +2,10 @@ package company.board_project.list.teamlist.service;
 
 import company.board_project.apply.entity.Apply;
 import company.board_project.apply.service.ApplyService;
+import company.board_project.constant.Position;
+import company.board_project.constant.TeamMemberType;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.league.entity.League;
-import company.board_project.league.service.LeagueService;
 import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.list.teamlist.repository.TeamListRepository;
 import company.board_project.team.entity.Team;
@@ -37,7 +37,8 @@ public class TeamListService {
         teamList.setUser(user);
         teamList.setTeam(team);
         teamList.setApply(apply);
-        teamList.setManagerName(user.getName());
+        teamList.setName(user.getName());
+        teamList.setTeamMemberType(TeamMemberType.MEMBER);
 
         return teamListRepository.save(teamList);
     }
@@ -51,18 +52,13 @@ public class TeamListService {
         teamList.setUser(user);
         teamList.setTeam(team);
 
-        teamList.setTeamName(team.getTeamName());
-        teamList.setSubManagerName(team.getSubManagerName());
-        teamList.setChampionCount(team.getChampionCount());
-        teamList.setMemberCount(team.getMemberCount());
-        teamList.setHonorScore(team.getHonorScore());
+        teamList.setName(user.getName());
+        teamList.setPosition(Position.FORWARDS);
+        teamList.setTeamMemberType(TeamMemberType.MANAGER);
         teamList.setAgeType(team.getAgeType());
         teamList.setLocationType(team.getLocationType());
         teamList.setLevelType(team.getLevelType());
         teamList.setFrequency(team.getFrequency());
-        teamList.setUniformType(team.getUniformType());
-
-        teamList.setManagerName(user.getName());
 
         return teamListRepository.save(teamList);
     }
@@ -76,43 +72,11 @@ public class TeamListService {
         Optional.ofNullable(teamList.getPosition())
                 .ifPresent(findTeamList::setPosition);
 
-        Optional.ofNullable(teamList.getChampionCount())
-                .ifPresent(findTeamList::setChampionCount);
-
-        Optional.ofNullable(teamList.getMemberCount())
-                .ifPresent(findTeamList::setMemberCount);
-
-        Optional.ofNullable(teamList.getLeagueWinRecord())
-                .ifPresent(findTeamList::setLeagueWinRecord);
-
-        Optional.ofNullable(teamList.getLeagueDrawRecord())
-                .ifPresent(findTeamList::setLeagueDrawRecord);
-
-        Optional.ofNullable(teamList.getLeagueLoseRecord())
-                .ifPresent(findTeamList::setLeagueLoseRecord);
-
-        Optional.ofNullable(teamList.getHonorScore())
-                .ifPresent(findTeamList::setHonorScore);
-
-        Optional.ofNullable(teamList.getRanking())
-                .ifPresent(findTeamList::setRanking);
-
         Optional.ofNullable(teamList.getAgeType())
                 .ifPresent(findTeamList::setAgeType);
 
         Optional.ofNullable(teamList.getLocationType())
                 .ifPresent(findTeamList::setLocationType);
-
-        Optional.ofNullable(teamList.getManagerName())
-                .ifPresent(findTeamList::setManagerName);
-
-        Optional.ofNullable(teamList.getSubManagerName())
-                .ifPresent(findTeamList::setSubManagerName);
-
-        Optional.ofNullable(teamList.getUniformType())
-                .ifPresent(findTeamList::setUniformType);
-
-
 
         /*Optional.ofNullable(teamList.getMostGoals())
                 .ifPresent(findTeamList::setMostGoals);

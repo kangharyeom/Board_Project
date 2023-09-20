@@ -16,8 +16,12 @@ public interface TeamListMapper {
     default TeamList teamListPostDtoToTeamList(TeamListPostDto requestBody){
         User user = new User();
         user.setPosition(user.getPosition());
+        user.setName(user.getName());
 
         user.setUserId(requestBody.getUserId());
+
+        Team team = new Team();
+        team.setTeamId(requestBody.getTeamId());
 
         Apply apply = new Apply();
         apply.setApplyId(requestBody.getApplyId());
@@ -25,14 +29,13 @@ public interface TeamListMapper {
         TeamList teamList = new TeamList();
         teamList.setUser(user);
         teamList.setApply(apply);
+        teamList.setName(requestBody.getName());
         teamList.setPosition(Position.valueOf(requestBody.getPosition()));
-        teamList.setLeagueMatchPoints(requestBody.getLeagueMatchPoints());
-        teamList.setLeagueWinRecord(requestBody.getLeagueWinRecord());
-        teamList.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
-        teamList.setLeagueLoseRecord(requestBody.getLeagueLoseRecord());
-        teamList.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        teamList.setTeamMemberType(TeamMemberType.valueOf(requestBody.getTeamMemberType()));
+        teamList.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         teamList.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-        teamList.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
+        teamList.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        teamList.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
 
         /*  teamList.setMostGoals(requestBody.getMostGoals());
         teamList.setMostAssist(requestBody.getMostAssist());
@@ -43,18 +46,13 @@ public interface TeamListMapper {
 
     default TeamList teamListPatchDtoToTeamList (TeamListPatchDto requestBody) {
         TeamList teamList = new TeamList();
+        teamList.setName(requestBody.getName());
         teamList.setPosition(Position.valueOf(requestBody.getPosition()));
-        teamList.setMemberCount(requestBody.getMemberCount());
-        teamList.setLeagueMatchPoints(requestBody.getLeagueMatchPoints());
-        teamList.setLeagueWinRecord(requestBody.getLeagueWinRecord());
-        teamList.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
-        teamList.setLeagueLoseRecord(requestBody.getLeagueLoseRecord());
-        teamList.setHonorScore(requestBody.getHonorScore());
+        teamList.setTeamMemberType(TeamMemberType.valueOf(requestBody.getTeamMemberType()));
         teamList.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        teamList.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         teamList.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-        teamList.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
-        teamList.setSubManagerName(requestBody.getSubManagerName());
+        teamList.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
+        teamList.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
 
         /*  teamList.setMostGoals(requestBody.getMostGoals());
         teamList.setMostAssist(requestBody.getMostAssist());
@@ -74,22 +72,13 @@ public interface TeamListMapper {
                 .teamListId(teamList.getTeamListId())
                 .teamId(team.getTeamId())
                 .applyId(apply.getApplyId())
-                .memberCount(teamList.getMemberCount())
-                .leagueMatchPoints(teamList.getLeagueMatchPoints())
-                .leagueWinRecord(teamList.getLeagueWinRecord())
-                .leagueDrawRecord(teamList.getLeagueDrawRecord())
-                .leagueLoseRecord(teamList.getLeagueLoseRecord())
-                .honorScore(teamList.getHonorScore())
-                .ranking(teamList.getRanking())
                /* .mostGoals(teamList.getMostGoals())
                 .mostAssist(teamList.getMostAssist())
                 .mostMom(teamList.getMostMom())*/
-                .leagueWinRecord(teamList.getLeagueWinRecord())
-                .leagueDrawRecord(teamList.getLeagueDrawRecord())
-                .leagueLoseRecord(teamList.getLeagueLoseRecord())
-                .managerName(user.getName())
-                .teamName(teamList.getTeamName())
+                .name(teamList.getName())
+                .position(String.valueOf(teamList.getPosition()))
                 .ageType(String.valueOf(teamList.getAgeType()))
+                .teamMemberType(String.valueOf(teamList.getTeamMemberType()))
                 .locationType(String.valueOf(teamList.getLocationType()))
                 .levelType(String.valueOf(teamList.getLevelType()))
                 .frequency(String.valueOf(teamList.getFrequency()))
@@ -109,18 +98,12 @@ public interface TeamListMapper {
         return teamLists.stream()
                 .map(teamList -> TeamListResponseDto.builder()
                         .teamListId(teamList.getTeamListId())
-                        .managerName(teamList.getManagerName())
-                        .memberCount(teamList.getMemberCount())
-                        .leagueMatchPoints(teamList.getLeagueMatchPoints())
-                        .leagueWinRecord(teamList.getLeagueWinRecord())
-                        .leagueDrawRecord(teamList.getLeagueDrawRecord())
-                        .leagueLoseRecord(teamList.getLeagueLoseRecord())
-                        .teamName(teamList.getTeamName())
-                        .honorScore(teamList.getHonorScore())
-                        .ranking(teamList.getRanking())
            /*             .mostGoals(teamList.getMostGoals())
                         .mostAssist(teamList.getMostAssist())
                         .mostMom(teamList.getMostMom())*/
+                        .name(teamList.getName())
+                        .position(String.valueOf(teamList.getPosition()))
+                        .teamMemberType(String.valueOf(teamList.getTeamMemberType()))
                         .ageType(String.valueOf(teamList.getAgeType()))
                         .locationType(String.valueOf(teamList.getLocationType()))
                         .levelType(String.valueOf(teamList.getLevelType()))
