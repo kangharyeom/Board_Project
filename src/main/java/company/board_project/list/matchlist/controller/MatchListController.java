@@ -28,9 +28,9 @@ public class MatchListController {
 
         MatchList matchList = matchListService.createMatchList(matchListMapper.matchListPostDtoToMatchList(requestBody),
                 requestBody.getUserId(),
-                requestBody.getMatchId(),
                 requestBody.getApplyId(),
-                requestBody.getTeamId()
+                requestBody.getTeamId(),
+                requestBody.getMatchId()
         );
         MatchListResponseDto matchListResponse = matchListMapper.matchListToMatchListResponse(matchList);
 

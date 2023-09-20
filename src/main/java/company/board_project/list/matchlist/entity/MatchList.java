@@ -3,6 +3,7 @@ package company.board_project.list.matchlist.entity;
 import company.board_project.apply.entity.Apply;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
+import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.match.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -127,5 +128,9 @@ public class MatchList extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "MATCH_ID")
     private Match match;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "LEAGUE_LIST_ID")
+    private LeagueList leagueList;
 
 }

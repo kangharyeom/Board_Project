@@ -33,50 +33,82 @@ public class MatchListService {
     private final LeagueListService leagueListService;
 
     public MatchList createMatchList(
-            MatchList matchList, Long userId, Long teamId, Long applyId, Long matchId) {
+            MatchList matchList, Long userId,Long applyId, Long teamId, Long matchId) {
+        User user = userService.findUser(userId);
+        Apply apply = applyService.findApply(applyId);
+        Team team = teamService.findTeam(teamId);
+        Match match = matchService.findMatch(matchId);
+
+        matchList.setUser(user);
+        matchList.setApply(apply);
+        matchList.setTeam(team);
+        matchList.setMatch(match);
+
+        matchList.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
+        matchList.setHomeTeamScore(match.getHomeTeamScore());
+        matchList.setHomeTeamName(match.getHomeTeamName());
+        matchList.setHomeTeamManagerName(match.getHomeTeamManagerName());
+        matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+        matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+        matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
+        matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
+        matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
+        matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
+
+        matchList.setAwayTeamHonorScore(team.getHonorScore());
+        matchList.setAwayTeamName(team.getTeamName());
+        matchList.setAwayTeamManagerName(team.getManagerName());
+        matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+        matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+        matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+        matchList.setAwayTeamRanking(team.getRanking());
+        matchList.setAwayTeamLevelType(team.getLevelType());
+        matchList.setAwayTeamAgeType(team.getAgeType());
+        matchList.setAwayTeamUniformType(team.getUniformType());
+
+        matchList.setAwayTeamScore(matchList.getAwayTeamScore());
+
+        matchList.setHomeTeamName(match.getHomeTeamName());
+
+        return matchListRepository.save(matchList);
+    }
+
+    public MatchList createMatchListByMatchController(
+            MatchList matchList, Long userId, Long teamId, Long matchId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
-        Apply apply = applyService.findApply(applyId);
         Match match = matchService.findMatch(matchId);
 
         matchList.setUser(user);
         matchList.setTeam(team);
-        matchList.setApply(apply);
         matchList.setMatch(match);
 
-        matchList.setHomeTeamScore(match.getHomeScore());
-        matchList.setHomeTeamHonorScore(match.getHonorScore());
+        matchList.setHomeTeamScore(match.getHomeTeamScore());
+        matchList.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
         matchList.setHomeTeamName(match.getHomeTeamName());
-        matchList.setHomeTeamManagerName(match.getHomeTeamName());
-        matchList.setHomeTeamLeagueMatchPoints(match.get());
-        matchList.setHomeTeamLeagueWinRecord(match.get());
-        matchList.setHomeTeamLeagueDrawRecord(match.get());
-        matchList.setHomeTeamLeagueLoseRecord(match.get());
-        matchList.setHomeTeamTotalWinRecord(match.get());
-        matchList.setHomeTeamTotalDrawRecord(match.get());
-        matchList.setHomeTeamTotalLoseRecord(match.get());
-        matchList.setHomeTeamRanking(match.get());
-        matchList.setHomeTeamLevelType(match.get());
-        matchList.setHomeTeamAgeType(match.get());
-        matchList.setHomeTeamUniformType(match.get());
+        matchList.setHomeTeamManagerName(match.getHomeTeamManagerName());
+        matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+        matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+        matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
+        matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
+        matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
+        matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
 
-        matchList.setAwayTeamScore(team.get());
-        matchList.setAwayTeamHonorScore(team.get());
-        matchList.setAwayTeamName(team.get());
-        matchList.setAwayTeamManagerName(team.get());
-        matchList.setAwayTeamLeagueMatchPoints(team.get());
-        matchList.setAwayTeamLeagueWinRecord(team.get());
-        matchList.setAwayTeamLeagueDrawRecord(team.get());
-        matchList.setAwayTeamLeagueLoseRecord(team.get());
-        matchList.setAwayTeamTotalWinRecord(team.get());
-        matchList.setAwayTeamTotalDrawRecord(team.get());
-        matchList.setAwayTeamTotalLoseRecord(team.get());
-        matchList.setAwayTeamRanking(team.get());
-        matchList.setAwayTeamLevelType(team.get());
-        matchList.setAwayTeamAgeType(team.get());
-        matchList.setAwayTeamUniformType(team.get());
+        matchList.setAwayTeamHonorScore(team.getHonorScore());
+        matchList.setAwayTeamName(team.getTeamName());
+        matchList.setAwayTeamManagerName(team.getManagerName());
+        matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+        matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+        matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+        matchList.setAwayTeamRanking(team.getRanking());
+        matchList.setAwayTeamLevelType(team.getLevelType());
+        matchList.setAwayTeamAgeType(team.getAgeType());
+        matchList.setAwayTeamUniformType(team.getUniformType());
 
+        matchList.setAwayTeamScore(matchList.getAwayTeamScore());
 
         matchList.setHomeTeamName(match.getHomeTeamName());
 
@@ -95,16 +127,84 @@ public class MatchListService {
         matchList.setUser(user);
         matchList.setTeam(team);
         matchList.setApply(apply);
+        matchList.setLeagueList(leagueList);
 
-        matchList.setAwayTeamName(team.getTeamName());
-        matchList.setHonorScore(team.getHonorScore());
-        matchList.setAgeType(team.getAgeType());
-        matchList.setLevelType(team.getLevelType());
-        matchList.setLeagueMatchPoints(leagueList.getLeagueMatchPoints());
-
+        matchList.setHomeTeamScore(match.getHomeTeamScore());
+        matchList.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
         matchList.setHomeTeamName(match.getHomeTeamName());
+        matchList.setHomeTeamManagerName(match.getHomeTeamManagerName());
+        matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+        matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+        matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
+        matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
+        matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
+        matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
+        matchList.setHomeTeamLeagueMatchPoints(match.getHomeTeamLeagueMatchPoints());
+        matchList.setHomeTeamLeagueWinRecord(match.getHomeTeamLeagueWinRecord());
+        matchList.setHomeTeamLeagueDrawRecord(match.getHomeTeamLeagueDrawRecord());
+        matchList.setHomeTeamLeagueLoseRecord(match.getHomeTeamLeagueLoseRecord());
 
-        matchList.setManagerName(user.getName());
+        matchList.setAwayTeamHonorScore(team.getHonorScore());
+        matchList.setAwayTeamName(team.getTeamName());
+        matchList.setAwayTeamManagerName(team.getManagerName());
+        matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+        matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+        matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+        matchList.setAwayTeamRanking(team.getRanking());
+        matchList.setAwayTeamLevelType(team.getLevelType());
+        matchList.setAwayTeamAgeType(team.getAgeType());
+        matchList.setAwayTeamUniformType(team.getUniformType());
+        matchList.setAwayTeamLeagueMatchPoints(leagueList.getLeagueMatchPoints());
+        matchList.setAwayTeamLeagueWinRecord(leagueList.getLeagueWinRecord());
+        matchList.setAwayTeamLeagueDrawRecord(leagueList.getLeagueDrawRecord());
+        matchList.setAwayTeamLeagueLoseRecord(leagueList.getLeagueLoseRecord());
+
+        return matchListRepository.save(matchList);
+    }
+
+    public MatchList createLeagueMatchListByMatchController(
+            MatchList matchList, Long userId, Long teamId, Long matchId, Long leagueListId) {
+
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+        Match match = matchService.findMatch(matchId);
+        LeagueList leagueList = leagueListService.findLeagueList(leagueListId);
+
+        matchList.setUser(user);
+        matchList.setTeam(team);
+        matchList.setLeagueList(leagueList);
+
+        matchList.setHomeTeamScore(match.getHomeTeamScore());
+        matchList.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
+        matchList.setHomeTeamName(match.getHomeTeamName());
+        matchList.setHomeTeamManagerName(match.getHomeTeamManagerName());
+        matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+        matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+        matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
+        matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
+        matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
+        matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
+        matchList.setHomeTeamLeagueMatchPoints(match.getHomeTeamLeagueMatchPoints());
+        matchList.setHomeTeamLeagueWinRecord(match.getHomeTeamLeagueWinRecord());
+        matchList.setHomeTeamLeagueDrawRecord(match.getHomeTeamLeagueDrawRecord());
+        matchList.setHomeTeamLeagueLoseRecord(match.getHomeTeamLeagueLoseRecord());
+
+        matchList.setAwayTeamHonorScore(team.getHonorScore());
+        matchList.setAwayTeamName(team.getTeamName());
+        matchList.setAwayTeamManagerName(team.getManagerName());
+        matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+        matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+        matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+        matchList.setAwayTeamRanking(team.getRanking());
+        matchList.setAwayTeamLevelType(team.getLevelType());
+        matchList.setAwayTeamAgeType(team.getAgeType());
+        matchList.setAwayTeamUniformType(team.getUniformType());
+        matchList.setAwayTeamLeagueMatchPoints(leagueList.getLeagueMatchPoints());
+        matchList.setAwayTeamLeagueWinRecord(leagueList.getLeagueWinRecord());
+        matchList.setAwayTeamLeagueDrawRecord(leagueList.getLeagueDrawRecord());
+        matchList.setAwayTeamLeagueLoseRecord(leagueList.getLeagueLoseRecord());
 
         return matchListRepository.save(matchList);
     }
@@ -115,30 +215,92 @@ public class MatchListService {
 
         MatchList findMatchList = findVerifiedMatchList(teamListId);
 
-        Optional.ofNullable(matchList.getWinRecord())
-                .ifPresent(findMatchList::setWinRecord);
+        Optional.ofNullable(matchList.getHomeTeamHonorScore())
+                .ifPresent(findMatchList::setHomeTeamHonorScore);
 
-        Optional.ofNullable(matchList.getDrawRecord())
-                .ifPresent(findMatchList::setDrawRecord);
+        Optional.ofNullable(matchList.getHomeTeamName())
+                .ifPresent(findMatchList::setHomeTeamName);
 
-        Optional.ofNullable(matchList.getLoseRecord())
-                .ifPresent(findMatchList::setLoseRecord);
+        Optional.ofNullable(matchList.getHomeTeamManagerName())
+                .ifPresent(findMatchList::setHomeTeamManagerName);
 
-        Optional.ofNullable(matchList.getHonorScore())
-                .ifPresent(findMatchList::setHonorScore);
+        Optional.ofNullable(matchList.getHomeTeamTotalWinRecord())
+                .ifPresent(findMatchList::setHomeTeamTotalWinRecord);
 
-        Optional.ofNullable(matchList.getRanking())
-                .ifPresent(findMatchList::setRanking);
+        Optional.ofNullable(matchList.getHomeTeamTotalDrawRecord())
+                .ifPresent(findMatchList::setHomeTeamTotalDrawRecord);
 
-        Optional.ofNullable(matchList.getAgeType())
-                .ifPresent(findMatchList::setAgeType);
+        Optional.ofNullable(matchList.getHomeTeamTotalLoseRecord())
+                .ifPresent(findMatchList::setHomeTeamTotalLoseRecord);
 
-        Optional.ofNullable(matchList.getManagerName())
-                .ifPresent(findMatchList::setManagerName);
+        Optional.ofNullable(matchList.getHomeTeamRanking())
+                .ifPresent(findMatchList::setHomeTeamRanking);
 
-        Optional.ofNullable(matchList.getUniformType())
-                .ifPresent(findMatchList::setUniformType);
+        Optional.ofNullable(matchList.getHomeTeamLevelType())
+                .ifPresent(findMatchList::setHomeTeamLevelType);
 
+        Optional.ofNullable(matchList.getHomeTeamAgeType())
+                .ifPresent(findMatchList::setHomeTeamAgeType);
+
+        Optional.ofNullable(matchList.getHomeTeamUniformType())
+                .ifPresent(findMatchList::setHomeTeamUniformType);
+
+        Optional.ofNullable(matchList.getHomeTeamLeagueMatchPoints())
+                .ifPresent(findMatchList::setHomeTeamLeagueMatchPoints);
+
+        Optional.ofNullable(matchList.getHomeTeamLeagueWinRecord())
+                .ifPresent(findMatchList::setHomeTeamLeagueWinRecord);
+
+        Optional.ofNullable(matchList.getHomeTeamLeagueDrawRecord())
+                .ifPresent(findMatchList::setHomeTeamLeagueDrawRecord);
+
+        Optional.ofNullable(matchList.getHomeTeamLeagueLoseRecord())
+                .ifPresent(findMatchList::setHomeTeamLeagueLoseRecord);
+
+
+
+
+        Optional.ofNullable(matchList.getAwayTeamHonorScore())
+                .ifPresent(findMatchList::setAwayTeamHonorScore);
+
+        Optional.ofNullable(matchList.getAwayTeamName())
+                .ifPresent(findMatchList::setAwayTeamName);
+
+        Optional.ofNullable(matchList.getAwayTeamManagerName())
+                .ifPresent(findMatchList::setAwayTeamManagerName);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalWinRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalWinRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalDrawRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalDrawRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalLoseRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalLoseRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamRanking())
+                .ifPresent(findMatchList::setAwayTeamRanking);
+
+        Optional.ofNullable(matchList.getAwayTeamLevelType())
+                .ifPresent(findMatchList::setAwayTeamLevelType);
+
+        Optional.ofNullable(matchList.getAwayTeamAgeType())
+                .ifPresent(findMatchList::setAwayTeamAgeType);
+
+        Optional.ofNullable(matchList.getAwayTeamUniformType())
+                .ifPresent(findMatchList::setAwayTeamUniformType);
+
+        Optional.ofNullable(matchList.getAwayTeamLeagueMatchPoints())
+                .ifPresent(findMatchList::setAwayTeamLeagueMatchPoints);
+
+        Optional.ofNullable(matchList.getAwayTeamLeagueWinRecord())
+                .ifPresent(findMatchList::setAwayTeamLeagueWinRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamLeagueDrawRecord())
+                .ifPresent(findMatchList::setAwayTeamLeagueDrawRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamLeagueLoseRecord())
+                .ifPresent(findMatchList::setAwayTeamLeagueLoseRecord);
 
 
         /*Optional.ofNullable(teamList.getMostGoals())
@@ -153,8 +315,8 @@ public class MatchListService {
         return matchListRepository.save(findMatchList);
     }
 
-    public MatchList findTeamList(long teamListId) {
-        return findVerifiedMatchList(teamListId);
+    public MatchList findMatchList(long matchListId) {
+        return findVerifiedMatchList(matchListId);
     }
 
     public List<MatchList> findMatchListsNewest() {
@@ -176,10 +338,6 @@ public class MatchListService {
 
     public List<MatchList> findMatchLists() {
         return matchListRepository.findAll();
-    }
-
-    public MatchList findMatchList(long teamListId) {
-        return findVerifiedMatchList(teamListId);
     }
 
     public void deleteMatchList(long teamListId) {

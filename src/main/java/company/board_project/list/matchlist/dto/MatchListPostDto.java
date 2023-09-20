@@ -20,14 +20,6 @@ public class MatchListPostDto {
     private String awayTeamName;
     private String homeTeamManagerName;
     private String awayTeamManagerName;
-    private Long homeTeamLeagueMatchPoints;
-    private Long awayTeamLeagueMatchPoints;
-    private Long homeTeamLeagueWinRecord;
-    private Long awayTeamLeagueWinRecord;
-    private Long homeTeamLeagueDrawRecord;
-    private Long awayTeamLeagueDrawRecord;
-    private Long homeTeamLeagueLoseRecord;
-    private Long awayTeamLeagueLoseRecord;
     private Long homeTeamTotalWinRecord;
     private Long awayTeamTotalWinRecord;
     private Long homeTeamTotalDrawRecord;
