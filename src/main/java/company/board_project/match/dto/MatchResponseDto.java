@@ -15,6 +15,7 @@ public class MatchResponseDto {
     private Long matchId;
     private Long userId;
     private Long teamId;
+    private Long leagueListId;
     private Long homeTeamScore;
     private Long homeTeamHonorScore;
     private String homeTeamName;
@@ -32,10 +33,8 @@ public class MatchResponseDto {
     private String homeTeamUniformType;
     private String matchType;
     private String sportType;
-    private String ageType;
     private String locationType;
     private String matchTime;
-    private String levelType;
     private String matchStatus;
     private String matchRules;
 
