@@ -136,6 +136,7 @@ public interface LeagueListMapper {
                 .ageType(String.valueOf(team.getAgeType()))
                 .locationType(String.valueOf(team.getLocationType()))
                 .levelType(String.valueOf(team.getLevelType()))
+                .uniformType(String.valueOf(team.getUniformType()))
                 .formation(String.valueOf(team.getFormation()))
                 .frequency(String.valueOf(team.getFrequency()))
 
@@ -149,6 +150,7 @@ public interface LeagueListMapper {
                 .teamAssist(leagueList.getTeamAssist())
                 .teamGoals(leagueList.getTeamGoals())
                 .ranking(leagueList.getRanking())
+                .cleanSheet(leagueList.getCleanSheet())
 
                /* .mostGoals(leagueList.getMostGoals())
                 .mostAssist(leagueList.getMostAssist())
@@ -183,12 +185,14 @@ public interface LeagueListMapper {
                         .ranking(leagueList.getRanking())
                         .teamAssist(leagueList.getTeamAssist())
                         .teamGoals(leagueList.getTeamGoals())
+                        .cleanSheet(leagueList.getCleanSheet())
            /*             .mostGoals(leagueList.getMostGoals())
                         .mostAssist(leagueList.getMostAssist())
                         .mostMom(leagueList.getMostMom())*/
                         .ageType(String.valueOf(leagueList.getAgeType()))
                         .locationType(String.valueOf(leagueList.getLocationType()))
                         .levelType(String.valueOf(leagueList.getLevelType()))
+                        .uniformType(String.valueOf(leagueList.getUniformType()))
                         .frequency(String.valueOf(leagueList.getFrequency()))
                         .formation(String.valueOf(leagueList.getFormation()))
                         .createdAt(leagueList.getCreatedAt())

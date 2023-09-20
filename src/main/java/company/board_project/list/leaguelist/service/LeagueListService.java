@@ -37,8 +37,6 @@ public class LeagueListService {
         Apply apply = applyService.findApply(applyId);
         League league = leagueService.findLeague(leagueId);
 
-        System.out.println("requestBody.getApplyId() 2"+ apply.getApplyId());
-
         leagueList.setUser(user);
         leagueList.setTeam(team);
         leagueList.setApply(apply);
@@ -57,8 +55,6 @@ public class LeagueListService {
         leagueList.setTeamAssist(leagueList.getTeamAssist());
         leagueList.setTeamGoals(leagueList.getTeamGoals());
         leagueList.setLeagueHonorScore(leagueList.getLeagueHonorScore());
-
-        System.out.println("requestBody.getApplyId() 3"+ apply.getApplyId());
 
         return leagueListRepository.save(leagueList);
     }
@@ -91,6 +87,7 @@ public class LeagueListService {
         leagueList.setLevelType(team.getLevelType());
         leagueList.setFrequency(team.getFrequency());
         leagueList.setUniformType(team.getUniformType());
+        leagueList.setCleanSheet(leagueList.getCleanSheet());
 
         leagueList.setManagerName(user.getName());
 

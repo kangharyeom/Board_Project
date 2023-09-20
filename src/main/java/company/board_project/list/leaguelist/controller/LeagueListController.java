@@ -33,7 +33,6 @@ public class LeagueListController {
                 requestBody.getLeagueId(),
                 requestBody.getApplyId()
         );
-        System.out.println("requestBody.getApplyId() 1"+ requestBody.getApplyId());
 
         LeagueListResponseDto leagueListResponse = leagueListMapper.leagueListToLeagueListResponse(leagueList);
 
