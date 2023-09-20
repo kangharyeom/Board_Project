@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ApplyRepository extends JpaRepository<Apply,Long> {
     @Query(value = "select * from applies where apply_id = :applyId", nativeQuery = true)
@@ -19,4 +20,6 @@ public interface ApplyRepository extends JpaRepository<Apply,Long> {
 
     @Query(value = "select * from applies where league_id = :leagueId order by created_at desc", nativeQuery = true)
     List<Apply> findAllByLeagueId(@Param("leagueId") long leagueId);
+
+    Optional<Apply> findByApplyId(@Param("applyId") long applyId);
 }

@@ -1,6 +1,5 @@
 package company.board_project.apply.service;
 
-import company.board_project.constant.MatchResultStatus;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.apply.entity.Apply;
@@ -63,23 +62,28 @@ public class ApplyService {
         apply.setUserTeamApplyId(team.getTeamId());
 
         userRepository.save(user);
-        teamRepository.save(team);
         applyRepository.save(apply);
 
         return apply;
     }
 
-    public Apply createMatchApply(Apply apply, Long userId, Long matchId) {
+    public Apply createMatchApply(Apply apply, Long userId, Long matchId, Long teamId) {
         User user = userService.findUser(userId);
         Match match = matchService.findMatch(matchId);
+        Team team = teamService.findTeam(teamId);
 
         apply.setUser(user);
+        apply.setMatch(match);
+        apply.setTeam(team);
+
         apply.setManagerName(user.getName());
+        apply.setTeamName(team.getTeamName());
+        apply.setLevelType(team.getLevelType());
+        apply.setAgeType(team.getAgeType());
         user.setUserMatchApplyId(match.getMatchId());
         apply.setUserMatchApplyId(match.getMatchId());
 
         userRepository.save(user);
-        matchRepository.save(match);
         applyRepository.save(apply);
 
         return apply;
@@ -92,13 +96,15 @@ public class ApplyService {
 
         apply.setLeague(league);
         apply.setUser(user);
+        apply.setTeam(team);
         apply.setManagerName(user.getName());
         apply.setTeamName(team.getTeamName());
+        apply.setLevelType(team.getLevelType());
+        apply.setAgeType(team.getAgeType());
         user.setUserLeagueApplyId(league.getLeagueId());
         apply.setUserLeagueApplyId(league.getLeagueId());
 
         userRepository.save(user);
-        leagueRepository.save(league);
         applyRepository.save(apply);
 
         return apply;

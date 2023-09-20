@@ -44,7 +44,7 @@ public class ApplyController {
     @PostMapping("/matches")
     public ResponseEntity postMatchApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
-        Apply apply = applyService.createMatchApply(applyMapper.applyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId());
+        Apply apply = applyService.createMatchApply(applyMapper.applyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
         ApplyResponseDto applyResponseDto = applyMapper.applyToMatchApplyResponse(apply);
 
         return ResponseEntity.ok(applyResponseDto);
