@@ -13,7 +13,7 @@ public class MatchPatchDto {
     private Long matchId;
     private Long userId;
     private Long teamId;
-    private Long homeTeamScore;
+    private Long leagueListId;
     private Long homeTeamHonorScore;
     private String homeTeamName;
     private String homeTeamManagerName;

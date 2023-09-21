@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MatchListMapper {
-    default MatchList matchListPostDtoToMatchList(MatchListPostDto requestBody){
+    default MatchList matchListPostDtoToMatchList(MatchListPostDto requestBody) {
         User user = new User();
         user.setPosition(user.getPosition());
 
@@ -38,7 +38,6 @@ public interface MatchListMapper {
 
         Match match = new Match();
         match.setMatchId(requestBody.getMatchId());
-        match.setHomeTeamScore(requestBody.getHomeTeamScore());
         match.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
         match.setHomeTeamName(requestBody.getHomeTeamName());
         match.setHomeTeamManagerName(requestBody.getHomeTeamManagerName());
@@ -57,77 +56,6 @@ public interface MatchListMapper {
         matchList.setMatch(match);
         matchList.setAwayTeamName(requestBody.getAwayTeamName());
         matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
-        matchList.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
-        matchList.setHomeTeamName(requestBody.getHomeTeamName());
-        matchList.setHomeTeamManagerName(requestBody.getHomeTeamManagerName());
-        matchList.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
-        matchList.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
-        matchList.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        matchList.setHomeTeamRanking(requestBody.getHomeTeamRanking());
-        matchList.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
-        matchList.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
-        matchList.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
-        matchList.setAwayTeamHonorScore(requestBody.getAwayTeamHonorScore());
-        matchList.setAwayTeamName(requestBody.getAwayTeamName());
-        matchList.setAwayTeamManagerName(requestBody.getAwayTeamManagerName());
-        matchList.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
-        matchList.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
-        matchList.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        matchList.setAwayTeamRanking(requestBody.getAwayTeamRanking());
-        matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
-        matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
-        matchList.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
-
-        return matchList;
-    }
-
-    default MatchList leagueMatchListPostDtoToMatchList(LeagueMatchListPostDto requestBody){
-        User user = new User();
-        user.setPosition(user.getPosition());
-
-        user.setUserId(requestBody.getUserId());
-
-        Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
-        team.setHonorScore(requestBody.getAwayTeamHonorScore());
-        team.setTeamName(requestBody.getAwayTeamName());
-        team.setManagerName(requestBody.getAwayTeamManagerName());
-        team.setTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
-        team.setTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
-        team.setTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        team.setLeagueWinRecord(requestBody.getAwayTeamLeagueWinRecord());
-        team.setLeagueDrawRecord(requestBody.getAwayTeamLeagueDrawRecord());
-        team.setLeagueLoseRecord(requestBody.getAwayTeamLeagueLoseRecord());
-        team.setRanking(requestBody.getAwayTeamRanking());
-        team.setLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
-        team.setAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
-        team.setUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
-
-        Match match = new Match();
-        match.setMatchId(requestBody.getMatchId());
-        match.setHomeTeamScore(requestBody.getHomeTeamScore());
-        match.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
-        match.setHomeTeamName(requestBody.getHomeTeamName());
-        match.setHomeTeamManagerName(requestBody.getHomeTeamManagerName());
-        match.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
-        match.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
-        match.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamLeagueWinRecord(requestBody.getHomeTeamLeagueWinRecord());
-        match.setHomeTeamLeagueDrawRecord(requestBody.getHomeTeamLeagueDrawRecord());
-        match.setHomeTeamLeagueLoseRecord(requestBody.getHomeTeamLeagueLoseRecord());
-        match.setHomeTeamRanking(requestBody.getHomeTeamRanking());
-        match.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
-        match.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
-        match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
-
-        Apply apply = new Apply();
-        apply.setApplyId(requestBody.getApplyId());
-
-        MatchList matchList = new MatchList();
-        matchList.setUser(user);
-        matchList.setApply(apply);
-        matchList.setTeam(team);
-        matchList.setMatch(match);
         matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
         matchList.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
         matchList.setHomeTeamName(requestBody.getHomeTeamName());
@@ -135,22 +63,17 @@ public interface MatchListMapper {
         matchList.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         matchList.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         matchList.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        matchList.setHomeTeamLeagueWinRecord(requestBody.getHomeTeamLeagueWinRecord());
-        matchList.setHomeTeamLeagueDrawRecord(requestBody.getHomeTeamLeagueDrawRecord());
-        matchList.setHomeTeamLeagueLoseRecord(requestBody.getHomeTeamLeagueLoseRecord());
         matchList.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         matchList.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         matchList.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
         matchList.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
         matchList.setAwayTeamHonorScore(requestBody.getAwayTeamHonorScore());
         matchList.setAwayTeamName(requestBody.getAwayTeamName());
+        matchList.setAwayTeamScore(requestBody.getAwayTeamScore());
         matchList.setAwayTeamManagerName(requestBody.getAwayTeamManagerName());
         matchList.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
         matchList.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
         matchList.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        matchList.setAwayTeamLeagueWinRecord(requestBody.getAwayTeamLeagueWinRecord());
-        matchList.setAwayTeamLeagueDrawRecord(requestBody.getAwayTeamLeagueDrawRecord());
-        matchList.setAwayTeamLeagueLoseRecord(requestBody.getAwayTeamLeagueLoseRecord());
         matchList.setAwayTeamRanking(requestBody.getAwayTeamRanking());
         matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
@@ -168,9 +91,6 @@ public interface MatchListMapper {
         matchList.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         matchList.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         matchList.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        matchList.setHomeTeamLeagueWinRecord(requestBody.getHomeTeamLeagueWinRecord());
-        matchList.setHomeTeamLeagueDrawRecord(requestBody.getHomeTeamLeagueDrawRecord());
-        matchList.setHomeTeamLeagueLoseRecord(requestBody.getHomeTeamLeagueLoseRecord());
         matchList.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         matchList.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         matchList.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
@@ -181,9 +101,6 @@ public interface MatchListMapper {
         matchList.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
         matchList.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
         matchList.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        matchList.setAwayTeamLeagueWinRecord(requestBody.getAwayTeamLeagueWinRecord());
-        matchList.setAwayTeamLeagueDrawRecord(requestBody.getAwayTeamLeagueDrawRecord());
-        matchList.setAwayTeamLeagueLoseRecord(requestBody.getAwayTeamLeagueLoseRecord());
         matchList.setAwayTeamRanking(requestBody.getAwayTeamRanking());
         matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
@@ -212,10 +129,6 @@ public interface MatchListMapper {
                 .homeTeamHonorScore(matchList.getHomeTeamHonorScore())
                 .homeTeamName(matchList.getHomeTeamName())
                 .homeTeamManagerName(matchList.getHomeTeamManagerName())
-                .homeTeamLeagueMatchPoints(matchList.getHomeTeamLeagueMatchPoints())
-                .homeTeamLeagueWinRecord(matchList.getHomeTeamLeagueWinRecord())
-                .homeTeamLeagueDrawRecord(matchList.getHomeTeamLeagueDrawRecord())
-                .homeTeamLeagueLoseRecord(matchList.getHomeTeamLeagueLoseRecord())
                 .homeTeamTotalWinRecord(matchList.getHomeTeamTotalWinRecord())
                 .homeTeamTotalDrawRecord(matchList.getHomeTeamTotalDrawRecord())
                 .homeTeamTotalLoseRecord(matchList.getHomeTeamTotalLoseRecord())
@@ -228,10 +141,6 @@ public interface MatchListMapper {
                 .awayTeamHonorScore(matchList.getAwayTeamHonorScore())
                 .awayTeamName(matchList.getAwayTeamName())
                 .awayTeamManagerName(matchList.getAwayTeamManagerName())
-                .awayTeamLeagueMatchPoints(matchList.getAwayTeamLeagueMatchPoints())
-                .awayTeamLeagueWinRecord(matchList.getAwayTeamLeagueWinRecord())
-                .awayTeamLeagueDrawRecord(matchList.getAwayTeamLeagueDrawRecord())
-                .awayTeamLeagueLoseRecord(matchList.getAwayTeamLeagueLoseRecord())
                 .awayTeamTotalWinRecord(matchList.getAwayTeamTotalWinRecord())
                 .awayTeamTotalDrawRecord(matchList.getAwayTeamTotalDrawRecord())
                 .awayTeamTotalLoseRecord(matchList.getAwayTeamTotalLoseRecord())
@@ -259,10 +168,6 @@ public interface MatchListMapper {
                         .homeTeamHonorScore(matchList.getHomeTeamHonorScore())
                         .homeTeamName(matchList.getHomeTeamName())
                         .homeTeamManagerName(matchList.getHomeTeamManagerName())
-                        .homeTeamLeagueMatchPoints(matchList.getHomeTeamLeagueMatchPoints())
-                        .homeTeamLeagueWinRecord(matchList.getHomeTeamLeagueWinRecord())
-                        .homeTeamLeagueDrawRecord(matchList.getHomeTeamLeagueDrawRecord())
-                        .homeTeamLeagueLoseRecord(matchList.getHomeTeamLeagueLoseRecord())
                         .homeTeamTotalWinRecord(matchList.getHomeTeamTotalWinRecord())
                         .homeTeamTotalDrawRecord(matchList.getHomeTeamTotalDrawRecord())
                         .homeTeamTotalLoseRecord(matchList.getHomeTeamTotalLoseRecord())
@@ -275,10 +180,6 @@ public interface MatchListMapper {
                         .awayTeamHonorScore(matchList.getAwayTeamHonorScore())
                         .awayTeamName(matchList.getAwayTeamName())
                         .awayTeamManagerName(matchList.getAwayTeamManagerName())
-                        .awayTeamLeagueMatchPoints(matchList.getAwayTeamLeagueMatchPoints())
-                        .awayTeamLeagueWinRecord(matchList.getAwayTeamLeagueWinRecord())
-                        .awayTeamLeagueDrawRecord(matchList.getAwayTeamLeagueDrawRecord())
-                        .awayTeamLeagueLoseRecord(matchList.getAwayTeamLeagueLoseRecord())
                         .awayTeamTotalWinRecord(matchList.getAwayTeamTotalWinRecord())
                         .awayTeamTotalDrawRecord(matchList.getAwayTeamTotalDrawRecord())
                         .awayTeamTotalLoseRecord(matchList.getAwayTeamTotalLoseRecord())

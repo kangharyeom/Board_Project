@@ -23,6 +23,7 @@ public class ApplyResponseDto {
     private String teamName;
     private String levelType;
     private String ageType;
+    private String applyType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

@@ -102,10 +102,8 @@ public class LeagueList extends Auditable {
     @OneToMany(mappedBy = "leagueList", cascade = CascadeType.REMOVE)
     private List<MatchList> matchLists = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "leagueList", cascade = CascadeType.REMOVE)
-//    private List<Match> matches = new ArrayList<>();
-
-
+    @OneToMany(mappedBy = "leagueList", cascade = CascadeType.REMOVE)
+    private List<Match> matches = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

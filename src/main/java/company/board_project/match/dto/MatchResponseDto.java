@@ -15,15 +15,9 @@ public class MatchResponseDto {
     private Long matchId;
     private Long userId;
     private Long teamId;
-    private Long leagueListId;
-    private Long homeTeamScore;
     private Long homeTeamHonorScore;
     private String homeTeamName;
     private String homeTeamManagerName;
-    private Long homeTeamLeagueMatchPoints;
-    private Long homeTeamLeagueWinRecord;
-    private Long homeTeamLeagueDrawRecord;
-    private Long homeTeamLeagueLoseRecord;
     private Long homeTeamTotalWinRecord;
     private Long homeTeamTotalDrawRecord;
     private Long homeTeamTotalLoseRecord;
@@ -40,6 +34,4 @@ public class MatchResponseDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-
-    private List<Team> teamList;
 }

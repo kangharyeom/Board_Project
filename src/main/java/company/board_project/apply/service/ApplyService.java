@@ -44,8 +44,6 @@ public class ApplyService {
         apply.setTeam(team);
         apply.setUser(user);
 
-        userRepository.save(user);
-        teamRepository.save(team);
         applyRepository.save(apply);
 
         return apply;
@@ -58,6 +56,9 @@ public class ApplyService {
         apply.setTeam(team);
         apply.setUser(user);
         apply.setManagerName(user.getName());
+        apply.setTeamName(team.getTeamName());
+        apply.setAgeType(team.getAgeType());
+        apply.setLevelType(team.getLevelType());
         user.setUserTeamApplyId(team.getTeamId());
         apply.setUserTeamApplyId(team.getTeamId());
 
@@ -80,6 +81,7 @@ public class ApplyService {
         apply.setTeamName(team.getTeamName());
         apply.setLevelType(team.getLevelType());
         apply.setAgeType(team.getAgeType());
+        apply.setApplyType(apply.getApplyType());
         user.setUserMatchApplyId(match.getMatchId());
         apply.setUserMatchApplyId(match.getMatchId());
 
@@ -101,6 +103,7 @@ public class ApplyService {
         apply.setTeamName(team.getTeamName());
         apply.setLevelType(team.getLevelType());
         apply.setAgeType(team.getAgeType());
+        apply.setApplyType(apply.getApplyType());
         user.setUserLeagueApplyId(league.getLeagueId());
         apply.setUserLeagueApplyId(league.getLeagueId());
 

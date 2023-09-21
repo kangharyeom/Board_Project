@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class MatchPostDto {
     private Long userId;
     private Long teamId;
-    private Long homeTeamScore;
     private Long homeTeamHonorScore;
     private String homeTeamName;
     private String homeTeamManagerName;
@@ -28,7 +27,7 @@ public class MatchPostDto {
     private String homeTeamAgeType;
     private String homeTeamUniformType;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
-    private String matchType;
+    private String matchType = "NORMAL";
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
     private String sportType;
     @NotBlank(message = "지역을 입력 해야 합니다.")

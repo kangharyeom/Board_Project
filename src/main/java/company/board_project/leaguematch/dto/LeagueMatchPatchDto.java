@@ -1,4 +1,4 @@
-package company.board_project.match.dto;
+package company.board_project.leaguematch.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,24 +9,44 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class LeagueMatchPostDto {
-    private Long userId;
-    private Long teamId;
+public class LeagueMatchPatchDto {
+    private Long matchId;
+    private Long homeTeamUserId;
+    private Long awayTeamUserId;
+    private Long homeTeamId;
+    private Long awayTeamId;
+    private Long homeTeamLeagueListId;
+    private Long awayTeamLeagueListId;
     private Long homeTeamScore;
     private Long homeTeamHonorScore;
+    private Long awayTeamScore;
+    private Long awayTeamHonorScore;
     private String homeTeamName;
+    private String awayTeamName;
     private String homeTeamManagerName;
+    private String awayTeamManagerName;
     private Long homeTeamLeagueMatchPoints;
+    private Long awayTeamLeagueMatchPoints;
     private Long homeTeamLeagueWinRecord;
+    private Long awayTeamLeagueWinRecord;
     private Long homeTeamLeagueDrawRecord;
+    private Long awayTeamLeagueDrawRecord;
     private Long homeTeamLeagueLoseRecord;
+    private Long awayTeamLeagueLoseRecord;
     private Long homeTeamTotalWinRecord;
+    private Long awayTeamTotalWinRecord;
     private Long homeTeamTotalDrawRecord;
+    private Long awayTeamTotalDrawRecord;
     private Long homeTeamTotalLoseRecord;
+    private Long awayTeamTotalLoseRecord;
     private Long homeTeamRanking;
+    private Long awayTeamRanking;
     private String homeTeamLevelType;
+    private String awayTeamLevelType;
     private String homeTeamAgeType;
+    private String awayTeamAgeType;
     private String homeTeamUniformType;
+    private String awayTeamUniformType;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
     private String matchType;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
@@ -41,4 +61,9 @@ public class LeagueMatchPostDto {
     private String levelType;
     private String matchStatus = "BEFORE";
     private String matchRules;
+
+
+    public void updateId(Long id){
+        this.matchId = id;
+    }
 }

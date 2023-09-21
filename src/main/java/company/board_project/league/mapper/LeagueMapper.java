@@ -7,7 +7,7 @@ import company.board_project.league.dto.LeaguePatchDto;
 import company.board_project.league.dto.LeaguePostDto;
 import company.board_project.league.dto.LeagueResponseDto;
 import company.board_project.league.entity.League;
-import company.board_project.match.entity.Match;
+import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import org.mapstruct.Mapper;
@@ -29,7 +29,6 @@ public interface LeagueMapper {
         team.setTeamId(requestBody.getTeamId());
 
         List<Content> contents = new ArrayList<>();
-
         League league = new League();
         league.setTeam(team);
         league.setUser(user);
@@ -109,21 +108,22 @@ public interface LeagueMapper {
         User user = league.getUser();
         List<Content> contents = league.getContents();
         Team team = league.getTeam();
-        List<Match> matches = league.getMatches();
+
+        List<MatchList> matchLists = league.getMatchLists();
 
         return LeagueResponseDto.builder()
                 .leagueId(league.getLeagueId())
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .contents(contents)
-                .matches(matches)
+                .matchLists(matchLists)
                 .memberCount(league.getMemberCount())
                 .matchCount(league.getMatchCount())
                 .teamCount(league.getTeamCount())
                 .honorScore(league.getHonorScore())
                 .winPoints(league.getWinPoints())
                 .leagueName(league.getLeagueName())
-                .managerName(user.getName())
+                .managerName(league.getManagerName())
                 .sportsType(String.valueOf(league.getSportsType()))
                 .ageType(String.valueOf(league.getAgeType()))
                 .locationType(String.valueOf(league.getLocationType()))

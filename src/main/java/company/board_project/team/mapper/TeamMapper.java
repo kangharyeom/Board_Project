@@ -27,6 +27,7 @@ public interface TeamMapper {
         team.setUser(user);
         team.setChampionCount(requestBody.getChampionCount());
         team.setMemberCount(requestBody.getMemberCount());
+        team.setLeagueMatchPoints(requestBody.getLeagueMatchPoints());
         team.setLeagueMatchCount(requestBody.getLeagueMatchCount());
         team.setLeagueWinRecord(requestBody.getLeagueWinRecord());
         team.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
@@ -58,6 +59,7 @@ public interface TeamMapper {
 
         team.setChampionCount(requestBody.getChampionCount());
         team.setMemberCount(requestBody.getMemberCount());
+        team.setLeagueMatchPoints(requestBody.getLeagueMatchPoints());
         team.setLeagueMatchCount(requestBody.getLeagueMatchCount());
         team.setLeagueWinRecord(requestBody.getLeagueWinRecord());
         team.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
@@ -95,6 +97,7 @@ public interface TeamMapper {
                 .honorScore(team.getHonorScore())
                 .championCount(team.getChampionCount())
                 .memberCount(team.getMemberCount())
+                .leagueMatchPoints(team.getLeagueMatchPoints())
                 .leagueMatchCount(team.getLeagueMatchCount())
                 .leagueWinRecord(team.getLeagueWinRecord())
                 .leagueDrawRecord(team.getLeagueDrawRecord())
@@ -143,6 +146,7 @@ public interface TeamMapper {
                         .managerName(team.getManagerName())
                         .championCount(team.getChampionCount())
                         .memberCount(team.getMemberCount())
+                        .leagueMatchPoints(team.getLeagueMatchPoints())
                         .leagueMatchCount(team.getLeagueMatchCount())
                         .leagueWinRecord(team.getLeagueWinRecord())
                         .leagueDrawRecord(team.getLeagueDrawRecord())

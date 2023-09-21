@@ -14,6 +14,7 @@ public class TeamPatchDto {
     private Long userId;
     private Long championCount;
     private Long memberCount;
+    private Long leagueMatchPoints;
     private Long leagueMatchCount;
     private Long leagueWinRecord;
     private Long leagueDrawRecord;

@@ -3,8 +3,10 @@ package company.board_project.list.matchlist.entity;
 import company.board_project.apply.entity.Apply;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
+import company.board_project.league.entity.League;
 import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.match.entity.Match;
+import company.board_project.leaguematch.entity.LeagueMatch;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import lombok.Getter;
@@ -46,30 +48,6 @@ public class MatchList extends Auditable {
 
     @Column
     private String awayTeamManagerName;
-
-    @Column
-    private Long homeTeamLeagueMatchPoints;
-
-    @Column
-    private Long awayTeamLeagueMatchPoints;
-
-    @Column
-    private Long homeTeamLeagueWinRecord;
-
-    @Column
-    private Long awayTeamLeagueWinRecord;
-
-    @Column
-    private Long homeTeamLeagueDrawRecord;
-
-    @Column
-    private Long awayTeamLeagueDrawRecord;
-
-    @Column
-    private Long homeTeamLeagueLoseRecord;
-
-    @Column
-    private Long awayTeamLeagueLoseRecord;
 
     @Column
     private Long homeTeamTotalWinRecord;
@@ -132,5 +110,13 @@ public class MatchList extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "LEAGUE_LIST_ID")
     private LeagueList leagueList;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "LEAGUE_ID")
+    private League league;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "LEAGUE_MATCH_ID")
+    private LeagueMatch leagueMatch;
 
 }

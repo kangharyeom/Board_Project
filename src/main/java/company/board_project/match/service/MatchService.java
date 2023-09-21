@@ -2,6 +2,7 @@ package company.board_project.match.service;
 
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
+import company.board_project.list.leaguelist.repository.LeagueListRepository;
 import company.board_project.match.entity.Match;
 import company.board_project.match.repository.MatchRepository;
 import company.board_project.team.entity.Team;
@@ -27,7 +28,6 @@ public class MatchService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final TeamService teamService;
-//    private final LeagueListService leagueListService;
 
     public Match createMatch(Match match, Long userId, Long teamId) {
         User user = userService.findUser(userId);
@@ -36,7 +36,6 @@ public class MatchService {
         match.setUser(user);
         match.setTeam(team);
 
-        match.setHomeTeamScore(match.getHomeTeamScore());
         match.setHomeTeamHonorScore(team.getHonorScore());
         match.setHomeTeamName(team.getTeamName());
         match.setHomeTeamManagerName(team.getManagerName());
@@ -47,34 +46,7 @@ public class MatchService {
         match.setHomeTeamLevelType(team.getLevelType());
         match.setHomeTeamAgeType(team.getAgeType());
         match.setHomeTeamUniformType(team.getUniformType());
-
-        matchRepository.save(match);
-
-        return match;
-    }
-
-    public Match createLeagueMatch(Match match, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-
-        match.setUser(user);
-        match.setTeam(team);
-
-        match.setHomeTeamScore(match.getHomeTeamScore());
-        match.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
-        match.setHomeTeamName(match.getHomeTeamName());
-        match.setHomeTeamManagerName(match.getHomeTeamManagerName());
-        match.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
-        match.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
-        match.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamLeagueMatchPoints(match.getHomeTeamLeagueMatchPoints());
-        match.setHomeTeamLeagueWinRecord(match.getHomeTeamLeagueWinRecord());
-        match.setHomeTeamLeagueDrawRecord(match.getHomeTeamLeagueDrawRecord());
-        match.setHomeTeamLeagueLoseRecord(match.getHomeTeamLeagueLoseRecord());
-        match.setHomeTeamRanking(match.getHomeTeamRanking());
-        match.setHomeTeamLevelType(match.getHomeTeamLevelType());
-        match.setHomeTeamAgeType(match.getHomeTeamAgeType());
-        match.setHomeTeamUniformType(match.getHomeTeamUniformType());
+        match.setMatchType(match.getMatchType());
 
         matchRepository.save(match);
 
@@ -114,19 +86,6 @@ public class MatchService {
 
         Optional.ofNullable(match.getHomeTeamUniformType())
                 .ifPresent(findMatch::setHomeTeamUniformType);
-
-        Optional.ofNullable(match.getHomeTeamLeagueMatchPoints())
-                .ifPresent(findMatch::setHomeTeamLeagueMatchPoints);
-
-        Optional.ofNullable(match.getHomeTeamLeagueWinRecord())
-                .ifPresent(findMatch::setHomeTeamLeagueWinRecord);
-
-        Optional.ofNullable(match.getHomeTeamLeagueDrawRecord())
-                .ifPresent(findMatch::setHomeTeamLeagueDrawRecord);
-
-        Optional.ofNullable(match.getHomeTeamLeagueLoseRecord())
-                .ifPresent(findMatch::setHomeTeamLeagueLoseRecord);
-
 
         Optional.ofNullable(match.getMatchType())
                 .ifPresent(findMatch::setMatchType);

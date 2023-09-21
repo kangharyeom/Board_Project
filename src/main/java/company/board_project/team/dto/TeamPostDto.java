@@ -31,6 +31,7 @@ public class TeamPostDto {
 
     private Long championCount = 0L ;
     private Long memberCount = 1L ;
+    private Long leagueMatchPoints = 0L;
     private Long leagueMatchCount = 0L;
     private Long leagueWinRecord = 0L ;
     private Long leagueDrawRecord = 0L ;

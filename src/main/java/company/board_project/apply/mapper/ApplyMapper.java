@@ -31,11 +31,21 @@ public interface ApplyMapper {
     default Apply applyPostDtoToTeamApply(ApplyPostDto requestBody){
         User user = new User();
         user.setUserId(requestBody.getUserId());
+        user.setName(requestBody.getManagerName());
+
+        Team team = new Team();
+        team.setTeamId(requestBody.getTeamId());
+        team.setTeamName(requestBody.getTeamName());
+        team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
 
         Apply apply = new Apply();
         apply.setUser(user);
+        apply.setManagerName(requestBody.getManagerName());
+        apply.setTeamName(requestBody.getTeamName());
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
 
         return apply;
     }
@@ -62,6 +72,7 @@ public interface ApplyMapper {
         apply.setManagerName(requestBody.getManagerName());
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
 
         return apply;
     }
@@ -88,6 +99,7 @@ public interface ApplyMapper {
         apply.setTeamName(requestBody.getTeamName());
         apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
         apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
 
         return apply;
     }
@@ -101,7 +113,7 @@ public interface ApplyMapper {
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .applyId(apply.getApplyId())
-                .teamName(apply.getTeam().getTeamName())
+                .teamName(apply.getTeamName())
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
                 .build();
@@ -116,7 +128,11 @@ public interface ApplyMapper {
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .applyId(apply.getApplyId())
-                .teamName(apply.getTeam().getTeamName())
+                .managerName(apply.getManagerName())
+                .teamName(apply.getTeamName())
+                .ageType(String.valueOf(apply.getAgeType()))
+                .levelType(String.valueOf(apply.getLevelType()))
+                .applyType(String.valueOf(apply.getApplyType()))
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
                 .build();
@@ -133,10 +149,11 @@ public interface ApplyMapper {
                 .teamId(team.getTeamId())
                 .leagueId(league.getLeagueId())
                 .applyId(apply.getApplyId())
-                .teamName(team.getTeamName())
-                .managerName(team.getManagerName())
-                .levelType(String.valueOf(team.getLevelType()))
-                .ageType(String.valueOf(team.getAgeType()))
+                .teamName(apply.getTeamName())
+                .managerName(apply.getManagerName())
+                .levelType(String.valueOf(apply.getLevelType()))
+                .ageType(String.valueOf(apply.getAgeType()))
+                .applyType(String.valueOf(apply.getApplyType()))
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
                 .build();
@@ -156,7 +173,8 @@ public interface ApplyMapper {
                 .managerName(apply.getManagerName())
                 .levelType(String.valueOf(apply.getLevelType()))
                 .ageType(String.valueOf(apply.getAgeType()))
-                .teamName(apply.getTeam().getTeamName())
+                .applyType(String.valueOf(apply.getApplyType()))
+                .teamName(apply.getTeamName())
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
                 .build();
@@ -174,6 +192,10 @@ public interface ApplyMapper {
                 .map(apply -> ApplyResponseDto.builder()
                         .applyId(apply.getApplyId())
                         .teamName(apply.getTeamName())
+                        .managerName(apply.getManagerName())
+                        .applyType(String.valueOf(apply.getApplyType()))
+                        .levelType(String.valueOf(apply.getLevelType()))
+                        .ageType(String.valueOf(apply.getAgeType()))
                         .createdAt(apply.getCreatedAt())
                         .modifiedAt(apply.getModifiedAt())
                         .build())

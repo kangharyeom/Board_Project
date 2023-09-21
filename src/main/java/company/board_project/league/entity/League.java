@@ -4,6 +4,7 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
 import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
@@ -92,6 +93,9 @@ public class League extends Auditable {
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<LeagueList> leagueLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
+    private List<MatchList> matchLists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

@@ -38,6 +38,9 @@ public class Team extends Auditable {
     private Long leagueMatchCount;
 
     @Column
+    private Long leagueMatchPoints;
+
+    @Column
     private Long leagueWinRecord;
 
     @Column

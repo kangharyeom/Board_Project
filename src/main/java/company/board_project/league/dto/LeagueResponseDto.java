@@ -1,7 +1,7 @@
 package company.board_project.league.dto;
 
 import company.board_project.content.entity.Content;
-import company.board_project.match.entity.Match;
+import company.board_project.list.matchlist.entity.MatchList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -32,7 +32,7 @@ public class LeagueResponseDto {
     private String frequency;
 
     private List<Content> contents;
-    private List<Match> matches;
+    private List<MatchList> matchLists;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
