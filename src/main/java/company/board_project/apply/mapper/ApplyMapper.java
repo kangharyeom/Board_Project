@@ -1,11 +1,9 @@
 package company.board_project.apply.mapper;
 
+import company.board_project.apply.dto.*;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
 import company.board_project.match.entity.Match;
-import company.board_project.apply.dto.ApplyListDto;
-import company.board_project.apply.dto.ApplyPostDto;
-import company.board_project.apply.dto.ApplyResponseDto;
 import company.board_project.apply.entity.Apply;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -119,15 +117,16 @@ public interface ApplyMapper {
                 .build();
     }
 
-    default ApplyResponseDto applyToTeamApplyResponse(Apply apply){
+    default TeamApplyResponseDto applyToTeamApplyResponse(Apply apply){
 
         User user = apply.getUser();
         Team team = apply.getTeam();
 
-        return ApplyResponseDto.builder()
+        return TeamApplyResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .applyId(apply.getApplyId())
+                .userTeamApplyId(apply.getUserTeamApplyId())
                 .managerName(apply.getManagerName())
                 .teamName(apply.getTeamName())
                 .ageType(String.valueOf(apply.getAgeType()))
@@ -138,17 +137,18 @@ public interface ApplyMapper {
                 .build();
     }
 
-    default ApplyResponseDto applyToLeagueApplyResponse(Apply apply){
+    default LeagueApplyResponseDto applyToLeagueApplyResponse(Apply apply){
 
         User user = apply.getUser();
         Team team = apply.getTeam();
         League league = apply.getLeague();
 
-        return ApplyResponseDto.builder()
+        return LeagueApplyResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .leagueId(league.getLeagueId())
                 .applyId(apply.getApplyId())
+                .userLeagueApplyId(apply.getUserLeagueApplyId())
                 .teamName(apply.getTeamName())
                 .managerName(apply.getManagerName())
                 .levelType(String.valueOf(apply.getLevelType()))
@@ -159,17 +159,18 @@ public interface ApplyMapper {
                 .build();
     }
 
-    default ApplyResponseDto applyToMatchApplyResponse(Apply apply){
+    default MatchApplyResponseDto applyToMatchApplyResponse(Apply apply){
 
         User user = apply.getUser();
         Team team = apply.getTeam();
         Match match = apply.getMatch();
 
-        return ApplyResponseDto.builder()
+        return MatchApplyResponseDto.builder()
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .matchId(match.getMatchId())
                 .applyId(apply.getApplyId())
+                .userMatchApplyId(apply.getUserMatchApplyId())
                 .managerName(apply.getManagerName())
                 .levelType(String.valueOf(apply.getLevelType()))
                 .ageType(String.valueOf(apply.getAgeType()))

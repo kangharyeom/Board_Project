@@ -31,7 +31,6 @@ public interface LeagueMatchMapper {
         homeTeam.setTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         homeTeam.setTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         homeTeam.setTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        homeTeam.setRanking(requestBody.getHomeTeamRanking());
         homeTeam.setLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         homeTeam.setAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
         homeTeam.setUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
@@ -44,7 +43,6 @@ public interface LeagueMatchMapper {
         awayTeam.setTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
         awayTeam.setTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
         awayTeam.setTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        awayTeam.setRanking(requestBody.getAwayTeamRanking());
         awayTeam.setLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         awayTeam.setAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         awayTeam.setUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
@@ -85,7 +83,6 @@ public interface LeagueMatchMapper {
         leagueMatch.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         leagueMatch.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         leagueMatch.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        leagueMatch.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         leagueMatch.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         leagueMatch.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
         leagueMatch.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
@@ -101,7 +98,6 @@ public interface LeagueMatchMapper {
         leagueMatch.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
         leagueMatch.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
         leagueMatch.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        leagueMatch.setAwayTeamRanking(requestBody.getAwayTeamRanking());
         leagueMatch.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         leagueMatch.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         leagueMatch.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
@@ -129,7 +125,6 @@ public interface LeagueMatchMapper {
         leagueMatch.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         leagueMatch.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         leagueMatch.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        leagueMatch.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         leagueMatch.setHomeTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
         leagueMatch.setHomeTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
         leagueMatch.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
@@ -145,7 +140,6 @@ public interface LeagueMatchMapper {
         leagueMatch.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
         leagueMatch.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
         leagueMatch.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
-        leagueMatch.setAwayTeamRanking(requestBody.getAwayTeamRanking());
         leagueMatch.setAwayTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
         leagueMatch.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
         leagueMatch.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
@@ -185,7 +179,6 @@ public interface LeagueMatchMapper {
                 .homeTeamTotalWinRecord(leagueMatch.getHomeTeamTotalWinRecord())
                 .homeTeamTotalDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
                 .homeTeamTotalLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
-                .homeTeamRanking(leagueMatch.getHomeTeamRanking())
                 .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
                 .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
                 .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
@@ -199,7 +192,6 @@ public interface LeagueMatchMapper {
                 .awayTeamTotalWinRecord(leagueMatch.getAwayTeamTotalWinRecord())
                 .awayTeamTotalDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
                 .awayTeamTotalLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
-                .awayTeamRanking(leagueMatch.getAwayTeamRanking())
                 .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
                 .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
                 .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))
@@ -234,7 +226,6 @@ public interface LeagueMatchMapper {
                         .homeTeamTotalWinRecord(leagueMatch.getHomeTeamTotalWinRecord())
                         .homeTeamTotalDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
                         .homeTeamTotalLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
-                        .homeTeamRanking(leagueMatch.getHomeTeamRanking())
                         .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
                         .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
                         .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
@@ -248,7 +239,6 @@ public interface LeagueMatchMapper {
                         .awayTeamTotalWinRecord(leagueMatch.getAwayTeamTotalWinRecord())
                         .awayTeamTotalDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
                         .awayTeamTotalLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
-                        .awayTeamRanking(leagueMatch.getAwayTeamRanking())
                         .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
                         .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
                         .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))

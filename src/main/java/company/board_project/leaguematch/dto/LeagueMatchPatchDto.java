@@ -39,8 +39,6 @@ public class LeagueMatchPatchDto {
     private Long awayTeamTotalDrawRecord;
     private Long homeTeamTotalLoseRecord;
     private Long awayTeamTotalLoseRecord;
-    private Long homeTeamRanking;
-    private Long awayTeamRanking;
     private String homeTeamLevelType;
     private String awayTeamLevelType;
     private String homeTeamAgeType;

@@ -24,7 +24,6 @@ public class TeamPatchDto {
     private Long totalDrawRecord;
     private Long totalLoseRecord;
     private Long honorScore;
-    private Long ranking;
     private Long mostGoals;
     private Long mostAssist;
     private Long mostMom;
@@ -39,6 +38,7 @@ public class TeamPatchDto {
     private String sportsType;
     @NotBlank(message = "팀 실력을 입력 해야 합니다.")
     private String levelType;
+    private String frequency;
     private String managerName;
     private String subManagerName;
     private String uniformType;

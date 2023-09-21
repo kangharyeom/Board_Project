@@ -93,12 +93,6 @@ public class LeagueMatch extends Auditable {
     @Column
     private Long awayTeamTotalLoseRecord;
 
-    @Column
-    private Long homeTeamRanking;
-
-    @Column
-    private Long awayTeamRanking;
-
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 

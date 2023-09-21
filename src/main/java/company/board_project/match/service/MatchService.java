@@ -2,7 +2,6 @@ package company.board_project.match.service;
 
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.list.leaguelist.repository.LeagueListRepository;
 import company.board_project.match.entity.Match;
 import company.board_project.match.repository.MatchRepository;
 import company.board_project.team.entity.Team;
@@ -42,7 +41,6 @@ public class MatchService {
         match.setHomeTeamTotalWinRecord(team.getTotalWinRecord());
         match.setHomeTeamTotalDrawRecord(team.getTotalDrawRecord());
         match.setHomeTeamTotalLoseRecord(team.getTotalLoseRecord());
-        match.setHomeTeamRanking(team.getRanking());
         match.setHomeTeamLevelType(team.getLevelType());
         match.setHomeTeamAgeType(team.getAgeType());
         match.setHomeTeamUniformType(team.getUniformType());
@@ -74,9 +72,6 @@ public class MatchService {
 
         Optional.ofNullable(match.getHomeTeamTotalLoseRecord())
                 .ifPresent(findMatch::setHomeTeamTotalLoseRecord);
-
-        Optional.ofNullable(match.getHomeTeamRanking())
-                .ifPresent(findMatch::setHomeTeamRanking);
 
         Optional.ofNullable(match.getHomeTeamLevelType())
                 .ifPresent(findMatch::setHomeTeamLevelType);

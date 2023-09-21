@@ -13,9 +13,6 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPostDto {
-    private Long userTeamApplyId;
-    private Long userMatchApplyId;
-    private Long userLeagueApplyId;
     @NotBlank(message = "아이디는 공백이 아니어야 합니다.")
     private String loginId;
 

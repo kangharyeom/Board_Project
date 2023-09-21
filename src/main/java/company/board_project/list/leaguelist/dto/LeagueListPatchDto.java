@@ -29,7 +29,6 @@ public class LeagueListPatchDto {
     private Long leagueWinRecord;
     private Long leagueDrawRecord;
     private Long leagueLoseRecord;
-    private Long ranking;
     private Long teamGoals;
     private Long teamAssist;
     private Long cleanSheet;

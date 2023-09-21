@@ -48,7 +48,6 @@ public class MatchListService {
         matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
         matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
         matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
-        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
         matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
         matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
         matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
@@ -60,7 +59,6 @@ public class MatchListService {
         matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
         matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
         matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
-        matchList.setAwayTeamRanking(team.getRanking());
         matchList.setAwayTeamLevelType(team.getLevelType());
         matchList.setAwayTeamAgeType(team.getAgeType());
         matchList.setAwayTeamUniformType(team.getUniformType());
@@ -89,7 +87,6 @@ public class MatchListService {
         matchList.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
         matchList.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
         matchList.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
-        matchList.setHomeTeamRanking(match.getHomeTeamRanking());
         matchList.setHomeTeamLevelType(match.getHomeTeamLevelType());
         matchList.setHomeTeamAgeType(match.getHomeTeamAgeType());
         matchList.setHomeTeamUniformType(match.getHomeTeamUniformType());
@@ -100,7 +97,6 @@ public class MatchListService {
         matchList.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
         matchList.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
         matchList.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
-        matchList.setAwayTeamRanking(team.getRanking());
         matchList.setAwayTeamLevelType(team.getLevelType());
         matchList.setAwayTeamAgeType(team.getAgeType());
         matchList.setAwayTeamUniformType(team.getUniformType());
@@ -136,9 +132,6 @@ public class MatchListService {
         Optional.ofNullable(matchList.getHomeTeamTotalLoseRecord())
                 .ifPresent(findMatchList::setHomeTeamTotalLoseRecord);
 
-        Optional.ofNullable(matchList.getHomeTeamRanking())
-                .ifPresent(findMatchList::setHomeTeamRanking);
-
         Optional.ofNullable(matchList.getHomeTeamLevelType())
                 .ifPresent(findMatchList::setHomeTeamLevelType);
 
@@ -165,9 +158,6 @@ public class MatchListService {
 
         Optional.ofNullable(matchList.getAwayTeamTotalLoseRecord())
                 .ifPresent(findMatchList::setAwayTeamTotalLoseRecord);
-
-        Optional.ofNullable(matchList.getAwayTeamRanking())
-                .ifPresent(findMatchList::setAwayTeamRanking);
 
         Optional.ofNullable(matchList.getAwayTeamLevelType())
                 .ifPresent(findMatchList::setAwayTeamLevelType);

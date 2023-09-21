@@ -65,9 +65,6 @@ public class Team extends Auditable {
     private Long honorScore;
 
     @Column
-    private Long ranking;
-
-    @Column
     private Long mostGoals;
 
     @Column

@@ -121,9 +121,6 @@ public class LeagueListService {
         Optional.ofNullable(leagueList.getHonorScore())
                 .ifPresent(findLeagueList::setHonorScore);
 
-        Optional.ofNullable(leagueList.getRanking())
-                .ifPresent(findLeagueList::setRanking);
-
         Optional.ofNullable(leagueList.getAgeType())
                 .ifPresent(findLeagueList::setAgeType);
 

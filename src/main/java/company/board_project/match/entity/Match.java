@@ -45,9 +45,6 @@ public class Match extends Auditable {
     @Column
     private Long homeTeamTotalLoseRecord;
 
-    @Column
-    private Long homeTeamRanking;
-
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 

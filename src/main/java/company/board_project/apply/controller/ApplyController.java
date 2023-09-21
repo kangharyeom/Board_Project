@@ -1,7 +1,6 @@
 package company.board_project.apply.controller;
 
-import company.board_project.apply.dto.ApplyPostDto;
-import company.board_project.apply.dto.ApplyResponseDto;
+import company.board_project.apply.dto.*;
 import company.board_project.apply.entity.Apply;
 import company.board_project.apply.mapper.ApplyMapper;
 import company.board_project.apply.service.ApplyService;
@@ -36,27 +35,27 @@ public class ApplyController {
     public ResponseEntity postTeamApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
         Apply apply = applyService.createTeamApply(applyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
-        ApplyResponseDto applyResponseDto = applyMapper.applyToTeamApplyResponse(apply);
+        TeamApplyResponseDto teamApplyResponseDto = applyMapper.applyToTeamApplyResponse(apply);
 
-        return ResponseEntity.ok(applyResponseDto);
+        return ResponseEntity.ok(teamApplyResponseDto);
     }
 
     @PostMapping("/matches")
     public ResponseEntity postMatchApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
         Apply apply = applyService.createMatchApply(applyMapper.applyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
-        ApplyResponseDto applyResponseDto = applyMapper.applyToMatchApplyResponse(apply);
+        MatchApplyResponseDto matchApplyResponseDto = applyMapper.applyToMatchApplyResponse(apply);
 
-        return ResponseEntity.ok(applyResponseDto);
+        return ResponseEntity.ok(matchApplyResponseDto);
     }
 
     @PostMapping("/leagues")
     public ResponseEntity postLeagueApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
         Apply apply = applyService.createLeagueApply(applyMapper.applyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
-        ApplyResponseDto applyResponseDto = applyMapper.applyToLeagueApplyResponse(apply);
+        LeagueApplyResponseDto leagueApplyResponseDto = applyMapper.applyToLeagueApplyResponse(apply);
 
-        return ResponseEntity.ok(applyResponseDto);
+        return ResponseEntity.ok(leagueApplyResponseDto);
     }
 
 

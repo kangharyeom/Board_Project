@@ -37,9 +37,7 @@ public class TeamService {
             Team team,
             Long teamId) {
 
-
         Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
-
 
         Optional.ofNullable(team.getChampionCount())
                 .ifPresent(findTeam::setChampionCount);
@@ -67,9 +65,6 @@ public class TeamService {
 
         Optional.ofNullable(team.getHonorScore())
                 .ifPresent(findTeam::setHonorScore);
-
-        Optional.ofNullable(team.getRanking())
-                .ifPresent(findTeam::setRanking);
 
         Optional.ofNullable(team.getMostGoals())
                 .ifPresent(findTeam::setMostGoals);

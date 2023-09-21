@@ -17,7 +17,6 @@ public class LeaguePostDto {
     private Long teamCount = 1L;
     private Long honorScore;
     private String teamName;
-    private Long ranking;
     private Long teamGoals = 0L;
     private Long teamAssist = 0L;
     private Long cleanSheet = 0L;

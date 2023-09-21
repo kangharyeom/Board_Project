@@ -29,7 +29,6 @@ public interface MatchMapper {
         match.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         match.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         match.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         match.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         match.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
         match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
@@ -52,7 +51,6 @@ public interface MatchMapper {
         match.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
         match.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
         match.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamRanking(requestBody.getHomeTeamRanking());
         match.setHomeTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
         match.setHomeTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
         match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
@@ -80,7 +78,6 @@ public interface MatchMapper {
                 .homeTeamTotalWinRecord(team.getTotalWinRecord())
                 .homeTeamTotalDrawRecord(team.getTotalDrawRecord())
                 .homeTeamTotalLoseRecord(team.getTotalLoseRecord())
-                .homeTeamRanking(team.getRanking())
                 .homeTeamLevelType(String.valueOf(team.getLevelType()))
                 .homeTeamAgeType(String.valueOf(team.getAgeType()))
                 .homeTeamUniformType(String.valueOf(team.getUniformType()))
@@ -113,7 +110,6 @@ public interface MatchMapper {
                         .homeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord())
                         .homeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord())
                         .homeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord())
-                        .homeTeamRanking(match.getHomeTeamRanking())
                         .homeTeamLevelType(String.valueOf(match.getHomeTeamLevelType()))
                         .homeTeamAgeType(String.valueOf(match.getHomeTeamAgeType()))
                         .homeTeamUniformType(String.valueOf(match.getHomeTeamUniformType()))

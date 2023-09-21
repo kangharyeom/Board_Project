@@ -60,7 +60,6 @@ public class LeagueMatchService {
         leagueMatch.setHomeTeamTotalWinRecord(homeTeam.getTotalWinRecord());
         leagueMatch.setHomeTeamTotalDrawRecord(homeTeam.getTotalDrawRecord());
         leagueMatch.setHomeTeamTotalLoseRecord(homeTeam.getTotalLoseRecord());
-        leagueMatch.setHomeTeamRanking(homeTeamLeagueList.getRanking());
         leagueMatch.setHomeTeamLevelType(homeTeam.getLevelType());
         leagueMatch.setHomeTeamAgeType(homeTeam.getAgeType());
         leagueMatch.setHomeTeamUniformType(homeTeam.getUniformType());
@@ -76,7 +75,6 @@ public class LeagueMatchService {
         leagueMatch.setAwayTeamTotalWinRecord(awayTeam.getTotalWinRecord());
         leagueMatch.setAwayTeamTotalDrawRecord(awayTeam.getTotalDrawRecord());
         leagueMatch.setAwayTeamTotalLoseRecord(awayTeam.getTotalLoseRecord());
-        leagueMatch.setAwayTeamRanking(awayTeamLeagueList.getRanking());
         leagueMatch.setAwayTeamLevelType(awayTeam.getLevelType());
         leagueMatch.setAwayTeamAgeType(awayTeam.getAgeType());
         leagueMatch.setAwayTeamUniformType(awayTeam.getUniformType());
@@ -112,8 +110,6 @@ public class LeagueMatchService {
         Optional.ofNullable(leagueMatch.getHomeTeamTotalLoseRecord())
                 .ifPresent(findLeagueMatch::setHomeTeamTotalLoseRecord);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamRanking())
-                .ifPresent(findLeagueMatch::setHomeTeamRanking);
 
         Optional.ofNullable(leagueMatch.getHomeTeamLevelType())
                 .ifPresent(findLeagueMatch::setHomeTeamLevelType);
@@ -154,8 +150,6 @@ public class LeagueMatchService {
         Optional.ofNullable(leagueMatch.getAwayTeamTotalLoseRecord())
                 .ifPresent(findLeagueMatch::setAwayTeamTotalLoseRecord);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamRanking())
-                .ifPresent(findLeagueMatch::setAwayTeamRanking);
 
         Optional.ofNullable(leagueMatch.getAwayTeamLevelType())
                 .ifPresent(findLeagueMatch::setAwayTeamLevelType);

@@ -27,7 +27,6 @@ public class TeamResponseDto {
     private Long totalDrawRecord;
     private Long totalLoseRecord;
     private Long honorScore;
-    private Long ranking;
     private Long mostGoals;
     private Long mostAssist;
     private Long mostMom;

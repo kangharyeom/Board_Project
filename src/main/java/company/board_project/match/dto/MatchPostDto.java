@@ -22,7 +22,6 @@ public class MatchPostDto {
     private Long homeTeamTotalWinRecord;
     private Long homeTeamTotalDrawRecord;
     private Long homeTeamTotalLoseRecord;
-    private Long homeTeamRanking;
     private String homeTeamLevelType;
     private String homeTeamAgeType;
     private String homeTeamUniformType;

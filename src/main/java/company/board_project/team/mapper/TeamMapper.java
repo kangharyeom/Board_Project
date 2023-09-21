@@ -48,6 +48,7 @@ public interface TeamMapper {
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         team.setFormation(Formation.valueOf(requestBody.getFormation()));
         team.setUniformType(UniformType.valueOf(requestBody.getUniformType()));
+        team.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
         team.setManagerName(requestBody.getManagerName());
         team.setLeagueName(requestBody.getLeagueName());
         team.setSubManagerName(requestBody.getSubManagerName());
@@ -69,13 +70,13 @@ public interface TeamMapper {
         team.setTotalDrawRecord(requestBody.getTotalDrawRecord());
         team.setTotalLoseRecord(requestBody.getTotalLoseRecord());
         team.setHonorScore(requestBody.getHonorScore());
-        team.setRanking(requestBody.getRanking());
         team.setMostGoals(requestBody.getMostGoals());
         team.setMostAssist(requestBody.getMostAssist());
         team.setMostMom(requestBody.getMostMom());
         team.setIntroduction(requestBody.getIntroduction());
         team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
         team.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
+        team.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
         team.setFormation(Formation.valueOf(requestBody.getFormation()));
         team.setManagerName(requestBody.getManagerName());
         team.setLeagueName(requestBody.getLeagueName());
@@ -107,7 +108,6 @@ public interface TeamMapper {
                 .totalDrawRecord(team.getTotalDrawRecord())
                 .totalLoseRecord(team.getTotalLoseRecord())
                 .honorScore(team.getHonorScore())
-                .ranking(team.getRanking())
                 .mostGoals(team.getMostGoals())
                 .mostAssist(team.getMostAssist())
                 .mostMom(team.getMostMom())
@@ -157,7 +157,6 @@ public interface TeamMapper {
                         .totalLoseRecord(team.getTotalLoseRecord())
                         .leagueName(team.getLeagueName())
                         .honorScore(team.getHonorScore())
-                        .ranking(team.getRanking())
                         .mostGoals(team.getMostGoals())
                         .mostAssist(team.getMostAssist())
                         .mostMom(team.getMostMom())

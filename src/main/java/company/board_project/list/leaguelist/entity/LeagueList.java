@@ -81,9 +81,6 @@ public class LeagueList extends Auditable {
     private Long leagueLoseRecord;
 
     @Column
-    private Long ranking;
-
-    @Column
     private Long teamGoals;
 
     @Column

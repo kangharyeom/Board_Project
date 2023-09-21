@@ -149,7 +149,6 @@ public interface LeagueListMapper {
                 .leagueLoseRecord(leagueList.getLeagueLoseRecord())
                 .teamAssist(leagueList.getTeamAssist())
                 .teamGoals(leagueList.getTeamGoals())
-                .ranking(leagueList.getRanking())
                 .cleanSheet(leagueList.getCleanSheet())
 
                /* .mostGoals(leagueList.getMostGoals())
@@ -182,7 +181,6 @@ public interface LeagueListMapper {
                         .leagueLoseRecord(leagueList.getLeagueLoseRecord())
                         .teamName(leagueList.getTeamName())
                         .honorScore(leagueList.getHonorScore())
-                        .ranking(leagueList.getRanking())
                         .teamAssist(leagueList.getTeamAssist())
                         .teamGoals(leagueList.getTeamGoals())
                         .cleanSheet(leagueList.getCleanSheet())

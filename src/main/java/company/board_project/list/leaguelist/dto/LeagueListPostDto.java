@@ -31,7 +31,6 @@ public class LeagueListPostDto {
     private Long leagueDrawRecord = 0L;
     private Long leagueLoseRecord = 0L;
     private Long cleanSheet = 0L;
-    private Long ranking;
     private Long teamGoals = 0L;
     private Long teamAssist = 0L;
 

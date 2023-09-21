@@ -23,6 +23,7 @@ public class TeamPostDto {
     private String sportsType;
     @NotBlank(message = "팀 실력을 입력 해야 합니다.")
     private String levelType;
+    private String frequency;
     private String managerName;
     private String subManagerName;
     private String uniformType;
