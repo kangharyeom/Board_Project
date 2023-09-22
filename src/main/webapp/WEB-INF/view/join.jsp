@@ -33,11 +33,11 @@ joinContainer{
             <label for="floatingInput">Email address</label>
           </div>
           <div class="form-floating">
-            <input type="text" class="form-control"  id="idInput" placeholder="Id">
+            <input type="text" class="form-control"  id="loginIdInput" placeholder="Id">
             <label for="floatingPassword">Id</label>
           </div>
           <div class="form-floating">
-            <input type="password" class="form-control" id="passInput" placeholder="Password">
+            <input type="password" class="form-control" id="passwordInput" placeholder="Password">
             <label for="floatingPassword">Password</label>
           </div>
           <div class="form-floating">
@@ -59,9 +59,9 @@ joinContainer{
 
                 var jsonData = {
                     "email": $('#emailInput').val(),
-                    "loginId": $('#idInput').val(),
+                    "loginId": $('#loginIdInput').val(),
                     "name": $('#nameInput').val(),
-                    "password": $('#passInput').val(),
+                    "password": $('#passwordInput').val(),
                     "phone": $('#phoneInput').val()
                 };
 
@@ -77,6 +77,12 @@ joinContainer{
                         window.location.href = "/login";
                         },
                         error: function (error) {
+                            alert(jsonData)
+                            console.log($('#emailInput').val(),
+                                        $('#loginIdInput').val(),
+                                        $('#nameInput').val(),
+                                        $('#passInput').val(),
+                                        $('#phoneInput').val())
 
                         // 서버 응답이 오류인 경우 /join 페이지로 리다이렉트
                         console.log("Error from server: " + error.statusText);

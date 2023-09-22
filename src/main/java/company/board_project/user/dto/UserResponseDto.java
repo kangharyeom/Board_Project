@@ -2,7 +2,6 @@ package company.board_project.user.dto;
 
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,6 +16,7 @@ public class UserResponseDto {
     private String name;
     private String password;
     private String phone;
+    private String position;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

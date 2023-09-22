@@ -2,7 +2,17 @@ package company.board_project.user.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.Position;
+import company.board_project.constant.UserRole;
 import company.board_project.content.entity.Content;
+import company.board_project.league.entity.League;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.matchlist.entity.MatchList;
+import company.board_project.list.teamlist.entity.TeamList;
+import company.board_project.match.entity.Match;
+import company.board_project.schedule.entity.Schedule;
+import company.board_project.apply.entity.Apply;
+import company.board_project.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,6 +33,10 @@ public class User extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    private Long userTeamApplyId;
+    private Long userMatchApplyId;
+    private Long userLeagueApplyId;
+
     @Column(nullable = false, unique = false, updatable = false)
     private String loginId;
 
@@ -38,10 +52,40 @@ public class User extends Auditable {
     @Column(nullable = false)
     private String phone;
 
-    // 연관 관계 일대다 //
+    @Enumerated(EnumType.STRING)
+    private Position position;
+
+    @Enumerated(EnumType.STRING)
+    private UserRole USER_ROLE;
+
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Match> matches = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Team> teams = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<League> leagues = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Schedule> schedules = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<Apply> applies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<TeamList> teamLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<MatchList> matchLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<LeagueList> leagueLists = new ArrayList<>();
+
 }

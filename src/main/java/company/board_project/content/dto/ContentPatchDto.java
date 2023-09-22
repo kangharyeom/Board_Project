@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @AllArgsConstructor
@@ -22,10 +21,8 @@ public class ContentPatchDto {
     private String content;
     public List<ContentFile> contentFileList;
 
-    // 유저 정보
     private String name;
 
-    // 생성자 //
     public void updateId(Long id){
         this.contentId = id;
     }

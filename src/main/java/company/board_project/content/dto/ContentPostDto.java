@@ -19,6 +19,5 @@ public class ContentPostDto {
     private String content;
     public List<ContentFile> contentFileList;
 
-    // 유저 정보
     private String name;
 }
