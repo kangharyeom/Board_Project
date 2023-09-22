@@ -1,11 +1,8 @@
 package company.board_project.leaguematch.mapper;
 
 import company.board_project.constant.*;
+import company.board_project.leaguematch.dto.*;
 import company.board_project.list.leaguelist.entity.LeagueList;
-import company.board_project.leaguematch.dto.LeagueMatchListDto;
-import company.board_project.leaguematch.dto.LeagueMatchPatchDto;
-import company.board_project.leaguematch.dto.LeagueMatchPostDto;
-import company.board_project.leaguematch.dto.LeagueMatchResponseDto;
 import company.board_project.leaguematch.entity.LeagueMatch;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -86,6 +83,7 @@ public interface LeagueMatchMapper {
         leagueMatch.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
         leagueMatch.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
         leagueMatch.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
+        leagueMatch.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getHomeTeamMatchResultStatus()));
 
         leagueMatch.setAwayTeamScore(requestBody.getAwayTeamScore());
         leagueMatch.setAwayTeamHonorScore(requestBody.getAwayTeamHonorScore());
@@ -101,10 +99,12 @@ public interface LeagueMatchMapper {
         leagueMatch.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         leagueMatch.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         leagueMatch.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
+        leagueMatch.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getAwayTeamMatchResultStatus()));
 
         leagueMatch.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         leagueMatch.setSportType(SportsType.valueOf(requestBody.getSportType()));
         leagueMatch.setMatchTime(requestBody.getMatchTime());
+        leagueMatch.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
         leagueMatch.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         leagueMatch.setMatchRules(requestBody.getMatchRules());
 
@@ -128,6 +128,7 @@ public interface LeagueMatchMapper {
         leagueMatch.setHomeTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
         leagueMatch.setHomeTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
         leagueMatch.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
+        leagueMatch.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getHomeTeamMatchResultStatus()));
 
         leagueMatch.setAwayTeamScore(requestBody.getAwayTeamScore());
         leagueMatch.setAwayTeamHonorScore(requestBody.getAwayTeamHonorScore());
@@ -143,12 +144,24 @@ public interface LeagueMatchMapper {
         leagueMatch.setAwayTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
         leagueMatch.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
         leagueMatch.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
+        leagueMatch.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf(requestBody.getAwayTeamMatchResultStatus()));
 
         leagueMatch.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         leagueMatch.setSportType(SportsType.valueOf(requestBody.getSportType()));
         leagueMatch.setMatchTime(requestBody.getMatchTime());
+        leagueMatch.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
         leagueMatch.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         leagueMatch.setMatchRules(requestBody.getMatchRules());
+
+        return leagueMatch;
+    }
+
+    default LeagueMatch leagueMatchEndDtoToLeagueMatch(LeagueMatchEndDto requestBody) {
+        LeagueMatch leagueMatch = new LeagueMatch();
+
+        leagueMatch.setHomeTeamScore(requestBody.getHomeTeamScore());
+        leagueMatch.setAwayTeamScore(requestBody.getAwayTeamScore());
+        leagueMatch.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
 
         return leagueMatch;
     }
@@ -182,6 +195,7 @@ public interface LeagueMatchMapper {
                 .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
                 .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
                 .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
+                .homeTeamMatchResultStatus(String.valueOf(leagueMatch.getHomeTeamMatchResultStatus()))
                 .awayTeamScore(leagueMatch.getAwayTeamScore())
                 .awayTeamHonorScore(leagueMatch.getAwayTeamHonorScore())
                 .awayTeamName(leagueMatch.getAwayTeamName())
@@ -195,11 +209,36 @@ public interface LeagueMatchMapper {
                 .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
                 .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
                 .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))
+                .awayTeamMatchResultStatus(String.valueOf(leagueMatch.getAwayTeamMatchResultStatus()))
                 .sportType(String.valueOf(leagueMatch.getSportType()))
                 .locationType(String.valueOf(leagueMatch.getLocationType()))
                 .matchTime(leagueMatch.getMatchTime())
                 .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))
                 .matchType(String.valueOf(leagueMatch.getMatchType()))
+                .createdAt(leagueMatch.getCreatedAt())
+                .modifiedAt(leagueMatch.getModifiedAt())
+                .build();
+    }
+
+    default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){
+        User homeTeamUser = leagueMatch.getUser();
+        User awayTeamUser = leagueMatch.getUser();
+        Team homeTeam = leagueMatch.getTeam();
+        Team awayTeam = leagueMatch.getTeam();
+        LeagueList homeTeamLeagueList = leagueMatch.getLeagueList();
+        LeagueList awayTeamLeagueList = leagueMatch.getLeagueList();
+
+        return LeagueMatchEndResponseDto.builder()
+                .leagueMatchId(leagueMatch.getLeagueMatchId())
+                .homeTeamUserId(homeTeamUser.getUserId())
+                .awayTeamUserId(awayTeamUser.getUserId())
+                .homeTeamId(homeTeam.getTeamId())
+                .awayTeamId(awayTeam.getTeamId())
+                .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
+                .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
+                .homeTeamScore(leagueMatch.getHomeTeamScore())
+                .awayTeamScore(leagueMatch.getAwayTeamScore())
+                .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
@@ -229,6 +268,7 @@ public interface LeagueMatchMapper {
                         .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
                         .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
                         .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
+                        .homeTeamMatchResultStatus(String.valueOf(leagueMatch.getHomeTeamMatchResultStatus()))
                         .awayTeamScore(leagueMatch.getAwayTeamScore())
                         .awayTeamHonorScore(leagueMatch.getAwayTeamHonorScore())
                         .awayTeamName(leagueMatch.getAwayTeamName())
@@ -242,6 +282,7 @@ public interface LeagueMatchMapper {
                         .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
                         .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
                         .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))
+                        .awayTeamMatchResultStatus(String.valueOf(leagueMatch.getHomeTeamMatchResultStatus()))
                         .locationType(String.valueOf(leagueMatch.getLocationType()))
                         .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))
                         .sportType(String.valueOf(leagueMatch.getSportType()))

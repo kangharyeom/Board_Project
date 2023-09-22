@@ -53,14 +53,14 @@ public class LeagueController {
                 HttpStatus.OK);
     }*/
 
-    @PostMapping("/apply/{applyId}")
-    public ResponseEntity postApplyToLeague(@RequestBody LeaguePostDto requestBody, @PathVariable("applyId") Long applyId){
-
-        League league = leagueService.createLeague(leagueMapper.leagueApplyToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
-        LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
-
-        return ResponseEntity.ok(leagueResponseDto);
-    }
+//    @PostMapping("/apply/{applyId}")
+//    public ResponseEntity postApplyToLeague(@RequestBody LeaguePostDto requestBody, @PathVariable("applyId") Long applyId){
+//
+//        League league = leagueService.createLeague(leagueMapper.leagueApplyToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
+//        LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
+//
+//        return ResponseEntity.ok(leagueResponseDto);
+//    }
 
     @GetMapping("/{leagueId}")
     public ResponseEntity getLeague(@PathVariable("leagueId") Long leagueId) {

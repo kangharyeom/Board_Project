@@ -5,7 +5,6 @@ import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
 import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.list.matchlist.entity.MatchList;
-import company.board_project.list.teamlist.entity.TeamList;
 import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
@@ -31,8 +30,16 @@ public class League extends Auditable {
     @Column(nullable = false)
     private Long matchCount;
 
+    // matchCount == leagueEndCount 일경우 리그 종료
+    // leagueEndCount == (각 팀 경기수 총합/팀 수)
+    @Column
+    private Long leagueEndCount;
+
     @Column
     private Long teamCount;
+
+    @Column
+    private Long memberCount;
 
     @Column(nullable = false)
     private String leagueName;
@@ -41,7 +48,7 @@ public class League extends Auditable {
     private String managerName;
 
     @Column
-    private String participantTeamName;
+    private String managerTeamName;
 
     @Enumerated(EnumType.STRING)
     private SportsType sportsType;
@@ -64,23 +71,11 @@ public class League extends Auditable {
     @Enumerated(EnumType.STRING)
     private Frequency frequency;
 
-    @Column
-    private Long memberCount;
-
-    @Column
-    private Long leagueWinRecord;
-
-    @Column
-    private Long leagueDrawRecord;
-
-    @Column
-    private Long leagueLoseRecord;
+    @Enumerated(EnumType.STRING)
+    private SeasonType seasonType;
 
     @Column
     private Long honorScore;
-
-    @Column
-    private Long winPoints;
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Match> matches = new ArrayList<>();

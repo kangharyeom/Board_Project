@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 public class LeagueMatchPatchDto {
-    private Long matchId;
+    private Long leagueMatchId;
     private Long homeTeamUserId;
     private Long awayTeamUserId;
     private Long homeTeamId;
@@ -57,11 +57,13 @@ public class LeagueMatchPatchDto {
     private String matchTime;
     @NotBlank(message = "경기의 난이도를 입력 해야 합니다.")
     private String levelType;
-    private String matchStatus = "BEFORE";
+    private String matchStatus;
+    private String homeTeamMatchResultStatus;
+    private String awayTeamMatchResultStatus;
     private String matchRules;
 
 
     public void updateId(Long id){
-        this.matchId = id;
+        this.leagueMatchId = id;
     }
 }

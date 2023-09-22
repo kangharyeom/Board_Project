@@ -50,5 +50,7 @@ public class LeagueMatchPostDto {
     @NotBlank(message = "경기 시간을 입력 해야 합니다.")
     private String matchTime;
     private String matchStatus = "BEFORE";
+    private String homeTeamMatchResultStatus = "NONE";
+    private String awayTeamMatchResultStatus = "NONE";
     private String matchRules;
 }

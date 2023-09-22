@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Builder
-public class LeagueMatchResponseDto {
+public class LeagueMatchEndToLeagueMatchResponseDto {
     private Long leagueMatchId;
     private Long homeTeamUserId;
     private Long awayTeamUserId;
@@ -39,18 +39,7 @@ public class LeagueMatchResponseDto {
     private Long awayTeamTotalDrawRecord;
     private Long homeTeamTotalLoseRecord;
     private Long awayTeamTotalLoseRecord;
-    private String homeTeamLevelType;
-    private String awayTeamLevelType;
-    private String homeTeamAgeType;
-    private String awayTeamAgeType;
-    private String homeTeamUniformType;
-    private String awayTeamUniformType;
-    private String matchType;
-    private String sportType;
-    private String locationType;
-    private String matchTime;
     private String matchStatus;
-    private String matchRules;
     private String homeTeamMatchResultStatus;
     private String awayTeamMatchResultStatus;
 

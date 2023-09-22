@@ -69,6 +69,9 @@ public class LeagueList extends Auditable {
     private UniformType uniformType;
 
     @Column
+    private Long leagueMatchCount;
+
+    @Column
     private Long leagueMatchPoints;
 
     @Column

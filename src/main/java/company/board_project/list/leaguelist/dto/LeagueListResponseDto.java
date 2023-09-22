@@ -29,6 +29,7 @@ public class LeagueListResponseDto {
     private String levelType;
     private String frequency;
     private String uniformType;
+    private Long leagueMatchCount;
     private Long leagueMatchPoints;
     private Long leagueWinRecord;
     private Long leagueDrawRecord;
