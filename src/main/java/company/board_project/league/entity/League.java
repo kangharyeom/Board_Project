@@ -5,7 +5,7 @@ import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
 import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.list.matchlist.entity.MatchList;
-import company.board_project.match.entity.Match;
+import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;

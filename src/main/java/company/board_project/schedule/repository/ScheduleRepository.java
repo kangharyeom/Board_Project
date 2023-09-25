@@ -1,6 +1,5 @@
 package company.board_project.schedule.repository;
 
-import company.board_project.match.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

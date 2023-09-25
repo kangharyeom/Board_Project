@@ -4,7 +4,7 @@ import company.board_project.apply.entity.Apply;
 import company.board_project.constant.*;
 import company.board_project.list.matchlist.dto.*;
 import company.board_project.list.matchlist.entity.MatchList;
-import company.board_project.match.entity.Match;
+import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import org.mapstruct.Mapper;

@@ -3,7 +3,7 @@ package company.board_project.apply.mapper;
 import company.board_project.apply.dto.*;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
-import company.board_project.match.entity.Match;
+import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.apply.entity.Apply;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;

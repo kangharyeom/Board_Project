@@ -1,9 +1,7 @@
 package company.board_project.team.service;
 
-import company.board_project.constant.MatchResultStatus;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
-import company.board_project.leaguematch.entity.LeagueMatch;
 import company.board_project.team.entity.Team;
 import company.board_project.team.repository.TeamRepository;
 import company.board_project.user.entity.User;
