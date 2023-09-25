@@ -131,7 +131,7 @@ public class LeagueMatchController {
         leagueMatchService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, leagueMatchId);
         teamService.updateForLeagueMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
         leagueListService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, requestBody.getHomeTeamLeagueListId(), requestBody.getAwayTeamLeagueListId());
-        leagueService.checkEndTheLeague(requestBody.getLeagueId());
+//        leagueService.checkEndTheLeague(requestBody.getLeagueId());
 
         return ResponseEntity.ok(matchResponse);
     }
