@@ -4,6 +4,8 @@ import company.board_project.apply.entity.Apply;
 import company.board_project.constant.*;
 import company.board_project.list.matchlist.dto.*;
 import company.board_project.list.matchlist.entity.MatchList;
+import company.board_project.match.normalmatch.dto.MatchEndDto;
+import company.board_project.match.normalmatch.dto.MatchEndResponseDto;
 import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -18,13 +20,13 @@ public interface MatchListMapper {
         User user = new User();
         user.setPosition(user.getPosition());
 
-        user.setUserId(requestBody.getUserId());
+        user.setUserId(requestBody.getHomeTeamUserId());
 
         Apply apply = new Apply();
         apply.setApplyId(requestBody.getApplyId());
 
         Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
+        team.setTeamId(requestBody.getHomeTeamId());
         team.setHonorScore(requestBody.getAwayTeamHonorScore());
         team.setTeamName(requestBody.getAwayTeamName());
         team.setManagerName(requestBody.getAwayTeamManagerName());
@@ -52,6 +54,7 @@ public interface MatchListMapper {
         matchList.setApply(apply);
         matchList.setTeam(team);
         matchList.setMatch(match);
+        matchList.setHomeTeamId(requestBody.getHomeTeamId());
         matchList.setAwayTeamName(requestBody.getAwayTeamName());
         matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
         matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
@@ -79,7 +82,11 @@ public interface MatchListMapper {
     }
 
     default MatchList matchListPatchDtoToMatchList (MatchListPatchDto requestBody) {
+        Apply apply = new Apply();
+        apply.setApplyId(apply.getApplyId());
+
         MatchList matchList = new MatchList();
+        matchList.setApply(apply);
         matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
         matchList.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
         matchList.setHomeTeamName(requestBody.getHomeTeamName());
@@ -103,6 +110,53 @@ public interface MatchListMapper {
         return matchList;
     }
 
+    default MatchList applyToMatchList (MatchAwayTeamDto requestBody) {
+        MatchList matchList = new MatchList();
+        matchList.setAwayTeamId(requestBody.getAwayTeamId());
+        matchList.setAwayTeamUserId(requestBody.getAwayTeamUserId());
+        matchList.setAwayTeamName(requestBody.getAwayTeamName());
+        matchList.setAwayTeamHonorScore(requestBody.getAwayTeamHonorScore());
+        matchList.setAwayTeamManagerName(requestBody.getAwayTeamManagerName());
+        matchList.setAwayTeamTotalWinRecord(requestBody.getAwayTeamTotalWinRecord());
+        matchList.setAwayTeamTotalDrawRecord(requestBody.getAwayTeamTotalDrawRecord());
+        matchList.setAwayTeamTotalLoseRecord(requestBody.getAwayTeamTotalLoseRecord());
+        matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
+        matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
+        matchList.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
+
+        return matchList;
+    }
+
+    default MatchList matchEndDtoToMatch(MatchEndDto requestBody) {
+        MatchList matchList = new MatchList();
+
+        matchList.setHomeTeamScore(requestBody.getHomeTeamScore());
+        matchList.setAwayTeamScore(requestBody.getAwayTeamScore());
+        matchList.setMatchStatus(MatchStatus.valueOf(requestBody.getMatchStatus()));
+
+        return matchList;
+    }
+
+    default MatchEndResponseDto matchToMatchEndResponse(MatchList matchList){
+        Match match = matchList.getMatch();
+        User user = matchList.getUser();
+        Team team = matchList.getTeam();
+
+        return MatchEndResponseDto.builder()
+                .matchListId(matchList.getMatchListId())
+                .matchId(match.getMatchId())
+                .homeTeamUserId(user.getUserId())
+                .awayTeamUserId(matchList.getAwayTeamUserId())
+                .homeTeamId(team.getTeamId())
+                .awayTeamId(matchList.getAwayTeamId())
+                .homeTeamScore(matchList.getHomeTeamScore())
+                .awayTeamScore(matchList.getAwayTeamScore())
+                .matchStatus(String.valueOf(matchList.getMatchStatus()))
+                .createdAt(matchList.getCreatedAt())
+                .modifiedAt(matchList.getModifiedAt())
+                .build();
+    }
+
     default MatchListResponseDto matchListToMatchListResponse(MatchList matchList){
 
         User user = matchList.getUser();
@@ -114,10 +168,49 @@ public interface MatchListMapper {
         Match match = matchList.getMatch();
 
         return MatchListResponseDto.builder()
-                .userId(user.getUserId())
-                .teamId(team.getTeamId())
+                .homeTeamUserId(user.getUserId())
+                .homeTeamId(team.getTeamId())
                 .matchId(match.getMatchId())
                 .applyId(apply.getApplyId())
+                .matchListId(matchList.getMatchListId())
+                .homeTeamScore(matchList.getHomeTeamScore())
+                .homeTeamHonorScore(matchList.getHomeTeamHonorScore())
+                .homeTeamName(matchList.getHomeTeamName())
+                .homeTeamManagerName(matchList.getHomeTeamManagerName())
+                .homeTeamTotalWinRecord(matchList.getHomeTeamTotalWinRecord())
+                .homeTeamTotalDrawRecord(matchList.getHomeTeamTotalDrawRecord())
+                .homeTeamTotalLoseRecord(matchList.getHomeTeamTotalLoseRecord())
+                .homeTeamLevelType(String.valueOf(matchList.getHomeTeamLevelType()))
+                .homeTeamAgeType(String.valueOf(matchList.getHomeTeamAgeType()))
+                .homeTeamUniformType(String.valueOf(matchList.getHomeTeamUniformType()))
+
+                .awayTeamScore(matchList.getAwayTeamScore())
+                .awayTeamHonorScore(matchList.getAwayTeamHonorScore())
+                .awayTeamName(matchList.getAwayTeamName())
+                .awayTeamManagerName(matchList.getAwayTeamManagerName())
+                .awayTeamTotalWinRecord(matchList.getAwayTeamTotalWinRecord())
+                .awayTeamTotalDrawRecord(matchList.getAwayTeamTotalDrawRecord())
+                .awayTeamTotalLoseRecord(matchList.getAwayTeamTotalLoseRecord())
+                .awayTeamLevelType(String.valueOf(matchList.getAwayTeamLevelType()))
+                .awayTeamAgeType(String.valueOf(matchList.getAwayTeamAgeType()))
+                .awayTeamUniformType(String.valueOf(matchList.getAwayTeamUniformType()))
+                .createdAt(matchList.getCreatedAt())
+                .modifiedAt(matchList.getModifiedAt())
+                .build();
+    }
+
+    default MatchListResponseDto applyToMatchListResponse(MatchList matchList, Long applyId){
+        Match match = matchList.getMatch();
+        User user = matchList.getUser();
+        Team team = matchList.getTeam();
+
+        return MatchListResponseDto.builder()
+                .homeTeamUserId(user.getUserId())
+                .awayTeamUserId(matchList.getAwayTeamUserId())
+                .awayTeamId(matchList.getAwayTeamId())
+                .matchId(match.getMatchId())
+                .homeTeamId(team.getTeamId())
+                .applyId(applyId)
                 .matchListId(matchList.getMatchListId())
                 .homeTeamScore(matchList.getHomeTeamScore())
                 .homeTeamHonorScore(matchList.getHomeTeamHonorScore())

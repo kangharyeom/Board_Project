@@ -2,8 +2,6 @@ package company.board_project.match.normalmatch.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
-import company.board_project.league.entity.League;
-import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.apply.entity.Apply;
@@ -86,9 +84,6 @@ public class Match extends Auditable {
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<MatchList> matchList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-//    private List<LeagueList> leagueList = new ArrayList<>();
-
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
@@ -98,15 +93,7 @@ public class Match extends Auditable {
     private User user;
 
     @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_ID")
-    private League league;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_LIST_ID")
-    private LeagueList leagueList;
 
 }

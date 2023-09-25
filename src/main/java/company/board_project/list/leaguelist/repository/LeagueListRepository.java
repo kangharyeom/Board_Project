@@ -11,6 +11,12 @@ public interface LeagueListRepository extends JpaRepository<LeagueList, Long> {
     @Query(value = "select * from league_Lists where league_id = :leagueId", nativeQuery = true)
     List<LeagueList> findAllLeaguesByLeagueId(@Param("leagueId") long leagueId);
 
+    @Query(value = "SELECT * from league_Lists WHERE league_id = :leagueId order by league_match_points desc limit 1", nativeQuery = true)
+    LeagueList findWinnerByLeagueId(@Param("leagueId") long leagueId);
+
+    @Query(value = "SELECT * from league_Lists WHERE league_id = :leagueId order by league_match_points desc", nativeQuery = true)
+    LeagueList findLeagueWinPointsByLeagueId(@Param("leagueId") long leagueId);
+
     @Query(value = "select league_lose_record from league_Lists where league_id = :leagueId", nativeQuery = true)
     LeagueList findLeagueLoseRecordByLeagueId(@Param("leagueId") long leagueId);
 

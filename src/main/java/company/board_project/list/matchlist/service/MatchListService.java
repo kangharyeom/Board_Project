@@ -2,10 +2,12 @@ package company.board_project.list.matchlist.service;
 
 import company.board_project.apply.entity.Apply;
 import company.board_project.apply.service.ApplyService;
+import company.board_project.constant.MatchResultStatus;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.list.matchlist.repository.MatchListRepository;
+import company.board_project.match.leaguematch.entity.LeagueMatch;
 import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.match.normalmatch.service.MatchService;
 import company.board_project.team.entity.Team;
@@ -30,10 +32,10 @@ public class MatchListService {
     private final MatchService matchService;
 
     public MatchList createMatchList(
-            MatchList matchList, Long userId,Long applyId, Long teamId, Long matchId) {
-        User user = userService.findUser(userId);
+            MatchList matchList, Long awayTeamUserId,Long applyId, Long awayTeamId, Long matchId) {
+        User user = userService.findUser(awayTeamUserId);
         Apply apply = applyService.findApply(applyId);
-        Team team = teamService.findTeam(teamId);
+        Team team = teamService.findTeam(awayTeamId);
         Match match = matchService.findMatch(matchId);
 
         matchList.setUser(user);
@@ -81,6 +83,7 @@ public class MatchListService {
         matchList.setTeam(team);
         matchList.setMatch(match);
 
+        matchList.setHomeTeamId(team.getTeamId());
         matchList.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
         matchList.setHomeTeamName(match.getHomeTeamName());
         matchList.setHomeTeamManagerName(match.getHomeTeamManagerName());
@@ -111,6 +114,7 @@ public class MatchListService {
     public MatchList updateMatchList(
             MatchList matchList,
             Long teamListId) {
+
 
         MatchList findMatchList = findVerifiedMatchList(teamListId);
 
@@ -143,6 +147,12 @@ public class MatchListService {
 
         Optional.ofNullable(matchList.getAwayTeamHonorScore())
                 .ifPresent(findMatchList::setAwayTeamHonorScore);
+
+        Optional.ofNullable(matchList.getAwayTeamUserId())
+                .ifPresent(findMatchList::setAwayTeamUserId);
+
+        Optional.ofNullable(matchList.getAwayTeamId())
+                .ifPresent(findMatchList::setAwayTeamId);
 
         Optional.ofNullable(matchList.getAwayTeamName())
                 .ifPresent(findMatchList::setAwayTeamName);
@@ -177,6 +187,122 @@ public class MatchListService {
         Optional.ofNullable(teamList.getMostMom())
                 .ifPresent(findTeamList::setMostMom);*/
 
+        return matchListRepository.save(findMatchList);
+    }
+
+    public MatchList updateMatchListWithAwayTeam(
+            MatchList matchList
+            ,Long matchListId
+    ) {
+
+        MatchList findMatchList = findVerifiedMatchList(matchListId);
+
+        Optional.ofNullable(matchList.getAwayTeamHonorScore())
+                .ifPresent(findMatchList::setAwayTeamHonorScore);
+
+        Optional.ofNullable(matchList.getAwayTeamUserId())
+                .ifPresent(findMatchList::setAwayTeamUserId);
+
+        Optional.ofNullable(matchList.getAwayTeamId())
+                .ifPresent(findMatchList::setAwayTeamId);
+
+        Optional.ofNullable(matchList.getAwayTeamName())
+                .ifPresent(findMatchList::setAwayTeamName);
+
+        Optional.ofNullable(matchList.getAwayTeamManagerName())
+                .ifPresent(findMatchList::setAwayTeamManagerName);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalWinRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalWinRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalDrawRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalDrawRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamTotalLoseRecord())
+                .ifPresent(findMatchList::setAwayTeamTotalLoseRecord);
+
+        Optional.ofNullable(matchList.getAwayTeamLevelType())
+                .ifPresent(findMatchList::setAwayTeamLevelType);
+
+        Optional.ofNullable(matchList.getAwayTeamAgeType())
+                .ifPresent(findMatchList::setAwayTeamAgeType);
+
+        Optional.ofNullable(matchList.getAwayTeamUniformType())
+                .ifPresent(findMatchList::setAwayTeamUniformType);
+
+        /*Optional.ofNullable(teamList.getMostGoals())
+                .ifPresent(findTeamList::setMostGoals);
+
+        Optional.ofNullable(teamList.getMostAssist())
+                .ifPresent(findTeamList::setMostAssist);
+
+        Optional.ofNullable(teamList.getMostMom())
+                .ifPresent(findTeamList::setMostMom);*/
+
+        return matchListRepository.save(findMatchList);
+    }
+
+    public MatchList updateMatchEnd(MatchList matchList
+            , Long matchListId
+    ) {
+
+        MatchList findMatchList = findVerifiedMatchList(matchListId);
+
+        Optional.ofNullable(matchList.getHomeTeamScore())
+                .ifPresent(findMatchList::setHomeTeamScore);
+
+        Optional.ofNullable(matchList.getAwayTeamScore())
+                .ifPresent(findMatchList::setAwayTeamScore);
+
+        Optional.ofNullable(matchList.getMatchStatus())
+                .ifPresent(findMatchList::setMatchStatus);
+
+        return matchListRepository.save(findMatchList);
+    }
+
+    public MatchList updateForMatchEnd(
+            Long homeTeamScore
+            , Long awayTeamScore
+            , Long matchListId
+    ) {
+//        리그 매치 정보 수정
+        MatchList findMatchList = findVerifiedMatchList(matchListId);
+
+//        homeTeam 이긴 경우
+        if(homeTeamScore>awayTeamScore){
+            findMatchList.setHomeTeamHonorScore(findMatchList.getHomeTeamHonorScore()+300L);
+            findMatchList.setHomeTeamTotalWinRecord(findMatchList.getHomeTeamTotalWinRecord()+1L);
+            findMatchList.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("WIN"));
+
+            findMatchList.setAwayTeamHonorScore(findMatchList.getAwayTeamHonorScore()+10L);
+            findMatchList.setAwayTeamTotalLoseRecord(findMatchList.getAwayTeamTotalLoseRecord()+1L);
+            findMatchList.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+
+
+
+//        homeTeam 패배한 경우
+        } else if(homeTeamScore<awayTeamScore){
+            findMatchList.setHomeTeamHonorScore(findMatchList.getHomeTeamHonorScore()+10L);
+            findMatchList.setHomeTeamTotalLoseRecord(findMatchList.getHomeTeamTotalLoseRecord()+1L);
+            findMatchList.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+
+            findMatchList.setAwayTeamHonorScore(findMatchList.getAwayTeamHonorScore()+300L);
+            findMatchList.setAwayTeamTotalWinRecord(findMatchList.getAwayTeamTotalWinRecord()+1L);
+            findMatchList.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("WIM"));
+
+
+
+//        무승부인 경우
+        } else {
+            findMatchList.setHomeTeamHonorScore(findMatchList.getHomeTeamHonorScore()+100L);
+            findMatchList.setHomeTeamTotalDrawRecord(findMatchList.getHomeTeamTotalDrawRecord()+1L);
+            findMatchList.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
+
+            findMatchList.setAwayTeamHonorScore(findMatchList.getAwayTeamHonorScore()+100L);
+            findMatchList.setAwayTeamTotalDrawRecord(findMatchList.getAwayTeamTotalDrawRecord()+1L);
+            findMatchList.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
+
+        }
         return matchListRepository.save(findMatchList);
     }
 

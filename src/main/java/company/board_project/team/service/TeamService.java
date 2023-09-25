@@ -96,6 +96,45 @@ public class TeamService {
         return teamRepository.save(findTeam);
     }
 
+    public Team updateForMatchEnd(
+            Long homeTeamScore
+            , Long awayTeamScore
+            ,Long homeTeamId
+            ,Long awayTeamId
+    ) {
+        Team findHomeTeam = findVerifiedTeam(homeTeamId);
+        Team findAwayTeam = findVerifiedTeam(awayTeamId);
+        if(homeTeamScore>awayTeamScore){
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+300L);
+            findHomeTeam.setTotalWinRecord(findHomeTeam.getTotalWinRecord()+1L);
+
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+10L);
+            findAwayTeam.setTotalLoseRecord(findAwayTeam.getTotalLoseRecord()+1L);
+
+//        homeTeam 패배한 경우
+        } else if(homeTeamScore<awayTeamScore){
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+10L);
+            findHomeTeam.setTotalLoseRecord(findHomeTeam.getTotalLoseRecord()+1L);
+
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+300L);
+            findAwayTeam.setTotalWinRecord(findAwayTeam.getTotalWinRecord()+1L);
+
+//        무승부인 경우
+        } else {
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+100L);
+            findHomeTeam.setTotalDrawRecord(findHomeTeam.getTotalDrawRecord()+1L);
+            findHomeTeam.setLeagueMatchPoints(findHomeTeam.getLeagueMatchPoints()+1L);
+
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+100L);
+            findAwayTeam.setTotalDrawRecord(findAwayTeam.getTotalDrawRecord()+1L);
+
+        }
+        teamRepository.save(findHomeTeam);
+
+
+        return teamRepository.save(findAwayTeam);
+    }
+
     public Team updateForLeagueMatchEnd(
             Long homeTeamScore
             , Long awayTeamScore
@@ -105,44 +144,43 @@ public class TeamService {
         Team findHomeTeam = findVerifiedTeam(homeTeamId);
         Team findAwayTeam = findVerifiedTeam(awayTeamId);
         if(homeTeamScore>awayTeamScore){
-            findHomeTeam.setHonorScore(+300L);
-            findHomeTeam.setTotalWinRecord(+1L);
-            findHomeTeam.setLeagueMatchCount(+1L);
-            findHomeTeam.setLeagueMatchPoints(+3L);
-            findHomeTeam.setLeagueWinRecord(+1L);
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+300L);
+            findHomeTeam.setTotalWinRecord(findHomeTeam.getTotalWinRecord()+1L);
+            findHomeTeam.setLeagueMatchCount(findHomeTeam.getLeagueMatchCount()+1L);
+            findHomeTeam.setLeagueMatchPoints(findHomeTeam.getLeagueMatchPoints()+3L);
+            findHomeTeam.setLeagueWinRecord(findHomeTeam.getLeagueWinRecord()+1L);
 
-            findAwayTeam.setHonorScore(+10L);
-            findAwayTeam.setTotalLoseRecord(+1L);
-            findAwayTeam.setLeagueLoseRecord(+1L);
-            findAwayTeam.setLeagueMatchCount(+1L);
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+10L);
+            findAwayTeam.setTotalLoseRecord(findAwayTeam.getTotalLoseRecord()+1L);
+            findAwayTeam.setLeagueLoseRecord(findAwayTeam.getLeagueLoseRecord()+1L);
+            findAwayTeam.setLeagueMatchCount(findAwayTeam.getLeagueMatchCount()+1L);
 
 //        homeTeam 패배한 경우
         } else if(homeTeamScore<awayTeamScore){
-            findHomeTeam.setHonorScore(+10L);
-            findHomeTeam.setTotalLoseRecord(+1L);
-            findHomeTeam.setLeagueLoseRecord(+1L);
-            findHomeTeam.setLeagueMatchCount(+1L);
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+10L);
+            findHomeTeam.setTotalLoseRecord(findHomeTeam.getTotalLoseRecord()+1L);
+            findHomeTeam.setLeagueLoseRecord(findHomeTeam.getLeagueLoseRecord()+1L);
+            findHomeTeam.setLeagueMatchCount(findHomeTeam.getLeagueMatchCount()+1L);
 
-            findAwayTeam.setHonorScore(+300L);
-            findAwayTeam.setTotalWinRecord(+1L);
-            findAwayTeam.setLeagueMatchPoints(+3L);
-            findAwayTeam.setLeagueWinRecord(+1L);
-            findAwayTeam.setLeagueMatchCount(+1L);
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+300L);
+            findAwayTeam.setTotalWinRecord(findAwayTeam.getTotalWinRecord()+1L);
+            findAwayTeam.setLeagueMatchPoints(findAwayTeam.getLeagueMatchPoints()+3L);
+            findAwayTeam.setLeagueWinRecord(findAwayTeam.getLeagueWinRecord()+1L);
+            findAwayTeam.setLeagueMatchCount(findAwayTeam.getLeagueMatchCount()+1L);
 
 //        무승부인 경우
         } else {
-            findHomeTeam.setHonorScore(+100L);
-            findHomeTeam.setTotalDrawRecord(+1L);
-            findHomeTeam.setLeagueMatchPoints(+1L);
-            findHomeTeam.setLeagueDrawRecord(+1L);
-            findHomeTeam.setLeagueMatchCount(+1L);
-            findAwayTeam.setLeagueMatchCount(+1L);
+            findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+100L);
+            findHomeTeam.setTotalDrawRecord(findHomeTeam.getTotalDrawRecord()+1L);
+            findHomeTeam.setLeagueMatchPoints(findHomeTeam.getLeagueMatchPoints()+1L);
+            findHomeTeam.setLeagueDrawRecord(findHomeTeam.getLeagueDrawRecord()+1L);
+            findHomeTeam.setLeagueMatchCount(findHomeTeam.getLeagueMatchCount()+1L);
 
-            findAwayTeam.setHonorScore(+100L);
-            findAwayTeam.setTotalDrawRecord(+1L);
-            findAwayTeam.setLeagueMatchPoints(+1L);
-            findAwayTeam.setLeagueDrawRecord(+1L);
-            findAwayTeam.setLeagueMatchCount(+1L);
+            findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+100L);
+            findAwayTeam.setTotalDrawRecord(findAwayTeam.getTotalDrawRecord()+1L);
+            findAwayTeam.setLeagueMatchPoints(findAwayTeam.getLeagueMatchPoints()+1L);
+            findAwayTeam.setLeagueDrawRecord(findAwayTeam.getLeagueDrawRecord()+1L);
+            findAwayTeam.setLeagueMatchCount(findAwayTeam.getLeagueMatchCount()+1L);
 
         }
         teamRepository.save(findHomeTeam);

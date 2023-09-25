@@ -5,7 +5,6 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
 import company.board_project.list.matchlist.entity.MatchList;
-import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import lombok.Getter;
@@ -99,12 +98,6 @@ public class LeagueList extends Auditable {
     @Column
     private Long mostMoMs;*/
 
-    @OneToMany(mappedBy = "leagueList", cascade = CascadeType.REMOVE)
-    private List<MatchList> matchLists = new ArrayList<>();
-
-    @OneToMany(mappedBy = "leagueList", cascade = CascadeType.REMOVE)
-    private List<Match> matches = new ArrayList<>();
-
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -120,9 +113,5 @@ public class LeagueList extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "APPLY_ID")
     private Apply apply;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "MATCH_ID")
-    private Match match;
 
 }

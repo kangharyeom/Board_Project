@@ -7,7 +7,6 @@ import company.board_project.league.dto.LeaguePatchDto;
 import company.board_project.league.dto.LeaguePostDto;
 import company.board_project.league.dto.LeagueResponseDto;
 import company.board_project.league.entity.League;
-import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
 import org.mapstruct.Mapper;
@@ -34,6 +33,7 @@ public interface LeagueMapper {
         league.setTeam(team);
         league.setUser(user);
         league.setContents(contents);
+        league.setLeagueEndCount(requestBody.getLeagueEndCount());
         league.setMemberCount(requestBody.getMemberCount());
         league.setHonorScore(requestBody.getHonorScore());
         league.setMemberCount(requestBody.getMemberCount());
@@ -53,42 +53,6 @@ public interface LeagueMapper {
 
         return league;
     }
-
-//    default League leagueApplyToLeague(LeaguePostDto requestBody){
-//        User user = new User();
-//
-//        user.setUserId(requestBody.getUserId());
-//        user.setName(requestBody.getManagerName());
-//
-//        Team team = new Team();
-//        team.setHonorScore(requestBody.getHonorScore());
-//        team.setTeamId(requestBody.getTeamId());
-//        team.setMemberCount(requestBody.getMemberCount());
-//
-//        List<Content> contents = new ArrayList<>();
-//
-//        League league = new League();
-//        league.setTeam(team);
-//        league.setUser(user);
-//        league.setContents(contents);
-//        league.setMemberCount(+requestBody.getMemberCount());
-//        league.setHonorScore(requestBody.getHonorScore());
-//        league.setMemberCount(requestBody.getMemberCount());
-//        league.setMatchCount(requestBody.getMatchCount());
-//        league.setTeamCount(requestBody.getTeamCount());
-//        league.setLeagueName(requestBody.getLeagueName());
-//        league.setManagerName(requestBody.getManagerName());
-//        league.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
-//        league.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-//        league.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-//        league.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-//        league.setPeriod(requestBody.getPeriod());
-//        league.setLeagueRules(requestBody.getLeagueRules());
-//        league.setFrequency(Frequency.valueOf(requestBody.getFrequency()));
-//        league.setSeasonType(SeasonType.valueOf(requestBody.getSeasonType()));
-//
-//        return league;
-//    }
 
     default League leaguePatchDtoToLeague(LeaguePatchDto requestBody) {
         League league = new League();
@@ -117,14 +81,12 @@ public interface LeagueMapper {
         List<Content> contents = league.getContents();
         Team team = league.getTeam();
 
-        List<MatchList> matchLists = league.getMatchLists();
-
         return LeagueResponseDto.builder()
                 .leagueId(league.getLeagueId())
                 .userId(user.getUserId())
                 .teamId(team.getTeamId())
                 .contents(contents)
-                .matchLists(matchLists)
+                .leagueEndCount(league.getLeagueEndCount())
                 .memberCount(league.getMemberCount())
                 .matchCount(league.getMatchCount())
                 .teamCount(league.getTeamCount())

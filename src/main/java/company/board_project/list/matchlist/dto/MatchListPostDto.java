@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class MatchListPostDto {
-    private Long userId;
-    private Long teamId;
+    private Long homeTeamUserId;
+    private Long awayTeamUserId;
     private Long applyId;
     private Long matchId;
+    private Long homeTeamId;
+    private Long awayTeamId;
     private Long homeTeamScore = 0L;
     private Long awayTeamScore = 0L;
     private Long homeTeamHonorScore;
@@ -32,4 +34,5 @@ public class MatchListPostDto {
     private String awayTeamAgeType;
     private String homeTeamUniformType;
     private String awayTeamUniformType;
+
 }

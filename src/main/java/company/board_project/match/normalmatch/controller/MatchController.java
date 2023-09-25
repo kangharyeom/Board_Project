@@ -1,7 +1,11 @@
 package company.board_project.match.normalmatch.controller;
 
+import company.board_project.list.leaguelist.service.LeagueListService;
 import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.list.matchlist.service.MatchListService;
+import company.board_project.match.leaguematch.dto.LeagueMatchEndDto;
+import company.board_project.match.leaguematch.dto.LeagueMatchEndResponseDto;
+import company.board_project.match.leaguematch.entity.LeagueMatch;
 import company.board_project.match.normalmatch.dto.MatchListDto;
 import company.board_project.match.normalmatch.dto.MatchPatchDto;
 import company.board_project.match.normalmatch.dto.MatchPostDto;
@@ -11,6 +15,7 @@ import company.board_project.match.normalmatch.mapper.MatchMapper;
 import company.board_project.match.normalmatch.service.MatchService;
 import company.board_project.response.MultiResponseDto;
 import company.board_project.team.repository.TeamRepository;
+import company.board_project.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,7 +35,6 @@ import java.util.List;
 public class MatchController {
     private final MatchService matchService;
     private final MatchMapper matchMapper;
-    private final TeamRepository teamRepository;
     private final MatchListService matchListService;
 
     @PostMapping

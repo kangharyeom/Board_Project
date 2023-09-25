@@ -2,6 +2,7 @@ package company.board_project.match.normalmatch.service;
 
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
+import company.board_project.match.leaguematch.entity.LeagueMatch;
 import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.match.normalmatch.repository.MatchRepository;
 import company.board_project.team.entity.Team;
@@ -100,6 +101,8 @@ public class MatchService {
 
         return matchRepository.save(findMatch);
     }
+
+
 
     public Match findMatch(Long matchId) {
         return findVerifiedMatch(matchId);

@@ -26,6 +26,15 @@ public class MatchList extends Auditable {
     private Long matchListId;
 
     @Column
+    private Long awayTeamUserId;
+
+    @Column
+    private Long homeTeamId;
+
+    @Column
+    private Long awayTeamId;
+
+    @Column
     private Long homeTeamScore;
 
     @Column
@@ -85,6 +94,15 @@ public class MatchList extends Auditable {
     @Enumerated(EnumType.STRING)
     private UniformType awayTeamUniformType;
 
+    @Enumerated(EnumType.STRING)
+    private MatchStatus matchStatus;
+
+    @Enumerated(EnumType.STRING)
+    private MatchResultStatus homeTeamMatchResultStatus;
+
+    @Enumerated(EnumType.STRING)
+    private MatchResultStatus awayTeamMatchResultStatus;
+
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -100,17 +118,4 @@ public class MatchList extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "MATCH_ID")
     private Match match;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_LIST_ID")
-    private LeagueList leagueList;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_ID")
-    private League league;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_MATCH_ID")
-    private LeagueMatch leagueMatch;
-
 }

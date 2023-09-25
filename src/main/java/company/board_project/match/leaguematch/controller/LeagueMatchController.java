@@ -42,7 +42,15 @@ public class LeagueMatchController {
                 , requestBody.getHomeTeamLeagueListId()
                 , requestBody.getAwayTeamLeagueListId()
         );
-        LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchToLeagueMatchResponse(leagueMatch);
+        LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchPostToLeagueMatchResponse(
+                leagueMatch
+                , requestBody.getHomeTeamUserId()
+                , requestBody.getAwayTeamUserId()
+                , requestBody.getHomeTeamId()
+                , requestBody.getAwayTeamId()
+                , requestBody.getHomeTeamLeagueListId()
+                , requestBody.getAwayTeamLeagueListId()
+        );
 
         return ResponseEntity.ok(leagueMatchResponseDto);
     }
@@ -129,7 +137,8 @@ public class LeagueMatchController {
         leagueMatchService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, leagueMatchId);
         teamService.updateForLeagueMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
         leagueListService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, requestBody.getHomeTeamLeagueListId(), requestBody.getAwayTeamLeagueListId());
-//        leagueService.checkEndTheLeague(requestBody.getLeagueId());
+        leagueService.updateForLeagueMatchEnd(requestBody.getLeagueId());
+        leagueService.checkEndTheLeague(requestBody.getLeagueId());
 
         return ResponseEntity.ok(matchResponse);
     }

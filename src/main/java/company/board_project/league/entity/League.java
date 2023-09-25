@@ -4,8 +4,6 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.content.entity.Content;
 import company.board_project.list.leaguelist.entity.LeagueList;
-import company.board_project.list.matchlist.entity.MatchList;
-import company.board_project.match.normalmatch.entity.Match;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -77,8 +75,6 @@ public class League extends Auditable {
     @Column
     private Long honorScore;
 
-    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
-    private List<Match> matches = new ArrayList<>();
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
@@ -89,9 +85,6 @@ public class League extends Auditable {
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<LeagueList> leagueLists = new ArrayList<>();
 
-    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
-    private List<MatchList> matchLists = new ArrayList<>();
-
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
@@ -99,10 +92,6 @@ public class League extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")
     private Team team;
-
-//    @ManyToOne(cascade = CascadeType.DETACH)
-//    @JoinColumn(name = "TEAM_LIST_ID")
-//    private LeagueList teamList;
 
 }
 

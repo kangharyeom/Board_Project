@@ -6,6 +6,7 @@ import company.board_project.exception.Exceptions;
 import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
 import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.leaguelist.repository.LeagueListRepository;
 import company.board_project.team.entity.Team;
 import company.board_project.team.repository.TeamRepository;
 import company.board_project.team.service.TeamService;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +33,8 @@ public class LeagueService {
     private final UserRepository userRepository;
     private final TeamService teamService;
     private final TeamRepository teamRepository;
+    private final LeagueListRepository leagueListRepository;
+
 
     public League createLeague(League league, Long userId, Long teamId) {
         User user = userService.findUser(userId);
@@ -93,16 +97,30 @@ public class LeagueService {
             Long leagueId
     ) {
         League league = findVerifiedLeague(leagueId);
-        double leagueEndCount = league.getLeagueEndCount();
-        double teamCount = league.getTeamCount();
-        double matchCount = league.getMatchCount();
-        double endCount = leagueEndCount/teamCount;
+        long leagueEndCount = league.getLeagueEndCount();
+        long teamCount = league.getTeamCount();
+        long matchCount = league.getMatchCount();
+        long endCount = (teamCount * matchCount) / 2;
 
-        if(matchCount == endCount){
+        if(leagueEndCount == endCount){
             league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
+            LeagueList leagueList = leagueListRepository.findWinnerByLeagueId(leagueId);
+            Team team = teamService.findTeam(leagueList.getTeam().getTeamId());
+            leagueList.setChampionCount(leagueList.getChampionCount()+1L);
+            team.setChampionCount(team.getChampionCount()+1L);
         }
 
         return leagueRepository.save(league);
+    }
+
+    public League updateForLeagueMatchEnd(
+            Long leagueId
+    ) {
+        League findLeague = findVerifiedLeague(leagueId);
+
+        findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
+
+        return leagueRepository.save(findLeague);
     }
 
 

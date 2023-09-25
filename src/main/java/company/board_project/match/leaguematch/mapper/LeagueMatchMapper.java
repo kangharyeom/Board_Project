@@ -166,7 +166,9 @@ public interface LeagueMatchMapper {
         return leagueMatch;
     }
 
-    default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(LeagueMatch leagueMatch){
+    default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
+            LeagueMatch leagueMatch
+    ){
         User homeTeamUser = leagueMatch.getUser();
         User awayTeamUser = leagueMatch.getUser();
         Team homeTeam = leagueMatch.getTeam();
@@ -182,6 +184,62 @@ public interface LeagueMatchMapper {
                 .awayTeamId(awayTeam.getTeamId())
                 .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
                 .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
+                .homeTeamScore(leagueMatch.getHomeTeamScore())
+                .homeTeamHonorScore(leagueMatch.getHomeTeamHonorScore())
+                .homeTeamName(leagueMatch.getHomeTeamName())
+                .homeTeamManagerName(leagueMatch.getHomeTeamManagerName())
+                .homeTeamLeagueWinRecord(leagueMatch.getAwayTeamLeagueWinRecord())
+                .homeTeamLeagueDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
+                .homeTeamLeagueLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
+                .homeTeamTotalWinRecord(leagueMatch.getHomeTeamTotalWinRecord())
+                .homeTeamTotalDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
+                .homeTeamTotalLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
+                .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
+                .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
+                .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
+                .homeTeamMatchResultStatus(String.valueOf(leagueMatch.getHomeTeamMatchResultStatus()))
+                .awayTeamScore(leagueMatch.getAwayTeamScore())
+                .awayTeamHonorScore(leagueMatch.getAwayTeamHonorScore())
+                .awayTeamName(leagueMatch.getAwayTeamName())
+                .awayTeamManagerName(leagueMatch.getAwayTeamManagerName())
+                .awayTeamLeagueWinRecord(leagueMatch.getAwayTeamLeagueWinRecord())
+                .awayTeamLeagueDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
+                .awayTeamLeagueLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
+                .awayTeamTotalWinRecord(leagueMatch.getAwayTeamTotalWinRecord())
+                .awayTeamTotalDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
+                .awayTeamTotalLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
+                .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
+                .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
+                .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))
+                .awayTeamMatchResultStatus(String.valueOf(leagueMatch.getAwayTeamMatchResultStatus()))
+                .sportType(String.valueOf(leagueMatch.getSportType()))
+                .locationType(String.valueOf(leagueMatch.getLocationType()))
+                .matchTime(leagueMatch.getMatchTime())
+                .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))
+                .matchType(String.valueOf(leagueMatch.getMatchType()))
+                .createdAt(leagueMatch.getCreatedAt())
+                .modifiedAt(leagueMatch.getModifiedAt())
+                .build();
+    }
+
+    default LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
+            LeagueMatch leagueMatch
+            , Long homeTeamUserId
+            , Long awayTeamUserId
+            , Long homeTeamId
+            , Long awayTeamId
+            , Long homeTeamLeagueListId
+            , Long awayTeamLeagueListId
+    ){
+
+        return LeagueMatchResponseDto.builder()
+                .leagueMatchId(leagueMatch.getLeagueMatchId())
+                .homeTeamUserId(homeTeamUserId)
+                .awayTeamUserId(homeTeamId)
+                .homeTeamId(awayTeamUserId)
+                .awayTeamId(awayTeamId)
+                .homeTeamLeagueListId(homeTeamLeagueListId)
+                .awayTeamLeagueListId(awayTeamLeagueListId)
                 .homeTeamScore(leagueMatch.getHomeTeamScore())
                 .homeTeamHonorScore(leagueMatch.getHomeTeamHonorScore())
                 .homeTeamName(leagueMatch.getHomeTeamName())

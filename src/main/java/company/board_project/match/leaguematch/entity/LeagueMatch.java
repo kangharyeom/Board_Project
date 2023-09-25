@@ -5,7 +5,6 @@ import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.league.entity.League;
 import company.board_project.list.leaguelist.entity.LeagueList;
-import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.schedule.entity.Schedule;
 import company.board_project.team.entity.Team;
 import company.board_project.user.entity.User;
@@ -26,6 +25,24 @@ public class LeagueMatch extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long leagueMatchId;
+
+    @Column
+    private Long homeTeamUserId;
+
+    @Column
+    private Long awayTeamUserId;
+
+    @Column
+    private Long homeTeamId;
+
+    @Column
+    private Long awayTeamId;
+
+    @Column
+    private Long homeTeamLeagueListId;
+
+    @Column
+    private Long awayTeamLeagueListId;
 
     @Column
     private Long homeTeamScore;
@@ -137,9 +154,6 @@ public class LeagueMatch extends Auditable {
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-    private List<MatchList> matchLists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

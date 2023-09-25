@@ -1,12 +1,10 @@
 package company.board_project.match.normalmatch.dto;
 
-import company.board_project.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @Getter

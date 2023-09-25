@@ -11,9 +11,11 @@ import java.time.LocalDateTime;
 @Builder
 public class MatchListResponseDto {
     private Long matchListId;
-    private Long userId;
-    private Long teamId;
+    private Long homeTeamUserId;
+    private Long awayTeamUserId;
     private Long matchId;
+    private Long homeTeamId;
+    private Long awayTeamId;
     private Long applyId;
     private Long homeTeamScore;
     private Long awayTeamScore;

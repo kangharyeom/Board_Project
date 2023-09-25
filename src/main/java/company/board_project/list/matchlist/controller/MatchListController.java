@@ -1,11 +1,15 @@
 package company.board_project.list.matchlist.controller;
 
+import company.board_project.list.matchlist.dto.MatchAwayTeamDto;
 import company.board_project.list.matchlist.dto.MatchListPatchDto;
 import company.board_project.list.matchlist.dto.MatchListPostDto;
 import company.board_project.list.matchlist.dto.MatchListResponseDto;
 import company.board_project.list.matchlist.entity.MatchList;
 import company.board_project.list.matchlist.mapper.MatchListMapper;
 import company.board_project.list.matchlist.service.MatchListService;
+import company.board_project.match.normalmatch.dto.MatchEndDto;
+import company.board_project.match.normalmatch.dto.MatchEndResponseDto;
+import company.board_project.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,14 +26,15 @@ import java.util.List;
 public class MatchListController {
     private final MatchListService matchListService;
     private final MatchListMapper matchListMapper;
+    private final TeamService teamService;
 
     @PostMapping
     public ResponseEntity postMatchList(@RequestBody MatchListPostDto requestBody){
 
         MatchList matchList = matchListService.createMatchList(matchListMapper.matchListPostDtoToMatchList(requestBody),
-                requestBody.getUserId(),
+                requestBody.getAwayTeamUserId(),
                 requestBody.getApplyId(),
-                requestBody.getTeamId(),
+                requestBody.getAwayTeamId(),
                 requestBody.getMatchId()
         );
         MatchListResponseDto matchListResponse = matchListMapper.matchListToMatchListResponse(matchList);
@@ -87,6 +92,37 @@ public class MatchListController {
         MatchListResponseDto matchListResponse = matchListMapper.matchListToMatchListResponse(matchList);
 
         return ResponseEntity.ok(matchListResponse);
+    }
+
+    @PatchMapping("/away/{matchListId}")
+    public ResponseEntity patchMatchAwayTeam(@RequestBody MatchAwayTeamDto requestBody,
+                                         @PathVariable("matchListId") Long matchListId) {
+        MatchList matchList = matchListService.updateMatchListWithAwayTeam(
+                matchListMapper.applyToMatchList(requestBody), matchListId);
+        MatchListResponseDto matchListResponse = matchListMapper.applyToMatchListResponse(matchList, requestBody.getApplyId());
+
+        return ResponseEntity.ok(matchListResponse);
+    }
+
+    @PatchMapping("/end/{matchListId}")
+    public ResponseEntity patchMatchEnd(@RequestBody MatchEndDto requestBody
+            , @PathVariable("matchListId") Long matchListId
+    ) {
+
+        MatchList matchList = matchListService.updateMatchEnd(
+                matchListMapper.matchEndDtoToMatch(requestBody)
+                ,matchListId
+        );
+
+        matchList.setMatchListId(matchListId);
+        MatchEndResponseDto matchResponse = matchListMapper.matchToMatchEndResponse(matchList);
+        long homeTeamScore = matchResponse.getHomeTeamScore();
+        long awayTeamScore = matchResponse.getAwayTeamScore();
+
+        matchListService.updateForMatchEnd(homeTeamScore, awayTeamScore, matchListId);
+        teamService.updateForMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
+
+        return ResponseEntity.ok(matchResponse);
     }
 
     @DeleteMapping("/{matchListId}")

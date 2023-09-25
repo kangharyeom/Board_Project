@@ -16,6 +16,7 @@ public class LeagueResponseDto {
     private Long leagueId;
     private Long userId;
     private Long teamId;
+    private Long leagueEndCount;
     private Long memberCount;
     private Long matchCount;
     private Long teamCount;
