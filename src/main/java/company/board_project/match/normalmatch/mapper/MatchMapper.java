@@ -1,7 +1,6 @@
 package company.board_project.match.normalmatch.mapper;
 
 import company.board_project.constant.*;
-import company.board_project.match.dto.*;
 import company.board_project.match.normalmatch.dto.MatchListDto;
 import company.board_project.match.normalmatch.dto.MatchPatchDto;
 import company.board_project.match.normalmatch.dto.MatchPostDto;

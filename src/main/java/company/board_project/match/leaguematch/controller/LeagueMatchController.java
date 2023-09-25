@@ -1,7 +1,6 @@
 package company.board_project.match.leaguematch.controller;
 
 import company.board_project.league.service.LeagueService;
-import company.board_project.leaguematch.dto.*;
 import company.board_project.match.leaguematch.dto.*;
 import company.board_project.match.leaguematch.mapper.LeagueMatchMapper;
 import company.board_project.match.leaguematch.service.LeagueMatchService;
