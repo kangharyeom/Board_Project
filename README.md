@@ -44,6 +44,25 @@
 팀 관련 테이블
 - 팀 로고 파일 업로드
 - 팀 수정
+  - 팀 인원 수정  team_update
+  - 팀 이름 수정 / team_update
+  - 부 매니저 수정 / team_update
+  - 연령대 수정 / team_update
+  - 스포츠 타입(풋살, 축구, 그 외) 수정 / team_update
+  - 실력 수정 / team_update
+  - 지역 수정 / team_update
+  - 활동 빈도 수정 / team_update
+  - 유니폼 수정 / team_update
+  - 포메이션 수정 / team_update
+  - 팀 소개 수정 / team_update
+  - 리그 이름 수정 / leagueService / 리그 이름이 변동되면 수정됨 
+  - 우승 횟수 수정 / leagueService / 리그 enum이 종료처리되면 승점이 가장 큰 값을 우승처리
+  - 리그 경기 수, 리그 승점, 리그 승리 수, 리그 무승부 수, 리그 패배 수, 종합 승리 수, 종합 무승부 수, 종합 패배 수, 종합 전적 수, 명예 점수
+    - leagueMatchService
+    - leagueMatchController 에서 리그 매치 종료 patch를 날리면 실행됨
+      - homeScore && awayScore가 변동되면 변동된 값에 따라 승무패가 결정되며 승점 및 명예점수를 추가한다.
+  - 매니저가 탈퇴한 경우 - 부매니저가 매니저가 될 수 있도록 (userId도 바꿔주어야함) / 부매니저는 삭제됨
+
   - 팀 인원 수정
   - 팀 이름 수정
   - 리그 이름 수정
@@ -55,7 +74,6 @@
   - 활동 빈도 수정
   - 유니폼 수정
   - 포메이션 수정
-- 랭킹 조회 (쿼리로 구현 / 명예점수 순 조회)
 
 ### 매치
 매치 관련 테이블

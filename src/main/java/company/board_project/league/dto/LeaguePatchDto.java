@@ -32,4 +32,5 @@ public class LeaguePatchDto {
     private String leagueRules;
     @NotBlank(message = "리그의 경기 빈도를 입력 해야 합니다.")
     private String frequency;
+    private String seasonType;
 }

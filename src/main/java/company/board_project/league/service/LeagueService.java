@@ -1,9 +1,11 @@
 package company.board_project.league.service;
 
+import company.board_project.constant.SeasonType;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.league.entity.League;
 import company.board_project.league.repository.LeagueRepository;
+import company.board_project.list.leaguelist.entity.LeagueList;
 import company.board_project.team.entity.Team;
 import company.board_project.team.repository.TeamRepository;
 import company.board_project.team.service.TeamService;
@@ -38,6 +40,7 @@ public class LeagueService {
         league.setTeam(team);
         team.setLeagueName(league.getLeagueName());
         league.setManagerName(user.getName());
+        league.setManagerTeamName(team.getTeamName());
         league.setHonorScore(team.getHonorScore());
 
         teamRepository.save(team);
@@ -53,11 +56,11 @@ public class LeagueService {
         Optional.ofNullable(league.getLeagueName())
                 .ifPresent(findLeague::setLeagueName);
 
+        Optional.ofNullable(league.getManagerTeamName())
+                .ifPresent(findLeague::setManagerTeamName);
+
         Optional.ofNullable(league.getSportsType())
                 .ifPresent(findLeague::setSportsType);
-
-        Optional.ofNullable(league.getParticipantTeamName())
-                .ifPresent(findLeague::setParticipantTeamName);
 
         Optional.ofNullable(league.getMatchCount())
                 .ifPresent(findLeague::setMatchCount);
@@ -85,6 +88,23 @@ public class LeagueService {
 
         return leagueRepository.save(findLeague);
     }
+
+    public League checkEndTheLeague(
+            Long leagueId
+    ) {
+        League league = findVerifiedLeague(leagueId);
+        double leagueEndCount = league.getLeagueEndCount();
+        double teamCount = league.getTeamCount();
+        double matchCount = league.getMatchCount();
+        double endCount = leagueEndCount/teamCount;
+
+        if(matchCount == endCount){
+            league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
+        }
+
+        return leagueRepository.save(league);
+    }
+
 
     public League findLeague(Long leagueId) {
         return findVerifiedLeague(leagueId);

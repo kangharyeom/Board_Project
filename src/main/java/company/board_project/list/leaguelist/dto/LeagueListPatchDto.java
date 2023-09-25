@@ -25,6 +25,7 @@ public class LeagueListPatchDto {
     private String leagueRules;
     private String frequency;
     private String uniformType;
+    private Long leagueMatchCount;
     private Long leagueMatchPoints;
     private Long leagueWinRecord;
     private Long leagueDrawRecord;

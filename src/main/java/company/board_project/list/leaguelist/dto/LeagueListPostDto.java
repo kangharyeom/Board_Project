@@ -26,6 +26,7 @@ public class LeagueListPostDto {
     private String levelType;
     private String frequency;
     private String uniformType;
+    private Long leagueMatchCount = 0L;
     private Long leagueMatchPoints = 0L;
     private Long leagueWinRecord = 0L;
     private Long leagueDrawRecord = 0L;

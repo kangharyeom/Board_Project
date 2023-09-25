@@ -1,5 +1,6 @@
 package company.board_project.leaguematch.service;
 
+import company.board_project.constant.MatchResultStatus;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.leaguematch.repository.LeagueMatchRepository;
@@ -67,6 +68,7 @@ public class LeagueMatchService {
         leagueMatch.setHomeTeamLeagueWinRecord(homeTeamLeagueList.getLeagueWinRecord());
         leagueMatch.setHomeTeamLeagueDrawRecord(homeTeamLeagueList.getLeagueDrawRecord());
         leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamLeagueList.getLeagueLoseRecord());
+        leagueMatch.setHomeTeamMatchResultStatus(leagueMatch.getHomeTeamMatchResultStatus());
 
         leagueMatch.setHomeTeamScore(leagueMatch.getAwayTeamScore());
         leagueMatch.setAwayTeamHonorScore(awayTeam.getHonorScore());
@@ -82,15 +84,16 @@ public class LeagueMatchService {
         leagueMatch.setAwayTeamLeagueWinRecord(awayTeamLeagueList.getLeagueWinRecord());
         leagueMatch.setAwayTeamLeagueDrawRecord(awayTeamLeagueList.getLeagueDrawRecord());
         leagueMatch.setAwayTeamLeagueLoseRecord(awayTeamLeagueList.getLeagueLoseRecord());
+        leagueMatch.setAwayTeamMatchResultStatus(leagueMatch.getAwayTeamMatchResultStatus());
 
         leagueMatchRepository.save(leagueMatch);
 
         return leagueMatch;
     }
 
-    public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch) {
+    public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId) {
 
-        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatch.getLeagueMatchId());
+        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 
         Optional.ofNullable(leagueMatch.getHomeTeamHonorScore())
                 .ifPresent(findLeagueMatch::setHomeTeamHonorScore);
@@ -191,6 +194,80 @@ public class LeagueMatchService {
         return leagueMatchRepository.save(findLeagueMatch);
     }
 
+    public LeagueMatch updateLeagueMatchEnd(LeagueMatch leagueMatch
+            , Long leagueMatchId
+    ) {
+
+        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
+
+        Optional.ofNullable(leagueMatch.getHomeTeamScore())
+                .ifPresent(findLeagueMatch::setHomeTeamScore);
+
+        Optional.ofNullable(leagueMatch.getAwayTeamScore())
+                .ifPresent(findLeagueMatch::setAwayTeamScore);
+
+        Optional.ofNullable(leagueMatch.getMatchStatus())
+                .ifPresent(findLeagueMatch::setMatchStatus);
+
+        return leagueMatchRepository.save(findLeagueMatch);
+    }
+
+    public LeagueMatch updateForLeagueMatchEnd(
+            Long homeTeamScore
+            , Long awayTeamScore
+            ,Long leagueMatchId
+    ) {
+//        리그 매치 정보 수정
+        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
+
+//        homeTeam 이긴 경우
+        if(homeTeamScore>awayTeamScore){
+            findLeagueMatch.setHomeTeamHonorScore(+300L);
+            findLeagueMatch.setHomeTeamTotalWinRecord(+1L);
+            findLeagueMatch.setHomeTeamLeagueMatchPoints(+3L);
+            findLeagueMatch.setHomeTeamLeagueWinRecord(+1L);
+            findLeagueMatch.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("WIN"));
+
+            findLeagueMatch.setAwayTeamHonorScore(+10L);
+            findLeagueMatch.setAwayTeamTotalLoseRecord(+1L);
+            findLeagueMatch.setAwayTeamLeagueLoseRecord(+1L);
+            findLeagueMatch.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+
+
+
+//        homeTeam 패배한 경우
+        } else if(homeTeamScore<awayTeamScore){
+            findLeagueMatch.setHomeTeamHonorScore(+10L);
+            findLeagueMatch.setHomeTeamTotalLoseRecord(+1L);
+            findLeagueMatch.setHomeTeamLeagueLoseRecord(+1L);
+            findLeagueMatch.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+
+            findLeagueMatch.setAwayTeamHonorScore(+300L);
+            findLeagueMatch.setAwayTeamTotalWinRecord(+1L);
+            findLeagueMatch.setAwayTeamLeagueMatchPoints(+3L);
+            findLeagueMatch.setAwayTeamLeagueWinRecord(+1L);
+            findLeagueMatch.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("WIM"));
+
+
+
+//        무승부인 경우
+        } else {
+            findLeagueMatch.setHomeTeamHonorScore(+100L);
+            findLeagueMatch.setHomeTeamTotalDrawRecord(+1L);
+            findLeagueMatch.setHomeTeamLeagueMatchPoints(+1L);
+            findLeagueMatch.setHomeTeamLeagueDrawRecord(+1L);
+            findLeagueMatch.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
+
+            findLeagueMatch.setAwayTeamHonorScore(+100L);
+            findLeagueMatch.setAwayTeamTotalDrawRecord(+1L);
+            findLeagueMatch.setAwayTeamLeagueMatchPoints(+1L);
+            findLeagueMatch.setAwayTeamLeagueDrawRecord(+1L);
+            findLeagueMatch.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
+
+        }
+        return leagueMatchRepository.save(findLeagueMatch);
+    }
+
     public LeagueMatch findLeagueMatch(Long LeagueMatchId) {
         return findVerifiedLeagueMatch(LeagueMatchId);
     }
@@ -239,4 +316,5 @@ public class LeagueMatchService {
 
         return findLeagueMatch;
     }
+
 }

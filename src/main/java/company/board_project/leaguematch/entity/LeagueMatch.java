@@ -127,22 +127,19 @@ public class LeagueMatch extends Auditable {
     private String matchRules;
 
     @Enumerated(EnumType.STRING)
-    private MatchStatus matchStatus = MatchStatus.BEFORE;
+    private MatchStatus matchStatus;
 
     @Enumerated(EnumType.STRING)
-    private MatchResultStatus homeTeamMatchResultStatus = MatchResultStatus.NONE;
+    private MatchResultStatus homeTeamMatchResultStatus;
 
     @Enumerated(EnumType.STRING)
-    private MatchResultStatus awayTeamMatchResultStatus = MatchResultStatus.NONE;
+    private MatchResultStatus awayTeamMatchResultStatus;
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<MatchList> matchLists = new ArrayList<>();
-
-//    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-//    private List<LeagueList> leagueList = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

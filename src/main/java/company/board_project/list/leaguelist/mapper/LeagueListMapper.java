@@ -47,8 +47,9 @@ public interface LeagueListMapper {
         LeagueList leagueList = new LeagueList();
         leagueList.setUser(user);
         leagueList.setLeague(league);
-        leagueList.setLeague(league);
+        leagueList.setTeam(team);
         leagueList.setApply(apply);
+        leagueList.setLeagueMatchCount(requestBody.getLeagueMatchCount());
         leagueList.setSubManagerName(requestBody.getSubManagerName());
         leagueList.setCleanSheet(requestBody.getCleanSheet());
         leagueList.setLeagueName(requestBody.getLeagueName());
@@ -87,6 +88,7 @@ public interface LeagueListMapper {
         leagueList.setSubManagerName(requestBody.getSubManagerName());
         leagueList.setChampionCount(requestBody.getChampionCount());
         leagueList.setMemberCount(requestBody.getMemberCount());
+        leagueList.setLeagueMatchCount(requestBody.getLeagueMatchCount());
         leagueList.setLeagueMatchPoints(requestBody.getLeagueMatchPoints());
         leagueList.setLeagueWinRecord(requestBody.getLeagueWinRecord());
         leagueList.setLeagueDrawRecord(requestBody.getLeagueDrawRecord());
@@ -142,6 +144,7 @@ public interface LeagueListMapper {
 
                 .leagueName(league.getLeagueName())
 
+                .leagueMatchCount(leagueList.getLeagueMatchCount())
                 .leagueHonorScore(leagueList.getLeagueHonorScore())
                 .leagueMatchPoints(leagueList.getLeagueMatchPoints())
                 .leagueWinRecord(leagueList.getLeagueWinRecord())
@@ -175,6 +178,7 @@ public interface LeagueListMapper {
                         .managerName(leagueList.getManagerName())
                         .memberCount(leagueList.getMemberCount())
                         .championCount(leagueList.getChampionCount())
+                        .leagueMatchCount(leagueList.getLeagueMatchCount())
                         .leagueMatchPoints(leagueList.getLeagueMatchPoints())
                         .leagueWinRecord(leagueList.getLeagueWinRecord())
                         .leagueDrawRecord(leagueList.getLeagueDrawRecord())

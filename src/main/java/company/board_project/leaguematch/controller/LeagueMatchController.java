@@ -1,14 +1,15 @@
 package company.board_project.leaguematch.controller;
 
-import company.board_project.leaguematch.dto.LeagueMatchPatchDto;
-import company.board_project.leaguematch.dto.LeagueMatchResponseDto;
+import company.board_project.league.service.LeagueService;
+import company.board_project.leaguematch.dto.*;
 import company.board_project.leaguematch.mapper.LeagueMatchMapper;
 import company.board_project.leaguematch.service.LeagueMatchService;
+import company.board_project.list.leaguelist.entity.LeagueList;
+import company.board_project.list.leaguelist.service.LeagueListService;
 import company.board_project.list.matchlist.service.MatchListService;
-import company.board_project.leaguematch.dto.LeagueMatchListDto;
-import company.board_project.leaguematch.dto.LeagueMatchPostDto;
 import company.board_project.leaguematch.entity.LeagueMatch;
 import company.board_project.response.MultiResponseDto;
+import company.board_project.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,7 +29,9 @@ import java.util.List;
 public class LeagueMatchController {
     private final LeagueMatchService leagueMatchService;
     private final LeagueMatchMapper leagueMatchMapper;
-    private final MatchListService matchListService;
+    private final TeamService teamService;
+    private final LeagueListService leagueListService;
+    private final LeagueService leagueService;
 
     @PostMapping
     public ResponseEntity postLeagueMatch(@Validated @RequestBody LeagueMatchPostDto requestBody) {
@@ -42,16 +45,6 @@ public class LeagueMatchController {
                 , requestBody.getAwayTeamLeagueListId()
         );
         LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchToLeagueMatchResponse(leagueMatch);
-
-//        matchListService.createLeagueMatchListByLeagueMatchController(new MatchList(),
-//                leagueMatchResponseDto.getLeagueMatchId()
-//                , requestBody.getHomeTeamUserId()
-//                , requestBody.getAwayTeamUserId()
-//                , requestBody.getHomeTeamId()
-//                , requestBody.getAwayTeamId()
-//                , requestBody.getHomeTeamLeagueListId()
-//                , requestBody.getAwayTeamLeagueListId()
-//        );
 
         return ResponseEntity.ok(leagueMatchResponseDto);
     }
@@ -109,16 +102,36 @@ public class LeagueMatchController {
         return ResponseEntity.ok(leagueMatchResponseDto);
     }
 
-
-
     @PatchMapping("/{leagueMatchId}")
     public ResponseEntity patchLeagueMatch(@RequestBody LeagueMatchPatchDto requestBody,
                                        @PathVariable("leagueMatchId") Long leagueMatchId) {
-        requestBody.updateId(leagueMatchId);
         LeagueMatch leagueMatch = leagueMatchService.updateLeagueMatch(
-                leagueMatchMapper.leagueMatchPatchDtoToLeagueMatch(requestBody));
+                leagueMatchMapper.leagueMatchPatchDtoToLeagueMatch(requestBody),leagueMatchId);
 
         LeagueMatchResponseDto matchResponse = leagueMatchMapper.leagueMatchToLeagueMatchResponse(leagueMatch);
+
+        return ResponseEntity.ok(matchResponse);
+    }
+
+    @PatchMapping("/end/{leagueMatchId}")
+    public ResponseEntity patchLeagueMatchEnd(@RequestBody LeagueMatchEndDto requestBody
+            , @PathVariable("leagueMatchId") Long leagueMatchId
+    ) {
+
+        LeagueMatch leagueMatch = leagueMatchService.updateLeagueMatchEnd(
+                leagueMatchMapper.leagueMatchEndDtoToLeagueMatch(requestBody)
+                ,leagueMatchId
+        );
+
+        leagueMatch.setLeagueMatchId(leagueMatchId);
+        LeagueMatchEndResponseDto matchResponse = leagueMatchMapper.leagueMatchToLeagueMatchEndResponse(leagueMatch);
+        long homeTeamScore = matchResponse.getHomeTeamScore();
+        long awayTeamScore = matchResponse.getAwayTeamScore();
+
+        leagueMatchService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, leagueMatchId);
+        teamService.updateForLeagueMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
+        leagueListService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, requestBody.getHomeTeamLeagueListId(), requestBody.getAwayTeamLeagueListId());
+//        leagueService.checkEndTheLeague(requestBody.getLeagueId());
 
         return ResponseEntity.ok(matchResponse);
     }

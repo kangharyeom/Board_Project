@@ -22,6 +22,7 @@ public class LeaguePostDto {
     private Long cleanSheet = 0L;
     private String managerName;
     private String subManagerName;
+    private String managerTeamName;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
@@ -37,6 +38,7 @@ public class LeaguePostDto {
     private String leagueRules;
     @NotBlank(message = "리그의 선호 경기 빈도를 입력 해야 합니다.")
     private String frequency;
+    private String seasonType="ON_SEASON";
     private String title;
     private String content;
 
