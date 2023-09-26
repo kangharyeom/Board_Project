@@ -57,6 +57,13 @@ public class LeagueMatchService {
         leagueMatch.setLeagueList(homeTeamLeagueList);
         leagueMatch.setLeagueList(awayTeamLeagueList);
 
+        leagueMatch.setHomeTeamId(homeTeam.getTeamId());
+        leagueMatch.setHomeTeamUserId(homeTeamUser.getUserId());
+        leagueMatch.setHomeTeamLeagueListId(homeTeamLeagueList.getLeagueListId());
+        leagueMatch.setAwayTeamId(awayTeam.getTeamId());
+        leagueMatch.setAwayTeamUserId(awayTeamUser.getUserId());
+        leagueMatch.setAwayTeamLeagueListId(awayTeamLeagueList.getLeagueListId());
+
         leagueMatch.setHomeTeamScore(leagueMatch.getHomeTeamScore());
         leagueMatch.setHomeTeamHonorScore(homeTeam.getHonorScore());
         leagueMatch.setHomeTeamName(homeTeam.getTeamName());
