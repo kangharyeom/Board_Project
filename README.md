@@ -5,10 +5,9 @@
 
 ## 개발 환경
 - Java 11
-- Spring Boot 2.1.15 (Gradle 5.3과 호환되는 버전)
-- Gradle 5.3
+- Spring Boot 2.7.14 (Gradle 8.2.1과 호환되는 버전)
+- Gradle 8.2.1
 - Maria DB
-- Java Server Page ( 컨펌 완료 및 리액트로 변경 2023.09/04 )
 - React
 
 ## 구현 예정 기능 - 2023.09.25
@@ -196,6 +195,15 @@
 
 
 ### 보안, 배포, DB관련 기능
+
+#### JWT
+- JWT Tolenizer
+
+#### Redis
+- login, logOut 구현
+
+#### Oauth 2.0
+- google login 구현
 
 
 ### 이슈 정리
