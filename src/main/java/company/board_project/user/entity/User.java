@@ -20,6 +20,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,7 +43,8 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true, updatable = false)
     private String loginId;
 
-    @Column(nullable = false)
+    @Email
+    @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
 
     @Column(nullable = false, unique = true)

@@ -3,10 +3,12 @@ package company.board_project.user.service;
 import company.board_project.constant.LoginType;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
+import company.board_project.security.utils.CustomAuthorityUtils;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -18,13 +20,22 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final CustomAuthorityUtils authorityUtils;
+    private final PasswordEncoder passwordEncoder;
 
-    // 회원 가입
+    /*
+    * 회원 가입
+    * 회원가입시 role을 부여하고 비밀번호를 암호화함
+    */
     public User createUser(User user) {
-        // 아이디 유무 확인
-        verifiedUser(user.getLoginId());
+        verifiedUser(user.getEmail());
 
-        // repository에 회원 등록
+        List<String> roles = authorityUtils.createRoles(user.getEmail());
+        user.setRoles(roles);
+
+        String encryptPassword = passwordEncoder.encode(user.getPassword());
+        user.setPassword(encryptPassword);
+
         userRepository.save(user);
 
         return user;
@@ -72,19 +83,33 @@ public class UserService {
         return userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 
-    // 아이디 중복 검사
-    public void verifiedUser(String loginId) {
-        Optional<User> user = userRepository.findByLoginId(loginId);
-        if(user.isPresent()) {
+    // 아이디, 이메일 중복 검사
+    public void verifiedUser(String email) {
+        Optional<User> userEmail = userRepository.findByEmail(email);
+        if(userEmail.isPresent()) {
+            throw new BusinessLogicException(Exceptions.EMAIL_EXISTS);
+        }
+    }
+
+    public void verifiedLoginId(String loginId) {
+        Optional<User> userLoginId = userRepository.findByLoginId(loginId);
+        if(userLoginId.isPresent()) {
             throw new BusinessLogicException(Exceptions.LOGINID_EXISTS);
         }
     }
 
     // 로그인한 회원
     public User getLoginUser() {
-        String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByLoginId(loginId)
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userRepository.findByEmail(email)
                 .orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
+    }
+
+    // 본인만 접근 허용
+    public void checkJwtAndUser(Long userId) {
+        if (!getLoginUser().getUserId().equals(userId)) {
+            throw new BusinessLogicException(Exceptions.ACCESS_FORBIDDEN);
+        }
     }
 
     // 소셜 회원 확인
