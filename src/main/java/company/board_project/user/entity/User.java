@@ -2,6 +2,7 @@ package company.board_project.user.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.LoginType;
 import company.board_project.constant.Position;
 import company.board_project.constant.UserRole;
 import company.board_project.content.entity.Content;
@@ -37,13 +38,13 @@ public class User extends Auditable {
     private Long userMatchApplyId;
     private Long userLeagueApplyId;
 
-    @Column(nullable = false, unique = false, updatable = false)
+    @Column(nullable = false, unique = true, updatable = false)
     private String loginId;
 
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)
@@ -56,7 +57,14 @@ public class User extends Auditable {
     private Position position;
 
     @Enumerated(EnumType.STRING)
-    private UserRole USER_ROLE;
+    private UserRole userRole;
+
+    @Column
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType = LoginType.BASIC;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> roles = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();

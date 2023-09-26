@@ -1,10 +1,12 @@
 package company.board_project.user.service;
 
+import company.board_project.constant.LoginType;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.user.entity.User;
 import company.board_project.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -78,10 +80,17 @@ public class UserService {
         }
     }
 
-    /*// 로그인한 회원
+    // 로그인한 회원
     public User getLoginUser() {
-        String loginId = SecurityContextHolder.getContext().getAuthentication().getLoginId();
+        String loginId = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByLoginId(loginId)
                 .orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-    }*/
+    }
+
+    // 소셜 회원 확인
+    public void isSocialUser(User user) {
+        if (user.getLoginType().equals(LoginType.SOCIAL)) {
+            throw new BusinessLogicException(Exceptions.ACCESS_FORBIDDEN);
+        }
+    }
 }
