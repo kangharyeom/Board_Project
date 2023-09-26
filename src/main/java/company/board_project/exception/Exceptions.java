@@ -15,13 +15,24 @@ public enum Exceptions {
     INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
+
+    // auth
+    INVALID_EMAIL_AUTH_NUMBER(400, "Invalid email authNumber"),
+    INVALID_EMAIL_AUTH(400, "Invalid email auth"),
+    INVALID_REFRESH_TOKEN(400, "Invalid refresh token"),
+    EXPIRED_JWT_TOKEN(421, "Expired jwt token"),
+    EMAIL_AUTH_REQUIRED(403, "Email auth required"),
+
+
     // Member 예외 처리
     INVALID_MEMBER_STATUS(400, "Invalid User status"),
     INVALID_PASSWORD (400, "Invalid Password"),
-    MEMBER_NOT_LOGIN(400, "User is not LoginResponseDto"),
+    PROFILE_IMAGE_NOT_FOUND(404,  "Profile 이미지가 업로드 되지 않았습니다."),
+    MAX_FILE_SIZE_2MB(400, "Max file size 2MB"),
+    USER_NOT_LOGIN(400, "User is not LoginResponseDto"),
     USER_NOT_FOUND(404, "User not found"),
     ID_NOT_EXIST(404, "ID is not exist"),
-    MEMBER_EXISTS(409, "User exists"),
+    USER_EXISTS(409, "User exists"),
 
     // 게시글 예외 처리
     CONTENT_NOT_PATCHED(403, "Content not patched"),
