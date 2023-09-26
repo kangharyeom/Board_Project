@@ -36,12 +36,12 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .formLogin()
-                .loginPage("/oauth2login")// 인증이 필요한 URL에 접근하면 /loginForm으로 이동
-                .usernameParameter("email")		// 로그인 시 form에서 가져올 값(id, email 등이 해당)
-                .passwordParameter("password")		// 로그인 시 form에서 가져올 값
-                .loginProcessingUrl("/social")		// 로그인을 처리할 URL 입력
-                .defaultSuccessUrl("/")			// 로그인 성공하면 "/" 으로 이동
-                .failureUrl("/oauth2login")		//로그인 실패 시 /loginForm으로 이동
+                .loginPage("/auth/oauth")           // Oauth 접근을 위한 URL
+                .usernameParameter("email")		    // 로그인 시 form에서 가져올 값(id, email 등이 해당)
+                .passwordParameter("password")	    // 로그인 시 form에서 가져올 값
+                .loginProcessingUrl("/social")	    // 로그인을 처리할 URL 입력
+                .defaultSuccessUrl("/")			    // 로그인 성공하면 "/" 으로 이동
+                .failureUrl("/auth/oauth")	// 로그인 실패 시 이동
                 .and()
                 .httpBasic().disable()
                 .exceptionHandling()
@@ -52,9 +52,9 @@ public class SecurityConfiguration {
                 .and()
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers(HttpMethod.GET, "/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/user/join","/auth/email","/auth/password").permitAll()
+                        .antMatchers(HttpMethod.POST, "/api/users/join","/auth/email","/auth/password").permitAll()
                         .antMatchers(HttpMethod.PATCH, "/auth/password").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
+//                        .antMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
                         .antMatchers("/h2/**").permitAll()
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
                         .antMatchers("/oauth2/**", "/loading/**","/auth/**").permitAll()
