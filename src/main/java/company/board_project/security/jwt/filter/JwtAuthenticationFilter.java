@@ -1,5 +1,6 @@
 package company.board_project.security.jwt.filter;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
