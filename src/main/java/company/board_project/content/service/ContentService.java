@@ -87,6 +87,10 @@ public class ContentService {
         return contentRepository.findContentsLatest();
     }
 
+    public List<Content> findContentsByCategory(String category) {
+        return contentRepository.findAllByCategoryType(category);
+    }
+
     public void deleteContent(Long contentId) {
         Content findContent = findVerifiedContent(contentId);
 

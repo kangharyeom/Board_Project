@@ -17,6 +17,9 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     @Query(value = "select * from contents where title like %:keyword% or content like %:keyword% ", nativeQuery = true)
     List<Content> findAllSearch(@Param(value = "keyword")String keyword);
 
+    @Query(value = "select * from contents where category_type like %:category%", nativeQuery = true)
+    List<Content> findAllByCategoryType(@Param(value = "category")String category);
+
     @Query(value = "select * from contents where name like :name", nativeQuery = true)
     List<Content> findAllSearchByUserName(@Param(value = "name")String name);
 

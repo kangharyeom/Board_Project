@@ -115,6 +115,14 @@ public class ContentController {
         return ResponseEntity.ok(contentResponseDtos);
     }
 
+    @GetMapping("/category")
+    public ResponseEntity getContentsByCategory(@RequestParam(value = "category",required = false) String category) {
+        List<Content> contents = contentService.findContentsByCategory(category);
+        List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
+
+        return ResponseEntity.ok(contentResponseDtos);
+    }
+
     @PatchMapping("/{contentId}")
     public ResponseEntity patchContent(@RequestBody ContentPatchDto requestBody,
                                        @PathVariable("contentId") Long contentId) {

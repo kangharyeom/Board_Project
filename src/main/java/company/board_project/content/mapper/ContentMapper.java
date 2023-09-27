@@ -3,12 +3,12 @@ package company.board_project.content.mapper;
 import company.board_project.comment.dto.CommentResponseDto;
 import company.board_project.comment.entity.Comment;
 import company.board_project.comment.repository.CommentRepository;
+import company.board_project.constant.CategoryType;
 import company.board_project.content.dto.*;
 import company.board_project.content.entity.Content;
 import company.board_project.content.entity.ContentFile;
 import company.board_project.content.repository.ContentFileRepository;
 import company.board_project.user.entity.User;
-import company.board_project.user.repository.UserRepository;
 import org.mapstruct.Mapper;
 
 import java.util.Collections;
@@ -28,6 +28,7 @@ public interface ContentMapper {
         content.setName(requestBody.getName());
         content.setTitle( requestBody.getTitle() );
         content.setContent( requestBody.getContent() );
+        content.setCategoryType(CategoryType.valueOf(requestBody.getCategoryType()));
 
         return content;
     }
@@ -37,6 +38,7 @@ public interface ContentMapper {
         content.setContentId( requestBody.getContentId() );
         content.setTitle( requestBody.getTitle() );
         content.setContent( requestBody.getContent() );
+        content.setCategoryType(CategoryType.valueOf(requestBody.getCategoryType()));
 
         return content;
     }
@@ -51,6 +53,7 @@ public interface ContentMapper {
                 .name(content.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
+                .categoryType(String.valueOf(content.getCategoryType()))
                 .contentFileList(contentFile)
                 .createdAt(content.getCreatedAt())
                 .modifiedAt(content.getModifiedAt())
@@ -68,6 +71,7 @@ public interface ContentMapper {
                 .name(content.getName())
                 .title(content.getTitle())
                 .content(content.getContent())
+                .categoryType(String.valueOf(content.getCategoryType()))
                 .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
                 .comments(commentsToCommentResponseDtos(comments))
                 .createdAt(content.getCreatedAt())
@@ -90,6 +94,7 @@ public interface ContentMapper {
                         .name(content.getUser().getName())
                         .title(content.getTitle())
                         .content(content.getContent())
+                        .categoryType(String.valueOf(content.getCategoryType()))
                         .contentFileList(contentFileRepository.findByContentId(content.getContentId()))
                         .createdAt(content.getCreatedAt())
                         .modifiedAt(content.getModifiedAt())

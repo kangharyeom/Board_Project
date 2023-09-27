@@ -16,6 +16,8 @@ public class ContentResponseDto {
     private Long userId;
     private String title;
     private String content;
+    private String categoryType;
+    private String boardCategory;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 

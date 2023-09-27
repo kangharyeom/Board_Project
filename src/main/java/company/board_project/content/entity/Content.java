@@ -2,6 +2,7 @@ package company.board_project.content.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.comment.entity.Comment;
+import company.board_project.constant.CategoryType;
 import company.board_project.league.entity.League;
 import company.board_project.user.entity.User;
 import lombok.Getter;
@@ -31,6 +32,9 @@ public class Content extends Auditable {
 
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private CategoryType categoryType;
 
     @ManyToOne(optional = true, fetch = FetchType.EAGER, cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

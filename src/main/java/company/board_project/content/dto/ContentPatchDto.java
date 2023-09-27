@@ -19,6 +19,8 @@ public class ContentPatchDto {
     private String title;
     @NotBlank(message = "게시글의 내용을 입력해야 합니다.")
     private String content;
+    private String categoryType;
+    private String boardCategory;
     public List<ContentFile> contentFileList;
 
     private String name;
