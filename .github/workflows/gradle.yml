@@ -84,4 +84,4 @@ jobs:
           aws deploy create-deployment --application-name github-actions-whistle
           --deployment-config-name CodeDeployDefault.AllAtOnce
           --deployment-group-name github-actions-whistle-group
-          --s3-location bucket=${{secrets.S3_BUCKET_NAME}},bundleType=zip,key=practice-deploy.zip
+          --s3-location bucket=${{ secrets.S3_BUCKET }},bundleType=zip,key=practice-deploy.zip
