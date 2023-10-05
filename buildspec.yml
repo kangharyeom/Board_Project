@@ -1,0 +1,21 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+  build:
+    commands:
+      - echo Build Starting on `date`
+      - cd board_project
+      - chmod +x ./gradlew
+      - ./gradlew build
+  post_build:
+    commands:
+      - echo $(basename ./board_project/build/libs/*.jar)
+artifacts:
+  files:
+    - project/board_project/build/libs/*.jar
+    - project/board_project/scripts/**
+    - project/board_project/appspec.yml
+  discard-paths: yes
