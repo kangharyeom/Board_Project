@@ -1,6 +1,7 @@
 package company.board_project.global.security.jwt.handler;
 
 import company.board_project.global.exception.ErrorResponder;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -10,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+@Log4j2
 
 @Component
 public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -23,6 +25,6 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private void logExceptionMessage(AuthenticationException authException, Exception exception) {
         String message = exception != null ? exception.getMessage() : authException.getMessage();
-//        log.warn("인증 실패: {}", message);
+        log.warn("인증 실패: {}", message);
     }
 }

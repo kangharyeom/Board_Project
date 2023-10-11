@@ -3,6 +3,7 @@ package company.board_project.global.security.jwt.handler;
 import com.google.gson.Gson;
 import company.board_project.global.exception.ErrorResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
@@ -12,6 +13,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+@Log4j2
 
 @RequiredArgsConstructor
 public class UserAuthenticationFailureHandler implements AuthenticationFailureHandler {
@@ -20,7 +22,7 @@ public class UserAuthenticationFailureHandler implements AuthenticationFailureHa
                                         HttpServletResponse response,
                                         AuthenticationException exception) throws IOException, ServletException {
 
-//        log.error("로그인 인증 실패 : {}", exception.getMessage());
+        log.error("로그인 인증 실패 : {}", exception.getMessage());
         sendErrorResponse(response);
     }
 
