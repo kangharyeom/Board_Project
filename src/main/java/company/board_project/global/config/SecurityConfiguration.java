@@ -36,12 +36,6 @@ public class SecurityConfiguration {
                 .cors()
                 .and()
                 .formLogin()
-//                .loginPage("/auth/oauth")           // Oauth 접근을 위한 URL
-//                .usernameParameter("email")		    // 로그인 시 form에서 가져올 값(id, email 등이 해당)
-//                .passwordParameter("password")	    // 로그인 시 form에서 가져올 값
-//                .loginProcessingUrl("/social")	    // 로그인을 처리할 URL 입력
-//                .defaultSuccessUrl("/")			    // 로그인 성공하면 "/" 으로 이동
-//                .failureUrl("/auth/oauth")	// 로그인 실패 시 이동
                 .and()
                 .httpBasic().disable()
                 .exceptionHandling()
@@ -57,7 +51,7 @@ public class SecurityConfiguration {
 //                        .antMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
                         .antMatchers("/h2/**").permitAll()
                         .antMatchers(HttpMethod.OPTIONS).permitAll()
-                        .antMatchers("/oauth2/**", "/loading/**","/auth/**").permitAll()
+                        .antMatchers( "/loading/**","/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2

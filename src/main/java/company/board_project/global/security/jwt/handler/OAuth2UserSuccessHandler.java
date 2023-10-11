@@ -5,6 +5,7 @@ import company.board_project.global.security.jwt.component.JwtTokenizer;
 import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -22,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Slf4j
+@Log4j2
 @RequiredArgsConstructor
 public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
@@ -115,9 +116,9 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
                 .newInstance()
                 .scheme("https")
 //                .host("")
-                .host("localhost")
-                .port(80)
-                .path("/loading")
+                .host("ec2-3-36-251-38.ap-northeast-2.compute.amazonaws.com:8080")
+                .port(8080)
+                .path("/")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
