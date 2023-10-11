@@ -28,6 +28,7 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
+    private final OAuth2UserService oAuth2UserService;
     private final RedisUtils redisUtils;
     private final UserRepository userRepository;
 
@@ -40,8 +41,7 @@ public class SecurityConfiguration {
                 .cors(withDefaults())
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .formLogin()
-                .and()
+                .formLogin().disable()
                 .httpBasic().disable()
                 .exceptionHandling()
                 .authenticationEntryPoint(new UserAuthenticationEntryPoint())
@@ -61,6 +61,7 @@ public class SecurityConfiguration {
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, userRepository,redisUtils))
+                        .userInfoEndpoint().userService(oAuth2UserService)
                 );
 
         return http.build();
