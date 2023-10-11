@@ -4,12 +4,12 @@ import company.board_project.global.exception.Exceptions;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping
 @RequiredArgsConstructor
 public class OAuth2Controller {
@@ -19,5 +19,10 @@ public class OAuth2Controller {
             throw new BusinessLogicException(Exceptions.USER_EXISTS);
         }
         return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @GetMapping("/api/oauth")
+    public String login() {
+        return "oauth-login";
     }
 }
