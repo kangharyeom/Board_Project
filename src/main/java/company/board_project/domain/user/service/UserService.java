@@ -7,6 +7,7 @@ import company.board_project.global.exception.Exceptions;
 import company.board_project.global.security.utils.CustomAuthorityUtils;
 import company.board_project.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-
+@Log4j2
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -37,6 +38,7 @@ public class UserService {
         user.setPassword(encryptPassword);
 
         userRepository.save(user);
+        log.info("유저 등록 완료 {}", user);
 
         return user;
     }
