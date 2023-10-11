@@ -6,7 +6,6 @@ import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -115,10 +114,8 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         return UriComponentsBuilder
                 .newInstance()
                 .scheme("https")
-//                .host("")
-                .host("ec2-3-36-251-38.ap-northeast-2.compute.amazonaws.com:8080")
-                .port(8080)
-                .path("/")
+                .host("https://dev.dovfpqk67sdce.amplifyapp.com")
+                .path("/auth/loading")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
