@@ -37,7 +37,7 @@ public interface MatchMapper {
         match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
 
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
-        match.setSportType(SportsType.valueOf(requestBody.getSportType()));
+        match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         match.setMatchTime(requestBody.getMatchTime());
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchRules(requestBody.getMatchRules());
@@ -59,7 +59,7 @@ public interface MatchMapper {
         match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
 
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
-        match.setSportType(SportsType.valueOf(requestBody.getSportType()));
+        match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         match.setMatchTime(requestBody.getMatchTime());
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchRules(requestBody.getMatchRules());
@@ -84,7 +84,7 @@ public interface MatchMapper {
                 .homeTeamLevelType(String.valueOf(team.getLevelType()))
                 .homeTeamAgeType(String.valueOf(team.getAgeType()))
                 .homeTeamUniformType(String.valueOf(team.getUniformType()))
-                .sportType(String.valueOf(match.getSportType()))
+                .sportsType(String.valueOf(match.getSportsType()))
                 .locationType(String.valueOf(match.getLocationType()))
                 .matchTime(match.getMatchTime())
                 .matchStatus(String.valueOf(match.getMatchStatus()))
@@ -116,11 +116,10 @@ public interface MatchMapper {
                         .homeTeamLevelType(String.valueOf(match.getHomeTeamLevelType()))
                         .homeTeamAgeType(String.valueOf(match.getHomeTeamAgeType()))
                         .homeTeamUniformType(String.valueOf(match.getHomeTeamUniformType()))
-                        .sportType(String.valueOf(match.getSportType()))
+                        .sportsType(String.valueOf(match.getSportsType()))
                         .locationType(String.valueOf(match.getLocationType()))
                         .matchStatus(String.valueOf(match.getMatchStatus()))
                         .matchTime(match.getMatchTime())
-                        .sportType(String.valueOf(match.getSportType()))
                         .locationType(String.valueOf(match.getLocationType()))
                         .matchStatus(String.valueOf(match.getMatchStatus()))
                         .matchType(String.valueOf(match.getMatchType()))

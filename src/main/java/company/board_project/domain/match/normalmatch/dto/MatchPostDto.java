@@ -28,7 +28,7 @@ public class MatchPostDto {
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
     private String matchType = "NORMAL";
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
-    private String sportType;
+    private String sportsType;
     @NotBlank(message = "지역을 입력 해야 합니다.")
     private String locationType;
     @NotBlank(message = "경기 시간을 입력 해야 합니다.")

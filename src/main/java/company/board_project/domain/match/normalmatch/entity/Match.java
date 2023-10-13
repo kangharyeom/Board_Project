@@ -59,7 +59,7 @@ public class Match extends Auditable {
     private MatchType matchType;
 
     @Enumerated(EnumType.STRING)
-    private SportsType sportType;
+    private SportsType sportsType;
 
     @Column(nullable = false)
     private String matchTime;

@@ -37,7 +37,7 @@ public class MatchController {
         Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
         MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
 
-        matchListService.createMatchListByMatchController(new MatchList(), matchResponseDto.getMatchId(), matchResponseDto.getTeamId(),matchResponseDto.getUserId());
+        matchListService.createMatchListByMatchController(new MatchList(), matchResponseDto.getUserId(), matchResponseDto.getTeamId(), matchResponseDto.getMatchId());
 
         return ResponseEntity.ok(matchResponseDto);
     }

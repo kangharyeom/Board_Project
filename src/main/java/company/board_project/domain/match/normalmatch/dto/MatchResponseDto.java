@@ -23,7 +23,7 @@ public class MatchResponseDto {
     private String homeTeamAgeType;
     private String homeTeamUniformType;
     private String matchType;
-    private String sportType;
+    private String sportsType;
     private String locationType;
     private String matchTime;
     private String matchStatus;
