@@ -8,8 +8,6 @@ import company.board_project.domain.user.mapper.UserMapper;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -19,18 +17,18 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 @Validated
 public class UserController {
-    private static final Logger logger = LogManager.getLogger(UserController.class);
     private final UserService userService;
     private final UserMapper userMapper;
     private final UserRepository userRepository;
 
-    // 회원 가입
+    /*
+    * 회원 가입
+    */
     @PostMapping("/join")
     public ResponseEntity postUser(@RequestBody @Validated UserPostDto requestBody) {
 

@@ -21,7 +21,6 @@ public interface UserMapper {
         user.setName( requestBody.getName() );
         user.setPassword( requestBody.getPassword() );
         user.setPhone( requestBody.getPhone() );
-        user.setPosition(Position.valueOf(requestBody.getPosition()));
 
         return user;
     }

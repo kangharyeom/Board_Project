@@ -17,17 +17,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URI;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Log4j2
 @RequiredArgsConstructor
 public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
-    private final UserRepository userRepository;
     private final RedisUtils redisUtils;
+    private final UserRepository userRepository;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
@@ -36,6 +33,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
         String email;
         String clientId;
         var oAuth2User = (OAuth2User) authentication.getPrincipal();
+
         Map<String, Object> attributes = oAuth2User.getAttributes();
         Map<String, Object> kakao = (Map<String, Object>) attributes.get("kakao_account");
 
@@ -54,6 +52,7 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         redirect(request, response, email, password.equals(clientId));
     }
+
     private void redirect(HttpServletRequest request,
                           HttpServletResponse response,
                           String username,

@@ -25,6 +25,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.security.SecureRandom;
 import java.util.*;
 
 @Service
@@ -110,7 +111,7 @@ public class AuthService {
     }
 
     private String createAuthCode() {
-        Random random = new Random();
+        SecureRandom random = new SecureRandom();
         String key = "";
 
         for (int i = 0; i < 3; i++) {
@@ -161,7 +162,7 @@ public class AuthService {
 
     private String setPasswordContext(String authCode) {
         Context context = new Context();
-        context.setVariable("link", "https://localhost:/8080/auth/password?authCode=" + authCode);
+        context.setVariable("link", "https://ec2-3-36-251-38.ap-northeast-2.compute.amazonaws.com:8080/auth/password?authCode=" + authCode);
         context.setVariable("authCode", authCode);
         return templateEngine.process("NewPassword", context);
     }
