@@ -29,8 +29,8 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils authorityUtils;
     private final OAuth2UserService oAuth2UserService;
-    private final RedisUtils redisUtils;
     private final UserRepository userRepository;
+    private final RedisUtils redisUtils;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {

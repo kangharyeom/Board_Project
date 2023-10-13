@@ -23,8 +23,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final JwtTokenizer jwtTokenizer;
-    private final RedisUtils redisUtils;
     private final UserRepository userRepository;
+    private final RedisUtils redisUtils;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
