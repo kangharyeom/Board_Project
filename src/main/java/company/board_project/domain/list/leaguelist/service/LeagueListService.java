@@ -31,7 +31,7 @@ public class LeagueListService {
     private final ApplyService applyService;
     private final LeagueRepository leagueRepository;
     public LeagueList createLeagueList(
-            LeagueList leagueList, Long userId, Long teamId, Long applyId, Long leagueId) {
+            LeagueList leagueList, Long userId, Long teamId, Long leagueId, Long applyId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);

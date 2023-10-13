@@ -36,7 +36,7 @@ public class LeagueController {
         League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
-        leagueListService.createLeagueListByLeagueController(new LeagueList(), leagueResponseDto.getLeagueId(), requestBody.getTeamId(),requestBody.getUserId());
+        leagueListService.createLeagueListByLeagueController(new LeagueList(),requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());
 
         return ResponseEntity.ok(leagueResponseDto);
     }
