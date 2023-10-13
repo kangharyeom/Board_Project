@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -193,6 +194,10 @@ public class TeamService {
         return findVerifiedTeam(teamId);
     }
 
+    public Team findTeamByUserId(long userId) {
+        return findVerifiedTeamByUserId(userId);
+    }
+
     public List<Team> findAllTeamsByLeagueId(long leagueId) {
         return teamRepository.findAllTeamsByLeagueId(leagueId);
     }
@@ -218,5 +223,15 @@ public class TeamService {
                 optionalTeam.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
         return findTeam;
+    }
+
+    public Team findVerifiedTeamByUserId(long userId) {
+        Team team;
+        try {
+            team = teamRepository.findByUserId(userId);
+        } catch (NoSuchElementException ex) {
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
+        }
+        return team;
     }
 }

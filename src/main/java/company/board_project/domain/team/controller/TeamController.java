@@ -65,6 +65,15 @@ public class TeamController {
         return ResponseEntity.ok(teamResponse);
     }
 
+    @GetMapping("/users/{userId}")
+    public ResponseEntity getTeamByUserId(@PathVariable("userId") @Positive Long userId){
+        Team team = teamService.findTeamByUserId(userId);
+        TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
+
+        return ResponseEntity.ok(teamResponse);
+    }
+
+
     @GetMapping("/league/{leagueId}")
     public ResponseEntity getAllTeamsByLeagueId(@PathVariable("leagueId") @Positive Long leagueId) {
         List<Team> teams = teamService.findAllTeamsByLeagueId(leagueId);
