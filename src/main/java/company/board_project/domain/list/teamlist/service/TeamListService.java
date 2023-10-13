@@ -44,7 +44,7 @@ public class TeamListService {
     }
 
     public TeamList createTeamListByTeamController(
-            TeamList teamList, Long userId, Long teamId) {
+            TeamList teamList, Long teamId, Long userId) {
 
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
