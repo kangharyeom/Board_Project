@@ -39,6 +39,7 @@ public interface MatchMapper {
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         match.setMatchTime(requestBody.getMatchTime());
+        match.setMatchDate(requestBody.getMatchDate());
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchRules(requestBody.getMatchRules());
 
@@ -61,6 +62,7 @@ public interface MatchMapper {
         match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
         match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
         match.setMatchTime(requestBody.getMatchTime());
+        match.setMatchDate(requestBody.getMatchDate());
         match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
         match.setMatchRules(requestBody.getMatchRules());
 
@@ -87,6 +89,7 @@ public interface MatchMapper {
                 .sportsType(String.valueOf(match.getSportsType()))
                 .locationType(String.valueOf(match.getLocationType()))
                 .matchTime(match.getMatchTime())
+                .matchDate(match.getMatchDate())
                 .matchStatus(String.valueOf(match.getMatchStatus()))
                 .matchType(String.valueOf(match.getMatchType()))
                 .createdAt(match.getCreatedAt())
@@ -120,6 +123,7 @@ public interface MatchMapper {
                         .locationType(String.valueOf(match.getLocationType()))
                         .matchStatus(String.valueOf(match.getMatchStatus()))
                         .matchTime(match.getMatchTime())
+                        .matchDate(match.getMatchDate())
                         .locationType(String.valueOf(match.getLocationType()))
                         .matchStatus(String.valueOf(match.getMatchStatus()))
                         .matchType(String.valueOf(match.getMatchType()))

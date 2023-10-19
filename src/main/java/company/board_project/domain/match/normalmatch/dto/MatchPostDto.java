@@ -33,6 +33,8 @@ public class MatchPostDto {
     private String locationType;
     @NotBlank(message = "경기 시간을 입력 해야 합니다.")
     private String matchTime;
+    @NotBlank(message = "경기 날짜를 입력 해야 합니다.")
+    private String matchDate;
     private String matchStatus = "BEFORE";
     private String matchRules;
 }

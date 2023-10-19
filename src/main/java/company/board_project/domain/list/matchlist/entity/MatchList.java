@@ -73,6 +73,12 @@ public class MatchList extends Auditable {
     @Column
     private Long awayTeamTotalLoseRecord;
 
+    @Column
+    private String matchTime;
+
+    @Column
+    private String matchDate;
+
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 

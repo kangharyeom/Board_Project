@@ -26,6 +26,7 @@ public class MatchResponseDto {
     private String sportsType;
     private String locationType;
     private String matchTime;
+    private String matchDate;
     private String matchStatus;
     private String matchRules;
 

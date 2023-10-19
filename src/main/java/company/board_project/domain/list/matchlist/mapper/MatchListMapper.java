@@ -80,6 +80,8 @@ public interface MatchListMapper {
         matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         matchList.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
+        matchList.setMatchTime(requestBody.getMatchTime());
+        matchList.setMatchDate(requestBody.getMatchDate());
 
         return matchList;
     }
@@ -109,6 +111,8 @@ public interface MatchListMapper {
         matchList.setAwayTeamLevelType(LevelType.valueOf(requestBody.getAwayTeamLevelType()));
         matchList.setAwayTeamAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         matchList.setAwayTeamUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
+        matchList.setMatchTime(requestBody.getMatchTime());
+        matchList.setMatchDate(requestBody.getMatchDate());
 
         return matchList;
     }
@@ -155,6 +159,8 @@ public interface MatchListMapper {
                 .homeTeamScore(matchList.getHomeTeamScore())
                 .awayTeamScore(matchList.getAwayTeamScore())
                 .matchStatus(String.valueOf(matchList.getMatchStatus()))
+                .matchTime(matchList.getMatchTime())
+                .matchDate(matchList.getMatchDate())
                 .createdAt(matchList.getCreatedAt())
                 .modifiedAt(matchList.getModifiedAt())
                 .build();
@@ -197,6 +203,8 @@ public interface MatchListMapper {
                 .awayTeamLevelType(String.valueOf(matchList.getAwayTeamLevelType()))
                 .awayTeamAgeType(String.valueOf(matchList.getAwayTeamAgeType()))
                 .awayTeamUniformType(String.valueOf(matchList.getAwayTeamUniformType()))
+                .matchTime(matchList.getMatchTime())
+                .matchDate(matchList.getMatchDate())
                 .createdAt(matchList.getCreatedAt())
                 .modifiedAt(matchList.getModifiedAt())
                 .build();
@@ -236,6 +244,8 @@ public interface MatchListMapper {
                 .awayTeamLevelType(String.valueOf(matchList.getAwayTeamLevelType()))
                 .awayTeamAgeType(String.valueOf(matchList.getAwayTeamAgeType()))
                 .awayTeamUniformType(String.valueOf(matchList.getAwayTeamUniformType()))
+                .matchTime(matchList.getMatchTime())
+                .matchDate(matchList.getMatchDate())
                 .createdAt(matchList.getCreatedAt())
                 .modifiedAt(matchList.getModifiedAt())
                 .build();
@@ -273,6 +283,8 @@ public interface MatchListMapper {
                         .awayTeamLevelType(String.valueOf(matchList.getAwayTeamLevelType()))
                         .awayTeamAgeType(String.valueOf(matchList.getAwayTeamAgeType()))
                         .awayTeamUniformType(String.valueOf(matchList.getAwayTeamUniformType()))
+                        .matchTime(matchList.getMatchTime())
+                        .matchDate(matchList.getMatchDate())
                         .createdAt(matchList.getCreatedAt())
                         .modifiedAt(matchList.getModifiedAt())
                         .createdAt(matchList.getCreatedAt())

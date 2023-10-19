@@ -65,6 +65,9 @@ public class Match extends Auditable {
     private String matchTime;
 
     @Column
+    private String matchDate;
+
+    @Column
     private String matchRules;
 
     // DB Input

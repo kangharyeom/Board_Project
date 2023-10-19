@@ -39,4 +39,6 @@ public class MatchListResponseDto {
     private String awayTeamUniformType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private String matchTime;
+    private String matchDate;
 }

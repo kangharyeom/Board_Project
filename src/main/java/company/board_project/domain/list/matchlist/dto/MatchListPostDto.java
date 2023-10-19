@@ -34,5 +34,7 @@ public class MatchListPostDto {
     private String awayTeamAgeType;
     private String homeTeamUniformType;
     private String awayTeamUniformType;
+    private String matchTime;
+    private String matchDate;
 
 }
