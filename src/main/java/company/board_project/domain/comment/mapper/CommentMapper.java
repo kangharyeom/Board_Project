@@ -9,7 +9,6 @@ import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
     default Comment commentPostDtoToComment(CommentPostDto requestBody) {

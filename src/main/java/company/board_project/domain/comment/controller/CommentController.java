@@ -27,7 +27,9 @@ import java.util.List;
 public class CommentController {
     private final CommentService commentService;
     private final CommentMapper commentMapper;
-    // 댓글 생성 //
+    /*
+     * 댓글 생성
+     */
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentPostDto requestBody ){
         Comment comment = commentService.createComment(
@@ -40,7 +42,9 @@ public class CommentController {
         return ResponseEntity.ok(commentResponseDto);
     }
 
-    // 댓글 수정 //
+    /*
+     * 댓글 수정
+     */
     @PatchMapping("/{commentId}")
     public ResponseEntity patchComment(@Valid @RequestBody CommentPatchDto requestBody,
                                        @PathVariable("commentId") @Positive Long commentId){
@@ -54,7 +58,9 @@ public class CommentController {
         return ResponseEntity.ok(userResponseDto);
     }
 
-    // 댓글 조회 //
+    /*
+     * 댓글 단건 조회
+     */
     @GetMapping("/{commentId}")
     public ResponseEntity getComment(@PathVariable("commentId") @Positive Long commentId){
         Comment comment = commentService.findComment(commentId);
@@ -63,7 +69,9 @@ public class CommentController {
         return ResponseEntity.ok(commentResponse);
     }
 
-    // 특정 게시글 ID에 있는 댓글 전체 조회 //
+    /*
+     * 특정 게시글 ID에 있는 댓글 전체 조회
+     */
     @GetMapping("/contents/{contentId}")
     public ResponseEntity getContentComments(@PathVariable("contentId") @Positive int contentId) {
         List<Comment> comments = commentService.findContentComments(contentId);
@@ -71,7 +79,9 @@ public class CommentController {
         return ResponseEntity.ok(commentResponseDtos);
     }
 
-    // 댓글 전체 조회 //
+    /*
+     * 댓글 전체 조회
+     */
     @GetMapping
     public ResponseEntity getComments(@Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
@@ -83,8 +93,10 @@ public class CommentController {
                         pageComments),
                 HttpStatus.OK);
     }
-
-    // 댓글 삭제 //
+    
+    /*
+     * 댓글 삭제
+     */
     @DeleteMapping("/{commentId}")
     public ResponseEntity deleteComment(@PathVariable("commentId") @Positive Long commentId) {
         commentService.deleteComment(commentId);

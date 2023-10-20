@@ -12,6 +12,7 @@ import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @RestController
 @Validated
-@Slf4j
+@Log4j2
 @RequestMapping("/api/contents")
 @RequiredArgsConstructor
 public class ContentController {
@@ -36,15 +37,21 @@ public class ContentController {
     private final ContentFileRepository contentFileRepository;
     private final AwsS3Service awsS3Service;
 
+    /*
+     * 게시글 생성
+     */
     @PostMapping
     public ResponseEntity postContent(@Validated @RequestBody ContentPostDto requestBody) {
 
-        Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody));
+        Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId());
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
 
         return ResponseEntity.ok(contentResponse);
     }
 
+    /*
+     * 게시글 파일 업로드
+     */
     @PostMapping("/file")
     public ResponseEntity postContentFile(@RequestPart("data") ContentPostDto requestBody,
                                       @RequestPart(required=false, value="ContentFileUrl") List<MultipartFile> multipartFiles ) {
@@ -56,12 +63,15 @@ public class ContentController {
         List<String> filePaths = awsS3Service.uploadFile(multipartFiles);
         log.info("IMG 경로들 : "+ filePaths);
 
-        Content content = contentService.createContentFile(contentMapper.contentPostDtoToContent(requestBody),filePaths);
+        Content content = contentService.createContentFile(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId(), filePaths);
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
 
         return ResponseEntity.ok(contentResponse);
     }
 
+    /*
+     * 게시글 단건 조회
+     */
     @GetMapping("/{contentId}")
     public ResponseEntity getContent(@PathVariable("contentId") Long contentId) {
         Content content = contentService.findContent(contentId);
@@ -70,6 +80,10 @@ public class ContentController {
         return ResponseEntity.ok(contentAllResponseDto);
     }
 
+    /*
+     * 게시글 전체 조회
+     * pageNation 구현 1개 페이지에 최대 40개 게시글 조회
+     */
     @GetMapping
     public ResponseEntity getContents(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                       @Positive @RequestParam(value = "size", defaultValue = "40") int size){
@@ -83,6 +97,9 @@ public class ContentController {
                 HttpStatus.OK);
     }
 
+    /*
+     * 게시글 검색 기능
+     */
     @GetMapping("/search")
     public ResponseEntity getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
         List<Content> contents = contentService.findAllSearch(keyword);
@@ -91,6 +108,9 @@ public class ContentController {
         return ResponseEntity.ok(contentListDto);
     }
 
+    /*
+     * 게시글 작성자 이름 검색 기능
+     */
     @GetMapping("/search/username")
     public ResponseEntity getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
         List<Content> contents = contentService.findAllSearchByUserName(name);
@@ -99,6 +119,9 @@ public class ContentController {
         return ResponseEntity.ok(contentListDto);
     }
 
+    /*
+     * 최근 등록된 게시글 순서 조회
+     */
     @GetMapping("/newest")
     public ResponseEntity getContentsNewest() {
         List<Content> contents = contentService.findContentsNewest();
@@ -107,6 +130,9 @@ public class ContentController {
         return ResponseEntity.ok(contentResponseDtos);
     }
 
+    /*
+     * 오래된 게시글 순서 조회
+     */
     @GetMapping("/latest")
     public ResponseEntity getContentsLatest() {
         List<Content> contents = contentService.findContentsLatest();
@@ -115,6 +141,9 @@ public class ContentController {
         return ResponseEntity.ok(contentResponseDtos);
     }
 
+    /*
+     * 카테고리 단위 게시글 조회
+     */
     @GetMapping("/category")
     public ResponseEntity getContentsByCategory(@RequestParam(value = "category",required = false) String category) {
         List<Content> contents = contentService.findContentsByCategory(category);
@@ -123,6 +152,9 @@ public class ContentController {
         return ResponseEntity.ok(contentResponseDtos);
     }
 
+    /*
+     * 게시글 수정
+     */
     @PatchMapping("/{contentId}")
     public ResponseEntity patchContent(@RequestBody ContentPatchDto requestBody,
                                        @PathVariable("contentId") Long contentId) {
@@ -135,6 +167,9 @@ public class ContentController {
         return ResponseEntity.ok(contentResponse);
     }
 
+    /*
+     * 게시글 삭제
+     */
     @DeleteMapping("/{contentId}")
     public ResponseEntity deleteContent(@PathVariable("contentId") Long contentId) {
         contentService.deleteContent(contentId);
