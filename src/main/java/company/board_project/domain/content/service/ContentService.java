@@ -4,6 +4,7 @@ import company.board_project.domain.content.entity.Content;
 import company.board_project.domain.content.entity.ContentFile;
 import company.board_project.domain.content.repository.ContentFileRepository;
 import company.board_project.domain.content.repository.ContentRepository;
+import company.board_project.domain.user.service.UserService;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.user.entity.User;
@@ -24,18 +25,32 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ContentService {
     private final UserRepository userRepository;
+    private final UserService userService;
     private final ContentRepository contentRepository;
     private final ContentFileRepository contentFileRepository;
 
-    public Content createContent(Content content) {
+    /*
+     * 게시글 생성
+     */
+    public Content createContent(Content content, Long userId) {
+        User user = userService.findUser(userId);
+
+        content.setUser(user);
         contentRepository.save(content);
+
 
         return content;
     }
 
-    public Content createContentFile(Content content, List<String> filePaths) {
-        blankCheck(filePaths);
+    /*
+     * 게시글 파일 업로드
+     */
+    public Content createContentFile(Content content, Long userId,List<String> filePaths) {
+        User user = userService.findUser(userId);
 
+        content.setUser(user);
+
+        blankCheck(filePaths);
         contentRepository.save(content);
 
         List<String> fileNameList = new ArrayList<>();
@@ -49,9 +64,16 @@ public class ContentService {
         return content;
     }
 
+    /*
+     * 게시글 수정
+     */
     public Content updateContent(Content content) {
 
         Content findContent = findVerifiedContent(content.getContentId());
+
+        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
         Optional.ofNullable(content.getTitle())
                 .ifPresent(findContent::setTitle);
@@ -62,49 +84,69 @@ public class ContentService {
         return contentRepository.save(findContent);
     }
 
+    /*
+     * 게시글 단건 조회
+     */
     public Content findContent(Long contentId) {
         return findVerifiedContent(contentId);
     }
 
+    /*
+     * 게시글 전체 조회
+     * pageNation 구현
+     */
     public Page<Content> findContents(int page, int size) {
         return contentRepository.findAll(PageRequest.of(page, size,
                 Sort.by("contentId").descending()));
     }
 
+    /*
+     * 게시글 검색 기능
+     */
     public List<Content> findAllSearch(String keyword){
         return contentRepository.findAllSearch(keyword);
     }
 
+    /*
+     * 작성자 단위 검색 기능
+     */
     public List<Content> findAllSearchByUserName(String name){
         return contentRepository.findAllSearchByUserName(name);
     }
 
+    /*
+     * 최신 순서 게시글 조회
+     */
     public List<Content> findContentsNewest() {
         return contentRepository.findContentsNewest();
     }
 
+    /*
+     * 오래된 순서 게시글 조회
+     */
     public List<Content> findContentsLatest() {
         return contentRepository.findContentsLatest();
     }
 
+    /*
+     * 카테고리 단위 게시글 조회
+     */
     public List<Content> findContentsByCategory(String category) {
         return contentRepository.findAllByCategoryType(category);
     }
 
+    /*
+     * 게시글 삭제
+     */
     public void deleteContent(Long contentId) {
         Content findContent = findVerifiedContent(contentId);
 
         contentRepository.delete(findContent);
     }
 
-    public User findVerifiedUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
-    }
-
+    /*
+     * 게시글 검증 로직
+     */
     public Content findVerifiedContent(Long contentId) {
         Optional<Content> optionalContent = contentRepository.findByContentId(contentId);
 
