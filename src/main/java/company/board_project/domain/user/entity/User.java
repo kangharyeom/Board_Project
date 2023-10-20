@@ -2,10 +2,7 @@ package company.board_project.domain.user.entity;
 
 import company.board_project.global.audit.Auditable;
 import company.board_project.domain.comment.entity.Comment;
-import company.board_project.global.constant.AuthProvider;
-import company.board_project.global.constant.LoginType;
-import company.board_project.global.constant.Position;
-import company.board_project.global.constant.UserRole;
+import company.board_project.global.constant.*;
 import company.board_project.domain.content.entity.Content;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
@@ -61,7 +58,13 @@ public class User extends Auditable {
     private Position position;
 
     @Enumerated(EnumType.STRING)
-    private UserRole userRole;
+    private UserRole userRole = UserRole.USER;
+
+    @Enumerated(EnumType.STRING)
+    private LeagueRole leagueRole;
+
+    @Enumerated(EnumType.STRING)
+    private TeamMemberRole teamMemberRole;
 
     @Column
     @Enumerated(EnumType.STRING)

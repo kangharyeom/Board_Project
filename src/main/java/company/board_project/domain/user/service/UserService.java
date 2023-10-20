@@ -1,6 +1,7 @@
 package company.board_project.domain.user.service;
 
 import company.board_project.domain.user.repository.UserRepository;
+import company.board_project.global.constant.LeagueRole;
 import company.board_project.global.constant.LoginType;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
@@ -119,5 +120,29 @@ public class UserService {
         if (user.getLoginType().equals(LoginType.SOCIAL)) {
             throw new BusinessLogicException(Exceptions.ACCESS_FORBIDDEN);
         }
+    }
+
+    public User findVerifiedUser(long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User findUser =
+                optionalUser.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
+        return findUser;
+    }
+
+    public User findVerifiedUserByLeagueRole(LeagueRole leagueRole) {
+        Optional<User> optionalUser = userRepository.findByLeagueRole(leagueRole);
+        User findUser =
+                optionalUser.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.UNAUTHORIZED));
+        return findUser;
+    }
+
+    public User findVerifiedUserByTeamMemberRole(long userId) {
+        Optional<User> optionalUser = userRepository.findById(userId);
+        User findUser =
+                optionalUser.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
+        return findUser;
     }
 }
