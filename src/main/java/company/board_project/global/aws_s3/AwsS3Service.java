@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.DeleteObjectRequest;
 import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Slf4j
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -30,10 +30,13 @@ public class AwsS3Service {
 
     private final AmazonS3 amazonS3;
 
+    /*
+    * 파일 업로드
+    */
     public List<String> uploadFile(List<MultipartFile> multipartFiles){
         List<String> fileNameList = new ArrayList<>();
 
-        // forEach 구문을 통해 multipartFiles 리스트로 넘어온 파일들을 순차적으로 fileNameList 에 추가
+        // multipartFiles 리스트로 넘어온 파일들을 순차적으로 fileNameList 에 추가
         multipartFiles.forEach(file -> {
             String fileName = createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
@@ -53,12 +56,17 @@ public class AwsS3Service {
         return fileNameList;
     }
 
-    // 먼저 파일 업로드시, 파일명을 난수화하기 위해 UUID 를 활용하여 난수를 돌린다.
+    /*
+    * 파일명 중복 방지를 위한 UUID 난수화
+    */
     public String createFileName(String fileName){
         return UUID.randomUUID().toString().concat(getFileExtension(fileName));
     }
 
-    // file 형식이 잘못된 경우를 확인하기 위해 만들어진 로직이며, 파일 타입과 상관없이 업로드할 수 있게 하기위해, "."의 존재 유무만 판단하였습니다.
+    /*
+    * file 형식 확인 로직
+    * "."의 존재 유무로 파일 형식 확인
+    */
     private String getFileExtension(String fileName){
         try{
             return fileName.substring(fileName.lastIndexOf("."));
@@ -69,9 +77,7 @@ public class AwsS3Service {
 
 
     public void deleteFile(String fileName){
-//        Logger logger = (Logger) LoggerFactory.getLogger(AwsS3Service.class);
         amazonS3.deleteObject(new DeleteObjectRequest(bucket, fileName));
-//        logger.info("Aws S3 Log:"+bucket);
-//        System.out.println(bucket);
+        log.info("Aws S3 Log {}",bucket);
     }
 }
