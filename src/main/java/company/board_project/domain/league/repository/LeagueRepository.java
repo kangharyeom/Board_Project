@@ -9,20 +9,25 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LeagueRepository extends JpaRepository<League, Long> {
+    // 리그 전체 조회
     @Query(value = "select * from leagues where league_id = :leagueId", nativeQuery = true)
     List<League> findAllByLeagueId(@Param("leagueId") long leagueId);
 
     Optional<League> findByLeagueId(long leagueId);
 
+    // userId단위 리그 조회
     @Query(value = "select * from leagues where user_id = :userId", nativeQuery = true)
     List<League> findByUserId(@Param("userId") long userId);
 
+    // 최신 등록된 리그 순서 조회
     @Query(value = "select * from leagues order by created_at desc", nativeQuery = true)
     List<League> findLeaguesNewest();
 
+    // 오래된 순서 리그 조회
     @Query(value = "select * from leagues order by created_at asc", nativeQuery = true)
     List<League> findLeaguesLatest();
 
+    // 명예점수 고득점 순서 조회
     @Query(value = "select * from leagues order by honor_score desc", nativeQuery = true)
     List<League> findHonorScore();
 }

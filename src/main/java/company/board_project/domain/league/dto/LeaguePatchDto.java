@@ -33,4 +33,8 @@ public class LeaguePatchDto {
     @NotBlank(message = "리그의 경기 빈도를 입력 해야 합니다.")
     private String frequency;
     private String seasonType;
+
+    public void updateId(Long id){
+        this.leagueId = id;
+    }
 }

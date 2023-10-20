@@ -1,6 +1,7 @@
 package company.board_project.domain.league.service;
 
 import company.board_project.domain.league.repository.LeagueRepository;
+import company.board_project.global.constant.LeagueRole;
 import company.board_project.global.constant.SeasonType;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
@@ -34,18 +35,22 @@ public class LeagueService {
     private final TeamRepository teamRepository;
     private final LeagueListRepository leagueListRepository;
 
-
+    /*
+    * 리그 생성
+    */
     public League createLeague(League league, Long userId, Long teamId) {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
         league.setUser(user);
+        user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
         league.setTeam(team);
         team.setLeagueName(league.getLeagueName());
         league.setManagerName(user.getName());
         league.setManagerTeamName(team.getTeamName());
         league.setHonorScore(team.getHonorScore());
 
+        userRepository.save(user);
         teamRepository.save(team);
         leagueRepository.save(league);
 
@@ -55,6 +60,11 @@ public class LeagueService {
     public League updateLeague(League league) {
 
         League findLeague = findVerifiedLeague(league.getLeagueId());
+
+        // 리그 관리자만 수정 가능하도록
+        User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
+        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
+            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
         Optional.ofNullable(league.getLeagueName())
                 .ifPresent(findLeague::setLeagueName);

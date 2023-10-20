@@ -9,7 +9,6 @@ import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface LeagueMatchMapper {
@@ -111,7 +110,8 @@ public interface LeagueMatchMapper {
         return leagueMatch;
     }
 
-    default LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody) {
+    LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody);
+   /* default LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody) {
         LeagueMatch leagueMatch = new LeagueMatch();
 
         leagueMatch.setHomeTeamScore(requestBody.getHomeTeamScore());
@@ -154,7 +154,7 @@ public interface LeagueMatchMapper {
         leagueMatch.setMatchRules(requestBody.getMatchRules());
 
         return leagueMatch;
-    }
+    }*/
 
     default LeagueMatch leagueMatchEndDtoToLeagueMatch(LeagueMatchEndDto requestBody) {
         LeagueMatch leagueMatch = new LeagueMatch();
@@ -166,7 +166,10 @@ public interface LeagueMatchMapper {
         return leagueMatch;
     }
 
-    default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
+    LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
+            LeagueMatch leagueMatch
+    );
+   /* default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
             LeagueMatch leagueMatch
     ){
         User homeTeamUser = leagueMatch.getUser();
@@ -220,9 +223,18 @@ public interface LeagueMatchMapper {
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
-    }
+    }*/
 
-    default LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
+    LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
+            LeagueMatch leagueMatch
+            , Long homeTeamUserId
+            , Long awayTeamUserId
+            , Long homeTeamId
+            , Long awayTeamId
+            , Long homeTeamLeagueListId
+            , Long awayTeamLeagueListId
+    );
+   /* default LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
             LeagueMatch leagueMatch
             , Long homeTeamUserId
             , Long awayTeamUserId
@@ -276,9 +288,10 @@ public interface LeagueMatchMapper {
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
-    }
+    }*/
 
-    default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){
+    LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch);
+    /*default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){
         User homeTeamUser = leagueMatch.getUser();
         User awayTeamUser = leagueMatch.getUser();
         Team homeTeam = leagueMatch.getTeam();
@@ -300,7 +313,7 @@ public interface LeagueMatchMapper {
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
-    }
+    }*/
 
     default LeagueMatchListDto leagueMatchListDtoToLeagueMatchResponse(List<LeagueMatch> leagueMatches){
 
@@ -309,7 +322,9 @@ public interface LeagueMatchMapper {
                 .build();
     }
 
-    default List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches){
+    List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches);
+
+   /* default List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches){
         return leagueMatches.stream()
                 .map(leagueMatch -> LeagueMatchResponseDto.builder()
                         .leagueMatchId(leagueMatch.getLeagueMatchId())
@@ -352,5 +367,5 @@ public interface LeagueMatchMapper {
                         .modifiedAt(leagueMatch.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
-    }
+    }*/
 }
