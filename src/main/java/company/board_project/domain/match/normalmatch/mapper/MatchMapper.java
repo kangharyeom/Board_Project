@@ -1,6 +1,5 @@
 package company.board_project.domain.match.normalmatch.mapper;
 
-import company.board_project.global.constant.*;
 import company.board_project.domain.match.normalmatch.dto.MatchListDto;
 import company.board_project.domain.match.normalmatch.dto.MatchPatchDto;
 import company.board_project.domain.match.normalmatch.dto.MatchPostDto;
@@ -15,59 +14,9 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MatchMapper {
-    default Match matchPostDtoToMatch(MatchPostDto requestBody){
-        User user = new User();
-        user.setUserId(requestBody.getUserId());
+    Match matchPostDtoToMatch(MatchPostDto requestBody);
 
-        Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
-
-        Match match = new Match();
-        match.setTeam(team);
-        match.setUser(user);
-
-        match.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
-        match.setHomeTeamName(requestBody.getHomeTeamName());
-        match.setHomeTeamManagerName(requestBody.getHomeTeamManagerName());
-        match.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
-        match.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
-        match.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamLevelType(LevelType.valueOf(requestBody.getHomeTeamLevelType()));
-        match.setHomeTeamAgeType(AgeType.valueOf(requestBody.getHomeTeamAgeType()));
-        match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
-
-        match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
-        match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
-        match.setMatchTime(requestBody.getMatchTime());
-        match.setMatchDate(requestBody.getMatchDate());
-        match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-        match.setMatchRules(requestBody.getMatchRules());
-
-        return match;
-    }
-
-    default Match matchPatchDtoToMatch(MatchPatchDto requestBody) {
-        Match match = new Match();
-
-        match.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
-        match.setHomeTeamName(requestBody.getHomeTeamName());
-        match.setHomeTeamManagerName(requestBody.getHomeTeamManagerName());
-        match.setHomeTeamTotalWinRecord(requestBody.getHomeTeamTotalWinRecord());
-        match.setHomeTeamTotalDrawRecord(requestBody.getHomeTeamTotalDrawRecord());
-        match.setHomeTeamTotalLoseRecord(requestBody.getHomeTeamTotalLoseRecord());
-        match.setHomeTeamLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        match.setHomeTeamAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        match.setHomeTeamUniformType(UniformType.valueOf(requestBody.getHomeTeamUniformType()));
-
-        match.setMatchType(MatchType.valueOf(requestBody.getMatchType()));
-        match.setSportsType(SportsType.valueOf(requestBody.getSportsType()));
-        match.setMatchTime(requestBody.getMatchTime());
-        match.setMatchDate(requestBody.getMatchDate());
-        match.setLocationType(LocationType.valueOf(requestBody.getLocationType()));
-        match.setMatchRules(requestBody.getMatchRules());
-
-        return match;
-    }
+    Match matchPatchDtoToMatch(MatchPatchDto requestBody);
 
     default MatchResponseDto matchToMatchResponse(Match match){
         User user = match.getUser();
@@ -104,32 +53,5 @@ public interface MatchMapper {
                 .build();
     }
 
-    default List<MatchResponseDto> matchesToMatchesResponse(List<Match> matches){
-        return matches.stream()
-                .map(match -> MatchResponseDto.builder()
-                        .matchId(match.getMatchId())
-                        .userId(match.getUser().getUserId())
-                        .teamId(match.getTeam().getTeamId())
-                        .homeTeamHonorScore(match.getHomeTeamHonorScore())
-                        .homeTeamName(match.getHomeTeamName())
-                        .homeTeamManagerName(match.getHomeTeamManagerName())
-                        .homeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord())
-                        .homeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord())
-                        .homeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord())
-                        .homeTeamLevelType(String.valueOf(match.getHomeTeamLevelType()))
-                        .homeTeamAgeType(String.valueOf(match.getHomeTeamAgeType()))
-                        .homeTeamUniformType(String.valueOf(match.getHomeTeamUniformType()))
-                        .sportsType(String.valueOf(match.getSportsType()))
-                        .locationType(String.valueOf(match.getLocationType()))
-                        .matchStatus(String.valueOf(match.getMatchStatus()))
-                        .matchTime(match.getMatchTime())
-                        .matchDate(match.getMatchDate())
-                        .locationType(String.valueOf(match.getLocationType()))
-                        .matchStatus(String.valueOf(match.getMatchStatus()))
-                        .matchType(String.valueOf(match.getMatchType()))
-                        .createdAt(match.getCreatedAt())
-                        .modifiedAt(match.getModifiedAt())
-                        .build())
-                .collect(Collectors.toList());
-    }
+    List<MatchResponseDto> matchesToMatchesResponse(List<Match> matches);
 }

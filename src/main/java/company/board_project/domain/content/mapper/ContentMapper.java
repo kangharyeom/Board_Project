@@ -6,7 +6,6 @@ import company.board_project.domain.comment.repository.CommentRepository;
 import company.board_project.domain.content.dto.*;
 import company.board_project.domain.content.entity.ContentFile;
 import company.board_project.domain.content.repository.ContentFileRepository;
-import company.board_project.global.constant.CategoryType;
 import company.board_project.domain.content.entity.Content;
 import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
@@ -17,31 +16,9 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ContentMapper {
 
-    default Content contentPostDtoToContent(ContentPostDto requestBody){
-        User user = new User();
+    Content contentPostDtoToContent(ContentPostDto requestBody);
 
-        user.setUserId(requestBody.getUserId());
-        user.setName(requestBody.getName());
-
-        Content content = new Content();
-        content.setUser(user);
-        content.setName(requestBody.getName());
-        content.setTitle( requestBody.getTitle() );
-        content.setContent( requestBody.getContent() );
-        content.setCategoryType(CategoryType.valueOf(requestBody.getCategoryType()));
-
-        return content;
-    }
-    default Content contentPatchDtoToContent(ContentPatchDto requestBody) {
-        Content content = new Content();
-
-        content.setContentId( requestBody.getContentId() );
-        content.setTitle( requestBody.getTitle() );
-        content.setContent( requestBody.getContent() );
-        content.setCategoryType(CategoryType.valueOf(requestBody.getCategoryType()));
-
-        return content;
-    }
+    Content contentPatchDtoToContent(ContentPatchDto requestBody);
 
     default ContentResponseDto contentToContentResponse(Content content, ContentFileRepository contentFileRepository){
         User user = content.getUser();
@@ -86,6 +63,7 @@ public interface ContentMapper {
                 .build();
     }
 
+//    List<ContentResponseDto> contentsToContentsResponse(List<Content> contents, ContentFileRepository contentFileRepository);
     default List<ContentResponseDto> contentsToContentsResponse(List<Content> contents, ContentFileRepository contentFileRepository){
         return contents.stream()
                 .map(content -> ContentResponseDto.builder()
@@ -102,19 +80,5 @@ public interface ContentMapper {
                 .collect(Collectors.toList());
     }
 
-    default List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments){
-        return comments.stream()
-                .map(comment -> CommentResponseDto.builder()
-                        .commentId(comment.getCommentId())
-                        .contentId(comment.getContent().getContentId())
-                        .userId(comment.getUser().getUserId())
-                        .name(comment.getUser().getName())
-                        .comment(comment.getComment())
-                        .createdAt(comment.getCreatedAt())
-                        .modifiedAt(comment.getModifiedAt())
-                        .title(comment.getContent().getTitle())
-                        .name(comment.getUser().getName())
-                        .build())
-                .collect(Collectors.toList());
-    }
+    List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comments);
 }

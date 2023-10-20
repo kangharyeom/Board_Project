@@ -2,9 +2,6 @@ package company.board_project.domain.apply.mapper;
 
 import company.board_project.domain.apply.dto.*;
 import company.board_project.domain.apply.entity.Apply;
-import company.board_project.global.constant.AgeType;
-import company.board_project.global.constant.ApplyType;
-import company.board_project.global.constant.LevelType;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.team.entity.Team;
@@ -13,95 +10,17 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
 @Mapper(componentModel = "spring")
 public interface ApplyMapper {
-    default Apply applyPostDtoToApply(ApplyPostDto requestBody){
-        User user = new User();
-        user.setUserId(requestBody.getUserId());
 
-        Apply apply = new Apply();
-        apply.setUser(user);
-        apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
+    Apply applyPostDtoToApply(ApplyPostDto requestBody);
 
-        return apply;
-    }
+    Apply applyPostDtoToTeamApply(ApplyPostDto requestBody);
 
-    default Apply applyPostDtoToTeamApply(ApplyPostDto requestBody){
-        User user = new User();
-        user.setUserId(requestBody.getUserId());
-        user.setName(requestBody.getManagerName());
+    Apply applyPostDtoToMatchApply(ApplyPostDto requestBody);
 
-        Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
-        team.setTeamName(requestBody.getTeamName());
-        team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-
-        Apply apply = new Apply();
-        apply.setUser(user);
-        apply.setManagerName(requestBody.getManagerName());
-        apply.setTeamName(requestBody.getTeamName());
-        apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
-
-        return apply;
-    }
-
-    default Apply applyPostDtoToMatchApply(ApplyPostDto requestBody){
-        User user = new User();
-        user.setUserId(requestBody.getUserId());
-
-        Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
-        team.setManagerName(requestBody.getManagerName());
-        team.setTeamName(requestBody.getTeamName());
-        team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-
-        Match match = new Match();
-        match.setMatchId(requestBody.getMatchId());
-
-        Apply apply = new Apply();
-        apply.setTeam(team);
-        apply.setUser(user);
-        apply.setMatch(match);
-        apply.setTeamName(requestBody.getTeamName());
-        apply.setManagerName(requestBody.getManagerName());
-        apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
-
-        return apply;
-    }
-
-    default Apply applyPostDtoToLeagueApply(ApplyPostDto requestBody){
-        User user = new User();
-        user.setUserId(requestBody.getUserId());
-
-        Team team = new Team();
-        team.setTeamId(requestBody.getTeamId());
-        team.setTeamName(requestBody.getTeamName());
-        team.setManagerName(requestBody.getManagerName());
-        team.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        team.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-
-        League league = new League();
-        league.setLeagueId(requestBody.getLeagueId());
-
-        Apply apply = new Apply();
-        apply.setLeague(league);
-        apply.setTeam(team);
-        apply.setUser(user);
-        apply.setManagerName(requestBody.getManagerName());
-        apply.setTeamName(requestBody.getTeamName());
-        apply.setLevelType(LevelType.valueOf(requestBody.getLevelType()));
-        apply.setAgeType(AgeType.valueOf(requestBody.getAgeType()));
-        apply.setApplyType(ApplyType.valueOf(requestBody.getApplyType()));
-
-        return apply;
-    }
+    Apply applyPostDtoToLeagueApply(ApplyPostDto requestBody);
 
     default ApplyResponseDto applyToApplyResponse(Apply apply){
 

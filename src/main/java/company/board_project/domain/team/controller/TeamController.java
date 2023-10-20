@@ -11,6 +11,7 @@ import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 @RequestMapping("/api/teams")
 public class TeamController {
     private final TeamService teamService;
@@ -38,8 +39,11 @@ public class TeamController {
                 requestBody.getUserId()
         );
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
+        log.info("teamResponseDto.getTeamId() : {}", teamResponseDto.getTeamId());
+        log.info("teamResponseDto.getUserId() : {}", teamResponseDto.getUserId());
+        log.info("requestBody.getUserId() : {}", requestBody.getUserId());
 
-        teamListService.createTeamListByTeamController(new TeamList(), teamResponseDto.getTeamId(),teamResponseDto.getUserId());
+        teamListService.createTeamListByTeamController(new TeamList(), teamResponseDto.getTeamId(),requestBody.getUserId());
 
         return ResponseEntity.ok(teamResponseDto);
     }

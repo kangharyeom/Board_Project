@@ -9,6 +9,7 @@ import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface LeagueMatchMapper {
@@ -110,8 +111,7 @@ public interface LeagueMatchMapper {
         return leagueMatch;
     }
 
-    LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody);
-   /* default LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody) {
+    default LeagueMatch leagueMatchPatchDtoToLeagueMatch(LeagueMatchPatchDto requestBody) {
         LeagueMatch leagueMatch = new LeagueMatch();
 
         leagueMatch.setHomeTeamScore(requestBody.getHomeTeamScore());
@@ -154,7 +154,7 @@ public interface LeagueMatchMapper {
         leagueMatch.setMatchRules(requestBody.getMatchRules());
 
         return leagueMatch;
-    }*/
+    }
 
     default LeagueMatch leagueMatchEndDtoToLeagueMatch(LeagueMatchEndDto requestBody) {
         LeagueMatch leagueMatch = new LeagueMatch();
@@ -166,10 +166,7 @@ public interface LeagueMatchMapper {
         return leagueMatch;
     }
 
-    LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
-            LeagueMatch leagueMatch
-    );
-   /* default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
+    default LeagueMatchResponseDto leagueMatchToLeagueMatchResponse(
             LeagueMatch leagueMatch
     ){
         User homeTeamUser = leagueMatch.getUser();
@@ -223,7 +220,7 @@ public interface LeagueMatchMapper {
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
-    }*/
+    }
 
     LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
             LeagueMatch leagueMatch
@@ -234,64 +231,8 @@ public interface LeagueMatchMapper {
             , Long homeTeamLeagueListId
             , Long awayTeamLeagueListId
     );
-   /* default LeagueMatchResponseDto leagueMatchPostToLeagueMatchResponse(
-            LeagueMatch leagueMatch
-            , Long homeTeamUserId
-            , Long awayTeamUserId
-            , Long homeTeamId
-            , Long awayTeamId
-            , Long homeTeamLeagueListId
-            , Long awayTeamLeagueListId
-    ){
 
-        return LeagueMatchResponseDto.builder()
-                .leagueMatchId(leagueMatch.getLeagueMatchId())
-                .homeTeamUserId(homeTeamUserId)
-                .awayTeamUserId(homeTeamId)
-                .homeTeamId(awayTeamUserId)
-                .awayTeamId(awayTeamId)
-                .homeTeamLeagueListId(homeTeamLeagueListId)
-                .awayTeamLeagueListId(awayTeamLeagueListId)
-                .homeTeamScore(leagueMatch.getHomeTeamScore())
-                .homeTeamHonorScore(leagueMatch.getHomeTeamHonorScore())
-                .homeTeamName(leagueMatch.getHomeTeamName())
-                .homeTeamManagerName(leagueMatch.getHomeTeamManagerName())
-                .homeTeamLeagueWinRecord(leagueMatch.getAwayTeamLeagueWinRecord())
-                .homeTeamLeagueDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
-                .homeTeamLeagueLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
-                .homeTeamTotalWinRecord(leagueMatch.getHomeTeamTotalWinRecord())
-                .homeTeamTotalDrawRecord(leagueMatch.getHomeTeamTotalDrawRecord())
-                .homeTeamTotalLoseRecord(leagueMatch.getHomeTeamTotalLoseRecord())
-                .homeTeamLevelType(String.valueOf(leagueMatch.getHomeTeamLevelType()))
-                .homeTeamAgeType(String.valueOf(leagueMatch.getHomeTeamAgeType()))
-                .homeTeamUniformType(String.valueOf(leagueMatch.getHomeTeamUniformType()))
-                .homeTeamMatchResultStatus(String.valueOf(leagueMatch.getHomeTeamMatchResultStatus()))
-                .awayTeamScore(leagueMatch.getAwayTeamScore())
-                .awayTeamHonorScore(leagueMatch.getAwayTeamHonorScore())
-                .awayTeamName(leagueMatch.getAwayTeamName())
-                .awayTeamManagerName(leagueMatch.getAwayTeamManagerName())
-                .awayTeamLeagueWinRecord(leagueMatch.getAwayTeamLeagueWinRecord())
-                .awayTeamLeagueDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
-                .awayTeamLeagueLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
-                .awayTeamTotalWinRecord(leagueMatch.getAwayTeamTotalWinRecord())
-                .awayTeamTotalDrawRecord(leagueMatch.getAwayTeamTotalDrawRecord())
-                .awayTeamTotalLoseRecord(leagueMatch.getAwayTeamTotalLoseRecord())
-                .awayTeamLevelType(String.valueOf(leagueMatch.getAwayTeamLevelType()))
-                .awayTeamAgeType(String.valueOf(leagueMatch.getAwayTeamAgeType()))
-                .awayTeamUniformType(String.valueOf(leagueMatch.getAwayTeamUniformType()))
-                .awayTeamMatchResultStatus(String.valueOf(leagueMatch.getAwayTeamMatchResultStatus()))
-                .sportType(String.valueOf(leagueMatch.getSportType()))
-                .locationType(String.valueOf(leagueMatch.getLocationType()))
-                .matchTime(leagueMatch.getMatchTime())
-                .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))
-                .matchType(String.valueOf(leagueMatch.getMatchType()))
-                .createdAt(leagueMatch.getCreatedAt())
-                .modifiedAt(leagueMatch.getModifiedAt())
-                .build();
-    }*/
-
-    LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch);
-    /*default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){
+    default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){
         User homeTeamUser = leagueMatch.getUser();
         User awayTeamUser = leagueMatch.getUser();
         Team homeTeam = leagueMatch.getTeam();
@@ -313,7 +254,7 @@ public interface LeagueMatchMapper {
                 .createdAt(leagueMatch.getCreatedAt())
                 .modifiedAt(leagueMatch.getModifiedAt())
                 .build();
-    }*/
+    }
 
     default LeagueMatchListDto leagueMatchListDtoToLeagueMatchResponse(List<LeagueMatch> leagueMatches){
 
@@ -322,9 +263,7 @@ public interface LeagueMatchMapper {
                 .build();
     }
 
-    List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches);
-
-   /* default List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches){
+    default List<LeagueMatchResponseDto> leagueMatchesToLeagueMatchesResponse(List<LeagueMatch> leagueMatches){
         return leagueMatches.stream()
                 .map(leagueMatch -> LeagueMatchResponseDto.builder()
                         .leagueMatchId(leagueMatch.getLeagueMatchId())
@@ -367,5 +306,5 @@ public interface LeagueMatchMapper {
                         .modifiedAt(leagueMatch.getModifiedAt())
                         .build())
                 .collect(Collectors.toList());
-    }*/
+    }
 }

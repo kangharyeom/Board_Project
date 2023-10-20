@@ -9,6 +9,7 @@ import company.board_project.domain.match.leaguematch.entity.LeagueMatch;
 import company.board_project.global.response.MultiResponseDto;
 import company.board_project.domain.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 @RequestMapping("/api/matches/league")
 public class LeagueMatchController {
     private final LeagueMatchService leagueMatchService;
@@ -42,6 +43,7 @@ public class LeagueMatchController {
                 , requestBody.getHomeTeamLeagueListId()
                 , requestBody.getAwayTeamLeagueListId()
         );
+
         LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchPostToLeagueMatchResponse(
                 leagueMatch
                 , requestBody.getHomeTeamUserId()

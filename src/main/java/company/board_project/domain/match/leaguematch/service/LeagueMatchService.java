@@ -57,13 +57,17 @@ public class LeagueMatchService {
         leagueMatch.setLeagueList(homeTeamLeagueList);
         leagueMatch.setLeagueList(awayTeamLeagueList);
 
+        // 홈팀 정보 주입
         leagueMatch.setHomeTeamId(homeTeam.getTeamId());
         leagueMatch.setHomeTeamUserId(homeTeamUser.getUserId());
         leagueMatch.setHomeTeamLeagueListId(homeTeamLeagueList.getLeagueListId());
+
+        // 어웨이팀 정보 주입
         leagueMatch.setAwayTeamId(awayTeam.getTeamId());
         leagueMatch.setAwayTeamUserId(awayTeamUser.getUserId());
         leagueMatch.setAwayTeamLeagueListId(awayTeamLeagueList.getLeagueListId());
 
+        // 홈팀 정보 주입
         leagueMatch.setHomeTeamScore(leagueMatch.getHomeTeamScore());
         leagueMatch.setHomeTeamHonorScore(homeTeam.getHonorScore());
         leagueMatch.setHomeTeamName(homeTeam.getTeamName());
@@ -80,7 +84,8 @@ public class LeagueMatchService {
         leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamLeagueList.getLeagueLoseRecord());
         leagueMatch.setHomeTeamMatchResultStatus(leagueMatch.getHomeTeamMatchResultStatus());
 
-        leagueMatch.setHomeTeamScore(leagueMatch.getAwayTeamScore());
+        // 어웨이팀 정보 주입
+        leagueMatch.setAwayTeamScore(leagueMatch.getAwayTeamScore());
         leagueMatch.setAwayTeamHonorScore(awayTeam.getHonorScore());
         leagueMatch.setAwayTeamName(awayTeam.getTeamName());
         leagueMatch.setAwayTeamManagerName(awayTeam.getManagerName());

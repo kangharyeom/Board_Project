@@ -11,38 +11,10 @@ import org.mapstruct.Mapper;
 import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
-    default Comment commentPostDtoToComment(CommentPostDto requestBody) {
-        // content id, comment id 받아오기 + body 받아오기
-        User user = new User();
+    Comment commentPostDtoToComment(CommentPostDto requestBody);
 
-        user.setUserId(requestBody.getUserId());
-        user.setName(requestBody.getName());
+    Comment commentPatchDtoToComment(CommentPatchDto requestBody);
 
-        Content content = new Content();
-        content.setContentId(requestBody.getContentId());
-
-        Comment comment = new Comment();
-        comment.setContent(content);
-        comment.setUser(user);
-        comment.setName(requestBody.getName());
-        comment.setComment(requestBody.getComment());
-
-        return comment;
-    }
-
-    default Comment commentPatchDtoToComment(CommentPatchDto requestBody) {
-        //  content id, comment id 받아오기 + body 받아오기
-
-        Content content = new Content();
-        content.setContentId(requestBody.getContentId());
-
-        Comment comment = new Comment();
-        content.setContentId(requestBody.getContentId());
-        comment.setContent(content);
-        comment.setComment(requestBody.getComment());
-
-        return comment;
-    }
     default CommentResponseDto commentToCommentResponseDto(Comment comment) {
         User user = comment.getUser();
         Content content = comment.getContent();
