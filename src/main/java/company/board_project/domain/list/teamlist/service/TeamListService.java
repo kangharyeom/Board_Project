@@ -3,7 +3,7 @@ package company.board_project.domain.list.teamlist.service;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
 import company.board_project.global.constant.Position;
-import company.board_project.global.constant.TeamMemberType;
+import company.board_project.global.constant.TeamMemberRole;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.list.teamlist.entity.TeamList;
@@ -38,7 +38,7 @@ public class TeamListService {
         teamList.setTeam(team);
         teamList.setApply(apply);
         teamList.setName(user.getName());
-        teamList.setTeamMemberType(TeamMemberType.MEMBER);
+        teamList.setTeamMemberRole(TeamMemberRole.MEMBER);
 
         return teamListRepository.save(teamList);
     }
@@ -54,7 +54,7 @@ public class TeamListService {
 
         teamList.setName(user.getName());
         teamList.setPosition(Position.FORWARDS);
-        teamList.setTeamMemberType(TeamMemberType.MANAGER);
+        teamList.setTeamMemberRole(TeamMemberRole.MANAGER);
         teamList.setAgeType(team.getAgeType());
         teamList.setLocationType(team.getLocationType());
         teamList.setLevelType(team.getLevelType());

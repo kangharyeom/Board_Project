@@ -1,5 +1,7 @@
 package company.board_project.domain.team.service;
 
+import company.board_project.domain.user.repository.UserRepository;
+import company.board_project.global.constant.TeamMemberRole;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.team.entity.Team;
@@ -22,14 +24,17 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TeamService {
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
     public Team createTeam(
             Team team, Long userId) {
 
         User user = userService.findUser(userId);
-
+        user.setTeamMemberRole(TeamMemberRole.MANAGER);
         team.setUser(user);
         team.setManagerName(user.getName());
+
+        userRepository.save(user);
 
         return teamRepository.save(team);
     }

@@ -29,7 +29,7 @@ public class TeamList extends Auditable {
     private Position position;
 
     @Enumerated(EnumType.STRING)
-    private TeamMemberType teamMemberType;
+    private TeamMemberRole teamMemberRole;
 
     @Enumerated(EnumType.STRING)
     private AgeType ageType;
