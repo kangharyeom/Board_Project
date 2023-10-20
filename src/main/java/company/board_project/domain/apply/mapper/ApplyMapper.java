@@ -13,7 +13,6 @@ import org.mapstruct.Mapper;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
 @Mapper(componentModel = "spring")
 public interface ApplyMapper {
     default Apply applyPostDtoToApply(ApplyPostDto requestBody){

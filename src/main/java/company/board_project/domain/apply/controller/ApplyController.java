@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @Validated
 @RequiredArgsConstructor
@@ -31,6 +30,9 @@ public class ApplyController {
         return ResponseEntity.ok(applyResponseDto);
     }
 
+    /*
+    * 팀 가입 신청
+    */
     @PostMapping("/teams")
     public ResponseEntity postTeamApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
@@ -40,6 +42,9 @@ public class ApplyController {
         return ResponseEntity.ok(teamApplyResponseDto);
     }
 
+    /*
+    * 경기 참여 신청
+    */
     @PostMapping("/matches")
     public ResponseEntity postMatchApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
@@ -49,6 +54,9 @@ public class ApplyController {
         return ResponseEntity.ok(matchApplyResponseDto);
     }
 
+    /*
+     * 리그 가입 신청
+     */
     @PostMapping("/leagues")
     public ResponseEntity postLeagueApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
@@ -58,7 +66,9 @@ public class ApplyController {
         return ResponseEntity.ok(leagueApplyResponseDto);
     }
 
-
+    /*
+     * apply 전체 조회
+     */
     @GetMapping("/{applyId}")
     public ResponseEntity getApply(@PathVariable("applyId") Long applyId) {
         Apply apply = applyService.findApply(applyId);
@@ -67,6 +77,9 @@ public class ApplyController {
         return ResponseEntity.ok(applyResponseDto);
     }
 
+    /*
+     * teamId 단위 팀 가입 신청 조회
+     */
     @GetMapping("/teams/{teamId}")
     public ResponseEntity getAppliesByTeamId(@PathVariable("teamId") Long teamId){
 
@@ -76,6 +89,9 @@ public class ApplyController {
                 HttpStatus.OK);
     }
 
+    /*
+     * leagueId 단위 리그 가입 신청 조회
+     */
     @GetMapping("/leagues/{leagueId}")
     public ResponseEntity getAppliesByLeagueId(@PathVariable("leagueId") Long leagueId){
 
@@ -85,6 +101,9 @@ public class ApplyController {
                 HttpStatus.OK);
     }
 
+    /*
+     * matchId 단위 경기 신청 조회
+     */
     @GetMapping("/matches/{matchId}")
     public ResponseEntity getAppliesByMatchId(@PathVariable("matchId") Long matchId){
 
@@ -94,6 +113,9 @@ public class ApplyController {
                 HttpStatus.OK);
     }
 
+    /*
+     * apply 제거
+     */
     @DeleteMapping("/{applyId}")
     public ResponseEntity deleteApply(@PathVariable("applyId") Long applyId) {
         applyService.deleteApply(applyId);
