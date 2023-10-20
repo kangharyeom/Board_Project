@@ -4,7 +4,9 @@ import lombok.Getter;
 
 public enum Exceptions {
 
-    // 기본 예외 처리
+    /*
+    * 기본 예외 처리
+    */
     INVALID_DATE(400, "Invalid Date"),
     INVALID_VALUES(400, "Invalid Values"),
     UNAUTHORIZED(401, "Unauthorized"),
@@ -16,7 +18,9 @@ public enum Exceptions {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
 
 
-    // auth
+    /*
+    * auth 관련 예외 처리
+    */
     INVALID_EMAIL_AUTH_NUMBER(400, "Invalid email authNumber"),
     INVALID_EMAIL_AUTH(400, "Invalid email auth"),
     INVALID_REFRESH_TOKEN(400, "Invalid refresh token"),
@@ -24,7 +28,9 @@ public enum Exceptions {
     EMAIL_AUTH_REQUIRED(403, "Email auth required"),
 
 
-    // Member 예외 처리
+    /*
+    * User 예외 처리
+    */
     INVALID_MEMBER_STATUS(400, "Invalid User status"),
     INVALID_PASSWORD (400, "Invalid Password"),
     PROFILE_IMAGE_NOT_FOUND(404,  "Profile 이미지가 업로드 되지 않았습니다."),
@@ -34,7 +40,9 @@ public enum Exceptions {
     ID_NOT_EXIST(404, "ID is not exist"),
     USER_EXISTS(409, "User exists"),
 
-    // 게시글 예외 처리
+    /*
+    * Content(게시글) 예외 처리
+    */
     CONTENT_NOT_PATCHED(403, "Content not patched"),
     CONTENT_NOT_RECRUITING(403, "Content status not recruiting"),
     INVALID_CONTENT_STATUS(403, "Invalid Content Status"),
@@ -44,12 +52,23 @@ public enum Exceptions {
     CONTENT_REQUEST_EXISTS(409, "Content Request exists"),
     CONTENT_MEMBER_EXISTS(409, "Content Member exists"),
 
-    // 댓글 예외 처리
+    /*
+    * Comment(댓글) 예외 처리
+    */
     COMMENT_NOT_PATCHED(403, "Comment not patched"),
     COMMENT_NOT_FOUND(404, "Comment Not Found"),
     COMMENT_CHECK_EXISTS(409, "Comment Check exists"),
 
-    // 파일 업로드 예외 처리
+    /*
+     * Apply(경기 or 팀 or 리그 신청) 예외 처리
+     */
+    APPLY_NOT_PATCHED(403, "Apply not patched"),
+    APPLY_NOT_FOUND(404, "Apply Not Found"),
+    APPLY_CHECK_EXISTS(409, "Apply Check exists"),
+
+    /*
+    * 파일 업로드 예외 처리
+    */
     CONTENT_FILE_NOT_FOUND(404, "Content_File Not Found"),
     CONTENT_FILE_CHECK_ERROR(409, "Content_File Check ERROR");
 
