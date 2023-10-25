@@ -1,5 +1,6 @@
 package company.board_project.global.security.jwt.filter;
 
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
@@ -44,6 +45,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
             loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
         } catch (Exception e) {
