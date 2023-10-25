@@ -23,7 +23,8 @@ public class RedisConfig {
 
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisSentinelConfiguration config = new RedisSentinelConfiguration().master(host)
+        RedisSentinelConfiguration config = new RedisSentinelConfiguration()
+                .master("mymaster")
                 .sentinel(host, 26379)
                 .sentinel(host, 26380)
                 .sentinel(host, 26381);
