@@ -9,7 +9,7 @@ import company.board_project.global.security.login.dto.LoginDto;
 import company.board_project.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,9 +24,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 
-
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
