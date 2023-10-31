@@ -107,6 +107,40 @@ public class LeagueController {
     }
 
     /*
+     * 시즌 단위 조회 (시즌 진행중)
+     */
+    @GetMapping("/score")
+    public ResponseEntity getLeagueOnSeason() {
+        List<League> leagues = leagueService.findLeagueOnSeason();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
+    /*
+     * 시즌 단위 조회 (시즌 종료)
+     */
+    @GetMapping("/score")
+    public ResponseEntity getLeagueOffSeason() {
+        List<League> leagues = leagueService.findLeagueOffSeason();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
+    /*
+     * 시즌 단위 조회 (팀 모집)
+     */
+    @GetMapping("/score")
+    public ResponseEntity getLeagueRecruit() {
+        List<League> leagues = leagueService.findLeagueRecruit();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
+
+    /*
      * 리그 수정
      */
     @PatchMapping("/{leagueId}")

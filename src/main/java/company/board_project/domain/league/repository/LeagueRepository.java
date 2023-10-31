@@ -27,7 +27,19 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     @Query(value = "select * from leagues order by created_at asc", nativeQuery = true)
     List<League> findLeaguesLatest();
 
-    // 명예점수 고득점 순서 조회
+    // 명예 점수 고득점 순서 조회
     @Query(value = "select * from leagues order by honor_score desc", nativeQuery = true)
     List<League> findHonorScore();
+
+    // 시즌 단위 조회 (시즌 진행중)
+    @Query(value = "SELECT * FROM leagues WHERE season_type = 'ON_SEASON' ORDER BY league_id DESC", nativeQuery = true)
+    List<League> findLeagueOnSeason();
+
+    // 시즌 단위 조회 (시즌 종료)
+    @Query(value = "SELECT * FROM leagues WHERE season_type = 'OFF_SEASON' ORDER BY league_id DESC", nativeQuery = true)
+    List<League> findLeagueOffSeason();
+
+    // 시즌 단위 조회 (팀 모집)
+    @Query(value = "SELECT * FROM leagues WHERE season_type = 'TEAM_RECRUIT' ORDER BY league_id DESC", nativeQuery = true)
+    List<League> findLeagueRecruit();
 }
