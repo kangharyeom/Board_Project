@@ -98,6 +98,22 @@ public class TeamController {
                 HttpStatus.OK);
     }
 
+    @GetMapping("/honor/high")
+    public ResponseEntity getTeamsByHighestHonorScore() {
+        List<Team> teams = teamService.findByHighestHonorScore();
+        List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
+
+        return ResponseEntity.ok(teamResponseDtos);
+    }
+
+    @GetMapping("/honor/low")
+    public ResponseEntity getTeamsByLowestHonorScore() {
+        List<Team> teams = teamService.findByLowestHonorScore();
+        List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
+
+        return ResponseEntity.ok(teamResponseDtos);
+    }
+
     @DeleteMapping("/{teamId}")
     public ResponseEntity deleteTeam(@PathVariable("teamId") @Positive Long teamId) {
         teamService.deleteTeam(teamId);

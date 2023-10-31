@@ -203,9 +203,13 @@ public class TeamService {
         return findVerifiedTeamByUserId(userId);
     }
 
-    public List<Team> findAllTeamsByLeagueId(long leagueId) {
-        return teamRepository.findAllTeamsByLeagueId(leagueId);
-    }
+    public List<Team> findAllTeamsByLeagueId(long leagueId) {return teamRepository.findAllTeamsByLeagueId(leagueId);}
+
+    // 명예 점수 상위 조회
+    public List<Team> findByHighestHonorScore() {return teamRepository.findByLowestHonorScore();}
+
+    // 명예 점수 하위 조회
+    public List<Team> findByLowestHonorScore() {return teamRepository.findByLowestHonorScore();}
 
     public Page<Team> findTeams(int page, int size) {
         return teamRepository.findAll(PageRequest.of(page, size,

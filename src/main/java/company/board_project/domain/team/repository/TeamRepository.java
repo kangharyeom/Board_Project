@@ -26,4 +26,12 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "select AwayTeamName from teams where match_id = :matchId", nativeQuery = true)
     List<Team> findByMatchAwayId(@Param("matchId") long matchId);
 
+    // 명예 점수 상위 조회
+    @Query(value = "SELECT * FROM teams ORDER BY honor_score DESC", nativeQuery = true)
+    List<Team> findByHighestHonorScore();
+
+    // 명예 점수 하위 조회
+    @Query(value = "SELECT * FROM teams ORDER BY honor_score DESC", nativeQuery = true)
+    List<Team> findByLowestHonorScore();
+
 }
