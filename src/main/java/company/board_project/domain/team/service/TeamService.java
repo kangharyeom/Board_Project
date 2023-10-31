@@ -206,7 +206,7 @@ public class TeamService {
     public List<Team> findAllTeamsByLeagueId(long leagueId) {return teamRepository.findAllTeamsByLeagueId(leagueId);}
 
     // 명예 점수 상위 조회
-    public List<Team> findByHighestHonorScore() {return teamRepository.findByLowestHonorScore();}
+    public List<Team> findByHighestHonorScore() {return teamRepository.findByHighestHonorScore();}
 
     // 명예 점수 하위 조회
     public List<Team> findByLowestHonorScore() {return teamRepository.findByLowestHonorScore();}
