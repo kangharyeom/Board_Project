@@ -8,7 +8,7 @@ import company.board_project.domain.comment.mapper.CommentMapper;
 import company.board_project.domain.comment.service.CommentService;
 import company.board_project.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 @RequestMapping("/api/comments")
 public class CommentController {
     private final CommentService commentService;
