@@ -31,7 +31,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     List<Team> findByHighestHonorScore();
 
     // 명예 점수 하위 조회
-    @Query(value = "SELECT * FROM teams ORDER BY honor_score DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM teams ORDER BY honor_score ASC", nativeQuery = true)
     List<Team> findByLowestHonorScore();
 
 }

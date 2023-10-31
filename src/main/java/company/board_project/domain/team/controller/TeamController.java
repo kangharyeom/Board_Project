@@ -65,6 +65,7 @@ public class TeamController {
     public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.findTeam(teamId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
+        log.info("팀 리스 폰스 {}",teamResponse);
 
         return ResponseEntity.ok(teamResponse);
     }
