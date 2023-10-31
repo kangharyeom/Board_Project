@@ -133,26 +133,36 @@ public class LeagueService {
     }
 
 
-    public League findLeague(Long leagueId) {
-        return findVerifiedLeague(leagueId);
-    }
+    public League findLeague(Long leagueId) {return findVerifiedLeague(leagueId);}
 
     public Page<League> findLeagues(int page, int size) {
         return leagueRepository.findAll(PageRequest.of(page, size,
                 Sort.by("leagueId").descending()));
     }
 
+    // 최신 등록된 리그 순서 조회
     public List<League> findLeaguesNewest() {
         return leagueRepository.findLeaguesNewest();
     }
 
+    // 오래된 순서 리그 조회
     public List<League> findLeaguesLatest() {
         return leagueRepository.findLeaguesLatest();
     }
 
+    // 명예 점수 고득점 순서 조회
     public List<League> findHonorScore() {
         return leagueRepository.findHonorScore();
     }
+
+    // 시즌 단위 조회 (시즌 진행중)
+    public List<League> findLeagueOnSeason() {return leagueRepository.findLeagueOnSeason();}
+
+    // 시즌 단위 조회 (시즌 종료)
+    public List<League> findLeagueOffSeason() {return leagueRepository.findLeagueOffSeason();}
+
+    // 시즌 단위 조회 (팀 모집)
+    public List<League> findLeagueRecruit() {return leagueRepository.findLeagueRecruit();}
 
     public void deleteLeague(Long leagueId) {
         League findLeague = findVerifiedLeague(leagueId);
