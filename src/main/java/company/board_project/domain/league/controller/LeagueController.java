@@ -11,7 +11,6 @@ import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
