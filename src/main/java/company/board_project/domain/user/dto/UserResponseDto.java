@@ -11,6 +11,9 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDto {
     private Long userId;
+    private Long teamId;
+    private Long matchId;
+    private Long leagueId;
     private String loginId;
     private String email;
     private String name;

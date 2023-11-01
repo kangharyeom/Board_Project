@@ -35,6 +35,8 @@ public class MatchService {
         match.setUser(user);
         match.setTeam(team);
 
+        user.setMatchId(match.getMatchId());
+
         match.setHomeTeamHonorScore(team.getHonorScore());
         match.setHomeTeamName(team.getTeamName());
         match.setHomeTeamManagerName(team.getManagerName());
@@ -46,6 +48,7 @@ public class MatchService {
         match.setHomeTeamUniformType(team.getUniformType());
         match.setMatchType(match.getMatchType());
 
+        userRepository.save(user);
         matchRepository.save(match);
 
         return match;

@@ -19,6 +19,9 @@ public interface UserMapper {
     default UserResponseDto userToUserResponseDto(User user) {
         return UserResponseDto.builder()
                 .userId(user.getUserId())
+                .teamId(user.getTeamId())
+                .leagueId(user.getLeagueId())
+                .matchId(user.getMatchId())
                 .loginId(user.getLoginId())
                 .email(user.getEmail())
                 .name(user.getName())

@@ -15,6 +15,7 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserPatchDto {
     private Long userId;
+    private Long teamId;
 
     private String loginId;
 
