@@ -31,7 +31,6 @@ public class TeamService {
 
         User user = userService.findUser(userId);
         user.setTeamMemberRole(TeamMemberRole.MANAGER);
-        user.setTeamId(team.getTeamId());
         team.setUser(user);
         team.setManagerName(user.getName());
 

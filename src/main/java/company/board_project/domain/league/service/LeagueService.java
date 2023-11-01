@@ -44,7 +44,6 @@ public class LeagueService {
 
         league.setUser(user);
         user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
-        user.setLeagueId(league.getLeagueId());
         league.setTeam(team);
         team.setLeagueName(league.getLeagueName());
         league.setManagerName(user.getName());

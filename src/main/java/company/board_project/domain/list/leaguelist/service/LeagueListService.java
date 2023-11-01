@@ -3,6 +3,7 @@ package company.board_project.domain.list.leaguelist.service;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
 import company.board_project.domain.list.leaguelist.repository.LeagueListRepository;
+import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
@@ -30,6 +31,7 @@ public class LeagueListService {
     private final UserService userService;
     private final ApplyService applyService;
     private final LeagueRepository leagueRepository;
+    private final UserRepository userRepository;
     public LeagueList createLeagueList(
             LeagueList leagueList, Long userId, Long teamId, Long leagueId, Long applyId) {
 
@@ -72,6 +74,8 @@ public class LeagueListService {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
+        user.setLeagueId(leagueId);
+
         League league = leagueService.findLeague(leagueId);
 
         leagueList.setUser(user);
@@ -98,6 +102,8 @@ public class LeagueListService {
         leagueList.setCleanSheet(leagueList.getCleanSheet());
 
         leagueList.setManagerName(user.getName());
+
+        userRepository.save(user);
 
         return leagueListRepository.save(leagueList);
     }

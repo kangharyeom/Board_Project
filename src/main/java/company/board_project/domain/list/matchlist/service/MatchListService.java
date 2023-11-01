@@ -3,6 +3,7 @@ package company.board_project.domain.list.matchlist.service;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
 import company.board_project.domain.list.matchlist.repository.MatchListRepository;
+import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.global.constant.MatchResultStatus;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
@@ -25,6 +26,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class MatchListService {
     private final MatchListRepository matchListRepository;
+    private final UserRepository userRepository;
     private final TeamService teamService;
     private final UserService userService;
     private final ApplyService applyService;
@@ -78,6 +80,8 @@ public class MatchListService {
         Team team = teamService.findTeam(teamId);
         Match match = matchService.findMatch(matchId);
 
+        user.setMatchId(matchId);
+
         matchList.setUser(user);
         matchList.setTeam(team);
         matchList.setMatch(match);
@@ -106,6 +110,8 @@ public class MatchListService {
         matchList.setAwayTeamScore(matchList.getAwayTeamScore());
 
         matchList.setHomeTeamName(match.getHomeTeamName());
+
+        userRepository.save(user);
 
         return matchListRepository.save(matchList);
     }

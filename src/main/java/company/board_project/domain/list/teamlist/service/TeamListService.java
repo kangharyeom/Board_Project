@@ -2,6 +2,7 @@ package company.board_project.domain.list.teamlist.service;
 
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
+import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.global.constant.Position;
 import company.board_project.global.constant.TeamMemberRole;
 import company.board_project.global.exception.BusinessLogicException;
@@ -24,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TeamListService {
     private final TeamListRepository teamListRepository;
+    private final UserRepository userRepository;
     private final TeamService teamService;
     private final UserService userService;
     private final ApplyService applyService;
@@ -49,6 +51,8 @@ public class TeamListService {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
+        user.setUserId(teamId);
+
         teamList.setUser(user);
         teamList.setTeam(team);
 
@@ -59,6 +63,8 @@ public class TeamListService {
         teamList.setLocationType(team.getLocationType());
         teamList.setLevelType(team.getLevelType());
         teamList.setFrequency(team.getFrequency());
+
+        userRepository.save(user);
 
         return teamListRepository.save(teamList);
     }
