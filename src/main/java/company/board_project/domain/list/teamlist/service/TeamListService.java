@@ -14,6 +14,7 @@ import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -23,6 +24,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class TeamListService {
     private final TeamListRepository teamListRepository;
     private final UserRepository userRepository;
@@ -51,7 +53,7 @@ public class TeamListService {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
-        user.setUserId(teamId);
+        user.setTeamId(teamId);
 
         teamList.setUser(user);
         teamList.setTeam(team);
@@ -65,6 +67,9 @@ public class TeamListService {
         teamList.setFrequency(team.getFrequency());
 
         userRepository.save(user);
+
+        log.info("teamId {}", teamId);
+        log.info("getTeamId {}", user.getTeamId());
 
         return teamListRepository.save(teamList);
     }
