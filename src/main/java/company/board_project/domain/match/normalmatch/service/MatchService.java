@@ -1,7 +1,9 @@
 package company.board_project.domain.match.normalmatch.service;
 
+import company.board_project.domain.league.entity.League;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.match.normalmatch.repository.MatchRepository;
+import company.board_project.domain.team.repository.TeamRepository;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.team.entity.Team;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -25,12 +28,15 @@ import java.util.Optional;
 public class MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
-    private final UserRepository userRepository;
     private final TeamService teamService;
+    private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
 
     public Match createMatch(Match match, Long userId, Long teamId) {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
+
+        findVerifiedExistsLeagueByTeamId(teamId);
 
         match.setUser(user);
         match.setTeam(team);
@@ -151,5 +157,17 @@ public class MatchService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
 
         return findMatch;
+    }
+
+    public Match findVerifiedExistsLeagueByTeamId(long teamId) {
+        Match match = matchRepository.findByVerifiedTeamId(teamId);
+        if(match ==null) {
+            try {
+            } catch (NoSuchElementException ex) {
+                throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
+            }
+            return match;
+        }
+        throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
     }
 }

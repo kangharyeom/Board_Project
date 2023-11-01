@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,8 @@ public class LeagueService {
     public League createLeague(League league, Long userId, Long teamId) {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
+
+        findVerifiedExistsLeagueByTeamId(team.getTeamId());
 
         league.setUser(user);
         user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
@@ -186,5 +189,17 @@ public class LeagueService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
 
         return findLeague;
+    }
+
+    public League findVerifiedExistsLeagueByTeamId(long teamId) {
+        League league = leagueRepository.findByVerifiedTeamId(teamId);
+        if(league ==null) {
+            try {
+            } catch (NoSuchElementException ex) {
+                throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
+            }
+            return league;
+        }
+        throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
     }
 }

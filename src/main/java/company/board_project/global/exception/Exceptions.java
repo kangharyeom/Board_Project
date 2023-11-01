@@ -39,6 +39,11 @@ public enum Exceptions {
     USER_NOT_FOUND(404, "User not found"),
     ID_NOT_EXIST(404, "ID is not exist"),
     USER_EXISTS(409, "User exists"),
+    USERID_EXISTS(409, "User_id exists"),
+    TEAMID_EXISTS(409, "Team_id exists"),
+    TEAM_EXISTS(409, "Team exists"),
+    LEAGUE_EXISTS(409, "League exists"),
+    MATCH_EXISTS(409, "Match exists"),
 
     /*
     * Content(게시글) 예외 처리

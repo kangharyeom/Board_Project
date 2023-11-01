@@ -29,7 +29,10 @@ public class TeamService {
     public Team createTeam(
             Team team, Long userId) {
 
+        findVerifiedExistsTeamByUserId(userId);
+
         User user = userService.findUser(userId);
+
         user.setTeamMemberRole(TeamMemberRole.MANAGER);
         team.setUser(user);
         team.setManagerName(user.getName());
@@ -242,5 +245,17 @@ public class TeamService {
             throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
         }
         return team;
+    }
+
+    public Team findVerifiedExistsTeamByUserId(long userId) {
+        Team team = teamRepository.findByUserId(userId);
+        if(team ==null) {
+            try {
+            } catch (NoSuchElementException ex) {
+                throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
+            }
+        return team;
+        }
+        throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
     }
 }

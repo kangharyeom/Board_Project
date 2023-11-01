@@ -1,6 +1,7 @@
 package company.board_project.domain.league.repository;
 
 import company.board_project.domain.league.entity.League;
+import company.board_project.domain.team.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -42,4 +43,7 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     // 시즌 단위 조회 (팀 모집)
     @Query(value = "SELECT * FROM leagues WHERE season_type = 'TEAM_RECRUIT' ORDER BY league_id DESC", nativeQuery = true)
     List<League> findLeagueRecruit();
+
+    @Query(value = "select * from leagues where team_id = :teamId", nativeQuery = true)
+    League findByVerifiedTeamId(@Param("teamId") long teamId);
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "select * from teams where user_id = :userId", nativeQuery = true)
@@ -33,5 +34,7 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     // 명예 점수 하위 조회
     @Query(value = "SELECT * FROM teams ORDER BY honor_score ASC", nativeQuery = true)
     List<Team> findByLowestHonorScore();
+
+    Optional<Team> findByTeamId(Long teamId);
 
 }
