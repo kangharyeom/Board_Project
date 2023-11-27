@@ -29,7 +29,10 @@ public class TeamService {
     public Team createTeam(
             Team team, Long userId) {
 
+        findVerifiedExistsTeamByUserId(userId);
+
         User user = userService.findUser(userId);
+
         user.setTeamMemberRole(TeamMemberRole.MANAGER);
         team.setUser(user);
         team.setManagerName(user.getName());
@@ -203,9 +206,13 @@ public class TeamService {
         return findVerifiedTeamByUserId(userId);
     }
 
-    public List<Team> findAllTeamsByLeagueId(long leagueId) {
-        return teamRepository.findAllTeamsByLeagueId(leagueId);
-    }
+    public List<Team> findAllTeamsByLeagueId(long leagueId) {return teamRepository.findAllTeamsByLeagueId(leagueId);}
+
+    // 명예 점수 상위 조회
+    public List<Team> findByHighestHonorScore() {return teamRepository.findByHighestHonorScore();}
+
+    // 명예 점수 하위 조회
+    public List<Team> findByLowestHonorScore() {return teamRepository.findByLowestHonorScore();}
 
     public Page<Team> findTeams(int page, int size) {
         return teamRepository.findAll(PageRequest.of(page, size,
@@ -238,5 +245,17 @@ public class TeamService {
             throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
         }
         return team;
+    }
+
+    public Team findVerifiedExistsTeamByUserId(long userId) {
+        Team team = teamRepository.findByUserId(userId);
+        if(team ==null) {
+            try {
+            } catch (NoSuchElementException ex) {
+                throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
+            }
+        return team;
+        }
+        throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
     }
 }

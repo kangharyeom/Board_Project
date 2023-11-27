@@ -22,6 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -41,6 +42,8 @@ public class LeagueService {
     public League createLeague(League league, Long userId, Long teamId) {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
+
+        findVerifiedExistsLeagueByTeamId(team.getTeamId());
 
         league.setUser(user);
         user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
@@ -133,26 +136,36 @@ public class LeagueService {
     }
 
 
-    public League findLeague(Long leagueId) {
-        return findVerifiedLeague(leagueId);
-    }
+    public League findLeague(Long leagueId) {return findVerifiedLeague(leagueId);}
 
     public Page<League> findLeagues(int page, int size) {
         return leagueRepository.findAll(PageRequest.of(page, size,
                 Sort.by("leagueId").descending()));
     }
 
+    // 최신 등록된 리그 순서 조회
     public List<League> findLeaguesNewest() {
         return leagueRepository.findLeaguesNewest();
     }
 
+    // 오래된 순서 리그 조회
     public List<League> findLeaguesLatest() {
         return leagueRepository.findLeaguesLatest();
     }
 
+    // 명예 점수 고득점 순서 조회
     public List<League> findHonorScore() {
         return leagueRepository.findHonorScore();
     }
+
+    // 시즌 단위 조회 (시즌 진행중)
+    public List<League> findLeagueOnSeason() {return leagueRepository.findLeagueOnSeason();}
+
+    // 시즌 단위 조회 (시즌 종료)
+    public List<League> findLeagueOffSeason() {return leagueRepository.findLeagueOffSeason();}
+
+    // 시즌 단위 조회 (팀 모집)
+    public List<League> findLeagueRecruit() {return leagueRepository.findLeagueRecruit();}
 
     public void deleteLeague(Long leagueId) {
         League findLeague = findVerifiedLeague(leagueId);
@@ -176,5 +189,17 @@ public class LeagueService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
 
         return findLeague;
+    }
+
+    public League findVerifiedExistsLeagueByTeamId(long teamId) {
+        League league = leagueRepository.findByVerifiedTeamId(teamId);
+        if(league ==null) {
+            try {
+            } catch (NoSuchElementException ex) {
+                throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
+            }
+            return league;
+        }
+        throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
     }
 }

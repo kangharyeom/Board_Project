@@ -65,6 +65,7 @@ public class TeamController {
     public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.findTeam(teamId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
+        log.info("팀 리스 폰스 {}",teamResponse);
 
         return ResponseEntity.ok(teamResponse);
     }
@@ -96,6 +97,22 @@ public class TeamController {
                 new MultiResponseDto<>(teamMapper.teamsToTeamResponse(teams),
                         pageTeams),
                 HttpStatus.OK);
+    }
+
+    @GetMapping("/honor/high")
+    public ResponseEntity getTeamsByHighestHonorScore() {
+        List<Team> teams = teamService.findByHighestHonorScore();
+        List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
+
+        return ResponseEntity.ok(teamResponseDtos);
+    }
+
+    @GetMapping("/honor/low")
+    public ResponseEntity getTeamsByLowestHonorScore() {
+        List<Team> teams = teamService.findByLowestHonorScore();
+        List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
+
+        return ResponseEntity.ok(teamResponseDtos);
     }
 
     @DeleteMapping("/{teamId}")

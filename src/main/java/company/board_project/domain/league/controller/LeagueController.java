@@ -11,7 +11,6 @@ import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -105,6 +104,40 @@ public class LeagueController {
 
         return ResponseEntity.ok(leagueResponseDtos);
     }
+
+    /*
+     * 시즌 단위 조회 (시즌 진행중)
+     */
+    @GetMapping("/onseason")
+    public ResponseEntity getLeagueOnSeason() {
+        List<League> leagues = leagueService.findLeagueOnSeason();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
+    /*
+     * 시즌 단위 조회 (시즌 종료)
+     */
+    @GetMapping("/offseason")
+    public ResponseEntity getLeagueOffSeason() {
+        List<League> leagues = leagueService.findLeagueOffSeason();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
+    /*
+     * 시즌 단위 조회 (팀 모집)
+     */
+    @GetMapping("/teamrecruit")
+    public ResponseEntity getLeagueRecruit() {
+        List<League> leagues = leagueService.findLeagueRecruit();
+        List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
+
+        return ResponseEntity.ok(leagueResponseDtos);
+    }
+
 
     /*
      * 리그 수정

@@ -45,7 +45,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         UsernamePasswordAuthenticationToken authenticationToken;
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            objectMapper.configure(JsonParser.Feature.ALLOW_UNQUOTED_CONTROL_CHARS, true);
             loginDto = objectMapper.readValue(request.getInputStream(), LoginDto.class);
 
         } catch (Exception e) {

@@ -34,6 +34,10 @@ public class User extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
+    private Long teamId;
+    private Long matchId;
+    private Long leagueId;
+
     private Long userTeamApplyId;
     private Long userMatchApplyId;
     private Long userLeagueApplyId;

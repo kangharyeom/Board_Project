@@ -37,4 +37,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
 
     @Query(value = "select * from matches order by created_at asc", nativeQuery = true)
     List<Match> findMatchesLatest();
+
+    @Query(value = "select * from matches where team_id = :teamId", nativeQuery = true)
+    Match findByVerifiedTeamId(@Param("teamId") long teamId);
 }
