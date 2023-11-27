@@ -23,7 +23,6 @@ import java.util.Optional;
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     private final ContentService contentService;
 
@@ -50,8 +49,6 @@ public class CommentService {
     public Comment updateComment(
             Comment comment,
             Long commentId) {
-
-
         Comment findComment = findVerifiedComment(commentId); //ID로 멤버 존재 확인하고 comment 정보 반환
 
         User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기

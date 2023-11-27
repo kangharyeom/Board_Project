@@ -8,7 +8,6 @@ import company.board_project.domain.user.service.UserService;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.user.entity.User;
-import company.board_project.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,7 +23,6 @@ import java.util.Optional;
 @Transactional
 @RequiredArgsConstructor
 public class ContentService {
-    private final UserRepository userRepository;
     private final UserService userService;
     private final ContentRepository contentRepository;
     private final ContentFileRepository contentFileRepository;
@@ -37,7 +35,6 @@ public class ContentService {
 
         content.setUser(user);
         contentRepository.save(content);
-
 
         return content;
     }

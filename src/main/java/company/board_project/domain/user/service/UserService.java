@@ -9,6 +9,7 @@ import company.board_project.global.security.utils.CustomAuthorityUtils;
 import company.board_project.domain.user.entity.User;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.DataAccessException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,13 @@ public class UserService {
         String encryptPassword = passwordEncoder.encode(user.getPassword());
         user.setPassword(encryptPassword);
 
-        userRepository.save(user);
-        log.info("유저 등록 완료 {}", user);
-
+        try {
+            userRepository.save(user);
+            log.info("유저 등록 완료 {}", user);
+        } catch (DataAccessException e) {
+            log.error(e.getMessage(), e);
+            return user;
+        }
         return user;
     }
 
@@ -62,7 +67,12 @@ public class UserService {
         Optional.ofNullable(user.getName())
                 .ifPresent(findUser::setName);
 
-        return userRepository.save(findUser);
+        try {
+            return userRepository.save(findUser);
+        } catch (DataAccessException e) {
+            log.error(e.getMessage(), e);
+            return user;
+        }
     }
 
     // 회원 단건 조회

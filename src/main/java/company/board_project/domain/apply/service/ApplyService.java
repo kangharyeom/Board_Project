@@ -14,6 +14,8 @@ import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.flogger.Flogger;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -25,6 +27,7 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class ApplyService {
     private final ApplyRepository applyRepository;
     private final UserService userService;
@@ -37,14 +40,20 @@ public class ApplyService {
      * Apply 생성
      * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
      */
+    @Transactional
     public Apply createApply(Apply apply, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
 
-        apply.setTeam(team);
-        apply.setUser(user);
+            apply.setTeam(team);
+            apply.setUser(user);
 
-        applyRepository.save(apply);
+            applyRepository.save(apply);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.APPLY_NOT_CREATED);
+        }
+        log.info("APPLY CREATED:{}", apply);
 
         return apply;
     }
@@ -54,19 +63,21 @@ public class ApplyService {
      * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
      */
     public Apply createTeamApply(Apply apply, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-
-        apply.setTeam(team);
-        apply.setUser(user);
-        apply.setManagerName(user.getName());
-        apply.setTeamName(team.getTeamName());
-        apply.setAgeType(team.getAgeType());
-        apply.setLevelType(team.getLevelType());
-        apply.setUserTeamApplyId(team.getTeamId());
-
-        applyRepository.save(apply);
-
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
+                apply.setTeam(team);
+                apply.setUser(user);
+                apply.setManagerName(user.getName());
+                apply.setTeamName(team.getTeamName());
+                apply.setAgeType(team.getAgeType());
+                apply.setLevelType(team.getLevelType());
+                apply.setUserTeamApplyId(team.getTeamId());
+            applyRepository.save(apply);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_CREATED);
+        }
+        log.info("TEAM_APPLY CREATED:{}", apply);
         return apply;
     }
 
@@ -75,23 +86,27 @@ public class ApplyService {
      * user, team, match가 존재하는지 확인 후 team, user, match가 존재하면 applyRepository에 저장
      */
     public Apply createMatchApply(Apply apply, Long userId, Long matchId, Long teamId) {
-        User user = userService.findUser(userId);
-        Match match = matchService.findMatch(matchId);
-        Team team = teamService.findTeam(teamId);
+        try {
+            User user = userService.findUser(userId);
+            Match match = matchService.findMatch(matchId);
+            Team team = teamService.findTeam(teamId);
 
-        apply.setUser(user);
-        apply.setMatch(match);
-        apply.setTeam(team);
+            apply.setUser(user);
+            apply.setMatch(match);
+            apply.setTeam(team);
 
-        apply.setManagerName(user.getName());
-        apply.setTeamName(team.getTeamName());
-        apply.setLevelType(team.getLevelType());
-        apply.setAgeType(team.getAgeType());
-        apply.setApplyType(apply.getApplyType());
-        apply.setUserMatchApplyId(match.getMatchId());
+            apply.setManagerName(user.getName());
+            apply.setTeamName(team.getTeamName());
+            apply.setLevelType(team.getLevelType());
+            apply.setAgeType(team.getAgeType());
+            apply.setApplyType(apply.getApplyType());
+            apply.setUserMatchApplyId(match.getMatchId());
 
-        applyRepository.save(apply);
-
+            applyRepository.save(apply);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_CREATED);
+        }
+        log.info("MATCH_APPLY CREATED:{}", apply);
         return apply;
     }
 
@@ -100,22 +115,26 @@ public class ApplyService {
      * user, team, league가 존재하는지 확인 후 team, user, league가 존재하면 applyRepository에 저장
      */
     public Apply createLeagueApply(Apply apply, Long userId, Long leagueId, Long teamId) {
-        User user = userService.findUser(userId);
-        League league = leagueService.findLeague(leagueId);
-        Team team = teamService.findTeam(teamId);
+        try {
+            User user = userService.findUser(userId);
+            League league = leagueService.findLeague(leagueId);
+            Team team = teamService.findTeam(teamId);
 
-        apply.setLeague(league);
-        apply.setUser(user);
-        apply.setTeam(team);
-        apply.setManagerName(user.getName());
-        apply.setTeamName(team.getTeamName());
-        apply.setLevelType(team.getLevelType());
-        apply.setAgeType(team.getAgeType());
-        apply.setApplyType(apply.getApplyType());
-        apply.setUserLeagueApplyId(league.getLeagueId());
+            apply.setLeague(league);
+            apply.setUser(user);
+            apply.setTeam(team);
+            apply.setManagerName(user.getName());
+            apply.setTeamName(team.getTeamName());
+            apply.setLevelType(team.getLevelType());
+            apply.setAgeType(team.getAgeType());
+            apply.setApplyType(apply.getApplyType());
+            apply.setUserLeagueApplyId(league.getLeagueId());
 
-        applyRepository.save(apply);
-
+            applyRepository.save(apply);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_CREATED);
+        }
+        log.info("LEAGUE_APPLY CREATED:{}", apply);
         return apply;
     }
 
@@ -136,23 +155,17 @@ public class ApplyService {
     }
 
     public void deleteApply(Long applyId) {
-        Apply findApply = findVerifiedApply(applyId);
-
-        applyRepository.delete(findApply);
+        try {
+            Apply findApply = findVerifiedApply(applyId);
+            applyRepository.delete(findApply);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.APPLY_NOT_DELETED);
+        }
     }
-
-
-    /*public User findVerifiedUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
-    }*/
 
     /*
      * apply 검증 로직
-     * repository에 해당apply가 없는 경우 exception을 리턴한다.
+     * repository에 Apply가 없는 경우 exception을 리턴
      */
     public Apply findVerifiedApply(Long applyId) {
         Optional<Apply> optionalApply = applyRepository.findById(applyId);
@@ -160,7 +173,7 @@ public class ApplyService {
         Apply findApply =
                 optionalApply.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.APPLY_NOT_FOUND));
-
+        log.info("APPLY EXIST: {}", findApply.toString());
         return findApply;
     }
 }

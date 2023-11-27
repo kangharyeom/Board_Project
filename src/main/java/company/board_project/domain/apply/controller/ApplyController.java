@@ -24,7 +24,8 @@ public class ApplyController {
     @PostMapping
     public ResponseEntity postApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
-        Apply apply = applyService.createApply(applyMapper.applyPostDtoToApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+        Apply apply = applyService.createApply(
+                applyMapper.applyPostDtoToApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
         ApplyResponseDto applyResponseDto = applyMapper.applyToApplyResponse(apply);
 
         return ResponseEntity.ok(applyResponseDto);
@@ -36,7 +37,8 @@ public class ApplyController {
     @PostMapping("/teams")
     public ResponseEntity postTeamApply(@Validated @RequestBody ApplyPostDto requestBody) {
 
-        Apply apply = applyService.createTeamApply(applyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+        Apply apply = applyService.createTeamApply(
+                applyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
         TeamApplyResponseDto teamApplyResponseDto = applyMapper.applyToTeamApplyResponse(apply);
 
         return ResponseEntity.ok(teamApplyResponseDto);
@@ -84,7 +86,7 @@ public class ApplyController {
     public ResponseEntity getAppliesByTeamId(@PathVariable("teamId") Long teamId){
 
         List<Apply> applies = applyService.findAllByTeamId(teamId);
-        log.info("전체 요청 :" + applies);
+        log.info("TOTAL TEAM_APPLIES INFO:" + applies);
         return new ResponseEntity<>(applyMapper.applyListDtoToApplyResponse(applies),
                 HttpStatus.OK);
     }
@@ -96,7 +98,7 @@ public class ApplyController {
     public ResponseEntity getAppliesByLeagueId(@PathVariable("leagueId") Long leagueId){
 
         List<Apply> applies = applyService.findAllByLeagueId(leagueId);
-        log.info("전체 요청 :" + applies);
+        log.info("TOTAL LEAGUE_APPLIES INFO:" + applies);
         return new ResponseEntity<>(applyMapper.applyListDtoToApplyResponse(applies),
                 HttpStatus.OK);
     }
@@ -108,7 +110,7 @@ public class ApplyController {
     public ResponseEntity getAppliesByMatchId(@PathVariable("matchId") Long matchId){
 
         List<Apply> applies = applyService.findAllByMatchId(matchId);
-        log.info("전체 요청 :" + applies);
+        log.info("TOTAL MATCH_APPLIES INFO:" + applies);
         return new ResponseEntity<>(applyMapper.applyListDtoToApplyResponse(applies),
                 HttpStatus.OK);
     }

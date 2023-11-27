@@ -6,6 +6,8 @@ import company.board_project.domain.comment.dto.CommentResponseDto;
 import company.board_project.domain.comment.entity.Comment;
 import company.board_project.domain.comment.mapper.CommentMapper;
 import company.board_project.domain.comment.service.CommentService;
+import company.board_project.global.exception.BusinessLogicException;
+import company.board_project.global.exception.Exceptions;
 import company.board_project.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -33,9 +35,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity postComment(@Valid @RequestBody CommentPostDto requestBody ){
         Comment comment = commentService.createComment(
-                commentMapper.commentPostDtoToComment(requestBody),
-                requestBody.getContentId(),
-                requestBody.getUserId()
+                commentMapper.commentPostDtoToComment(requestBody), requestBody.getContentId(), requestBody.getUserId()
         );
         CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
 
@@ -47,13 +47,18 @@ public class CommentController {
      */
     @PatchMapping("/{commentId}")
     public ResponseEntity patchComment(@Valid @RequestBody CommentPatchDto requestBody,
-                                       @PathVariable("commentId") @Positive Long commentId){
-        Comment comment = commentService.updateComment(
-                commentMapper.commentPatchDtoToComment(requestBody),
-                commentId);
+                                       @PathVariable("commentId") @Positive Long commentId) {
+        CommentResponseDto userResponseDto = null;
+        try {
+            Comment comment = commentService.updateComment(
+                    commentMapper.commentPatchDtoToComment(requestBody), commentId
+            );
 
-        comment.setCommentId(commentId);
-        CommentResponseDto userResponseDto = commentMapper.commentToCommentResponseDto(comment);
+            comment.setCommentId(commentId);
+            userResponseDto = commentMapper.commentToCommentResponseDto(comment);
+        } catch (Exception e) {
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
+        }
 
         return ResponseEntity.ok(userResponseDto);
     }
