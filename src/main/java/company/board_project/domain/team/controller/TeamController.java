@@ -1,7 +1,7 @@
 package company.board_project.domain.team.controller;
 
-import company.board_project.domain.list.teamlist.entity.TeamList;
-import company.board_project.domain.list.teamlist.service.TeamListService;
+import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
+import company.board_project.domain.list.teammemberlist.service.TeamMemberListService;
 import company.board_project.domain.team.dto.TeamPostDto;
 import company.board_project.domain.team.dto.TeamResponseDto;
 import company.board_project.global.response.MultiResponseDto;
@@ -12,7 +12,6 @@ import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.service.TeamService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ import java.util.List;
 public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
-    private final TeamListService teamListService;
+    private final TeamMemberListService teamMemberListService;
     @PostMapping
     public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
@@ -43,7 +42,7 @@ public class TeamController {
         log.info("teamResponseDto.getUserId() : {}", teamResponseDto.getUserId());
         log.info("requestBody.getUserId() : {}", requestBody.getUserId());
 
-        teamListService.createTeamListByTeamController(new TeamList(), teamResponseDto.getTeamId(),requestBody.getUserId());
+        teamMemberListService.createTeamMemberListByTeamController(new TeamMemberList(), teamResponseDto.getTeamId(),requestBody.getUserId());
 
         return ResponseEntity.ok(teamResponseDto);
     }

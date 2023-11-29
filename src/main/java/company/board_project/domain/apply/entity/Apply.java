@@ -1,5 +1,6 @@
 package company.board_project.domain.apply.entity;
 
+import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
 import company.board_project.global.audit.Auditable;
 import company.board_project.global.constant.AgeType;
 import company.board_project.global.constant.ApplyType;
@@ -7,7 +8,6 @@ import company.board_project.global.constant.LevelType;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.list.teamlist.entity.TeamList;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
@@ -49,7 +49,7 @@ public class Apply extends Auditable {
     private ApplyType applyType;
 
     @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
-    private List<TeamList> teamLists = new ArrayList<>();
+    private List<TeamMemberList> teamMemberLists = new ArrayList<>();
 
     @OneToMany(mappedBy = "apply", cascade = CascadeType.REMOVE)
     private List<MatchList> matchLists = new ArrayList<>();

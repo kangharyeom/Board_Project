@@ -1,4 +1,4 @@
-package company.board_project.domain.list.teamlist.entity;
+package company.board_project.domain.list.teammemberlist.entity;
 
 import company.board_project.global.audit.Auditable;
 import company.board_project.domain.apply.entity.Apply;
@@ -15,15 +15,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "TEAM_LISTS")
-public class TeamList extends Auditable {
+@Table(name = "TEAM_MEMBER_LISTS")
+public class TeamMemberList extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teamListId;
+    private Long teamMemberListId;
     
     @Column
     private String name;
-
 
     @Enumerated(EnumType.STRING)
     private Position position;
@@ -49,9 +48,6 @@ public class TeamList extends Auditable {
     private Long mostAssists;
     @Column
     private Long mostMoMs;*/
-
-//    @OneToMany(mappedBy = "teamList", cascade = CascadeType.REMOVE)
-//    private List<League> leagues = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

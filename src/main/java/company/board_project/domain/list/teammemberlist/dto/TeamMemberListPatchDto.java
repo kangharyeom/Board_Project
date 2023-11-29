@@ -1,4 +1,4 @@
-package company.board_project.domain.list.teamlist.dto;
+package company.board_project.domain.list.teammemberlist.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class TeamListPatchDto {
-    private Long teamListId;
+public class TeamMemberListPatchDto {
+    private Long teamMemberListId;
     private Long userId;
     private Long teamId;
     private Long applyId;

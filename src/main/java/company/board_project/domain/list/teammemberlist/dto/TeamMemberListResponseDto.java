@@ -1,4 +1,4 @@
-package company.board_project.domain.list.teamlist.dto;
+package company.board_project.domain.list.teammemberlist.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Builder
-public class TeamListResponseDto {
-    private Long teamListId;
+public class TeamMemberListResponseDto {
+    private Long teamMemberListId;
     private Long userId;
     private Long teamId;
     private Long applyId;

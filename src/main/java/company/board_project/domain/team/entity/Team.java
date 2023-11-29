@@ -5,7 +5,7 @@ import company.board_project.global.constant.*;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.list.teamlist.entity.TeamList;
+import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
@@ -119,7 +119,7 @@ public class Team extends Auditable {
     private List<Apply> applies = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<TeamList> teamLists = new ArrayList<>();
+    private List<TeamMemberList> teamMemberLists = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<MatchList> matchLists = new ArrayList<>();
