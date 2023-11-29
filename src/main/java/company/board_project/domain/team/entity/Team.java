@@ -1,14 +1,14 @@
 package company.board_project.domain.team.entity;
 
+import company.board_project.domain.apply.team.entity.TeamApply;
 import company.board_project.global.audit.Auditable;
 import company.board_project.global.constant.*;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.list.league.entity.LeagueList;
+import company.board_project.domain.list.match.entity.MatchList;
+import company.board_project.domain.list.team.entity.TeamMemberList;
+import company.board_project.domain.match.normal.entity.Match;
 import company.board_project.domain.schedule.entity.Schedule;
-import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -116,7 +116,7 @@ public class Team extends Auditable {
     private List<League> leagues = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<Apply> applies = new ArrayList<>();
+    private List<TeamApply> teamApplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<TeamMemberList> teamMemberLists = new ArrayList<>();

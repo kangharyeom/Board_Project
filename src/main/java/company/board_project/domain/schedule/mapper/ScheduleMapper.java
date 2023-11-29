@@ -1,8 +1,8 @@
 package company.board_project.domain.schedule.mapper;
 
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.match.normalmatch.entity.Match;
-import company.board_project.domain.match.normalmatch.repository.MatchRepository;
+import company.board_project.domain.match.normal.entity.Match;
+import company.board_project.domain.match.normal.repository.MatchRepository;
 import company.board_project.domain.schedule.dto.ScheduleListDto;
 import company.board_project.domain.schedule.dto.SchedulePostDto;
 import company.board_project.domain.schedule.dto.ScheduleResponseDto;

@@ -1,7 +1,7 @@
 package company.board_project.domain.team.controller;
 
-import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
-import company.board_project.domain.list.teammemberlist.service.TeamMemberListService;
+import company.board_project.domain.list.team.entity.TeamMemberList;
+import company.board_project.domain.list.team.service.TeamMemberListService;
 import company.board_project.domain.team.dto.TeamPostDto;
 import company.board_project.domain.team.dto.TeamResponseDto;
 import company.board_project.global.response.MultiResponseDto;

@@ -1,7 +1,7 @@
 package company.board_project.domain.league.dto;
 
 import company.board_project.domain.content.entity.Content;
-import company.board_project.domain.list.matchlist.entity.MatchList;
+import company.board_project.domain.list.match.entity.MatchList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

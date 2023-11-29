@@ -65,16 +65,20 @@ public enum Exceptions {
     COMMENT_CHECK_EXISTS(409, "Comment Check exists"),
 
     /*
-     * Apply(경기 or 팀 or 리그 신청) 예외 처리
+     * LeagueApply(경기 or 팀 or 리그 신청) 예외 처리
      */
-    APPLY_NOT_PATCHED(403, "Apply not patched"),
-    APPLY_NOT_CREATED(403, "Apply not created"),
     TEAM_APPLY_NOT_CREATED(403, "TEAM_APPLY not created"),
     MATCH_APPLY_NOT_CREATED(403, "MATCH_APPLY not created"),
     LEAGUE_APPLY_NOT_CREATED(403, "LEAGUE_APPLY not created"),
-    APPLY_NOT_DELETED(403, "LEAGUE_APPLY not deleted"),
-    APPLY_NOT_FOUND(404, "Apply Not Found"),
-    APPLY_CHECK_EXISTS(409, "Apply Check exists"),
+    LEAGUE_APPLY_NOT_DELETED(403, "LEAGUE_APPLY not deleted"),
+    MATCH_APPLY_NOT_DELETED(403, "LEAGUE_APPLY not deleted"),
+    TEAM_APPLY_NOT_DELETED(403, "LEAGUE_APPLY not deleted"),
+    TEAM_APPLY_NOT_FOUND(404, "LeagueApply Not Found"),
+    MATCH_APPLY_NOT_FOUND(404, "LeagueApply Not Found"),
+    LEAGUE_APPLY_NOT_FOUND(404, "LeagueApply Not Found"),
+    LEAGUE_APPLY_CHECK_EXISTS(409, "LeagueApply Check exists"),
+    TEAM_APPLY_CHECK_EXISTS(409, "LeagueApply Check exists"),
+    MATCH_APPLY_CHECK_EXISTS(409, "LeagueApply Check exists"),
 
     /*
     * 파일 업로드 예외 처리

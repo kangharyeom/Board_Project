@@ -1,16 +1,18 @@
 package company.board_project.domain.user.entity;
 
+import company.board_project.domain.apply.league.entity.LeagueApply;
+import company.board_project.domain.apply.match.entity.MatchApply;
+import company.board_project.domain.apply.team.entity.TeamApply;
 import company.board_project.global.audit.Auditable;
 import company.board_project.domain.comment.entity.Comment;
 import company.board_project.global.constant.*;
 import company.board_project.domain.content.entity.Content;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.list.teammemberlist.entity.TeamMemberList;
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.list.league.entity.LeagueList;
+import company.board_project.domain.list.match.entity.MatchList;
+import company.board_project.domain.list.team.entity.TeamMemberList;
+import company.board_project.domain.match.normal.entity.Match;
 import company.board_project.domain.schedule.entity.Schedule;
-import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -100,7 +102,13 @@ public class User extends Auditable {
     private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Apply> applies = new ArrayList<>();
+    private List<TeamApply> teamApplies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<MatchApply> matchApplies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<LeagueApply> leagueApplies = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<TeamMemberList> teamMemberLists = new ArrayList<>();

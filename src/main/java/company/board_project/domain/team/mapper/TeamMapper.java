@@ -1,6 +1,6 @@
 package company.board_project.domain.team.mapper;
 
-import company.board_project.domain.apply.entity.Apply;
+import company.board_project.domain.apply.team.entity.TeamApply;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.team.dto.TeamPatchDto;
 import company.board_project.domain.team.dto.TeamPostDto;
@@ -23,7 +23,7 @@ public interface TeamMapper {
         List<Schedule> schedules = new ArrayList<>();
 
         User user = team.getUser();
-        List<Apply> applies = new ArrayList<>();
+        List<TeamApply> teamApplies = new ArrayList<>();
 
         return TeamResponseDto.builder()
                 .userId(user.getUserId())
@@ -45,7 +45,7 @@ public interface TeamMapper {
                 .mostAssist(team.getMostAssist())
                 .mostMom(team.getMostMom())
                 .teamName(team.getTeamName())
-                .applies(applies)
+                .teamApplies(teamApplies)
                 .scheduleList(schedules)
                 .leagueWinRecord(team.getLeagueWinRecord())
                 .leagueDrawRecord(team.getLeagueDrawRecord())

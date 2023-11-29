@@ -1,7 +1,7 @@
 package company.board_project.domain.team.dto;
 
+import company.board_project.domain.apply.team.entity.TeamApply;
 import company.board_project.domain.schedule.entity.Schedule;
-import company.board_project.domain.apply.entity.Apply;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,5 +47,5 @@ public class TeamResponseDto {
     private LocalDateTime modifiedAt;
 
     private List<Schedule> scheduleList;
-    private List<Apply> applies;
+    private List<TeamApply> teamApplies;
 }
