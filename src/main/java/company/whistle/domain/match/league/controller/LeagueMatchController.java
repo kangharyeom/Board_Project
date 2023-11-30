@@ -32,7 +32,7 @@ public class LeagueMatchController {
     private final LeagueService leagueService;
 
     @PostMapping
-    public ResponseEntity postLeagueMatch(@Validated @RequestBody LeagueMatchPostDto requestBody) {
+    public ResponseEntity<LeagueMatchResponseDto> postLeagueMatch(@Validated @RequestBody LeagueMatchPostDto requestBody) {
 
         LeagueMatch leagueMatch = leagueMatchService.createLeagueMatch(leagueMatchMapper.leagueMatchPostDtoToLeagueMatch(requestBody)
                 , requestBody.getHomeTeamUserId()
@@ -57,7 +57,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping("/{leagueMatchId}")
-    public ResponseEntity getLeagueMatch(@PathVariable("leagueMatchId") Long leagueMatchId) {
+    public ResponseEntity<LeagueMatchResponseDto> getLeagueMatch(@PathVariable("leagueMatchId") Long leagueMatchId) {
         LeagueMatch leagueMatch = leagueMatchService.findLeagueMatch(leagueMatchId);
         LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchToLeagueMatchResponse(leagueMatch);
 
@@ -65,7 +65,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping
-    public ResponseEntity getLeagueMatches(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<MultiResponseDto<LeagueMatchResponseDto>> getLeagueMatches(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                       @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
         Page<LeagueMatch> pageLeagueMatches = leagueMatchService.findLeagueMatches(page - 1, size);
@@ -78,7 +78,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity getLeagueMatchSearch(@RequestParam(value = "keyword",required = false) String keyword) {
+    public ResponseEntity<LeagueMatchListDto> getLeagueMatchSearch(@RequestParam(value = "keyword",required = false) String keyword) {
         List<LeagueMatch> leagueMatches = leagueMatchService.findAllSearch(keyword);
         LeagueMatchListDto leagueMatchListDto = leagueMatchMapper.leagueMatchListDtoToLeagueMatchResponse(leagueMatches);
 
@@ -86,7 +86,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping("/league/search/username")
-    public ResponseEntity getLeagueMatchSearchByUserName(@RequestParam(value = "name",required = false) String name) {
+    public ResponseEntity<LeagueMatchListDto> getLeagueMatchSearchByUserName(@RequestParam(value = "name",required = false) String name) {
         List<LeagueMatch> leagueMatches = leagueMatchService.findAllSearchByUserName(name);
         LeagueMatchListDto leagueMatchListDto = leagueMatchMapper.leagueMatchListDtoToLeagueMatchResponse(leagueMatches);
 
@@ -94,7 +94,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping("/league/newest")
-    public ResponseEntity getLeagueMatchesNewest() {
+    public ResponseEntity<List<LeagueMatchResponseDto>> getLeagueMatchesNewest() {
         List<LeagueMatch> leagueMatches = leagueMatchService.findLeagueMatchesNewest();
         List<LeagueMatchResponseDto> leagueMatchResponseDto = leagueMatchMapper.leagueMatchesToLeagueMatchesResponse(leagueMatches);
 
@@ -102,7 +102,7 @@ public class LeagueMatchController {
     }
 
     @GetMapping("/league/latest")
-    public ResponseEntity getLeagueMatchesLatest() {
+    public ResponseEntity<List<LeagueMatchResponseDto>> getLeagueMatchesLatest() {
         List<LeagueMatch> leagueMatches = leagueMatchService.findLeagueMatchesLatest();
         List<LeagueMatchResponseDto> leagueMatchResponseDto = leagueMatchMapper.leagueMatchesToLeagueMatchesResponse(leagueMatches);
 
@@ -110,7 +110,7 @@ public class LeagueMatchController {
     }
 
     @PatchMapping("/{leagueMatchId}")
-    public ResponseEntity patchLeagueMatch(@RequestBody LeagueMatchPatchDto requestBody,
+    public ResponseEntity<LeagueMatchResponseDto> patchLeagueMatch(@RequestBody LeagueMatchPatchDto requestBody,
                                        @PathVariable("leagueMatchId") Long leagueMatchId) {
         LeagueMatch leagueMatch = leagueMatchService.updateLeagueMatch(
                 leagueMatchMapper.leagueMatchPatchDtoToLeagueMatch(requestBody),leagueMatchId);
@@ -121,7 +121,7 @@ public class LeagueMatchController {
     }
 
     @PatchMapping("/end/{leagueMatchId}")
-    public ResponseEntity patchLeagueMatchEnd(@RequestBody LeagueMatchEndDto requestBody
+    public ResponseEntity<LeagueMatchEndResponseDto> patchLeagueMatchEnd(@RequestBody LeagueMatchEndDto requestBody
             , @PathVariable("leagueMatchId") Long leagueMatchId
     ) {
 
@@ -145,7 +145,7 @@ public class LeagueMatchController {
     }
 
     @DeleteMapping("/{leagueMatchId}")
-    public ResponseEntity deleteLeagueMatch(@PathVariable("leagueMatchId") Long leagueMatchId) {
+    public ResponseEntity<HttpStatus> deleteLeagueMatch(@PathVariable("leagueMatchId") Long leagueMatchId) {
         leagueMatchService.deleteLeagueMatch(leagueMatchId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

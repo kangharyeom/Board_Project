@@ -34,7 +34,7 @@ public class LeagueController {
      * 리그 생성
      */
     @PostMapping
-    public ResponseEntity postLeague(@RequestBody LeaguePostDto requestBody){
+    public ResponseEntity<LeagueResponseDto> postLeague(@RequestBody LeaguePostDto requestBody){
 
         League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
@@ -49,7 +49,7 @@ public class LeagueController {
      * 리그 단건 조회
      */
     @GetMapping("/{leagueId}")
-    public ResponseEntity getLeague(@PathVariable("leagueId") Long leagueId) {
+    public ResponseEntity<LeagueResponseDto> getLeague(@PathVariable("leagueId") Long leagueId) {
         League league = leagueService.findLeague(leagueId);
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
@@ -60,7 +60,7 @@ public class LeagueController {
      * 리그 전체 조회
      */
     @GetMapping
-    public ResponseEntity getLeagues(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<MultiResponseDto<LeagueResponseDto>> getLeagues(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                       @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
         Page<League> pageLeagues = leagueService.findLeagues(page - 1, size);
@@ -76,7 +76,7 @@ public class LeagueController {
      * 최근 등록된 리그 순서 조회
      */
     @GetMapping("/newest")
-    public ResponseEntity getLeaguesNewest() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeaguesNewest() {
         List<League> leagues = leagueService.findLeaguesNewest();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -87,7 +87,7 @@ public class LeagueController {
      * 오래된 순서 리그 조회
      */
     @GetMapping("/latest")
-    public ResponseEntity getLeaguesLatest() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeaguesLatest() {
         List<League> leagues = leagueService.findLeaguesLatest();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -98,7 +98,7 @@ public class LeagueController {
      * 명예점수 고득점 순서 리그 조회
      */
     @GetMapping("/score")
-    public ResponseEntity getLeaguesHonorScore() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeaguesHonorScore() {
         List<League> leagues = leagueService.findHonorScore();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -109,7 +109,7 @@ public class LeagueController {
      * 시즌 단위 조회 (시즌 진행중)
      */
     @GetMapping("/onseason")
-    public ResponseEntity getLeagueOnSeason() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeagueOnSeason() {
         List<League> leagues = leagueService.findLeagueOnSeason();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -120,7 +120,7 @@ public class LeagueController {
      * 시즌 단위 조회 (시즌 종료)
      */
     @GetMapping("/offseason")
-    public ResponseEntity getLeagueOffSeason() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeagueOffSeason() {
         List<League> leagues = leagueService.findLeagueOffSeason();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -131,7 +131,7 @@ public class LeagueController {
      * 시즌 단위 조회 (팀 모집)
      */
     @GetMapping("/teamrecruit")
-    public ResponseEntity getLeagueRecruit() {
+    public ResponseEntity<List<LeagueResponseDto>> getLeagueRecruit() {
         List<League> leagues = leagueService.findLeagueRecruit();
         List<LeagueResponseDto> leagueResponseDtos = leagueMapper.leaguesToLeagueResponse(leagues);
 
@@ -143,7 +143,7 @@ public class LeagueController {
      * 리그 수정
      */
     @PatchMapping("/{leagueId}")
-    public ResponseEntity patchLeague(@RequestBody LeaguePatchDto requestBody,
+    public ResponseEntity<LeagueResponseDto> patchLeague(@RequestBody LeaguePatchDto requestBody,
                                        @PathVariable("leagueId") Long leagueId) {
         requestBody.updateId(leagueId);
         League league = leagueService.updateLeague(
@@ -158,7 +158,7 @@ public class LeagueController {
      * 리그 삭제
      */
     @DeleteMapping("/{leagueId}")
-    public ResponseEntity deleteLeague(@PathVariable("leagueId") Long leagueId) {
+    public ResponseEntity<HttpStatus> deleteLeague(@PathVariable("leagueId") Long leagueId) {
         leagueService.deleteLeague(leagueId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

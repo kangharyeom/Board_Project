@@ -29,7 +29,7 @@ public class ScheduleController {
     private final TeamService teamService;
 
     @PostMapping
-    public ResponseEntity postSchedule(@RequestBody SchedulePostDto requestBody){
+    public ResponseEntity<ScheduleResponseDto> postSchedule(@RequestBody SchedulePostDto requestBody){
 
         Schedule schedule = scheduleService.createSchedule(scheduleMapper.schedulePostDtoToSchedule(requestBody),
                 requestBody.getAwayTeamUserId(),
@@ -43,7 +43,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/{scheduleId}")
-    public ResponseEntity getSchedule(@PathVariable("scheduleId") Long scheduleId) {
+    public ResponseEntity<ScheduleResponseDto> getSchedule(@PathVariable("scheduleId") Long scheduleId) {
         Schedule schedule = scheduleService.findSchedule(scheduleId);
         ScheduleResponseDto scheduleResponseDto = scheduleMapper.scheduleToScheduleResponse(schedule);
 
@@ -51,7 +51,7 @@ public class ScheduleController {
     }
 
     @GetMapping
-    public ResponseEntity getSchedules(){
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedules(){
 
         List<Schedule> schedules = scheduleService.findSchedules();
         log.info("전체 요청 :" + schedules);
@@ -60,7 +60,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/newest")
-    public ResponseEntity getSchedulesNewest() {
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedulesNewest() {
         List<Schedule> schedules = scheduleService.findSchedulesNewest();
         List<ScheduleResponseDto> scheduleResponseDtos = scheduleMapper.schedulesToScheduleResponse(schedules);
 
@@ -68,7 +68,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity getSchedulesLatest() {
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedulesLatest() {
         List<Schedule> schedules = scheduleService.findSchedulesLatest();
         List<ScheduleResponseDto> scheduleResponseDtos = scheduleMapper.schedulesToScheduleResponse(schedules);
 
@@ -76,7 +76,7 @@ public class ScheduleController {
     }
 
     @GetMapping("/score")
-    public ResponseEntity getSchedulesHonorScore() {
+    public ResponseEntity<List<ScheduleResponseDto>> getSchedulesHonorScore() {
         List<Schedule> schedules = scheduleService.findHonorScore();
         List<ScheduleResponseDto> scheduleResponseDtos = scheduleMapper.schedulesToScheduleResponse(schedules);
 
@@ -84,7 +84,7 @@ public class ScheduleController {
     }
 
     @PatchMapping("/{scheduleId}")
-    public ResponseEntity patchSchedule(@RequestBody SchedulePatchDto requestBody,
+    public ResponseEntity<ScheduleResponseDto> patchSchedule(@RequestBody SchedulePatchDto requestBody,
                                       @PathVariable("scheduleId") Long scheduleId) {
         Schedule schedule = scheduleService.updateSchedule(
                 scheduleMapper.schedulePatchDtoToSchedule(requestBody), scheduleId);
@@ -95,7 +95,7 @@ public class ScheduleController {
     }
 
     @PatchMapping("/away/{scheduleId}")
-    public ResponseEntity patchMatchAwayTeam(@RequestBody ScheduleAwayTeamDto requestBody,
+    public ResponseEntity<ScheduleResponseDto> patchMatchAwayTeam(@RequestBody ScheduleAwayTeamDto requestBody,
                                          @PathVariable("scheduleId") Long scheduleId) {
         Schedule schedule = scheduleService.updateScheduleWithAwayTeam(
                 scheduleMapper.applyToSchedule(requestBody), scheduleId);
@@ -105,7 +105,7 @@ public class ScheduleController {
     }
 
     @PatchMapping("/end/{scheduleId}")
-    public ResponseEntity patchMatchEnd(@RequestBody MatchEndDto requestBody
+    public ResponseEntity<MatchEndResponseDto> patchMatchEnd(@RequestBody MatchEndDto requestBody
             , @PathVariable("scheduleId") Long scheduleId
     ) {
 
@@ -126,7 +126,7 @@ public class ScheduleController {
     }
 
     @DeleteMapping("/{scheduleId}")
-    public ResponseEntity deleteSchedule(@PathVariable("scheduleId") Long scheduleId) {
+    public ResponseEntity<HttpStatus> deleteSchedule(@PathVariable("scheduleId") Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

@@ -25,7 +25,7 @@ public class LeagueApplyController {
      * 리그 가입 신청
      */
     @PostMapping
-    public ResponseEntity postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody) {
+    public ResponseEntity<LeagueApplyResponseDto> postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody) {
 
         LeagueApply leagueApply = leagueApplyService.createLeagueApply(leagueApplyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
         LeagueApplyResponseDto leagueApplyResponseDto = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
@@ -37,7 +37,7 @@ public class LeagueApplyController {
      * leagueId 단위 리그 가입 신청 조회
      */
     @GetMapping("/{leagueApplyId}")
-    public ResponseEntity getAppliesByLeagueId(@PathVariable("leagueApplyId") Long leagueApplyId){
+    public ResponseEntity<LeagueApplyListDto> getAppliesByLeagueId(@PathVariable("leagueApplyId") Long leagueApplyId){
 
         List<LeagueApply> applies = leagueApplyService.findAllByLeagueId(leagueApplyId);
         log.info("TOTAL LEAGUE_APPLIES INFO:" + applies);
@@ -49,7 +49,7 @@ public class LeagueApplyController {
      * apply 제거
      */
     @DeleteMapping("/{leagueApplyId}")
-    public ResponseEntity deleteApply(@PathVariable("leagueApplyId") Long leagueApplyId) {
+    public ResponseEntity<HttpStatus> deleteApply(@PathVariable("leagueApplyId") Long leagueApplyId) {
         leagueApplyService.deleteApply(leagueApplyId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

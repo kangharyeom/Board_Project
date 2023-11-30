@@ -40,7 +40,7 @@ public class ContentController {
      * 게시글 생성
      */
     @PostMapping
-    public ResponseEntity postContent(@Validated @RequestBody ContentPostDto requestBody) {
+    public ResponseEntity<ContentResponseDto> postContent(@Validated @RequestBody ContentPostDto requestBody) {
 
         Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId());
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
@@ -52,7 +52,7 @@ public class ContentController {
      * 게시글 파일 업로드
      */
     @PostMapping("/file")
-    public ResponseEntity postContentFile(@RequestPart("data") ContentPostDto requestBody,
+    public ResponseEntity<ContentResponseDto> postContentFile(@RequestPart("data") ContentPostDto requestBody,
                                       @RequestPart(required=false, value="ContentFileUrl") List<MultipartFile> multipartFiles ) {
 
         if (multipartFiles == null) {
@@ -72,7 +72,7 @@ public class ContentController {
      * 게시글 단건 조회
      */
     @GetMapping("/{contentId}")
-    public ResponseEntity getContent(@PathVariable("contentId") Long contentId) {
+    public ResponseEntity<ContentAllResponseDto> getContent(@PathVariable("contentId") Long contentId) {
         Content content = contentService.findContent(contentId);
         ContentAllResponseDto contentAllResponseDto = contentMapper.contentToContentAllResponse(content, contentFileRepository, commentRepository);
 
@@ -84,7 +84,7 @@ public class ContentController {
      * pageNation 구현 1개 페이지에 최대 40개 게시글 조회
      */
     @GetMapping
-    public ResponseEntity getContents(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<MultiResponseDto<ContentResponseDto>> getContents(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                       @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
         Page<Content> pageContents = contentService.findContents(page - 1, size);
@@ -100,7 +100,7 @@ public class ContentController {
      * 게시글 검색 기능
      */
     @GetMapping("/search")
-    public ResponseEntity getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
+    public ResponseEntity<ContentListDto> getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
         List<Content> contents = contentService.findAllSearch(keyword);
         ContentListDto contentListDto = contentMapper.contentListDtoToContentResponse(contents, contentFileRepository);
 
@@ -111,7 +111,7 @@ public class ContentController {
      * 게시글 작성자 이름 검색 기능
      */
     @GetMapping("/search/username")
-    public ResponseEntity getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
+    public ResponseEntity<ContentListDto> getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
         List<Content> contents = contentService.findAllSearchByUserName(name);
         ContentListDto contentListDto = contentMapper.contentListDtoToContentResponse(contents, contentFileRepository);
 
@@ -122,7 +122,7 @@ public class ContentController {
      * 최근 등록된 게시글 순서 조회
      */
     @GetMapping("/newest")
-    public ResponseEntity getContentsNewest() {
+    public ResponseEntity<List<ContentResponseDto>> getContentsNewest() {
         List<Content> contents = contentService.findContentsNewest();
         List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
 
@@ -133,7 +133,7 @@ public class ContentController {
      * 오래된 게시글 순서 조회
      */
     @GetMapping("/latest")
-    public ResponseEntity getContentsLatest() {
+    public ResponseEntity<List<ContentResponseDto>> getContentsLatest() {
         List<Content> contents = contentService.findContentsLatest();
         List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
 
@@ -144,7 +144,7 @@ public class ContentController {
      * 카테고리 단위 게시글 조회
      */
     @GetMapping("/category")
-    public ResponseEntity getContentsByCategory(@RequestParam(value = "category",required = false) String category) {
+    public ResponseEntity<List<ContentResponseDto>> getContentsByCategory(@RequestParam(value = "category",required = false) String category) {
         List<Content> contents = contentService.findContentsByCategory(category);
         List<ContentResponseDto> contentResponseDtos = contentMapper.contentsToContentsResponse(contents, contentFileRepository);
 
@@ -155,7 +155,7 @@ public class ContentController {
      * 게시글 수정
      */
     @PatchMapping("/{contentId}")
-    public ResponseEntity patchContent(@RequestBody ContentPatchDto requestBody,
+    public ResponseEntity<ContentResponseDto> patchContent(@RequestBody ContentPatchDto requestBody,
                                        @PathVariable("contentId") Long contentId) {
         requestBody.updateId(contentId);
         Content content = contentService.updateContent(
@@ -170,7 +170,7 @@ public class ContentController {
      * 게시글 삭제
      */
     @DeleteMapping("/{contentId}")
-    public ResponseEntity deleteContent(@PathVariable("contentId") Long contentId) {
+    public ResponseEntity<HttpStatus> deleteContent(@PathVariable("contentId") Long contentId) {
         contentService.deleteContent(contentId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

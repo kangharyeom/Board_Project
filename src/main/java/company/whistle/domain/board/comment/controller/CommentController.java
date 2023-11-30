@@ -33,7 +33,7 @@ public class CommentController {
      * 댓글 생성
      */
     @PostMapping
-    public ResponseEntity postComment(@Valid @RequestBody CommentPostDto requestBody ){
+    public ResponseEntity<CommentResponseDto> postComment(@Valid @RequestBody CommentPostDto requestBody ){
         Comment comment = commentService.createComment(
                 commentMapper.commentPostDtoToComment(requestBody), requestBody.getContentId(), requestBody.getUserId()
         );
@@ -46,7 +46,7 @@ public class CommentController {
      * 댓글 수정
      */
     @PatchMapping("/{commentId}")
-    public ResponseEntity patchComment(@Valid @RequestBody CommentPatchDto requestBody,
+    public ResponseEntity<CommentResponseDto> patchComment(@Valid @RequestBody CommentPatchDto requestBody,
                                        @PathVariable("commentId") @Positive Long commentId) {
         CommentResponseDto userResponseDto = null;
         try {
@@ -67,7 +67,7 @@ public class CommentController {
      * 댓글 단건 조회
      */
     @GetMapping("/{commentId}")
-    public ResponseEntity getComment(@PathVariable("commentId") @Positive Long commentId){
+    public ResponseEntity<CommentResponseDto> getComment(@PathVariable("commentId") @Positive Long commentId){
         Comment comment = commentService.findComment(commentId);
         CommentResponseDto commentResponse = commentMapper.commentToCommentResponseDto(comment);
 
@@ -78,7 +78,7 @@ public class CommentController {
      * 특정 게시글 ID에 있는 댓글 전체 조회
      */
     @GetMapping("/contents/{contentId}")
-    public ResponseEntity getContentComments(@PathVariable("contentId") @Positive int contentId) {
+    public ResponseEntity<List<CommentResponseDto>> getContentComments(@PathVariable("contentId") @Positive int contentId) {
         List<Comment> comments = commentService.findContentComments(contentId);
         List<CommentResponseDto> commentResponseDtos = commentMapper.contentCommentsToCommentResponseDtos(comments);
         return ResponseEntity.ok(commentResponseDtos);
@@ -88,7 +88,7 @@ public class CommentController {
      * 댓글 전체 조회
      */
     @GetMapping
-    public ResponseEntity getComments(@Positive @RequestParam("page") int page,
+    public ResponseEntity<MultiResponseDto<CommentResponseDto>> getComments(@Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
         Page<Comment> pageComments = commentService.findComments(page - 1, size);
         List<Comment> comments = pageComments.getContent();
@@ -103,7 +103,7 @@ public class CommentController {
      * 댓글 삭제
      */
     @DeleteMapping("/{commentId}")
-    public ResponseEntity deleteComment(@PathVariable("commentId") @Positive Long commentId) {
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable("commentId") @Positive Long commentId) {
         commentService.deleteComment(commentId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

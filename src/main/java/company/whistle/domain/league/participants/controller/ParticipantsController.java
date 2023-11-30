@@ -24,7 +24,7 @@ public class ParticipantsController {
     private final ParticipantsMapper participantsMapper;
 
     @PostMapping
-    public ResponseEntity postParticipants(@RequestBody ParticipantsPostDto requestBody) {
+    public ResponseEntity<ParticipantsResponseDto> postParticipants(@RequestBody ParticipantsPostDto requestBody) {
 
         Participants participants = participantsService.createParticipants(participantsMapper.participantsPostDtoToParticipants(requestBody),
                 requestBody.getUserId(),
@@ -39,7 +39,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/{participantsId}")
-    public ResponseEntity getLeagueList(@PathVariable("participantsId") Long participantsId) {
+    public ResponseEntity<ParticipantsResponseDto> getLeagueList(@PathVariable("participantsId") Long participantsId) {
         Participants participants = participantsService.findParticipants(participantsId);
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);
 
@@ -47,7 +47,7 @@ public class ParticipantsController {
     }
 
     @GetMapping
-    public ResponseEntity getParticipantss() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantss() {
 
         List<Participants> participantss = participantsService.findAllParticipants();
         log.info("전체 요청 :" + participantss);
@@ -56,7 +56,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/newest")
-    public ResponseEntity getParticipantssNewest() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssNewest() {
         List<Participants> participantss = participantsService.findParticipantsNewest();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
@@ -64,7 +64,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity getParticipantssLatest() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssLatest() {
         List<Participants> participantss = participantsService.findParticipantsLatest();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
@@ -72,7 +72,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/score")
-    public ResponseEntity getParticipantssHonorScore() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssHonorScore() {
         List<Participants> participantss = participantsService.findHonorScore();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
@@ -80,7 +80,7 @@ public class ParticipantsController {
     }
 
     @PatchMapping("/{participantsId}")
-    public ResponseEntity patchParticipants(@RequestBody ParticipantsPatchDto requestBody,
+    public ResponseEntity<ParticipantsResponseDto> patchParticipants(@RequestBody ParticipantsPatchDto requestBody,
                                           @PathVariable("participantsId") Long participantsId) {
         Participants participants = participantsService.updateParticipants(
                 participantsMapper.participantsPatchDtoToParticipants(requestBody), participantsId);
@@ -91,7 +91,7 @@ public class ParticipantsController {
     }
 
     @DeleteMapping("/{participantsId}")
-    public ResponseEntity deleteParticipants(@PathVariable("participantsId") Long participantsId) {
+    public ResponseEntity<HttpStatus> deleteParticipants(@PathVariable("participantsId") Long participantsId) {
         participantsService.deleteParticipants(participantsId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

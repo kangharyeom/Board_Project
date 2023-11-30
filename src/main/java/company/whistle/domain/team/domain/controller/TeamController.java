@@ -32,7 +32,7 @@ public class TeamController {
     private final TeamMapper teamMapper;
     private final SquadService squadService;
     @PostMapping
-    public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody ){
+    public ResponseEntity<TeamResponseDto> postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
                 teamMapper.teamPostDtoToTeam(requestBody),
                 requestBody.getUserId()
@@ -48,7 +48,7 @@ public class TeamController {
     }
 
     @PatchMapping("/{teamId}")
-    public ResponseEntity patchTeam(@Valid @RequestBody TeamPatchDto requestBody,
+    public ResponseEntity<TeamResponseDto> patchTeam(@Valid @RequestBody TeamPatchDto requestBody,
                                        @PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.updateTeam(
                 teamMapper.teamPatchDtoToTeam(requestBody),
@@ -61,7 +61,7 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}")
-    public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
+    public ResponseEntity<TeamResponseDto> getTeam(@PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.findTeam(teamId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
         log.info("팀 리스 폰스 {}",teamResponse);
@@ -70,7 +70,7 @@ public class TeamController {
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity getTeamByUserId(@PathVariable("userId") @Positive Long userId){
+    public ResponseEntity<TeamResponseDto> getTeamByUserId(@PathVariable("userId") @Positive Long userId){
         Team team = teamService.findTeamByUserId(userId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
 
@@ -79,7 +79,7 @@ public class TeamController {
 
 
     @GetMapping("/league/{leagueId}")
-    public ResponseEntity getAllTeamsByLeagueId(@PathVariable("leagueId") @Positive Long leagueId) {
+    public ResponseEntity<TeamListDto> getAllTeamsByLeagueId(@PathVariable("leagueId") @Positive Long leagueId) {
         List<Team> teams = teamService.findAllTeamsByLeagueId(leagueId);
         TeamListDto teamListDto = teamMapper.teamListDtoToTeamResponse(teams);
 
@@ -87,7 +87,7 @@ public class TeamController {
     }
 
     @GetMapping
-    public ResponseEntity getTeams(@Positive @RequestParam("page") int page,
+    public ResponseEntity<MultiResponseDto<TeamResponseDto>> getTeams(@Positive @RequestParam("page") int page,
                                       @Positive @RequestParam("size") int size) {
         Page<Team> pageTeams = teamService.findTeams(page - 1, size);
         List<Team> teams = pageTeams.getContent();
@@ -99,7 +99,7 @@ public class TeamController {
     }
 
     @GetMapping("/honor/high")
-    public ResponseEntity getTeamsByHighestHonorScore() {
+    public ResponseEntity<List<TeamResponseDto>> getTeamsByHighestHonorScore() {
         List<Team> teams = teamService.findByHighestHonorScore();
         List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
 
@@ -107,7 +107,7 @@ public class TeamController {
     }
 
     @GetMapping("/honor/low")
-    public ResponseEntity getTeamsByLowestHonorScore() {
+    public ResponseEntity<List<TeamResponseDto>> getTeamsByLowestHonorScore() {
         List<Team> teams = teamService.findByLowestHonorScore();
         List<TeamResponseDto> teamResponseDtos = teamMapper.teamsToTeamResponse(teams);
 
@@ -115,7 +115,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/{teamId}")
-    public ResponseEntity deleteTeam(@PathVariable("teamId") @Positive Long teamId) {
+    public ResponseEntity<HttpStatus> deleteTeam(@PathVariable("teamId") @Positive Long teamId) {
         teamService.deleteTeam(teamId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

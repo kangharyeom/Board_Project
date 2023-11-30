@@ -25,7 +25,7 @@ public class MatchApplyController {
     * 경기 참여 신청
     */
     @PostMapping
-    public ResponseEntity postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody) {
+    public ResponseEntity<MatchApplyResponseDto> postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody) {
 
         MatchApply matchApply = matchApplyService.createMatchApply(matchApplyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
         MatchApplyResponseDto matchApplyResponseDto = matchApplyMapper.matchApplyToMatchApplyResponse(matchApply);
@@ -37,7 +37,7 @@ public class MatchApplyController {
      * matchId 단위 경기 신청 조회
      */
     @GetMapping("/{matchApplyId}")
-    public ResponseEntity getMatchAppliesByMatchApplyId(@PathVariable("matchApplyId") Long matchApplyId){
+    public ResponseEntity<MatchApplyListDto> getMatchAppliesByMatchApplyId(@PathVariable("matchApplyId") Long matchApplyId){
 
         List<MatchApply> matchApplies = matchApplyService.findAllByMatchApplyId(matchApplyId);
         log.info("TOTAL MATCH_APPLIES INFO:" + matchApplies);
@@ -49,7 +49,7 @@ public class MatchApplyController {
      * apply 제거
      */
     @DeleteMapping("/{matchApplyId}")
-    public ResponseEntity deleteMatchApply(@PathVariable("matchApplyId") Long matchApplyId) {
+    public ResponseEntity<HttpStatus> deleteMatchApply(@PathVariable("matchApplyId") Long matchApplyId) {
         matchApplyService.deleteMatchApply(matchApplyId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

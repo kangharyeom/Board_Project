@@ -9,7 +9,7 @@ import java.util.Map;
 @RestController
 public class HomeController {
     @GetMapping("/")
-    public ResponseEntity helloWorld() {
+    public ResponseEntity<Map<String, String>> helloWorld() {
         return ResponseEntity.ok().body(
                 Map.of("project", "whistle")
         );

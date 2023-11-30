@@ -32,7 +32,7 @@ public class MatchController {
     private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity postMatch(@Validated @RequestBody MatchPostDto requestBody) {
+    public ResponseEntity<MatchResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
         Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
         MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
@@ -43,7 +43,7 @@ public class MatchController {
     }
 
     @GetMapping("/{matchId}")
-    public ResponseEntity getMatch(@PathVariable("matchId") Long matchId) {
+    public ResponseEntity<MatchResponseDto> getMatch(@PathVariable("matchId") Long matchId) {
         Match match = matchService.findMatch(matchId);
         MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
 
@@ -51,7 +51,7 @@ public class MatchController {
     }
 
     @GetMapping
-    public ResponseEntity getMatches(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
+    public ResponseEntity<MultiResponseDto<MatchResponseDto>> getMatches(@Positive @RequestParam(value = "page", defaultValue = "1") int page,
                                      @Positive @RequestParam(value = "size", defaultValue = "40") int size){
 
         Page<Match> pageMatches = matchService.findMatches(page - 1, size);
@@ -64,7 +64,7 @@ public class MatchController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
+    public ResponseEntity<MatchListDto> getSearch(@RequestParam(value = "keyword",required = false) String keyword) {
         List<Match> matches = matchService.findAllSearch(keyword);
         MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matches);
 
@@ -72,7 +72,7 @@ public class MatchController {
     }
 
     @GetMapping("/search/username")
-    public ResponseEntity getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
+    public ResponseEntity<MatchListDto> getSearchByUserName(@RequestParam(value = "name",required = false) String name) {
         List<Match> matches = matchService.findAllSearchByUserName(name);
         MatchListDto matchListDto = matchMapper.matchListDtoToMatchResponse(matches);
 
@@ -80,7 +80,7 @@ public class MatchController {
     }
 
     @GetMapping("/newest")
-    public ResponseEntity getMatchesNewest() {
+    public ResponseEntity<List<MatchResponseDto>> getMatchesNewest() {
         List<Match> matches = matchService.findMatchesNewest();
         List<MatchResponseDto> matchResponseDto = matchMapper.matchesToMatchesResponse(matches);
 
@@ -88,7 +88,7 @@ public class MatchController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity getMatchesLatest() {
+    public ResponseEntity<List<MatchResponseDto>> getMatchesLatest() {
         List<Match> matches = matchService.findMatchesLatest();
         List<MatchResponseDto> matchResponseDto = matchMapper.matchesToMatchesResponse(matches);
 
@@ -96,7 +96,7 @@ public class MatchController {
     }
 
     @PatchMapping("/{matchId}")
-    public ResponseEntity patchMatch(@RequestBody MatchPatchDto requestBody,
+    public ResponseEntity<MatchResponseDto> patchMatch(@RequestBody MatchPatchDto requestBody,
                                        @PathVariable("matchId") Long matchId) {
         requestBody.updateId(matchId);
         Match match = matchService.updateMatch(
@@ -108,7 +108,7 @@ public class MatchController {
     }
 
     @DeleteMapping("/{matchId}")
-    public ResponseEntity deleteMatch(@PathVariable("matchId") Long matchId) {
+    public ResponseEntity<HttpStatus> deleteMatch(@PathVariable("matchId") Long matchId) {
         matchService.deleteMatch(matchId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

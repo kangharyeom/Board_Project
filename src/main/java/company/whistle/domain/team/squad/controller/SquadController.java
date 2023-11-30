@@ -24,7 +24,7 @@ public class SquadController {
     private final SquadMapper squadMapper;
 
     @PostMapping
-    public ResponseEntity postSquad(@RequestBody SquadPostDto requestBody){
+    public ResponseEntity<SquadResponseDto> postSquad(@RequestBody SquadPostDto requestBody){
 
         Squad squad = squadService.createSquad(squadMapper.squadPostDtoToSquad(requestBody), requestBody.getUserId(), requestBody.getTeamId(), requestBody.getApplyId());
         SquadResponseDto squadResponse = squadMapper.squadToSquadResponse(squad);
@@ -33,7 +33,7 @@ public class SquadController {
     }
 
     @GetMapping("/{squadId}")
-    public ResponseEntity getSquad(@PathVariable("squadId") Long squadId) {
+    public ResponseEntity<SquadResponseDto> getSquad(@PathVariable("squadId") Long squadId) {
         Squad squad = squadService.findSquad(squadId);
         SquadResponseDto squadResponseDto = squadMapper.squadToSquadResponse(squad);
 
@@ -41,7 +41,7 @@ public class SquadController {
     }
 
     @GetMapping
-    public ResponseEntity getSquads(){
+    public ResponseEntity<List<SquadResponseDto>> getSquads(){
 
         List<Squad> squads = squadService.findSquads();
         log.info("전체 요청 :" + squads);
@@ -50,7 +50,7 @@ public class SquadController {
     }
 
     @GetMapping("/newest")
-    public ResponseEntity getSquadsNewest() {
+    public ResponseEntity<List<SquadResponseDto>> getSquadsNewest() {
         List<Squad> squads = squadService.findSquadsNewest();
         List<SquadResponseDto> squadResponseDtos = squadMapper.squadsToSquadResponse(squads);
 
@@ -58,7 +58,7 @@ public class SquadController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity getSquadsLatest() {
+    public ResponseEntity<List<SquadResponseDto>> getSquadsLatest() {
         List<Squad> squads = squadService.findSquadsLatest();
         List<SquadResponseDto> squadResponseDtos = squadMapper.squadsToSquadResponse(squads);
 
@@ -66,7 +66,7 @@ public class SquadController {
     }
 
     @GetMapping("/score")
-    public ResponseEntity getSquadsHonorScore() {
+    public ResponseEntity<List<SquadResponseDto>> getSquadsHonorScore() {
         List<Squad> squads = squadService.findHonorScore();
         List<SquadResponseDto> squadResponseDtos = squadMapper.squadsToSquadResponse(squads);
 
@@ -74,7 +74,7 @@ public class SquadController {
     }
 
     @PatchMapping("/{squadId}")
-    public ResponseEntity patchSquad(@RequestBody SquadPatchDto requestBody,
+    public ResponseEntity<SquadResponseDto> patchSquad(@RequestBody SquadPatchDto requestBody,
                                       @PathVariable("squadId") Long squadId) {
         Squad squad = squadService.updateSquad(
                 squadMapper.squadPatchDtoToSquad(requestBody), squadId);
@@ -85,7 +85,7 @@ public class SquadController {
     }
 
     @DeleteMapping("/{squadId}")
-    public ResponseEntity deleteSquad(@PathVariable("squadId") Long squadId) {
+    public ResponseEntity<HttpStatus> deleteSquad(@PathVariable("squadId") Long squadId) {
         squadService.deleteSquad(squadId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);

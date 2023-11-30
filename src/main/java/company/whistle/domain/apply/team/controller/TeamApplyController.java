@@ -25,7 +25,7 @@ public class TeamApplyController {
     * 팀 가입 신청
     */
     @PostMapping
-    public ResponseEntity postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody) {
+    public ResponseEntity<TeamApplyResponseDto> postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody) {
 
         TeamApply teamApply = teamApplyService.createTeamApply(
                 teamApplyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
@@ -38,7 +38,7 @@ public class TeamApplyController {
      * teamId 단위 팀 가입 신청 조회
      */
     @GetMapping("/{teamApplyId}")
-    public ResponseEntity getTeamAppliesByTeamId(@PathVariable("teamApplyId") Long teamApplyId){
+    public ResponseEntity<TeamApplyListDto> getTeamAppliesByTeamId(@PathVariable("teamApplyId") Long teamApplyId){
 
         List<TeamApply> teamApplies = teamApplyService.findAllByTeamApplyId(teamApplyId);
         log.info("TOTAL TEAM_APPLIES INFO:" + teamApplies);
@@ -50,7 +50,7 @@ public class TeamApplyController {
      * apply 제거
      */
     @DeleteMapping("/{teamApplyId}")
-    public ResponseEntity deleteTeamApply(@PathVariable("teamApplyId") Long teamApplyId) {
+    public ResponseEntity<HttpStatus> deleteTeamApply(@PathVariable("teamApplyId") Long teamApplyId) {
         teamApplyService.deleteTeamApply(teamApplyId);
 
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
