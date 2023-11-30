@@ -43,7 +43,6 @@ public class CommentService {
             commentRepository.save(comment);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.COMMENT_NOT_CREATED);
         }
         return comment;
     }
@@ -65,7 +64,6 @@ public class CommentService {
             commentRepository.save(findComment);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.COMMENT_NOT_PATCHED);
         }
         return comment;
     }
@@ -100,12 +98,14 @@ public class CommentService {
             Comment findComment = findVerifiedComment(commentId);
 
             User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
-            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            if (userService.getLoginUser().getUserId() != writer.getUserId()) { // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             commentRepository.delete(findComment);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.CONTENT_NOT_DELETED);
         }
     }
 

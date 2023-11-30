@@ -46,7 +46,6 @@ public class SquadService {
             squadRepository.save(squad);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.SQUAD_NOT_CREATED);
         }
         return squad;
     }
@@ -77,7 +76,6 @@ public class SquadService {
             squadRepository.save(squad);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.SQUAD_NOT_CREATED);
         }
         return squad;
     }
@@ -108,7 +106,6 @@ public class SquadService {
             squadRepository.save(findSquad);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.SQUAD_NOT_PATCHED);
         }
         return squad;
     }

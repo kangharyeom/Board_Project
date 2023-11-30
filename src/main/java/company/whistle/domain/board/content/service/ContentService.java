@@ -40,7 +40,6 @@ public class ContentService {
             contentRepository.save(content);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.CONTENT_NOT_CREATED);
         }
         return content;
     }
@@ -64,7 +63,6 @@ public class ContentService {
             }
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.CONTENT_FILE_NOT_CREATED);
         }
         return content;
     }
@@ -89,7 +87,6 @@ public class ContentService {
             contentRepository.save(findContent);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.CONTENT_NOT_PATCHED);
         }
         return content;
     }

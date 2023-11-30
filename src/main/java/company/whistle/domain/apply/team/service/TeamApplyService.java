@@ -46,7 +46,7 @@ public class TeamApplyService {
                 teamApply.setLevelType(team.getLevelType());
             teamApplyRepository.save(teamApply);
         } catch (Exception e) {
-            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_CREATED);
+            log.error(e.getMessage(), e);
         }
         log.info("TEAM_APPLY CREATED:{}", teamApply);
         return teamApply;
@@ -65,7 +65,7 @@ public class TeamApplyService {
             TeamApply findTeamApply = findVerifiedTeamApply(teamApplyId);
             teamApplyRepository.delete(findTeamApply);
         } catch (Exception e) {
-            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_DELETED);
+            log.error(e.getMessage(), e);
         }
     }
 

@@ -68,7 +68,6 @@ public class LeagueService {
 
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_CREATED);
         }
         return league;
     }
@@ -114,7 +113,6 @@ public class LeagueService {
             leagueRepository.save(findLeague);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_PATCHED);
         }
         return league;
     }

@@ -44,7 +44,6 @@ public class TeamService {
             teamRepository.save(team);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_CREATED);
         }
         return team;
     }
@@ -112,7 +111,6 @@ public class TeamService {
             teamRepository.save(findTeam);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
         return team;
     }
@@ -157,7 +155,6 @@ public class TeamService {
             log.info("UPDATE_FOR_MATCH_END ABOUT: AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
@@ -215,7 +212,6 @@ public class TeamService {
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
@@ -273,7 +269,7 @@ public class TeamService {
     public void checkDuplUserId(long userId) {
         Team team = teamRepository.findByUserId(userId);
         if(team !=null) {
-                throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
+            throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
         }
     }
 

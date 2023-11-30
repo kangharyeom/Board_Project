@@ -55,7 +55,6 @@ public class MatchService {
             matchRepository.save(match);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.MATCH_NOT_CREATED);
         }
         return match;
     }
@@ -109,7 +108,6 @@ public class MatchService {
             matchRepository.save(findMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.MATCH_NOT_PATCHED);
         }
         return match;
     }

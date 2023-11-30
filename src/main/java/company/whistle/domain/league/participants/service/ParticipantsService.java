@@ -69,7 +69,6 @@ public class ParticipantsService {
             participantsRepository.save(participants);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
         }
         return participants;
     }
@@ -113,7 +112,6 @@ public class ParticipantsService {
             participantsRepository.save(participants);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
         }
         return participants;
     }
@@ -174,7 +172,6 @@ public class ParticipantsService {
             participantsRepository.save(findParticipants);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
         }
         return participants;
     }
@@ -230,7 +227,6 @@ public class ParticipantsService {
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO PARTICIPANTS_REPOSITORY:{}", findAwayTeamParticipants);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
         }
     }
 

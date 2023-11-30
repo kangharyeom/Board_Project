@@ -107,7 +107,6 @@ public class LeagueMatchService {
             leagueMatchRepository.save(leagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_CREATED);
         }
 
 
@@ -216,7 +215,6 @@ public class LeagueMatchService {
             leagueMatchRepository.save(findLeagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
         return leagueMatch;
     }
@@ -239,7 +237,6 @@ public class LeagueMatchService {
             leagueMatchRepository.save(findLeagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
         return leagueMatch;
     }
@@ -297,7 +294,6 @@ public class LeagueMatchService {
             log.info("LEAGUE_MATCH_END TO LEAGUE_MATCH_REPOSITORY:{}", findLeagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
-            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
     }
 

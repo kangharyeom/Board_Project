@@ -44,7 +44,6 @@ public class UserService {
             log.info("USER POST COMPLETE: {}", user.toString());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.USER_NOT_CREATED);
         }
         return user;
     }
@@ -71,7 +70,6 @@ public class UserService {
             log.info("USER PATCH COMPLETE: {}", user.toString());
         } catch (DataAccessException e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.USER_NOT_PATCHED);
         }
         return user;
     }

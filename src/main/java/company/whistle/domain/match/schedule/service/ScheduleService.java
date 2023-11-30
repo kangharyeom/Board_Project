@@ -285,7 +285,6 @@ public class ScheduleService {
             scheduleRepository.save(findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
         return schedule;
     }
@@ -335,7 +334,6 @@ public class ScheduleService {
             log.info("UPDATE_FOR_MATCH_END TO SCHEDULE_REPOSITORY FINISHED:{}", findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
     }
 
