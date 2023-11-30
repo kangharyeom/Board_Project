@@ -36,6 +36,7 @@ public class MatchController {
 
         Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
         MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+        log.info("UN_RANK MATCH POST COMPLETE: {}", matchResponseDto.toString());
 
         scheduleService.createScheduleByMatchController(new Schedule(), matchResponseDto.getUserId(), matchResponseDto.getTeamId(), matchResponseDto.getMatchId());
 
@@ -56,7 +57,6 @@ public class MatchController {
 
         Page<Match> pageMatches = matchService.findMatches(page - 1, size);
         List<Match> matches = pageMatches.getContent();
-        log.info("전체 요청 :" + matches);
         return new ResponseEntity<>(
                 new MultiResponseDto<>(matchMapper.matchesToMatchesResponse(matches),
                         pageMatches),
@@ -103,6 +103,8 @@ public class MatchController {
                 matchMapper.matchPatchDtoToMatch(requestBody));
 
         MatchResponseDto matchResponse = matchMapper.matchToMatchResponse(match);
+        log.info("UN_RANK MATCH PATCH COMPLETE: {}", matchResponse.toString());
+
 
         return ResponseEntity.ok(matchResponse);
     }

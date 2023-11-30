@@ -29,6 +29,7 @@ public class MatchApplyController {
 
         MatchApply matchApply = matchApplyService.createMatchApply(matchApplyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
         MatchApplyResponseDto matchApplyResponseDto = matchApplyMapper.matchApplyToMatchApplyResponse(matchApply);
+        log.info("MATCH_APPLY POST COMPLETE: {}",matchApplyResponseDto.toString());
 
         return ResponseEntity.ok(matchApplyResponseDto);
     }

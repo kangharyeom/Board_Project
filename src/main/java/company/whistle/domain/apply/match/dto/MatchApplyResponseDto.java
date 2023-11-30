@@ -22,4 +22,22 @@ public class MatchApplyResponseDto {
     private String applyType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "MatchApplyResponseDto{" +
+                "userId=" + userId +
+                ", teamId=" + teamId +
+                ", leagueId=" + leagueId +
+                ", matchId=" + matchId +
+                ", matchApplyId=" + matchApplyId +
+                ", managerName='" + managerName + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", levelType='" + levelType + '\'' +
+                ", ageType='" + ageType + '\'' +
+                ", applyType='" + applyType + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

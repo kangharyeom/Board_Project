@@ -26,9 +26,9 @@ public class LeagueApplyController {
      */
     @PostMapping
     public ResponseEntity<LeagueApplyResponseDto> postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody) {
-
         LeagueApply leagueApply = leagueApplyService.createLeagueApply(leagueApplyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
         LeagueApplyResponseDto leagueApplyResponseDto = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
+        log.info("MATCH_APPLY POST COMPLETE: {}",leagueApplyResponseDto.toString());
 
         return ResponseEntity.ok(leagueApplyResponseDto);
     }

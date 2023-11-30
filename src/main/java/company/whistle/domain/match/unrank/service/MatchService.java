@@ -31,79 +31,85 @@ public class MatchService {
     private final UserRepository userRepository;
 
     public Match createMatch(Match match, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
 
-        findVerifiedExistsLeagueByTeamId(teamId);
+            findVerifiedExistsLeagueByTeamId(teamId);
 
-        match.setUser(user);
-        match.setTeam(team);
+            match.setUser(user);
+            match.setTeam(team);
 
-        match.setHomeTeamHonorScore(team.getHonorScore());
-        match.setHomeTeamName(team.getTeamName());
-        match.setHomeTeamManagerName(team.getManagerName());
-        match.setHomeTeamTotalWinRecord(team.getTotalWinRecord());
-        match.setHomeTeamTotalDrawRecord(team.getTotalDrawRecord());
-        match.setHomeTeamTotalLoseRecord(team.getTotalLoseRecord());
-        match.setHomeTeamLevelType(team.getLevelType());
-        match.setHomeTeamAgeType(team.getAgeType());
-        match.setHomeTeamUniformType(team.getUniformType());
-        match.setMatchType(match.getMatchType());
+            match.setHomeTeamHonorScore(team.getHonorScore());
+            match.setHomeTeamName(team.getTeamName());
+            match.setHomeTeamManagerName(team.getManagerName());
+            match.setHomeTeamTotalWinRecord(team.getTotalWinRecord());
+            match.setHomeTeamTotalDrawRecord(team.getTotalDrawRecord());
+            match.setHomeTeamTotalLoseRecord(team.getTotalLoseRecord());
+            match.setHomeTeamLevelType(team.getLevelType());
+            match.setHomeTeamAgeType(team.getAgeType());
+            match.setHomeTeamUniformType(team.getUniformType());
+            match.setMatchType(match.getMatchType());
 
-        userRepository.save(user);
-        matchRepository.save(match);
-
+            userRepository.save(user);
+            matchRepository.save(match);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
         return match;
     }
 
     public Match updateMatch(Match match) {
 
-        Match findMatch = findVerifiedMatch(match.getMatchId());
+        try {
+            Match findMatch = findVerifiedMatch(match.getMatchId());
 
-        Optional.ofNullable(match.getHomeTeamHonorScore())
-                .ifPresent(findMatch::setHomeTeamHonorScore);
+            Optional.ofNullable(match.getHomeTeamHonorScore())
+                    .ifPresent(findMatch::setHomeTeamHonorScore);
 
-        Optional.ofNullable(match.getHomeTeamName())
-                .ifPresent(findMatch::setHomeTeamName);
+            Optional.ofNullable(match.getHomeTeamName())
+                    .ifPresent(findMatch::setHomeTeamName);
 
-        Optional.ofNullable(match.getHomeTeamManagerName())
-                .ifPresent(findMatch::setHomeTeamManagerName);
+            Optional.ofNullable(match.getHomeTeamManagerName())
+                    .ifPresent(findMatch::setHomeTeamManagerName);
 
-        Optional.ofNullable(match.getHomeTeamTotalWinRecord())
-                .ifPresent(findMatch::setHomeTeamTotalWinRecord);
+            Optional.ofNullable(match.getHomeTeamTotalWinRecord())
+                    .ifPresent(findMatch::setHomeTeamTotalWinRecord);
 
-        Optional.ofNullable(match.getHomeTeamTotalDrawRecord())
-                .ifPresent(findMatch::setHomeTeamTotalDrawRecord);
+            Optional.ofNullable(match.getHomeTeamTotalDrawRecord())
+                    .ifPresent(findMatch::setHomeTeamTotalDrawRecord);
 
-        Optional.ofNullable(match.getHomeTeamTotalLoseRecord())
-                .ifPresent(findMatch::setHomeTeamTotalLoseRecord);
+            Optional.ofNullable(match.getHomeTeamTotalLoseRecord())
+                    .ifPresent(findMatch::setHomeTeamTotalLoseRecord);
 
-        Optional.ofNullable(match.getHomeTeamLevelType())
-                .ifPresent(findMatch::setHomeTeamLevelType);
+            Optional.ofNullable(match.getHomeTeamLevelType())
+                    .ifPresent(findMatch::setHomeTeamLevelType);
 
-        Optional.ofNullable(match.getHomeTeamAgeType())
-                .ifPresent(findMatch::setHomeTeamAgeType);
+            Optional.ofNullable(match.getHomeTeamAgeType())
+                    .ifPresent(findMatch::setHomeTeamAgeType);
 
-        Optional.ofNullable(match.getHomeTeamUniformType())
-                .ifPresent(findMatch::setHomeTeamUniformType);
+            Optional.ofNullable(match.getHomeTeamUniformType())
+                    .ifPresent(findMatch::setHomeTeamUniformType);
 
-        Optional.ofNullable(match.getMatchType())
-                .ifPresent(findMatch::setMatchType);
+            Optional.ofNullable(match.getMatchType())
+                    .ifPresent(findMatch::setMatchType);
 
-        Optional.ofNullable(match.getMatchTime())
-                .ifPresent(findMatch::setMatchTime);
+            Optional.ofNullable(match.getMatchTime())
+                    .ifPresent(findMatch::setMatchTime);
 
-        Optional.ofNullable(match.getMatchStatus())
-                .ifPresent(findMatch::setMatchStatus);
+            Optional.ofNullable(match.getMatchStatus())
+                    .ifPresent(findMatch::setMatchStatus);
 
-        Optional.ofNullable(match.getHomeTeamMatchResultStatus())
-                .ifPresent(findMatch::setHomeTeamMatchResultStatus);
+            Optional.ofNullable(match.getHomeTeamMatchResultStatus())
+                    .ifPresent(findMatch::setHomeTeamMatchResultStatus);
 
-        Optional.ofNullable(match.getAwayTeamMatchResultStatus())
-                .ifPresent(findMatch::setAwayTeamMatchResultStatus);
-
-
-        return matchRepository.save(findMatch);
+            Optional.ofNullable(match.getAwayTeamMatchResultStatus())
+                    .ifPresent(findMatch::setAwayTeamMatchResultStatus);
+            matchRepository.save(findMatch);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
+        return match;
     }
 
     public Match findMatch(Long matchId) {
@@ -132,9 +138,12 @@ public class MatchService {
     }
 
     public void deleteMatch(Long matchId) {
-        Match findMatch = findVerifiedMatch(matchId);
-
-        matchRepository.delete(findMatch);
+        try {
+            Match findMatch = findVerifiedMatch(matchId);
+            matchRepository.delete(findMatch);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
     }
 
     public User findVerifiedUser(Long userId) {

@@ -31,7 +31,6 @@ import java.util.List;
 public class ContentController {
     private final ContentService contentService;
     private final ContentMapper contentMapper;
-    private final ContentRepository contentRepository;
     private final CommentRepository commentRepository;
     private final ContentFileRepository contentFileRepository;
     private final AwsS3Service awsS3Service;
@@ -44,6 +43,7 @@ public class ContentController {
 
         Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId());
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
+        log.info("CONTENT POST COMPLETE: {}",contentResponse.toString());
 
         return ResponseEntity.ok(contentResponse);
     }
@@ -64,6 +64,7 @@ public class ContentController {
 
         Content content = contentService.createContentFile(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId(), filePaths);
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
+        log.info("CONTENT POST WITH FILE UPLOAD COMPLETE: {}",contentResponse.toString());
 
         return ResponseEntity.ok(contentResponse);
     }
@@ -162,6 +163,7 @@ public class ContentController {
                 contentMapper.contentPatchDtoToContent(requestBody));
 
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
+        log.info("CONTENT PATCH COMPLETE: {}",contentResponse.toString());
 
         return ResponseEntity.ok(contentResponse);
     }

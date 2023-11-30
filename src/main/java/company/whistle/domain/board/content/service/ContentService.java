@@ -138,9 +138,12 @@ public class ContentService {
      * 게시글 삭제
      */
     public void deleteContent(Long contentId) {
-        Content findContent = findVerifiedContent(contentId);
-
-        contentRepository.delete(findContent);
+        try {
+            Content findContent = findVerifiedContent(contentId);
+            contentRepository.delete(findContent);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
     }
 
     /*

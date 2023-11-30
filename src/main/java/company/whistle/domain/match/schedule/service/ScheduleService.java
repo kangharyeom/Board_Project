@@ -77,113 +77,117 @@ public class ScheduleService {
 
     public Schedule createScheduleByMatchController(
             Schedule schedule, Long userId, Long teamId, Long matchId) {
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
+            Match match = matchService.findMatch(matchId);
 
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-        Match match = matchService.findMatch(matchId);
+            user.setMatchId(matchId);
 
-        user.setMatchId(matchId);
+            schedule.setUser(user);
+            schedule.setTeam(team);
+            schedule.setMatch(match);
 
-        schedule.setUser(user);
-        schedule.setTeam(team);
-        schedule.setMatch(match);
+            schedule.setHomeTeamId(team.getTeamId());
+            schedule.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
+            schedule.setHomeTeamName(match.getHomeTeamName());
+            schedule.setHomeTeamManagerName(match.getHomeTeamManagerName());
+            schedule.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+            schedule.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+            schedule.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+            schedule.setHomeTeamLevelType(match.getHomeTeamLevelType());
+            schedule.setHomeTeamAgeType(match.getHomeTeamAgeType());
+            schedule.setHomeTeamUniformType(match.getHomeTeamUniformType());
 
-        schedule.setHomeTeamId(team.getTeamId());
-        schedule.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
-        schedule.setHomeTeamName(match.getHomeTeamName());
-        schedule.setHomeTeamManagerName(match.getHomeTeamManagerName());
-        schedule.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
-        schedule.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
-        schedule.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
-        schedule.setHomeTeamLevelType(match.getHomeTeamLevelType());
-        schedule.setHomeTeamAgeType(match.getHomeTeamAgeType());
-        schedule.setHomeTeamUniformType(match.getHomeTeamUniformType());
+            schedule.setAwayTeamHonorScore(team.getHonorScore());
+            schedule.setAwayTeamName(team.getTeamName());
+            schedule.setAwayTeamManagerName(team.getManagerName());
+            schedule.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+            schedule.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+            schedule.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+            schedule.setAwayTeamLevelType(team.getLevelType());
+            schedule.setAwayTeamAgeType(team.getAgeType());
+            schedule.setAwayTeamUniformType(team.getUniformType());
 
-        schedule.setAwayTeamHonorScore(team.getHonorScore());
-        schedule.setAwayTeamName(team.getTeamName());
-        schedule.setAwayTeamManagerName(team.getManagerName());
-        schedule.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
-        schedule.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
-        schedule.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
-        schedule.setAwayTeamLevelType(team.getLevelType());
-        schedule.setAwayTeamAgeType(team.getAgeType());
-        schedule.setAwayTeamUniformType(team.getUniformType());
+            schedule.setAwayTeamScore(schedule.getAwayTeamScore());
 
-        schedule.setAwayTeamScore(schedule.getAwayTeamScore());
+            schedule.setHomeTeamName(match.getHomeTeamName());
 
-        schedule.setHomeTeamName(match.getHomeTeamName());
+            userRepository.save(user);
+            scheduleRepository.save(schedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
-        userRepository.save(user);
-
-        return scheduleRepository.save(schedule);
+        return schedule;
     }
 
     public Schedule updateSchedule(
             Schedule schedule,
             Long teamListId) {
 
+        try {
+            Schedule findSchedule = findVerifiedSchedule(teamListId);
 
-        Schedule findSchedule = findVerifiedSchedule(teamListId);
+            Optional.ofNullable(schedule.getHomeTeamHonorScore())
+                    .ifPresent(findSchedule::setHomeTeamHonorScore);
 
-        Optional.ofNullable(schedule.getHomeTeamHonorScore())
-                .ifPresent(findSchedule::setHomeTeamHonorScore);
+            Optional.ofNullable(schedule.getHomeTeamName())
+                    .ifPresent(findSchedule::setHomeTeamName);
 
-        Optional.ofNullable(schedule.getHomeTeamName())
-                .ifPresent(findSchedule::setHomeTeamName);
+            Optional.ofNullable(schedule.getHomeTeamManagerName())
+                    .ifPresent(findSchedule::setHomeTeamManagerName);
 
-        Optional.ofNullable(schedule.getHomeTeamManagerName())
-                .ifPresent(findSchedule::setHomeTeamManagerName);
+            Optional.ofNullable(schedule.getHomeTeamTotalWinRecord())
+                    .ifPresent(findSchedule::setHomeTeamTotalWinRecord);
 
-        Optional.ofNullable(schedule.getHomeTeamTotalWinRecord())
-                .ifPresent(findSchedule::setHomeTeamTotalWinRecord);
+            Optional.ofNullable(schedule.getHomeTeamTotalDrawRecord())
+                    .ifPresent(findSchedule::setHomeTeamTotalDrawRecord);
 
-        Optional.ofNullable(schedule.getHomeTeamTotalDrawRecord())
-                .ifPresent(findSchedule::setHomeTeamTotalDrawRecord);
+            Optional.ofNullable(schedule.getHomeTeamTotalLoseRecord())
+                    .ifPresent(findSchedule::setHomeTeamTotalLoseRecord);
 
-        Optional.ofNullable(schedule.getHomeTeamTotalLoseRecord())
-                .ifPresent(findSchedule::setHomeTeamTotalLoseRecord);
+            Optional.ofNullable(schedule.getHomeTeamLevelType())
+                    .ifPresent(findSchedule::setHomeTeamLevelType);
 
-        Optional.ofNullable(schedule.getHomeTeamLevelType())
-                .ifPresent(findSchedule::setHomeTeamLevelType);
+            Optional.ofNullable(schedule.getHomeTeamAgeType())
+                    .ifPresent(findSchedule::setHomeTeamAgeType);
 
-        Optional.ofNullable(schedule.getHomeTeamAgeType())
-                .ifPresent(findSchedule::setHomeTeamAgeType);
+            Optional.ofNullable(schedule.getHomeTeamUniformType())
+                    .ifPresent(findSchedule::setHomeTeamUniformType);
 
-        Optional.ofNullable(schedule.getHomeTeamUniformType())
-                .ifPresent(findSchedule::setHomeTeamUniformType);
+            Optional.ofNullable(schedule.getAwayTeamHonorScore())
+                    .ifPresent(findSchedule::setAwayTeamHonorScore);
 
-        Optional.ofNullable(schedule.getAwayTeamHonorScore())
-                .ifPresent(findSchedule::setAwayTeamHonorScore);
+            Optional.ofNullable(schedule.getAwayTeamUserId())
+                    .ifPresent(findSchedule::setAwayTeamUserId);
 
-        Optional.ofNullable(schedule.getAwayTeamUserId())
-                .ifPresent(findSchedule::setAwayTeamUserId);
+            Optional.ofNullable(schedule.getAwayTeamId())
+                    .ifPresent(findSchedule::setAwayTeamId);
 
-        Optional.ofNullable(schedule.getAwayTeamId())
-                .ifPresent(findSchedule::setAwayTeamId);
+            Optional.ofNullable(schedule.getAwayTeamName())
+                    .ifPresent(findSchedule::setAwayTeamName);
 
-        Optional.ofNullable(schedule.getAwayTeamName())
-                .ifPresent(findSchedule::setAwayTeamName);
+            Optional.ofNullable(schedule.getAwayTeamManagerName())
+                    .ifPresent(findSchedule::setAwayTeamManagerName);
 
-        Optional.ofNullable(schedule.getAwayTeamManagerName())
-                .ifPresent(findSchedule::setAwayTeamManagerName);
+            Optional.ofNullable(schedule.getAwayTeamTotalWinRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalWinRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalWinRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalWinRecord);
+            Optional.ofNullable(schedule.getAwayTeamTotalDrawRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalDrawRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalDrawRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalDrawRecord);
+            Optional.ofNullable(schedule.getAwayTeamTotalLoseRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalLoseRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalLoseRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalLoseRecord);
+            Optional.ofNullable(schedule.getAwayTeamLevelType())
+                    .ifPresent(findSchedule::setAwayTeamLevelType);
 
-        Optional.ofNullable(schedule.getAwayTeamLevelType())
-                .ifPresent(findSchedule::setAwayTeamLevelType);
+            Optional.ofNullable(schedule.getAwayTeamAgeType())
+                    .ifPresent(findSchedule::setAwayTeamAgeType);
 
-        Optional.ofNullable(schedule.getAwayTeamAgeType())
-                .ifPresent(findSchedule::setAwayTeamAgeType);
-
-        Optional.ofNullable(schedule.getAwayTeamUniformType())
-                .ifPresent(findSchedule::setAwayTeamUniformType);
+            Optional.ofNullable(schedule.getAwayTeamUniformType())
+                    .ifPresent(findSchedule::setAwayTeamUniformType);
 
         /*Optional.ofNullable(teamList.getMostGoals())
                 .ifPresent(findTeamList::setMostGoals);
@@ -193,49 +197,53 @@ public class ScheduleService {
 
         Optional.ofNullable(teamList.getMostMom())
                 .ifPresent(findTeamList::setMostMom);*/
+            scheduleRepository.save(findSchedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
-        return scheduleRepository.save(findSchedule);
+        return schedule;
     }
 
     public Schedule updateScheduleWithAwayTeam(
             Schedule schedule
             ,Long scheduleId
     ) {
+        try {
+            Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
-        Schedule findSchedule = findVerifiedSchedule(scheduleId);
+            Optional.ofNullable(schedule.getAwayTeamHonorScore())
+                    .ifPresent(findSchedule::setAwayTeamHonorScore);
 
-        Optional.ofNullable(schedule.getAwayTeamHonorScore())
-                .ifPresent(findSchedule::setAwayTeamHonorScore);
+            Optional.ofNullable(schedule.getAwayTeamUserId())
+                    .ifPresent(findSchedule::setAwayTeamUserId);
 
-        Optional.ofNullable(schedule.getAwayTeamUserId())
-                .ifPresent(findSchedule::setAwayTeamUserId);
+            Optional.ofNullable(schedule.getAwayTeamId())
+                    .ifPresent(findSchedule::setAwayTeamId);
 
-        Optional.ofNullable(schedule.getAwayTeamId())
-                .ifPresent(findSchedule::setAwayTeamId);
+            Optional.ofNullable(schedule.getAwayTeamName())
+                    .ifPresent(findSchedule::setAwayTeamName);
 
-        Optional.ofNullable(schedule.getAwayTeamName())
-                .ifPresent(findSchedule::setAwayTeamName);
+            Optional.ofNullable(schedule.getAwayTeamManagerName())
+                    .ifPresent(findSchedule::setAwayTeamManagerName);
 
-        Optional.ofNullable(schedule.getAwayTeamManagerName())
-                .ifPresent(findSchedule::setAwayTeamManagerName);
+            Optional.ofNullable(schedule.getAwayTeamTotalWinRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalWinRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalWinRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalWinRecord);
+            Optional.ofNullable(schedule.getAwayTeamTotalDrawRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalDrawRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalDrawRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalDrawRecord);
+            Optional.ofNullable(schedule.getAwayTeamTotalLoseRecord())
+                    .ifPresent(findSchedule::setAwayTeamTotalLoseRecord);
 
-        Optional.ofNullable(schedule.getAwayTeamTotalLoseRecord())
-                .ifPresent(findSchedule::setAwayTeamTotalLoseRecord);
+            Optional.ofNullable(schedule.getAwayTeamLevelType())
+                    .ifPresent(findSchedule::setAwayTeamLevelType);
 
-        Optional.ofNullable(schedule.getAwayTeamLevelType())
-                .ifPresent(findSchedule::setAwayTeamLevelType);
+            Optional.ofNullable(schedule.getAwayTeamAgeType())
+                    .ifPresent(findSchedule::setAwayTeamAgeType);
 
-        Optional.ofNullable(schedule.getAwayTeamAgeType())
-                .ifPresent(findSchedule::setAwayTeamAgeType);
-
-        Optional.ofNullable(schedule.getAwayTeamUniformType())
-                .ifPresent(findSchedule::setAwayTeamUniformType);
+            Optional.ofNullable(schedule.getAwayTeamUniformType())
+                    .ifPresent(findSchedule::setAwayTeamUniformType);
 
         /*Optional.ofNullable(teamList.getMostGoals())
                 .ifPresent(findTeamList::setMostGoals);
@@ -245,72 +253,83 @@ public class ScheduleService {
 
         Optional.ofNullable(teamList.getMostMom())
                 .ifPresent(findTeamList::setMostMom);*/
-
-        return scheduleRepository.save(findSchedule);
+            scheduleRepository.save(findSchedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return schedule;
     }
 
     public Schedule updateMatchEnd(Schedule schedule
             , Long scheduleId
     ) {
 
-        Schedule findSchedule = findVerifiedSchedule(scheduleId);
+        try {
+            Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
-        Optional.ofNullable(schedule.getHomeTeamScore())
-                .ifPresent(findSchedule::setHomeTeamScore);
+            Optional.ofNullable(schedule.getHomeTeamScore())
+                    .ifPresent(findSchedule::setHomeTeamScore);
 
-        Optional.ofNullable(schedule.getAwayTeamScore())
-                .ifPresent(findSchedule::setAwayTeamScore);
+            Optional.ofNullable(schedule.getAwayTeamScore())
+                    .ifPresent(findSchedule::setAwayTeamScore);
 
-        Optional.ofNullable(schedule.getMatchStatus())
-                .ifPresent(findSchedule::setMatchStatus);
+            Optional.ofNullable(schedule.getMatchStatus())
+                    .ifPresent(findSchedule::setMatchStatus);
+            scheduleRepository.save(findSchedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
 
-        return scheduleRepository.save(findSchedule);
+
+        return schedule;
     }
 
-    public Schedule updateForMatchEnd(
+    public void updateForMatchEnd(
             Long homeTeamScore
             , Long awayTeamScore
             , Long scheduleId
     ) {
-//        리그 매치 정보 수정
-        Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
-//        homeTeam 이긴 경우
-        if(homeTeamScore>awayTeamScore){
-            findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore()+300L);
-            findSchedule.setHomeTeamTotalWinRecord(findSchedule.getHomeTeamTotalWinRecord()+1L);
-            findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("WIN"));
+        try {
+            //리그 매치 정보 수정
+            Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
-            findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore()+10L);
-            findSchedule.setAwayTeamTotalLoseRecord(findSchedule.getAwayTeamTotalLoseRecord()+1L);
-            findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+            //homeTeam 이긴 경우
+            if (homeTeamScore > awayTeamScore) {
+                findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore() + 300L);
+                findSchedule.setHomeTeamTotalWinRecord(findSchedule.getHomeTeamTotalWinRecord() + 1L);
+                findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("WIN"));
 
+                findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore() + 10L);
+                findSchedule.setAwayTeamTotalLoseRecord(findSchedule.getAwayTeamTotalLoseRecord() + 1L);
+                findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
 
+                //homeTeam 패배한 경우
+            } else if (homeTeamScore < awayTeamScore) {
+                findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore() + 10L);
+                findSchedule.setHomeTeamTotalLoseRecord(findSchedule.getHomeTeamTotalLoseRecord() + 1L);
+                findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
 
-//        homeTeam 패배한 경우
-        } else if(homeTeamScore<awayTeamScore){
-            findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore()+10L);
-            findSchedule.setHomeTeamTotalLoseRecord(findSchedule.getHomeTeamTotalLoseRecord()+1L);
-            findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("LOSE"));
+                findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore() + 300L);
+                findSchedule.setAwayTeamTotalWinRecord(findSchedule.getAwayTeamTotalWinRecord() + 1L);
+                findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("WIM"));
 
-            findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore()+300L);
-            findSchedule.setAwayTeamTotalWinRecord(findSchedule.getAwayTeamTotalWinRecord()+1L);
-            findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("WIM"));
+                //무승부인 경우
+            } else {
+                findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore() + 100L);
+                findSchedule.setHomeTeamTotalDrawRecord(findSchedule.getHomeTeamTotalDrawRecord() + 1L);
+                findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
 
+                findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore() + 100L);
+                findSchedule.setAwayTeamTotalDrawRecord(findSchedule.getAwayTeamTotalDrawRecord() + 1L);
+                findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
 
-
-//        무승부인 경우
-        } else {
-            findSchedule.setHomeTeamHonorScore(findSchedule.getHomeTeamHonorScore()+100L);
-            findSchedule.setHomeTeamTotalDrawRecord(findSchedule.getHomeTeamTotalDrawRecord()+1L);
-            findSchedule.setHomeTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
-
-            findSchedule.setAwayTeamHonorScore(findSchedule.getAwayTeamHonorScore()+100L);
-            findSchedule.setAwayTeamTotalDrawRecord(findSchedule.getAwayTeamTotalDrawRecord()+1L);
-            findSchedule.setAwayTeamMatchResultStatus(MatchResultStatus.valueOf("DRAW"));
-
+            }
+            scheduleRepository.save(findSchedule);
+            log.info("UPDATE_FOR_MATCH_END TO SCHEDULE_REPOSITORY FINISHED:{}", findSchedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
         }
-        return scheduleRepository.save(findSchedule);
     }
 
     public Schedule findSchedule(long scheduleId) {
@@ -339,16 +358,17 @@ public class ScheduleService {
     }
 
     public void deleteSchedule(long scheduleId) {
-        Schedule findSchedule = findVerifiedSchedule(scheduleId);
-
-        scheduleRepository.delete(findSchedule);
+        try {
+            Schedule findSchedule = findVerifiedSchedule(scheduleId);
+            scheduleRepository.delete(findSchedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
     }
 
     public Schedule findVerifiedSchedule(long scheduleId) {
         Optional<Schedule> optionalTeam = scheduleRepository.findById(scheduleId);
-        Schedule findSchedule =
-                optionalTeam.orElseThrow(() ->
+        return optionalTeam.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
-        return findSchedule;
     }
 }

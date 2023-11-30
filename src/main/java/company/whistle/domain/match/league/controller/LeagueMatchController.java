@@ -52,6 +52,7 @@ public class LeagueMatchController {
                 , requestBody.getHomeTeamLeagueListId()
                 , requestBody.getAwayTeamLeagueListId()
         );
+        log.info("LEAGUE_MATCH POST COMPLETE:{}", leagueMatchResponseDto.toString());
 
         return ResponseEntity.ok(leagueMatchResponseDto);
     }
@@ -124,7 +125,6 @@ public class LeagueMatchController {
     public ResponseEntity<LeagueMatchEndResponseDto> patchLeagueMatchEnd(@RequestBody LeagueMatchEndDto requestBody
             , @PathVariable("leagueMatchId") Long leagueMatchId
     ) {
-
         LeagueMatch leagueMatch = leagueMatchService.updateLeagueMatchEnd(
                 leagueMatchMapper.leagueMatchEndDtoToLeagueMatch(requestBody)
                 ,leagueMatchId
@@ -134,6 +134,7 @@ public class LeagueMatchController {
         LeagueMatchEndResponseDto matchResponse = leagueMatchMapper.leagueMatchToLeagueMatchEndResponse(leagueMatch);
         long homeTeamScore = matchResponse.getHomeTeamScore();
         long awayTeamScore = matchResponse.getAwayTeamScore();
+        log.info("LEAGUE_MATCH_END PATCH COMPLETE:{}", matchResponse.toString());
 
         leagueMatchService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, leagueMatchId);
         teamService.updateForLeagueMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());

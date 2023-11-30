@@ -107,36 +107,42 @@ public class LeagueService {
         return leagueRepository.save(findLeague);
     }
 
-    public League checkEndTheLeague(
+    public void checkEndTheLeague(
             Long leagueId
     ) {
-        League league = findVerifiedLeague(leagueId);
-        long leagueEndCount = league.getLeagueEndCount();
-        long teamCount = league.getTeamCount();
-        long matchCount = league.getMatchCount();
-        long endCount = (teamCount * matchCount) / 2;
+        try {
+            League league = findVerifiedLeague(leagueId);
+            long leagueEndCount = league.getLeagueEndCount();
+            long teamCount = league.getTeamCount();
+            long matchCount = league.getMatchCount();
+            long endCount = (teamCount * matchCount) / 2;
 
-        if(leagueEndCount == endCount){
-            league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
-            Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
-            Team team = teamService.findTeam(participants.getTeam().getTeamId());
-            participants.setChampionCount(participants.getChampionCount()+1L);
-            team.setChampionCount(team.getChampionCount()+1L);
+            if(leagueEndCount == endCount){
+                league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
+                Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
+                Team team = teamService.findTeam(participants.getTeam().getTeamId());
+                participants.setChampionCount(participants.getChampionCount()+1L);
+                team.setChampionCount(team.getChampionCount()+1L);
+            }
+            leagueRepository.save(league);
+            log.info("CHECK LEAGUE_MATCH_COUNT FOR LEAGUE_END TO LEAGUE_REPOSITORY:{}", endCount);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
         }
-
-        return leagueRepository.save(league);
     }
 
-    public League updateForLeagueMatchEnd(
+    public void updateForLeagueMatchEnd(
             Long leagueId
     ) {
-        League findLeague = findVerifiedLeague(leagueId);
-
-        findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
-
-        return leagueRepository.save(findLeague);
+        try {
+            League findLeague = findVerifiedLeague(leagueId);
+            findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
+            leagueRepository.save(findLeague);
+            log.info("LEAGUE_MATCH_END FOR LEAGUE_END_COUNT TO LEAGUE_REPOSITORY:{}", findLeague);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
     }
-
 
     public League findLeague(Long leagueId) {return findVerifiedLeague(leagueId);}
 

@@ -23,4 +23,22 @@ public class LeagueMatchEndResponseDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "LeagueMatchEndResponseDto{" +
+                "leagueMatchId=" + leagueMatchId +
+                ", homeTeamUserId=" + homeTeamUserId +
+                ", awayTeamUserId=" + awayTeamUserId +
+                ", homeTeamId=" + homeTeamId +
+                ", awayTeamId=" + awayTeamId +
+                ", homeTeamLeagueListId=" + homeTeamLeagueListId +
+                ", awayTeamLeagueListId=" + awayTeamLeagueListId +
+                ", homeTeamScore=" + homeTeamScore +
+                ", awayTeamScore=" + awayTeamScore +
+                ", matchStatus='" + matchStatus + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

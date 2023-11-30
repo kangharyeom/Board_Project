@@ -23,4 +23,20 @@ public class ContentResponseDto {
 
     public List<ContentFile> contentFileList;
     private String name;
+
+    @Override
+    public String toString() {
+        return "ContentResponseDto{" +
+                "contentId=" + contentId +
+                ", userId=" + userId +
+                ", title='" + title + '\'' +
+                ", content='" + content + '\'' +
+                ", categoryType='" + categoryType + '\'' +
+                ", boardCategory='" + boardCategory + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", contentFileList=" + contentFileList +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -26,7 +26,6 @@ import java.util.List;
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
-    private final UserRepository userRepository;
 
     /*
     * 회원 가입
@@ -36,6 +35,7 @@ public class UserController {
 
         User user = userService.createUser(userMapper.userPostDtoToUser(requestBody));
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
+        log.info("USER POST FINISHED: {}", userResponseDto);
 
         return ResponseEntity.ok(userResponseDto);
     }
@@ -50,6 +50,7 @@ public class UserController {
         user.setUserId(userId);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
+        log.info("USER PATCH FINISHED: {}", userResponseDto);
 
         return ResponseEntity.ok(userResponseDto);
     }
@@ -68,7 +69,6 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getAllUser() {
         List<User> users = userService.findAllUser();
         List<UserResponseDto> userResponseDtos = userMapper.usersToUsersResponse(users);
-        log.info("userResponseDtos:{}", userResponseDtos.toString());
 
         return ResponseEntity.ok(userResponseDtos);
     }

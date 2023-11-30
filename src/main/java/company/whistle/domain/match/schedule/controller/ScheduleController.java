@@ -38,6 +38,7 @@ public class ScheduleController {
                 requestBody.getMatchId()
         );
         ScheduleResponseDto scheduleResponse = scheduleMapper.scheduleToScheduleResponse(schedule);
+        log.info("SCHEDULE POST COMPLETE: {}", scheduleResponse.toString());
 
         return ResponseEntity.ok(scheduleResponse);
     }
@@ -100,6 +101,7 @@ public class ScheduleController {
         Schedule schedule = scheduleService.updateScheduleWithAwayTeam(
                 scheduleMapper.applyToSchedule(requestBody), scheduleId);
         ScheduleResponseDto scheduleResponse = scheduleMapper.applyToScheduleResponse(schedule, requestBody.getApplyId());
+        log.info("SCHEDULE PATCH COMPLETE: {}", scheduleResponse.toString());
 
         return ResponseEntity.ok(scheduleResponse);
     }
@@ -118,6 +120,7 @@ public class ScheduleController {
         MatchEndResponseDto matchResponse = scheduleMapper.matchToMatchEndResponse(schedule);
         long homeTeamScore = matchResponse.getHomeTeamScore();
         long awayTeamScore = matchResponse.getAwayTeamScore();
+        log.info("MATCH_END PATCH COMPLETE: {}", matchResponse.toString());
 
         scheduleService.updateForMatchEnd(homeTeamScore, awayTeamScore, scheduleId);
         teamService.updateForMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());

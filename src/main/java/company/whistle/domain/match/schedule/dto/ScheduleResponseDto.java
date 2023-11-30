@@ -41,4 +41,41 @@ public class ScheduleResponseDto {
     private LocalDateTime modifiedAt;
     private String matchTime;
     private String matchDate;
+
+    @Override
+    public String toString() {
+        return "ScheduleResponseDto{" +
+                "scheduleId=" + scheduleId +
+                ", homeTeamUserId=" + homeTeamUserId +
+                ", awayTeamUserId=" + awayTeamUserId +
+                ", matchId=" + matchId +
+                ", homeTeamId=" + homeTeamId +
+                ", awayTeamId=" + awayTeamId +
+                ", matchApplyId=" + matchApplyId +
+                ", homeTeamScore=" + homeTeamScore +
+                ", awayTeamScore=" + awayTeamScore +
+                ", homeTeamHonorScore=" + homeTeamHonorScore +
+                ", awayTeamHonorScore=" + awayTeamHonorScore +
+                ", homeTeamName='" + homeTeamName + '\'' +
+                ", awayTeamName='" + awayTeamName + '\'' +
+                ", homeTeamManagerName='" + homeTeamManagerName + '\'' +
+                ", awayTeamManagerName='" + awayTeamManagerName + '\'' +
+                ", homeTeamTotalWinRecord=" + homeTeamTotalWinRecord +
+                ", awayTeamTotalWinRecord=" + awayTeamTotalWinRecord +
+                ", homeTeamTotalDrawRecord=" + homeTeamTotalDrawRecord +
+                ", awayTeamTotalDrawRecord=" + awayTeamTotalDrawRecord +
+                ", homeTeamTotalLoseRecord=" + homeTeamTotalLoseRecord +
+                ", awayTeamTotalLoseRecord=" + awayTeamTotalLoseRecord +
+                ", homeTeamLevelType='" + homeTeamLevelType + '\'' +
+                ", awayTeamLevelType='" + awayTeamLevelType + '\'' +
+                ", homeTeamAgeType='" + homeTeamAgeType + '\'' +
+                ", awayTeamAgeType='" + awayTeamAgeType + '\'' +
+                ", homeTeamUniformType='" + homeTeamUniformType + '\'' +
+                ", awayTeamUniformType='" + awayTeamUniformType + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", matchTime='" + matchTime + '\'' +
+                ", matchDate='" + matchDate + '\'' +
+                '}';
+    }
 }

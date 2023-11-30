@@ -88,13 +88,17 @@ public class CommentService {
      * 댓글 삭제
      */
     public void deleteComment(long commentId) {
-        Comment findComment = findVerifiedComment(commentId);
+        try {
+            Comment findComment = findVerifiedComment(commentId);
 
-        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
-        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
-        commentRepository.delete(findComment);
+            commentRepository.delete(findComment);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+        }
     }
 
     /*
@@ -102,10 +106,8 @@ public class CommentService {
      */
     public Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);
-        Comment findComment =
-                optionalComment.orElseThrow(() ->
+        return optionalComment.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
-        return findComment;
     }
 
     /*
@@ -113,7 +115,9 @@ public class CommentService {
      */
     public List<Comment> findVerifiedContentComments(long contentId) {
         List<Comment> findContentComments = commentRepository.findAllByContentId(contentId);
-
+        if(findContentComments==null){
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
+        }
         return findContentComments;
     }
 }

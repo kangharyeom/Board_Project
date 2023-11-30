@@ -38,6 +38,7 @@ public class CommentController {
                 commentMapper.commentPostDtoToComment(requestBody), requestBody.getContentId(), requestBody.getUserId()
         );
         CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
+        log.info("COMMENT POST COMPLETE: {}",commentResponseDto.toString());
 
         return ResponseEntity.ok(commentResponseDto);
     }
@@ -48,19 +49,15 @@ public class CommentController {
     @PatchMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> patchComment(@Valid @RequestBody CommentPatchDto requestBody,
                                        @PathVariable("commentId") @Positive Long commentId) {
-        CommentResponseDto userResponseDto = null;
-        try {
-            Comment comment = commentService.updateComment(
-                    commentMapper.commentPatchDtoToComment(requestBody), commentId
-            );
+        Comment comment = commentService.updateComment(
+                commentMapper.commentPatchDtoToComment(requestBody), commentId
+        );
+        comment.setCommentId(commentId);
 
-            comment.setCommentId(commentId);
-            userResponseDto = commentMapper.commentToCommentResponseDto(comment);
-        } catch (Exception e) {
-            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
-        }
+        CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
+        log.info("COMMENT PATCH COMPLETE: {}",commentResponseDto.toString());
 
-        return ResponseEntity.ok(userResponseDto);
+        return ResponseEntity.ok(commentResponseDto);
     }
 
     /*

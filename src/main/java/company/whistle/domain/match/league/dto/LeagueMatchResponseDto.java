@@ -56,4 +56,55 @@ public class LeagueMatchResponseDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "LeagueMatchResponseDto{" +
+                "leagueMatchId=" + leagueMatchId +
+                ", homeTeamUserId=" + homeTeamUserId +
+                ", awayTeamUserId=" + awayTeamUserId +
+                ", homeTeamId=" + homeTeamId +
+                ", awayTeamId=" + awayTeamId +
+                ", homeTeamLeagueListId=" + homeTeamLeagueListId +
+                ", awayTeamLeagueListId=" + awayTeamLeagueListId +
+                ", homeTeamScore=" + homeTeamScore +
+                ", homeTeamHonorScore=" + homeTeamHonorScore +
+                ", awayTeamScore=" + awayTeamScore +
+                ", awayTeamHonorScore=" + awayTeamHonorScore +
+                ", homeTeamName='" + homeTeamName + '\'' +
+                ", awayTeamName='" + awayTeamName + '\'' +
+                ", homeTeamManagerName='" + homeTeamManagerName + '\'' +
+                ", awayTeamManagerName='" + awayTeamManagerName + '\'' +
+                ", homeTeamLeagueMatchPoints=" + homeTeamLeagueMatchPoints +
+                ", awayTeamLeagueMatchPoints=" + awayTeamLeagueMatchPoints +
+                ", homeTeamLeagueWinRecord=" + homeTeamLeagueWinRecord +
+                ", awayTeamLeagueWinRecord=" + awayTeamLeagueWinRecord +
+                ", homeTeamLeagueDrawRecord=" + homeTeamLeagueDrawRecord +
+                ", awayTeamLeagueDrawRecord=" + awayTeamLeagueDrawRecord +
+                ", homeTeamLeagueLoseRecord=" + homeTeamLeagueLoseRecord +
+                ", awayTeamLeagueLoseRecord=" + awayTeamLeagueLoseRecord +
+                ", homeTeamTotalWinRecord=" + homeTeamTotalWinRecord +
+                ", awayTeamTotalWinRecord=" + awayTeamTotalWinRecord +
+                ", homeTeamTotalDrawRecord=" + homeTeamTotalDrawRecord +
+                ", awayTeamTotalDrawRecord=" + awayTeamTotalDrawRecord +
+                ", homeTeamTotalLoseRecord=" + homeTeamTotalLoseRecord +
+                ", awayTeamTotalLoseRecord=" + awayTeamTotalLoseRecord +
+                ", homeTeamLevelType='" + homeTeamLevelType + '\'' +
+                ", awayTeamLevelType='" + awayTeamLevelType + '\'' +
+                ", homeTeamAgeType='" + homeTeamAgeType + '\'' +
+                ", awayTeamAgeType='" + awayTeamAgeType + '\'' +
+                ", homeTeamUniformType='" + homeTeamUniformType + '\'' +
+                ", awayTeamUniformType='" + awayTeamUniformType + '\'' +
+                ", matchType='" + matchType + '\'' +
+                ", sportType='" + sportType + '\'' +
+                ", locationType='" + locationType + '\'' +
+                ", matchTime='" + matchTime + '\'' +
+                ", matchStatus='" + matchStatus + '\'' +
+                ", matchRules='" + matchRules + '\'' +
+                ", homeTeamMatchResultStatus='" + homeTeamMatchResultStatus + '\'' +
+                ", awayTeamMatchResultStatus='" + awayTeamMatchResultStatus + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

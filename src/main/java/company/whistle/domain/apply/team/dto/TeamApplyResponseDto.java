@@ -20,4 +20,20 @@ public class TeamApplyResponseDto {
     private String applyType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "TeamApplyResponseDto{" +
+                "teamApplyId=" + teamApplyId +
+                ", userId=" + userId +
+                ", teamId=" + teamId +
+                ", managerName='" + managerName + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", levelType='" + levelType + '\'' +
+                ", ageType='" + ageType + '\'' +
+                ", applyType='" + applyType + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

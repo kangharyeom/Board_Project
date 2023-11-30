@@ -16,10 +16,20 @@ public class CommentResponseDto {
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
-
-    //유저 정보
     private String name;
-
-    // 게시글 정보
     private String title;
+
+    @Override
+    public String toString() {
+        return "CommentResponseDto{" +
+                "commentId=" + commentId +
+                ", userId=" + userId +
+                ", contentId=" + contentId +
+                ", comment='" + comment + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                ", name='" + name + '\'' +
+                ", title='" + title + '\'' +
+                '}';
+    }
 }

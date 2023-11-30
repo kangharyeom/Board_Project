@@ -34,6 +34,7 @@ public class ParticipantsController {
         );
 
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);
+        log.info("PARTICIPANTS POST COMPLETE:{}", participantsResponse);
 
         return ResponseEntity.ok(participantsResponse);
     }
@@ -50,7 +51,6 @@ public class ParticipantsController {
     public ResponseEntity<List<ParticipantsResponseDto>> getParticipants() {
 
         List<Participants> participantss = participantsService.findAllParticipants();
-        log.info("전체 요청 :" + participantss);
         return new ResponseEntity<>(participantsMapper.participantssToParticipantsResponse(participantss),
                 HttpStatus.OK);
     }
@@ -86,6 +86,7 @@ public class ParticipantsController {
                 participantsMapper.participantsPatchDtoToParticipants(requestBody), participantsId);
 
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);
+        log.info("PARTICIPANTS PATCH COMPLETE:{}", participantsResponse);
 
         return ResponseEntity.ok(participantsResponse);
     }

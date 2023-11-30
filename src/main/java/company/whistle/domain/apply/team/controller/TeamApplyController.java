@@ -26,10 +26,11 @@ public class TeamApplyController {
     */
     @PostMapping
     public ResponseEntity<TeamApplyResponseDto> postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody) {
-
         TeamApply teamApply = teamApplyService.createTeamApply(
                 teamApplyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+
         TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.applyToTeamApplyResponse(teamApply);
+        log.info("TEAM_APPLY POST COMPLETE: {}",teamApplyResponseDto.toString());
 
         return ResponseEntity.ok(teamApplyResponseDto);
     }

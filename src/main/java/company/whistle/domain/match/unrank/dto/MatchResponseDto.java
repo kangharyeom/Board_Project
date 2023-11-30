@@ -32,4 +32,31 @@ public class MatchResponseDto {
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "MatchResponseDto{" +
+                "matchId=" + matchId +
+                ", userId=" + userId +
+                ", teamId=" + teamId +
+                ", homeTeamHonorScore=" + homeTeamHonorScore +
+                ", homeTeamName='" + homeTeamName + '\'' +
+                ", homeTeamManagerName='" + homeTeamManagerName + '\'' +
+                ", homeTeamTotalWinRecord=" + homeTeamTotalWinRecord +
+                ", homeTeamTotalDrawRecord=" + homeTeamTotalDrawRecord +
+                ", homeTeamTotalLoseRecord=" + homeTeamTotalLoseRecord +
+                ", homeTeamLevelType='" + homeTeamLevelType + '\'' +
+                ", homeTeamAgeType='" + homeTeamAgeType + '\'' +
+                ", homeTeamUniformType='" + homeTeamUniformType + '\'' +
+                ", matchType='" + matchType + '\'' +
+                ", sportsType='" + sportsType + '\'' +
+                ", locationType='" + locationType + '\'' +
+                ", matchTime='" + matchTime + '\'' +
+                ", matchDate='" + matchDate + '\'' +
+                ", matchStatus='" + matchStatus + '\'' +
+                ", matchRules='" + matchRules + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }
