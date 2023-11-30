@@ -36,6 +36,9 @@ public class MatchApplyService {
      */
     public MatchApply createMatchApply(MatchApply matchApply, Long userId, Long matchId, Long teamId) {
         try {
+            if (userId == null || matchId == null || teamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Match match = matchService.findMatch(matchId);
             Team team = teamService.findTeam(teamId);

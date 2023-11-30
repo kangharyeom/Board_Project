@@ -36,6 +36,9 @@ public class LeagueApplyService {
      */
     public LeagueApply createLeagueApply(LeagueApply leagueApply, Long userId, Long leagueId, Long teamId) {
         try {
+            if (userId == null || leagueId == null || teamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             League league = leagueService.findLeague(leagueId);
             Team team = teamService.findTeam(teamId);

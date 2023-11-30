@@ -113,7 +113,7 @@ public class UserService {
     public void verifiedLoginId(String loginId) {
         Optional<User> userLoginId = userRepository.findByLoginId(loginId);
         if(userLoginId.isPresent()) {
-            throw new BusinessLogicException(Exceptions.LOGINID_EXISTS);
+            throw new BusinessLogicException(Exceptions.LOGIN_ID_EXISTS);
         }
     }
 

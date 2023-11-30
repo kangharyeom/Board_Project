@@ -35,7 +35,8 @@ public class TeamController {
     public ResponseEntity<TeamResponseDto> postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
                 teamMapper.teamPostDtoToTeam(requestBody),
-                requestBody.getUserId()
+                requestBody.getUserId(),
+                requestBody.getTeamName()
         );
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("teamResponseDto.getTeamId() : {}", teamResponseDto.getTeamId());

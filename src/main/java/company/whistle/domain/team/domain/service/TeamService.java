@@ -29,9 +29,10 @@ public class TeamService {
     private final UserRepository userRepository;
     private final UserService userService;
     public Team createTeam(
-            Team team, Long userId) {
+            Team team, Long userId, String teamName) {
         try {
-            findVerifiedExistsTeamByUserId(userId);
+            checkDuplUserId(userId);
+            checkDuplTeamName(teamName);
 
             User user = userService.findUser(userId);
 
@@ -269,10 +270,17 @@ public class TeamService {
         return team;
     }
 
-    public void findVerifiedExistsTeamByUserId(long userId) {
+    public void checkDuplUserId(long userId) {
         Team team = teamRepository.findByUserId(userId);
         if(team !=null) {
-                throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
+                throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
+        }
+    }
+
+    public void checkDuplTeamName(String teamName) {
+        Team team = teamRepository.findByTeamName(teamName);
+        if(team !=null) {
+            throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
         }
     }
 }

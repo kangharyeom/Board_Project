@@ -33,6 +33,9 @@ public class TeamApplyService {
      */
     public TeamApply createTeamApply(TeamApply teamApply, Long userId, Long teamId) {
         try {
+            if (userId == null || teamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
                 teamApply.setTeam(team);

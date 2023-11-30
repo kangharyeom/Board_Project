@@ -36,7 +36,12 @@ public class LeagueController {
     @PostMapping
     public ResponseEntity<LeagueResponseDto> postLeague(@RequestBody LeaguePostDto requestBody){
 
-        League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
+        League league = leagueService.createLeague(
+                leagueMapper.leaguePostDtoToLeague(requestBody),
+                requestBody.getUserId(),
+                requestBody.getTeamId(),
+                requestBody.getLeagueName()
+        );
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
         // 리그 리스트 생성

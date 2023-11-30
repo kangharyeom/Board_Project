@@ -41,7 +41,7 @@ public class LeagueService {
     /*
     * 리그 생성
     */
-    public League createLeague(League league, Long userId, Long teamId) {
+    public League createLeague(League league, Long userId, Long teamId, String leagueName) {
         try {
             if(userId==null || teamId==null){
                 log.info("userId:{}",userId);
@@ -51,7 +51,8 @@ public class LeagueService {
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
-            findVerifiedExistsLeagueByTeamId(team.getTeamId());
+            checkDuplTeamId(team.getTeamId());
+            checkDuplLeagueName(leagueName);
 
             league.setUser(user);
             user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
@@ -80,9 +81,6 @@ public class LeagueService {
             User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
             if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
-
-            Optional.ofNullable(league.getLeagueName())
-                    .ifPresent(findLeague::setLeagueName);
 
             Optional.ofNullable(league.getManagerTeamName())
                     .ifPresent(findLeague::setManagerTeamName);
@@ -213,10 +211,17 @@ public class LeagueService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
     }
 
-    public void findVerifiedExistsLeagueByTeamId(long teamId) {
-        League league = leagueRepository.findByVerifiedTeamId(teamId);
+    public void checkDuplTeamId(long teamId) {
+        League league = leagueRepository.checkDuplTeamId(teamId);
         if(league !=null) {
-            throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
+            throw new BusinessLogicException(Exceptions.YOUR_TEAM_ALREADY_HAS_LEAGUE);
+        }
+    }
+
+    public void checkDuplLeagueName(String leagueName) {
+        League league = leagueRepository.checkDuplLeagueName(leagueName);
+        if(league !=null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_NAME_EXISTS);
         }
     }
 }
