@@ -30,7 +30,7 @@ public class ParticipantsController {
                 requestBody.getUserId(),
                 requestBody.getTeamId(),
                 requestBody.getLeagueId(),
-                requestBody.getApplyId()
+                requestBody.getLeagueApplyId()
         );
 
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);

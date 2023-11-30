@@ -11,7 +11,7 @@ public class ParticipantsPostDto {
     private Long userId;
     private Long teamId;
     private Long leagueId;
-    private Long applyId;
+    private Long leagueApplyId;
     private Long leagueHonorScore;
     private Long honorScore;
     private Long memberCount;
