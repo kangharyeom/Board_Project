@@ -47,7 +47,7 @@ public class ParticipantsController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantss() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipants() {
 
         List<Participants> participantss = participantsService.findAllParticipants();
         log.info("전체 요청 :" + participantss);
@@ -56,7 +56,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/newest")
-    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssNewest() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantsNewest() {
         List<Participants> participantss = participantsService.findParticipantsNewest();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
@@ -64,7 +64,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/latest")
-    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssLatest() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantsLatest() {
         List<Participants> participantss = participantsService.findParticipantsLatest();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
@@ -72,7 +72,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/score")
-    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantssHonorScore() {
+    public ResponseEntity<List<ParticipantsResponseDto>> getParticipantsHonorScore() {
         List<Participants> participantss = participantsService.findHonorScore();
         List<ParticipantsResponseDto> participantsResponseDtos = participantsMapper.participantssToParticipantsResponse(participantss);
 
