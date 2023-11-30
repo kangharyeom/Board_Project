@@ -39,7 +39,7 @@ public class ParticipantsController {
     }
 
     @GetMapping("/{participantsId}")
-    public ResponseEntity<ParticipantsResponseDto> getLeagueList(@PathVariable("participantsId") Long participantsId) {
+    public ResponseEntity<ParticipantsResponseDto> getParticipant(@PathVariable("participantsId") Long participantsId) {
         Participants participants = participantsService.findParticipants(participantsId);
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);
 
