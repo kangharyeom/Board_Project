@@ -33,11 +33,15 @@ public class ContentService {
      * 게시글 생성
      */
     public Content createContent(Content content, Long userId) {
-        User user = userService.findUser(userId);
+        try {
+            User user = userService.findUser(userId);
 
-        content.setUser(user);
-        contentRepository.save(content);
-
+            content.setUser(user);
+            contentRepository.save(content);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.CONTENT_NOT_CREATED);
+        }
         return content;
     }
 
@@ -45,21 +49,23 @@ public class ContentService {
      * 게시글 파일 업로드
      */
     public Content createContentFile(Content content, Long userId,List<String> filePaths) {
-        User user = userService.findUser(userId);
+        try {
+            User user = userService.findUser(userId);
+            content.setUser(user);
+            blankCheck(filePaths);
+            contentRepository.save(content);
 
-        content.setUser(user);
-
-        blankCheck(filePaths);
-        contentRepository.save(content);
-
-        List<String> fileNameList = new ArrayList<>();
-        for (String contentFileUrl : filePaths) {
-            ContentFile file = new ContentFile(content.getContentId(),contentFileUrl);
-            file.setContentId(content.getContentId());
-            contentFileRepository.save(file);
-            fileNameList.add(file.getContentFileUrl());
+            List<String> fileNameList = new ArrayList<>();
+            for (String contentFileUrl : filePaths) {
+                ContentFile file = new ContentFile(content.getContentId(),contentFileUrl);
+                file.setContentId(content.getContentId());
+                contentFileRepository.save(file);
+                fileNameList.add(file.getContentFileUrl());
+            }
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.CONTENT_FILE_NOT_CREATED);
         }
-
         return content;
     }
 
@@ -67,20 +73,25 @@ public class ContentService {
      * 게시글 수정
      */
     public Content updateContent(Content content) {
+        try {
+            Content findContent = findVerifiedContent(content.getContentId());
 
-        Content findContent = findVerifiedContent(content.getContentId());
+            User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+            if (userService.getLoginUser().getUserId() != writer.getUserId()){ // 작성자와 로그인한 사람이 다를 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
-        User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
-        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            Optional.ofNullable(content.getTitle())
+                    .ifPresent(findContent::setTitle);
 
-        Optional.ofNullable(content.getTitle())
-                .ifPresent(findContent::setTitle);
-
-        Optional.ofNullable(content.getContent())
-                .ifPresent(findContent::setContent);
-
-        return contentRepository.save(findContent);
+            Optional.ofNullable(content.getContent())
+                    .ifPresent(findContent::setContent);
+            contentRepository.save(findContent);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.CONTENT_NOT_PATCHED);
+        }
+        return content;
     }
 
     /*
@@ -143,6 +154,7 @@ public class ContentService {
             contentRepository.delete(findContent);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.CONTENT_NOT_DELETED);
         }
     }
 
@@ -152,11 +164,8 @@ public class ContentService {
     public Content findVerifiedContent(Long contentId) {
         Optional<Content> optionalContent = contentRepository.findByContentId(contentId);
 
-        Content findContent =
-                optionalContent.orElseThrow(() ->
+        return optionalContent.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
-
-        return findContent;
     }
 
     private void blankCheck(List<String> filePaths) {

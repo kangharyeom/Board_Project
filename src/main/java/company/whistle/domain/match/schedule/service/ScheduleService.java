@@ -36,43 +36,48 @@ public class ScheduleService {
 
     public Schedule createSchedule(
             Schedule schedule, Long awayTeamUserId, Long matchApplyId, Long awayTeamId, Long matchId) {
-        User user = userService.findUser(awayTeamUserId);
-        MatchApply matchApply = matchApplyService.findMatchApply(matchApplyId);
-        Team team = teamService.findTeam(awayTeamId);
-        Match match = matchService.findMatch(matchId);
+        try {
+            User user = userService.findUser(awayTeamUserId);
+            MatchApply matchApply = matchApplyService.findMatchApply(matchApplyId);
+            Team team = teamService.findTeam(awayTeamId);
+            Match match = matchService.findMatch(matchId);
 
-        schedule.setUser(user);
-        schedule.setMatchApply(matchApply);
-        schedule.setTeam(team);
-        schedule.setMatch(match);
+            schedule.setUser(user);
+            schedule.setMatchApply(matchApply);
+            schedule.setTeam(team);
+            schedule.setMatch(match);
 
-        schedule.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
-        schedule.setHomeTeamScore(schedule.getHomeTeamScore());
-        schedule.setHomeTeamName(match.getHomeTeamName());
-        schedule.setHomeTeamManagerName(match.getHomeTeamManagerName());
-        schedule.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
-        schedule.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
-        schedule.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
-        schedule.setHomeTeamLevelType(match.getHomeTeamLevelType());
-        schedule.setHomeTeamAgeType(match.getHomeTeamAgeType());
-        schedule.setHomeTeamUniformType(match.getHomeTeamUniformType());
+            schedule.setHomeTeamHonorScore(match.getHomeTeamHonorScore());
+            schedule.setHomeTeamScore(schedule.getHomeTeamScore());
+            schedule.setHomeTeamName(match.getHomeTeamName());
+            schedule.setHomeTeamManagerName(match.getHomeTeamManagerName());
+            schedule.setHomeTeamTotalWinRecord(match.getHomeTeamTotalWinRecord());
+            schedule.setHomeTeamTotalDrawRecord(match.getHomeTeamTotalDrawRecord());
+            schedule.setHomeTeamTotalLoseRecord(match.getHomeTeamTotalLoseRecord());
+            schedule.setHomeTeamLevelType(match.getHomeTeamLevelType());
+            schedule.setHomeTeamAgeType(match.getHomeTeamAgeType());
+            schedule.setHomeTeamUniformType(match.getHomeTeamUniformType());
 
-        schedule.setAwayTeamHonorScore(schedule.getAwayTeamScore());
-        schedule.setAwayTeamHonorScore(team.getHonorScore());
-        schedule.setAwayTeamName(team.getTeamName());
-        schedule.setAwayTeamManagerName(team.getManagerName());
-        schedule.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
-        schedule.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
-        schedule.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
-        schedule.setAwayTeamLevelType(team.getLevelType());
-        schedule.setAwayTeamAgeType(team.getAgeType());
-        schedule.setAwayTeamUniformType(team.getUniformType());
+            schedule.setAwayTeamHonorScore(schedule.getAwayTeamScore());
+            schedule.setAwayTeamHonorScore(team.getHonorScore());
+            schedule.setAwayTeamName(team.getTeamName());
+            schedule.setAwayTeamManagerName(team.getManagerName());
+            schedule.setAwayTeamTotalWinRecord(team.getTotalWinRecord());
+            schedule.setAwayTeamTotalDrawRecord(team.getTotalDrawRecord());
+            schedule.setAwayTeamTotalLoseRecord(team.getTotalLoseRecord());
+            schedule.setAwayTeamLevelType(team.getLevelType());
+            schedule.setAwayTeamAgeType(team.getAgeType());
+            schedule.setAwayTeamUniformType(team.getUniformType());
 
-        schedule.setAwayTeamScore(schedule.getAwayTeamScore());
+            schedule.setAwayTeamScore(schedule.getAwayTeamScore());
 
-        schedule.setHomeTeamName(match.getHomeTeamName());
-
-        return scheduleRepository.save(schedule);
+            schedule.setHomeTeamName(match.getHomeTeamName());
+            scheduleRepository.save(schedule);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_CREATED);
+        }
+        return schedule;
     }
 
     public Schedule createScheduleByMatchController(
@@ -117,6 +122,7 @@ public class ScheduleService {
             scheduleRepository.save(schedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_CREATED);
         }
 
         return schedule;
@@ -200,8 +206,8 @@ public class ScheduleService {
             scheduleRepository.save(findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
-
         return schedule;
     }
 
@@ -256,6 +262,7 @@ public class ScheduleService {
             scheduleRepository.save(findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
         return schedule;
     }
@@ -278,9 +285,8 @@ public class ScheduleService {
             scheduleRepository.save(findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
-
-
         return schedule;
     }
 
@@ -329,6 +335,7 @@ public class ScheduleService {
             log.info("UPDATE_FOR_MATCH_END TO SCHEDULE_REPOSITORY FINISHED:{}", findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
     }
 
@@ -363,6 +370,7 @@ public class ScheduleService {
             scheduleRepository.delete(findSchedule);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_DELETED);
         }
     }
 

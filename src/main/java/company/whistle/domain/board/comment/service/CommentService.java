@@ -34,14 +34,18 @@ public class CommentService {
             Comment comment,
             Long contentId,
             Long userId) {
+        try {
+            Content content = contentService.findContent(contentId);
+            User user = userService.findUser(userId);
 
-        Content content = contentService.findContent(contentId);
-        User user = userService.findUser(userId);
-
-        comment.setUser(user);
-        comment.setContent(content);
-
-        return commentRepository.save(comment);
+            comment.setUser(user);
+            comment.setContent(content);
+            commentRepository.save(comment);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_CREATED);
+        }
+        return comment;
     }
 
     /*
@@ -50,16 +54,20 @@ public class CommentService {
     public Comment updateComment(
             Comment comment,
             Long commentId) {
-        Comment findComment = findVerifiedComment(commentId); //ID로 멤버 존재 확인하고 comment 정보 반환
+        Comment findComment = findVerifiedComment(commentId);
+        try {
+            User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
+            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
-        User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
-        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
-
-        Optional.ofNullable(comment.getComment())
-                .ifPresent(findComment::setComment);
-
-        return commentRepository.save(findComment);
+            Optional.ofNullable(comment.getComment())
+                    .ifPresent(findComment::setComment);
+            commentRepository.save(findComment);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_PATCHED);
+        }
+        return comment;
     }
 
     /*

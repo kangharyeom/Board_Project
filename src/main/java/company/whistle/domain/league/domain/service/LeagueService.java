@@ -42,69 +42,83 @@ public class LeagueService {
     * 리그 생성
     */
     public League createLeague(League league, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
+        try {
+            if(userId==null || teamId==null){
+                log.info("userId:{}",userId);
+                log.info("teamId:{}",teamId);
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
 
-        findVerifiedExistsLeagueByTeamId(team.getTeamId());
+            findVerifiedExistsLeagueByTeamId(team.getTeamId());
 
-        league.setUser(user);
-        user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
-        league.setTeam(team);
-        team.setLeagueName(league.getLeagueName());
-        league.setManagerName(user.getName());
-        league.setManagerTeamName(team.getTeamName());
-        league.setHonorScore(team.getHonorScore());
+            league.setUser(user);
+            user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
+            league.setTeam(team);
+            team.setLeagueName(league.getLeagueName());
+            league.setManagerName(user.getName());
+            league.setManagerTeamName(team.getTeamName());
+            league.setHonorScore(team.getHonorScore());
 
-        userRepository.save(user);
-        teamRepository.save(team);
-        leagueRepository.save(league);
+            userRepository.save(user);
+            teamRepository.save(team);
+            leagueRepository.save(league);
 
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_CREATED);
+        }
         return league;
     }
 
     public League updateLeague(League league) {
+        try {
+            League findLeague = findVerifiedLeague(league.getLeagueId());
 
-        League findLeague = findVerifiedLeague(league.getLeagueId());
+            // 리그 관리자만 수정 가능하도록
+            User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
+            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
-        // 리그 관리자만 수정 가능하도록
-        User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
-        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
-            throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            Optional.ofNullable(league.getLeagueName())
+                    .ifPresent(findLeague::setLeagueName);
 
-        Optional.ofNullable(league.getLeagueName())
-                .ifPresent(findLeague::setLeagueName);
+            Optional.ofNullable(league.getManagerTeamName())
+                    .ifPresent(findLeague::setManagerTeamName);
 
-        Optional.ofNullable(league.getManagerTeamName())
-                .ifPresent(findLeague::setManagerTeamName);
+            Optional.ofNullable(league.getSportsType())
+                    .ifPresent(findLeague::setSportsType);
 
-        Optional.ofNullable(league.getSportsType())
-                .ifPresent(findLeague::setSportsType);
+            Optional.ofNullable(league.getMatchCount())
+                    .ifPresent(findLeague::setMatchCount);
 
-        Optional.ofNullable(league.getMatchCount())
-                .ifPresent(findLeague::setMatchCount);
+            Optional.ofNullable(league.getTeamCount())
+                    .ifPresent(findLeague::setTeamCount);
 
-        Optional.ofNullable(league.getTeamCount())
-                .ifPresent(findLeague::setTeamCount);
+            Optional.ofNullable(league.getAgeType())
+                    .ifPresent(findLeague::setAgeType);
 
-        Optional.ofNullable(league.getAgeType())
-                .ifPresent(findLeague::setAgeType);
+            Optional.ofNullable(league.getLocationType())
+                    .ifPresent(findLeague::setLocationType);
 
-        Optional.ofNullable(league.getLocationType())
-                .ifPresent(findLeague::setLocationType);
+            Optional.ofNullable(league.getPeriod())
+                    .ifPresent(findLeague::setPeriod);
 
-        Optional.ofNullable(league.getPeriod())
-                .ifPresent(findLeague::setPeriod);
+            Optional.ofNullable(league.getLevelType())
+                    .ifPresent(findLeague::setLevelType);
 
-        Optional.ofNullable(league.getLevelType())
-                .ifPresent(findLeague::setLevelType);
+            Optional.ofNullable(league.getLeagueRules())
+                    .ifPresent(findLeague::setLeagueRules);
 
-        Optional.ofNullable(league.getLeagueRules())
-                .ifPresent(findLeague::setLeagueRules);
-
-        Optional.ofNullable(league.getFrequency())
-                .ifPresent(findLeague::setFrequency);
-
-        return leagueRepository.save(findLeague);
+            Optional.ofNullable(league.getFrequency())
+                    .ifPresent(findLeague::setFrequency);
+            leagueRepository.save(findLeague);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_PATCHED);
+        }
+        return league;
     }
 
     public void checkEndTheLeague(
@@ -176,38 +190,33 @@ public class LeagueService {
     public List<League> findLeagueRecruit() {return leagueRepository.findLeagueRecruit();}
 
     public void deleteLeague(Long leagueId) {
-        League findLeague = findVerifiedLeague(leagueId);
+        try {
+            League findLeague = findVerifiedLeague(leagueId);
+            leagueRepository.delete(findLeague);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_DELETED);
+        }
 
-        leagueRepository.delete(findLeague);
     }
 
     public User findVerifiedUser(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
+        return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
     }
 
     public League findVerifiedLeague(Long leagueId) {
         Optional<League> optionalLeague = leagueRepository.findByLeagueId(leagueId);
 
-        League findLeague =
-                optionalLeague.orElseThrow(() ->
+        return optionalLeague.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
-
-        return findLeague;
     }
 
-    public League findVerifiedExistsLeagueByTeamId(long teamId) {
+    public void findVerifiedExistsLeagueByTeamId(long teamId) {
         League league = leagueRepository.findByVerifiedTeamId(teamId);
-        if(league ==null) {
-            try {
-            } catch (NoSuchElementException ex) {
-                throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
-            }
-            return league;
+        if(league !=null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
         }
-        throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
     }
 }

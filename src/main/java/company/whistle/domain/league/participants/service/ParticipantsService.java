@@ -36,126 +36,132 @@ public class ParticipantsService {
     private final UserRepository userRepository;
     public Participants createParticipants(
             Participants participants, Long userId, Long teamId, Long leagueId, Long leagueApplyId) {
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
+            LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
+            League league = leagueService.findLeague(leagueId);
 
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-        LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
-        League league = leagueService.findLeague(leagueId);
+            participants.setUser(user);
+            participants.setTeam(team);
+            participants.setLeagueApply(leagueApply);
+            participants.setLeague(league);
 
-        participants.setUser(user);
-        participants.setTeam(team);
-        participants.setLeagueApply(leagueApply);
-        participants.setLeague(league);
+            participants.setManagerName(user.getName());
 
-        participants.setManagerName(user.getName());
+            participants.setHonorScore(team.getHonorScore());
+            participants.setChampionCount(team.getChampionCount());
+            participants.setMemberCount(team.getMemberCount());
+            participants.setTeamName(team.getTeamName());
+            participants.setSubManagerName(team.getSubManagerName());
 
-        participants.setHonorScore(team.getHonorScore());
-        participants.setChampionCount(team.getChampionCount());
-        participants.setMemberCount(team.getMemberCount());
-        participants.setTeamName(team.getTeamName());
-        participants.setSubManagerName(team.getSubManagerName());
+            participants.setLeagueName(league.getLeagueName());
 
-        participants.setLeagueName(league.getLeagueName());
+            participants.setTeamAssist(participants.getTeamAssist());
+            participants.setTeamGoals(participants.getTeamGoals());
+            participants.setLeagueHonorScore(participants.getLeagueHonorScore());
+            participants.setLeagueMatchCount(participants.getLeagueMatchCount());
 
-        participants.setTeamAssist(participants.getTeamAssist());
-        participants.setTeamGoals(participants.getTeamGoals());
-        participants.setLeagueHonorScore(participants.getLeagueHonorScore());
-        participants.setLeagueMatchCount(participants.getLeagueMatchCount());
-
-//        비즈니스 로직
-        league.setTeamCount(+1L);
-        league.setMemberCount(team.getMemberCount()+ participants.getMemberCount());
-        leagueRepository.save(league);
-
-        return participantsRepository.save(participants);
+            //비즈니스 로직
+            league.setTeamCount(+1L);
+            league.setMemberCount(team.getMemberCount()+ participants.getMemberCount());
+            leagueRepository.save(league);
+            participantsRepository.save(participants);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
+        }
+        return participants;
     }
 
     public Participants createParticipantsByLeagueController(
             Participants participants, Long userId, Long teamId, Long leagueId) {
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
 
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
+            user.setLeagueId(leagueId);
 
-        user.setLeagueId(leagueId);
+            League league = leagueService.findLeague(leagueId);
 
-        League league = leagueService.findLeague(leagueId);
+            participants.setUser(user);
+            participants.setTeam(team);
+            participants.setLeague(league);
 
-        participants.setUser(user);
-        participants.setTeam(team);
-        participants.setLeague(league);
+            participants.setLeagueName(league.getLeagueName());
+            participants.setLeagueWinRecord(0L);
+            participants.setLeagueLoseRecord(0L);
+            participants.setLeagueDrawRecord(0L);
+            participants.setLeagueMatchPoints(0L);
+            participants.setLeagueMatchCount(0L);
 
-        participants.setLeagueName(league.getLeagueName());
-        participants.setLeagueWinRecord(0L);
-        participants.setLeagueLoseRecord(0L);
-        participants.setLeagueDrawRecord(0L);
-        participants.setLeagueMatchPoints(0L);
-        participants.setLeagueMatchCount(0L);
+            participants.setTeamName(team.getTeamName());
+            participants.setSubManagerName(team.getSubManagerName());
+            participants.setChampionCount(team.getChampionCount());
+            participants.setMemberCount(team.getMemberCount());
+            participants.setHonorScore(team.getHonorScore());
+            participants.setAgeType(team.getAgeType());
+            participants.setLocationType(team.getLocationType());
+            participants.setLevelType(team.getLevelType());
+            participants.setFrequency(team.getFrequency());
+            participants.setUniformType(team.getUniformType());
+            participants.setCleanSheet(participants.getCleanSheet());
 
-        participants.setTeamName(team.getTeamName());
-        participants.setSubManagerName(team.getSubManagerName());
-        participants.setChampionCount(team.getChampionCount());
-        participants.setMemberCount(team.getMemberCount());
-        participants.setHonorScore(team.getHonorScore());
-        participants.setAgeType(team.getAgeType());
-        participants.setLocationType(team.getLocationType());
-        participants.setLevelType(team.getLevelType());
-        participants.setFrequency(team.getFrequency());
-        participants.setUniformType(team.getUniformType());
-        participants.setCleanSheet(participants.getCleanSheet());
+            participants.setManagerName(user.getName());
 
-        participants.setManagerName(user.getName());
-
-        userRepository.save(user);
-
-        return participantsRepository.save(participants);
+            userRepository.save(user);
+            participantsRepository.save(participants);
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
+        }
+        return participants;
     }
 
     public Participants updateParticipants(
             Participants participants,
             Long participantsId) {
+        try {
+            Participants findParticipants = findVerifiedParticipants(participantsId);
 
-        Participants findParticipants = findVerifiedParticipants(participantsId);
+            Optional.ofNullable(participants.getFormation())
+                    .ifPresent(findParticipants::setFormation);
 
-        Optional.ofNullable(participants.getFormation())
-                .ifPresent(findParticipants::setFormation);
+            Optional.ofNullable(participants.getChampionCount())
+                    .ifPresent(findParticipants::setChampionCount);
 
-        Optional.ofNullable(participants.getChampionCount())
-                .ifPresent(findParticipants::setChampionCount);
+            Optional.ofNullable(participants.getMemberCount())
+                    .ifPresent(findParticipants::setMemberCount);
 
-        Optional.ofNullable(participants.getMemberCount())
-                .ifPresent(findParticipants::setMemberCount);
+            Optional.ofNullable(participants.getLeagueMatchCount())
+                    .ifPresent(findParticipants::setLeagueMatchCount);
 
-        Optional.ofNullable(participants.getLeagueMatchCount())
-                .ifPresent(findParticipants::setLeagueMatchCount);
+            Optional.ofNullable(participants.getLeagueWinRecord())
+                    .ifPresent(findParticipants::setLeagueWinRecord);
 
-        Optional.ofNullable(participants.getLeagueWinRecord())
-                .ifPresent(findParticipants::setLeagueWinRecord);
+            Optional.ofNullable(participants.getLeagueDrawRecord())
+                    .ifPresent(findParticipants::setLeagueDrawRecord);
 
-        Optional.ofNullable(participants.getLeagueDrawRecord())
-                .ifPresent(findParticipants::setLeagueDrawRecord);
+            Optional.ofNullable(participants.getLeagueLoseRecord())
+                    .ifPresent(findParticipants::setLeagueLoseRecord);
 
-        Optional.ofNullable(participants.getLeagueLoseRecord())
-                .ifPresent(findParticipants::setLeagueLoseRecord);
+            Optional.ofNullable(participants.getHonorScore())
+                    .ifPresent(findParticipants::setHonorScore);
 
-        Optional.ofNullable(participants.getHonorScore())
-                .ifPresent(findParticipants::setHonorScore);
+            Optional.ofNullable(participants.getAgeType())
+                    .ifPresent(findParticipants::setAgeType);
 
-        Optional.ofNullable(participants.getAgeType())
-                .ifPresent(findParticipants::setAgeType);
+            Optional.ofNullable(participants.getLocationType())
+                    .ifPresent(findParticipants::setLocationType);
 
-        Optional.ofNullable(participants.getLocationType())
-                .ifPresent(findParticipants::setLocationType);
+            Optional.ofNullable(participants.getManagerName())
+                    .ifPresent(findParticipants::setManagerName);
 
-        Optional.ofNullable(participants.getManagerName())
-                .ifPresent(findParticipants::setManagerName);
+            Optional.ofNullable(participants.getSubManagerName())
+                    .ifPresent(findParticipants::setSubManagerName);
 
-        Optional.ofNullable(participants.getSubManagerName())
-                .ifPresent(findParticipants::setSubManagerName);
-
-        Optional.ofNullable(participants.getUniformType())
-                .ifPresent(findParticipants::setUniformType);
-
-
+            Optional.ofNullable(participants.getUniformType())
+                    .ifPresent(findParticipants::setUniformType);
 
         /*Optional.ofNullable(participants.getMostGoals())
                 .ifPresent(findParticipants::setMostGoals);
@@ -165,8 +171,12 @@ public class ParticipantsService {
 
         Optional.ofNullable(participants.getMostMom())
                 .ifPresent(findParticipants::setMostMom);*/
-
-        return participantsRepository.save(findParticipants);
+            participantsRepository.save(findParticipants);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
+        }
+        return participants;
     }
 
     public void updateForLeagueMatchEnd(
@@ -220,6 +230,7 @@ public class ParticipantsService {
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO PARTICIPANTS_REPOSITORY:{}", findAwayTeamParticipants);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
         }
     }
 
@@ -254,6 +265,7 @@ public class ParticipantsService {
             participantsRepository.delete(findParticipants);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_DELETED);
         }
     }
 

@@ -31,48 +31,49 @@ public class UserService {
     * 회원가입시 role을 부여하고 비밀번호를 암호화함
     */
     public User createUser(User user) {
-        verifiedUser(user.getEmail());
-
-        List<String> roles = authorityUtils.createRoles(user.getEmail());
-        user.setRoles(roles);
-
-        String encryptPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encryptPassword);
-
         try {
+            verifiedUser(user.getEmail());
+
+            List<String> roles = authorityUtils.createRoles(user.getEmail());
+            user.setRoles(roles);
+
+            String encryptPassword = passwordEncoder.encode(user.getPassword());
+            user.setPassword(encryptPassword);
+
             userRepository.save(user);
-            log.info("유저 등록 완료 {}", user);
-        } catch (DataAccessException e) {
+            log.info("USER POST COMPLETE: {}", user.toString());
+        } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return user;
+            throw new BusinessLogicException(Exceptions.USER_NOT_CREATED);
         }
         return user;
     }
 
     // 회원 수정
     public User updateUser(User user) {
-        // 회원 유무 확인
-        User findUser = existUser(user.getUserId());
-
-        // 새로 변경할 이메일 존재 유무 확인
-        Optional.ofNullable(user.getEmail())
-                .ifPresent(newEmail -> {
-                    verifiedUser(findUser.getEmail());
-                    findUser.setEmail(newEmail);
-                });
-
-        Optional.ofNullable(user.getPassword())
-                .ifPresent(findUser::setPassword);
-
-        Optional.ofNullable(user.getName())
-                .ifPresent(findUser::setName);
-
         try {
-            return userRepository.save(findUser);
+            // 회원 유무 확인
+            User findUser = existUser(user.getUserId());
+
+            // 새로 변경할 이메일 존재 유무 확인
+            Optional.ofNullable(user.getEmail())
+                    .ifPresent(newEmail -> {
+                        verifiedUser(findUser.getEmail());
+                        findUser.setEmail(newEmail);
+                    });
+
+            Optional.ofNullable(user.getPassword())
+                    .ifPresent(findUser::setPassword);
+
+            Optional.ofNullable(user.getName())
+                    .ifPresent(findUser::setName);
+            userRepository.save(findUser);
+            log.info("USER PATCH COMPLETE: {}", user.toString());
         } catch (DataAccessException e) {
             log.error(e.getMessage(), e);
-            return user;
+            throw new BusinessLogicException(Exceptions.USER_NOT_PATCHED);
         }
+        return user;
     }
 
     // 회원 단건 조회
@@ -87,8 +88,13 @@ public class UserService {
 
     // 회원 탈퇴
     public void deleteUser(Long userId) {
-        User findUser = existUser(userId);
-        userRepository.delete(findUser);
+        try {
+            User findUser = existUser(userId);
+            userRepository.delete(findUser);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.USER_NOT_DELETED);
+        }
     }
 
     // 회원 존재 유무 확인 메서드

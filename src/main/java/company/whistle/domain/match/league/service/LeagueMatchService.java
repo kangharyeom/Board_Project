@@ -45,188 +45,203 @@ public class LeagueMatchService {
             , Long homeTeamParticipantsId
             , Long awayTeamParticipantsId
     ) {
-        User homeTeamUser = userService.findUser(homeTeamUserId);
-        User awayTeamUser = userService.findUser(awayTeamUserId);
-        Team homeTeam = teamService.findTeam(homeTeamId);
-        Team awayTeam = teamService.findTeam(awayTeamId);
-        Participants homeTeamParticipants = participantsService.findParticipants(homeTeamParticipantsId);
-        Participants awayTeamParticipants = participantsService.findParticipants(awayTeamParticipantsId);
+        try {
+            User homeTeamUser = userService.findUser(homeTeamUserId);
+            User awayTeamUser = userService.findUser(awayTeamUserId);
+            Team homeTeam = teamService.findTeam(homeTeamId);
+            Team awayTeam = teamService.findTeam(awayTeamId);
+            Participants homeTeamParticipants = participantsService.findParticipants(homeTeamParticipantsId);
+            Participants awayTeamParticipants = participantsService.findParticipants(awayTeamParticipantsId);
 
-        leagueMatch.setUser(homeTeamUser);
-        leagueMatch.setUser(awayTeamUser);
-        leagueMatch.setTeam(homeTeam);
-        leagueMatch.setTeam(awayTeam);
-        leagueMatch.setParticipants(homeTeamParticipants);
-        leagueMatch.setParticipants(awayTeamParticipants);
+            leagueMatch.setUser(homeTeamUser);
+            leagueMatch.setUser(awayTeamUser);
+            leagueMatch.setTeam(homeTeam);
+            leagueMatch.setTeam(awayTeam);
+            leagueMatch.setParticipants(homeTeamParticipants);
+            leagueMatch.setParticipants(awayTeamParticipants);
 
-        // 홈팀 정보 주입
-        leagueMatch.setHomeTeamId(homeTeam.getTeamId());
-        leagueMatch.setHomeTeamUserId(homeTeamUser.getUserId());
-        leagueMatch.setHomeTeamParticipantsId(homeTeamParticipants.getParticipantsId());
+            // 홈팀 정보 주입
+            leagueMatch.setHomeTeamId(homeTeam.getTeamId());
+            leagueMatch.setHomeTeamUserId(homeTeamUser.getUserId());
+            leagueMatch.setHomeTeamParticipantsId(homeTeamParticipants.getParticipantsId());
 
-        // 어웨이팀 정보 주입
-        leagueMatch.setAwayTeamId(awayTeam.getTeamId());
-        leagueMatch.setAwayTeamUserId(awayTeamUser.getUserId());
-        leagueMatch.setAwayTeamParticipantsId(awayTeamParticipants.getParticipantsId());
+            // 어웨이팀 정보 주입
+            leagueMatch.setAwayTeamId(awayTeam.getTeamId());
+            leagueMatch.setAwayTeamUserId(awayTeamUser.getUserId());
+            leagueMatch.setAwayTeamParticipantsId(awayTeamParticipants.getParticipantsId());
 
-        // 홈팀 정보 주입
-        leagueMatch.setHomeTeamScore(leagueMatch.getHomeTeamScore());
-        leagueMatch.setHomeTeamHonorScore(homeTeam.getHonorScore());
-        leagueMatch.setHomeTeamName(homeTeam.getTeamName());
-        leagueMatch.setHomeTeamManagerName(homeTeam.getManagerName());
-        leagueMatch.setHomeTeamTotalWinRecord(homeTeam.getTotalWinRecord());
-        leagueMatch.setHomeTeamTotalDrawRecord(homeTeam.getTotalDrawRecord());
-        leagueMatch.setHomeTeamTotalLoseRecord(homeTeam.getTotalLoseRecord());
-        leagueMatch.setHomeTeamLevelType(homeTeam.getLevelType());
-        leagueMatch.setHomeTeamAgeType(homeTeam.getAgeType());
-        leagueMatch.setHomeTeamUniformType(homeTeam.getUniformType());
-        leagueMatch.setHomeTeamLeagueMatchPoints(homeTeamParticipants.getLeagueMatchPoints());
-        leagueMatch.setHomeTeamLeagueWinRecord(homeTeamParticipants.getLeagueWinRecord());
-        leagueMatch.setHomeTeamLeagueDrawRecord(homeTeamParticipants.getLeagueDrawRecord());
-        leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamParticipants.getLeagueLoseRecord());
-        leagueMatch.setHomeTeamMatchResultStatus(leagueMatch.getHomeTeamMatchResultStatus());
+            // 홈팀 정보 주입
+            leagueMatch.setHomeTeamScore(leagueMatch.getHomeTeamScore());
+            leagueMatch.setHomeTeamHonorScore(homeTeam.getHonorScore());
+            leagueMatch.setHomeTeamName(homeTeam.getTeamName());
+            leagueMatch.setHomeTeamManagerName(homeTeam.getManagerName());
+            leagueMatch.setHomeTeamTotalWinRecord(homeTeam.getTotalWinRecord());
+            leagueMatch.setHomeTeamTotalDrawRecord(homeTeam.getTotalDrawRecord());
+            leagueMatch.setHomeTeamTotalLoseRecord(homeTeam.getTotalLoseRecord());
+            leagueMatch.setHomeTeamLevelType(homeTeam.getLevelType());
+            leagueMatch.setHomeTeamAgeType(homeTeam.getAgeType());
+            leagueMatch.setHomeTeamUniformType(homeTeam.getUniformType());
+            leagueMatch.setHomeTeamLeagueMatchPoints(homeTeamParticipants.getLeagueMatchPoints());
+            leagueMatch.setHomeTeamLeagueWinRecord(homeTeamParticipants.getLeagueWinRecord());
+            leagueMatch.setHomeTeamLeagueDrawRecord(homeTeamParticipants.getLeagueDrawRecord());
+            leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamParticipants.getLeagueLoseRecord());
+            leagueMatch.setHomeTeamMatchResultStatus(leagueMatch.getHomeTeamMatchResultStatus());
 
-        // 어웨이팀 정보 주입
-        leagueMatch.setAwayTeamScore(leagueMatch.getAwayTeamScore());
-        leagueMatch.setAwayTeamHonorScore(awayTeam.getHonorScore());
-        leagueMatch.setAwayTeamName(awayTeam.getTeamName());
-        leagueMatch.setAwayTeamManagerName(awayTeam.getManagerName());
-        leagueMatch.setAwayTeamTotalWinRecord(awayTeam.getTotalWinRecord());
-        leagueMatch.setAwayTeamTotalDrawRecord(awayTeam.getTotalDrawRecord());
-        leagueMatch.setAwayTeamTotalLoseRecord(awayTeam.getTotalLoseRecord());
-        leagueMatch.setAwayTeamLevelType(awayTeam.getLevelType());
-        leagueMatch.setAwayTeamAgeType(awayTeam.getAgeType());
-        leagueMatch.setAwayTeamUniformType(awayTeam.getUniformType());
-        leagueMatch.setAwayTeamLeagueMatchPoints(awayTeamParticipants.getLeagueMatchPoints());
-        leagueMatch.setAwayTeamLeagueWinRecord(awayTeamParticipants.getLeagueWinRecord());
-        leagueMatch.setAwayTeamLeagueDrawRecord(awayTeamParticipants.getLeagueDrawRecord());
-        leagueMatch.setAwayTeamLeagueLoseRecord(awayTeamParticipants.getLeagueLoseRecord());
-        leagueMatch.setAwayTeamMatchResultStatus(leagueMatch.getAwayTeamMatchResultStatus());
+            // 어웨이팀 정보 주입
+            leagueMatch.setAwayTeamScore(leagueMatch.getAwayTeamScore());
+            leagueMatch.setAwayTeamHonorScore(awayTeam.getHonorScore());
+            leagueMatch.setAwayTeamName(awayTeam.getTeamName());
+            leagueMatch.setAwayTeamManagerName(awayTeam.getManagerName());
+            leagueMatch.setAwayTeamTotalWinRecord(awayTeam.getTotalWinRecord());
+            leagueMatch.setAwayTeamTotalDrawRecord(awayTeam.getTotalDrawRecord());
+            leagueMatch.setAwayTeamTotalLoseRecord(awayTeam.getTotalLoseRecord());
+            leagueMatch.setAwayTeamLevelType(awayTeam.getLevelType());
+            leagueMatch.setAwayTeamAgeType(awayTeam.getAgeType());
+            leagueMatch.setAwayTeamUniformType(awayTeam.getUniformType());
+            leagueMatch.setAwayTeamLeagueMatchPoints(awayTeamParticipants.getLeagueMatchPoints());
+            leagueMatch.setAwayTeamLeagueWinRecord(awayTeamParticipants.getLeagueWinRecord());
+            leagueMatch.setAwayTeamLeagueDrawRecord(awayTeamParticipants.getLeagueDrawRecord());
+            leagueMatch.setAwayTeamLeagueLoseRecord(awayTeamParticipants.getLeagueLoseRecord());
+            leagueMatch.setAwayTeamMatchResultStatus(leagueMatch.getAwayTeamMatchResultStatus());
 
-        leagueMatchRepository.save(leagueMatch);
+            leagueMatchRepository.save(leagueMatch);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_CREATED);
+        }
+
 
         return leagueMatch;
     }
 
     public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId) {
+        try {
+            LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 
-        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
+            Optional.ofNullable(leagueMatch.getHomeTeamHonorScore())
+                    .ifPresent(findLeagueMatch::setHomeTeamHonorScore);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamHonorScore())
-                .ifPresent(findLeagueMatch::setHomeTeamHonorScore);
+            Optional.ofNullable(leagueMatch.getHomeTeamName())
+                    .ifPresent(findLeagueMatch::setHomeTeamName);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamName())
-                .ifPresent(findLeagueMatch::setHomeTeamName);
+            Optional.ofNullable(leagueMatch.getHomeTeamManagerName())
+                    .ifPresent(findLeagueMatch::setHomeTeamManagerName);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamManagerName())
-                .ifPresent(findLeagueMatch::setHomeTeamManagerName);
+            Optional.ofNullable(leagueMatch.getHomeTeamTotalWinRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamTotalWinRecord);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamTotalWinRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamTotalWinRecord);
+            Optional.ofNullable(leagueMatch.getHomeTeamTotalDrawRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamTotalDrawRecord);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamTotalDrawRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamTotalDrawRecord);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamTotalLoseRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamTotalLoseRecord);
-
-
-        Optional.ofNullable(leagueMatch.getHomeTeamLevelType())
-                .ifPresent(findLeagueMatch::setHomeTeamLevelType);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamAgeType())
-                .ifPresent(findLeagueMatch::setHomeTeamAgeType);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamUniformType())
-                .ifPresent(findLeagueMatch::setHomeTeamUniformType);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamLeagueMatchPoints())
-                .ifPresent(findLeagueMatch::setHomeTeamLeagueMatchPoints);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamLeagueWinRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamLeagueWinRecord);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamLeagueDrawRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamLeagueDrawRecord);
-
-        Optional.ofNullable(leagueMatch.getHomeTeamLeagueLoseRecord())
-                .ifPresent(findLeagueMatch::setHomeTeamLeagueLoseRecord);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamHonorScore())
-                .ifPresent(findLeagueMatch::setAwayTeamHonorScore);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamName())
-                .ifPresent(findLeagueMatch::setAwayTeamName);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamManagerName())
-                .ifPresent(findLeagueMatch::setAwayTeamManagerName);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamTotalWinRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamTotalWinRecord);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamTotalDrawRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamTotalDrawRecord);
-
-        Optional.ofNullable(leagueMatch.getAwayTeamTotalLoseRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamTotalLoseRecord);
+            Optional.ofNullable(leagueMatch.getHomeTeamTotalLoseRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamTotalLoseRecord);
 
 
-        Optional.ofNullable(leagueMatch.getAwayTeamLevelType())
-                .ifPresent(findLeagueMatch::setAwayTeamLevelType);
+            Optional.ofNullable(leagueMatch.getHomeTeamLevelType())
+                    .ifPresent(findLeagueMatch::setHomeTeamLevelType);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamAgeType())
-                .ifPresent(findLeagueMatch::setAwayTeamAgeType);
+            Optional.ofNullable(leagueMatch.getHomeTeamAgeType())
+                    .ifPresent(findLeagueMatch::setHomeTeamAgeType);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamUniformType())
-                .ifPresent(findLeagueMatch::setAwayTeamUniformType);
+            Optional.ofNullable(leagueMatch.getHomeTeamUniformType())
+                    .ifPresent(findLeagueMatch::setHomeTeamUniformType);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamLeagueMatchPoints())
-                .ifPresent(findLeagueMatch::setAwayTeamLeagueMatchPoints);
+            Optional.ofNullable(leagueMatch.getHomeTeamLeagueMatchPoints())
+                    .ifPresent(findLeagueMatch::setHomeTeamLeagueMatchPoints);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamLeagueWinRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamLeagueWinRecord);
+            Optional.ofNullable(leagueMatch.getHomeTeamLeagueWinRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamLeagueWinRecord);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamLeagueDrawRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamLeagueDrawRecord);
+            Optional.ofNullable(leagueMatch.getHomeTeamLeagueDrawRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamLeagueDrawRecord);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamLeagueLoseRecord())
-                .ifPresent(findLeagueMatch::setAwayTeamLeagueLoseRecord);
+            Optional.ofNullable(leagueMatch.getHomeTeamLeagueLoseRecord())
+                    .ifPresent(findLeagueMatch::setHomeTeamLeagueLoseRecord);
 
-        Optional.ofNullable(leagueMatch.getMatchType())
-                .ifPresent(findLeagueMatch::setMatchType);
+            Optional.ofNullable(leagueMatch.getAwayTeamHonorScore())
+                    .ifPresent(findLeagueMatch::setAwayTeamHonorScore);
 
-        Optional.ofNullable(leagueMatch.getMatchTime())
-                .ifPresent(findLeagueMatch::setMatchTime);
+            Optional.ofNullable(leagueMatch.getAwayTeamName())
+                    .ifPresent(findLeagueMatch::setAwayTeamName);
 
-        Optional.ofNullable(leagueMatch.getMatchStatus())
-                .ifPresent(findLeagueMatch::setMatchStatus);
+            Optional.ofNullable(leagueMatch.getAwayTeamManagerName())
+                    .ifPresent(findLeagueMatch::setAwayTeamManagerName);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamMatchResultStatus())
-                .ifPresent(findLeagueMatch::setHomeTeamMatchResultStatus);
+            Optional.ofNullable(leagueMatch.getAwayTeamTotalWinRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamTotalWinRecord);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamMatchResultStatus())
-                .ifPresent(findLeagueMatch::setAwayTeamMatchResultStatus);
+            Optional.ofNullable(leagueMatch.getAwayTeamTotalDrawRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamTotalDrawRecord);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamTotalLoseRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamTotalLoseRecord);
 
 
-        return leagueMatchRepository.save(findLeagueMatch);
+            Optional.ofNullable(leagueMatch.getAwayTeamLevelType())
+                    .ifPresent(findLeagueMatch::setAwayTeamLevelType);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamAgeType())
+                    .ifPresent(findLeagueMatch::setAwayTeamAgeType);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamUniformType())
+                    .ifPresent(findLeagueMatch::setAwayTeamUniformType);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamLeagueMatchPoints())
+                    .ifPresent(findLeagueMatch::setAwayTeamLeagueMatchPoints);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamLeagueWinRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamLeagueWinRecord);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamLeagueDrawRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamLeagueDrawRecord);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamLeagueLoseRecord())
+                    .ifPresent(findLeagueMatch::setAwayTeamLeagueLoseRecord);
+
+            Optional.ofNullable(leagueMatch.getMatchType())
+                    .ifPresent(findLeagueMatch::setMatchType);
+
+            Optional.ofNullable(leagueMatch.getMatchTime())
+                    .ifPresent(findLeagueMatch::setMatchTime);
+
+            Optional.ofNullable(leagueMatch.getMatchStatus())
+                    .ifPresent(findLeagueMatch::setMatchStatus);
+
+            Optional.ofNullable(leagueMatch.getHomeTeamMatchResultStatus())
+                    .ifPresent(findLeagueMatch::setHomeTeamMatchResultStatus);
+
+            Optional.ofNullable(leagueMatch.getAwayTeamMatchResultStatus())
+                    .ifPresent(findLeagueMatch::setAwayTeamMatchResultStatus);
+
+            leagueMatchRepository.save(findLeagueMatch);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
+        }
+        return leagueMatch;
     }
 
     public LeagueMatch updateLeagueMatchEnd(LeagueMatch leagueMatch
             , Long leagueMatchId
     ) {
+        try {
+            LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 
-        LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
+            Optional.ofNullable(leagueMatch.getHomeTeamScore())
+                    .ifPresent(findLeagueMatch::setHomeTeamScore);
 
-        Optional.ofNullable(leagueMatch.getHomeTeamScore())
-                .ifPresent(findLeagueMatch::setHomeTeamScore);
+            Optional.ofNullable(leagueMatch.getAwayTeamScore())
+                    .ifPresent(findLeagueMatch::setAwayTeamScore);
 
-        Optional.ofNullable(leagueMatch.getAwayTeamScore())
-                .ifPresent(findLeagueMatch::setAwayTeamScore);
+            Optional.ofNullable(leagueMatch.getMatchStatus())
+                    .ifPresent(findLeagueMatch::setMatchStatus);
 
-        Optional.ofNullable(leagueMatch.getMatchStatus())
-                .ifPresent(findLeagueMatch::setMatchStatus);
-
-        return leagueMatchRepository.save(findLeagueMatch);
+            leagueMatchRepository.save(findLeagueMatch);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
+        }
+        return leagueMatch;
     }
 
     public void updateForLeagueMatchEnd(
@@ -282,6 +297,7 @@ public class LeagueMatchService {
             log.info("LEAGUE_MATCH_END TO LEAGUE_MATCH_REPOSITORY:{}", findLeagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
     }
 
@@ -316,6 +332,7 @@ public class LeagueMatchService {
             leagueMatchRepository.delete(findLeagueMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_DELETED);
         }
     }
 

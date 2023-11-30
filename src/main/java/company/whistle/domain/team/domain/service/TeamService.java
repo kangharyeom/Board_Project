@@ -30,81 +30,90 @@ public class TeamService {
     private final UserService userService;
     public Team createTeam(
             Team team, Long userId) {
+        try {
+            findVerifiedExistsTeamByUserId(userId);
 
-        findVerifiedExistsTeamByUserId(userId);
+            User user = userService.findUser(userId);
 
-        User user = userService.findUser(userId);
+            user.setTeamMemberRole(TeamMemberRole.MANAGER);
+            team.setUser(user);
+            team.setManagerName(user.getName());
 
-        user.setTeamMemberRole(TeamMemberRole.MANAGER);
-        team.setUser(user);
-        team.setManagerName(user.getName());
-
-        userRepository.save(user);
-
-        return teamRepository.save(team);
+            userRepository.save(user);
+            teamRepository.save(team);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_CREATED);
+        }
+        return team;
     }
 
     public Team updateTeam(
             Team team,
             Long teamId) {
 
-        Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
+        try {
+            Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
 
-        Optional.ofNullable(team.getChampionCount())
-                .ifPresent(findTeam::setChampionCount);
+            Optional.ofNullable(team.getChampionCount())
+                    .ifPresent(findTeam::setChampionCount);
 
-        Optional.ofNullable(team.getMemberCount())
-                .ifPresent(findTeam::setMemberCount);
+            Optional.ofNullable(team.getMemberCount())
+                    .ifPresent(findTeam::setMemberCount);
 
-        Optional.ofNullable(team.getLeagueWinRecord())
-                .ifPresent(findTeam::setLeagueWinRecord);
+            Optional.ofNullable(team.getLeagueWinRecord())
+                    .ifPresent(findTeam::setLeagueWinRecord);
 
-        Optional.ofNullable(team.getLeagueDrawRecord())
-                .ifPresent(findTeam::setLeagueDrawRecord);
+            Optional.ofNullable(team.getLeagueDrawRecord())
+                    .ifPresent(findTeam::setLeagueDrawRecord);
 
-        Optional.ofNullable(team.getLeagueLoseRecord())
-                .ifPresent(findTeam::setLeagueLoseRecord);
+            Optional.ofNullable(team.getLeagueLoseRecord())
+                    .ifPresent(findTeam::setLeagueLoseRecord);
 
-        Optional.ofNullable(team.getTotalWinRecord())
-                .ifPresent(findTeam::setTotalWinRecord);
+            Optional.ofNullable(team.getTotalWinRecord())
+                    .ifPresent(findTeam::setTotalWinRecord);
 
-        Optional.ofNullable(team.getTotalDrawRecord())
-                .ifPresent(findTeam::setTotalDrawRecord);
+            Optional.ofNullable(team.getTotalDrawRecord())
+                    .ifPresent(findTeam::setTotalDrawRecord);
 
-        Optional.ofNullable(team.getTotalLoseRecord())
-                .ifPresent(findTeam::setTotalLoseRecord);
+            Optional.ofNullable(team.getTotalLoseRecord())
+                    .ifPresent(findTeam::setTotalLoseRecord);
 
-        Optional.ofNullable(team.getHonorScore())
-                .ifPresent(findTeam::setHonorScore);
+            Optional.ofNullable(team.getHonorScore())
+                    .ifPresent(findTeam::setHonorScore);
 
-        Optional.ofNullable(team.getMostGoals())
-                .ifPresent(findTeam::setMostGoals);
+            Optional.ofNullable(team.getMostGoals())
+                    .ifPresent(findTeam::setMostGoals);
 
-        Optional.ofNullable(team.getMostAssist())
-                .ifPresent(findTeam::setMostAssist);
+            Optional.ofNullable(team.getMostAssist())
+                    .ifPresent(findTeam::setMostAssist);
 
-        Optional.ofNullable(team.getMostMom())
-                .ifPresent(findTeam::setMostMom);
+            Optional.ofNullable(team.getMostMom())
+                    .ifPresent(findTeam::setMostMom);
 
-        Optional.ofNullable(team.getIntroduction())
-                .ifPresent(findTeam::setIntroduction);
+            Optional.ofNullable(team.getIntroduction())
+                    .ifPresent(findTeam::setIntroduction);
 
-        Optional.ofNullable(team.getAgeType())
-                .ifPresent(findTeam::setAgeType);
+            Optional.ofNullable(team.getAgeType())
+                    .ifPresent(findTeam::setAgeType);
 
-        Optional.ofNullable(team.getLocationType())
-                .ifPresent(findTeam::setLocationType);
+            Optional.ofNullable(team.getLocationType())
+                    .ifPresent(findTeam::setLocationType);
 
-        Optional.ofNullable(team.getManagerName())
-                .ifPresent(findTeam::setManagerName);
+            Optional.ofNullable(team.getManagerName())
+                    .ifPresent(findTeam::setManagerName);
 
-        Optional.ofNullable(team.getSubManagerName())
-                .ifPresent(findTeam::setSubManagerName);
+            Optional.ofNullable(team.getSubManagerName())
+                    .ifPresent(findTeam::setSubManagerName);
 
-        Optional.ofNullable(team.getUniformType())
-                .ifPresent(findTeam::setUniformType);
-
-        return teamRepository.save(findTeam);
+            Optional.ofNullable(team.getUniformType())
+                    .ifPresent(findTeam::setUniformType);
+            teamRepository.save(findTeam);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
+        }
+        return team;
     }
 
     public void updateForMatchEnd(
@@ -147,6 +156,7 @@ public class TeamService {
             log.info("UPDATE_FOR_MATCH_END ABOUT: AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
@@ -204,6 +214,7 @@ public class TeamService {
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
@@ -238,13 +249,14 @@ public class TeamService {
             teamRepository.delete(findTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_DELETED);
         }
     }
 
     public Team findVerifiedTeam(long teamId) {
         Optional<Team> optionalTeam = teamRepository.findById(teamId);
         return optionalTeam.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
+                        new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
     }
 
     public Team findVerifiedTeamByUserId(long userId) {
@@ -252,7 +264,7 @@ public class TeamService {
         try {
             team = teamRepository.findByUserId(userId);
         } catch (NoSuchElementException ex) {
-            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
         }
         return team;
     }

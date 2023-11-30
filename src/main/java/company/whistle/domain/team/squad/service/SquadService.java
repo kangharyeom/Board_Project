@@ -33,61 +33,69 @@ public class SquadService {
     private final TeamApplyService teamApplyService;
     public Squad createSquad(
             Squad squad, Long userId, Long teamId, Long TeamApplyId) {
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
+            TeamApply teamApply = teamApplyService.findTeamApply(TeamApplyId);
 
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-        TeamApply teamApply = teamApplyService.findTeamApply(TeamApplyId);
-
-        squad.setUser(user);
-        squad.setTeam(team);
-        squad.setTeamApply(teamApply);
-        squad.setName(user.getName());
-        squad.setTeamMemberRole(TeamMemberRole.MEMBER);
-
-        return squadRepository.save(squad);
+            squad.setUser(user);
+            squad.setTeam(team);
+            squad.setTeamApply(teamApply);
+            squad.setName(user.getName());
+            squad.setTeamMemberRole(TeamMemberRole.MEMBER);
+            squadRepository.save(squad);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.SQUAD_NOT_CREATED);
+        }
+        return squad;
     }
 
     public Squad createSquadByTeamController(
             Squad squad, Long teamId, Long userId) {
+        try {
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeam(teamId);
 
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
+            user.setTeamId(teamId);
 
-        user.setTeamId(teamId);
+            squad.setUser(user);
+            squad.setTeam(team);
 
-        squad.setUser(user);
-        squad.setTeam(team);
+            squad.setName(user.getName());
+            squad.setPosition(Position.FORWARDS);
+            squad.setTeamMemberRole(TeamMemberRole.MANAGER);
+            squad.setAgeType(team.getAgeType());
+            squad.setLocationType(team.getLocationType());
+            squad.setLevelType(team.getLevelType());
+            squad.setFrequency(team.getFrequency());
 
-        squad.setName(user.getName());
-        squad.setPosition(Position.FORWARDS);
-        squad.setTeamMemberRole(TeamMemberRole.MANAGER);
-        squad.setAgeType(team.getAgeType());
-        squad.setLocationType(team.getLocationType());
-        squad.setLevelType(team.getLevelType());
-        squad.setFrequency(team.getFrequency());
+            userRepository.save(user);
 
-        userRepository.save(user);
-
-        log.info("teamId {}", teamId);
-        log.info("getTeamId {}", user.getTeamId());
-
-        return squadRepository.save(squad);
+            log.info("teamId {}", teamId);
+            log.info("getTeamId {}", user.getTeamId());
+            squadRepository.save(squad);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.SQUAD_NOT_CREATED);
+        }
+        return squad;
     }
 
     public Squad updateSquad(
             Squad squad,
             Long teamListId) {
+        try {
+            Squad findSquad = findVerifiedSquad(teamListId);
 
-        Squad findSquad = findVerifiedSquad(teamListId);
+            Optional.ofNullable(squad.getPosition())
+                    .ifPresent(findSquad::setPosition);
 
-        Optional.ofNullable(squad.getPosition())
-                .ifPresent(findSquad::setPosition);
+            Optional.ofNullable(squad.getAgeType())
+                    .ifPresent(findSquad::setAgeType);
 
-        Optional.ofNullable(squad.getAgeType())
-                .ifPresent(findSquad::setAgeType);
-
-        Optional.ofNullable(squad.getLocationType())
-                .ifPresent(findSquad::setLocationType);
+            Optional.ofNullable(squad.getLocationType())
+                    .ifPresent(findSquad::setLocationType);
 
         /*Optional.ofNullable(squad.getMostGoals())
                 .ifPresent(findSquad::setMostGoals);
@@ -97,8 +105,12 @@ public class SquadService {
 
         Optional.ofNullable(squad.getMostMom())
                 .ifPresent(findSquad::setMostMom);*/
-
-        return squadRepository.save(findSquad);
+            squadRepository.save(findSquad);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.SQUAD_NOT_PATCHED);
+        }
+        return squad;
     }
 
     public Squad findSquad(long squadId) {
@@ -131,16 +143,18 @@ public class SquadService {
     }
 
     public void deleteSquad(long squadId) {
-        Squad findSquad = findVerifiedSquad(squadId);
-
-        squadRepository.delete(findSquad);
+        try {
+            Squad findSquad = findVerifiedSquad(squadId);
+            squadRepository.delete(findSquad);
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
+            throw new BusinessLogicException(Exceptions.SQUAD_NOT_DELETED);
+        }
     }
 
     public Squad findVerifiedSquad(long squadId) {
         Optional<Squad> optionalTeam = squadRepository.findById(squadId);
-        Squad findSquad =
-                optionalTeam.orElseThrow(() ->
+        return optionalTeam.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
-        return findSquad;
     }
 }
