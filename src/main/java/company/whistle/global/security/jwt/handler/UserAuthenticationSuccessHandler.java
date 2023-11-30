@@ -15,6 +15,6 @@ public class UserAuthenticationSuccessHandler implements AuthenticationSuccessHa
                                         HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
 
-        log.info("유저 로그인 인증 성공 !");
+        log.info("USER LOGIN COMPLETE");
     }
 }

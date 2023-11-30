@@ -8,6 +8,7 @@ import company.whistle.domain.user.mapper.UserMapper;
 import company.whistle.domain.user.repository.UserRepository;
 import company.whistle.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
 @Validated
+@Log4j2
 public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
@@ -66,6 +68,7 @@ public class UserController {
     public ResponseEntity<List<UserResponseDto>> getAllUser() {
         List<User> users = userService.findAllUser();
         List<UserResponseDto> userResponseDtos = userMapper.usersToUsersResponse(users);
+        log.info("userResponseDtos:{}", userResponseDtos.toString());
 
         return ResponseEntity.ok(userResponseDtos);
     }
@@ -75,22 +78,5 @@ public class UserController {
     public ResponseEntity<HttpStatus> deleteUser(@PathVariable("userId") @Positive Long userId) {
         userService.deleteUser(userId);
         return ResponseEntity.ok(HttpStatus.NO_CONTENT);
-    }
-
-
-    // 세션 로그인 구현
-    @GetMapping("/add")
-    public String addForm(@ModelAttribute("user") User user) {
-        return "users/addUserForm";
-    }
-
-    @PostMapping("/add")
-    public String save(@Valid @ModelAttribute User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "users/addUserForm";
-        }
-
-        userRepository.save(user);
-        return "redirect:/";
     }
 }
