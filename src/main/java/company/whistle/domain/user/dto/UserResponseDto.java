@@ -22,4 +22,22 @@ public class UserResponseDto {
     private String position;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "UserResponseDto{" +
+                "userId=" + userId +
+                ", teamId=" + teamId +
+                ", matchId=" + matchId +
+                ", leagueId=" + leagueId +
+                ", loginId='" + loginId + '\'' +
+                ", email='" + email + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", phone='" + phone + '\'' +
+                ", position='" + position + '\'' +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }
