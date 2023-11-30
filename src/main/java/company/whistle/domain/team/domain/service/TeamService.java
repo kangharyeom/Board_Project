@@ -9,6 +9,7 @@ import company.whistle.domain.team.domain.repository.TeamRepository;
 import company.whistle.domain.user.entity.User;
 import company.whistle.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Log4j2
 public class TeamService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;

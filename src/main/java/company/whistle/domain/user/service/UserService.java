@@ -134,25 +134,19 @@ public class UserService {
 
     public User findVerifiedUser(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
+        return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
     }
 
     public User findVerifiedUserByLeagueRole(LeagueRole leagueRole) {
         Optional<User> optionalUser = userRepository.findByLeagueRole(leagueRole);
-        User findUser =
-                optionalUser.orElseThrow(() ->
+        return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.UNAUTHORIZED));
-        return findUser;
     }
 
     public User findVerifiedUserByTeamMemberRole(long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
+        return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
     }
 }

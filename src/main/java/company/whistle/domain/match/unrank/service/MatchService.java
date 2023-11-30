@@ -2,7 +2,6 @@ package company.whistle.domain.match.unrank.service;
 
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.match.unrank.repository.MatchRepository;
-import company.whistle.domain.team.domain.repository.TeamRepository;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.team.domain.entity.Team;
@@ -11,6 +10,7 @@ import company.whistle.domain.user.entity.User;
 import company.whistle.domain.user.repository.UserRepository;
 import company.whistle.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -18,18 +18,17 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Log4j2
 public class MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
     private final TeamService teamService;
     private final UserRepository userRepository;
-    private final TeamRepository teamRepository;
 
     public Match createMatch(Match match, Long userId, Long teamId) {
         User user = userService.findUser(userId);
@@ -107,8 +106,6 @@ public class MatchService {
         return matchRepository.save(findMatch);
     }
 
-
-
     public Match findMatch(Long matchId) {
         return findVerifiedMatch(matchId);
     }
@@ -142,31 +139,21 @@ public class MatchService {
 
     public User findVerifiedUser(Long userId) {
         Optional<User> optionalUser = userRepository.findById(userId);
-        User findUser =
-                optionalUser.orElseThrow(() ->
+        return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-        return findUser;
     }
 
     public Match findVerifiedMatch(Long matchId) {
         Optional<Match> optionalMatch = matchRepository.findById(matchId);
 
-        Match findMatch =
-                optionalMatch.orElseThrow(() ->
+        return optionalMatch.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
-
-        return findMatch;
     }
 
-    public Match findVerifiedExistsLeagueByTeamId(long teamId) {
+    public void findVerifiedExistsLeagueByTeamId(long teamId) {
         Match match = matchRepository.findByVerifiedTeamId(teamId);
-        if(match ==null) {
-            try {
-            } catch (NoSuchElementException ex) {
-                throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
-            }
-            return match;
+        if(match !=null) {
+            throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
         }
-        throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
     }
 }
