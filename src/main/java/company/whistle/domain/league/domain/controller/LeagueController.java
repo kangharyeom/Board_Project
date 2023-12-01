@@ -43,6 +43,8 @@ public class LeagueController {
                 requestBody.getLeagueName()
         );
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
+        log.info("LEAGUE POST COMPLETE:{}", leagueResponseDto);
+
 
         // 리그 리스트 생성
         participantsService.createParticipantsByLeagueController(new Participants(),requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());

@@ -50,7 +50,7 @@ public class UserController {
         user.setUserId(userId);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
-        log.info("USER PATCH FINISHED: {}", userResponseDto);
+        log.info("USER PATCH FINISHED: {}", userResponseDto.toString());
 
         return ResponseEntity.ok(userResponseDto);
     }

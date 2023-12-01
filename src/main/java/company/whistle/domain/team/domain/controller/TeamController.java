@@ -39,9 +39,7 @@ public class TeamController {
                 requestBody.getTeamName()
         );
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
-        log.info("teamResponseDto.getTeamId() : {}", teamResponseDto.getTeamId());
-        log.info("teamResponseDto.getUserId() : {}", teamResponseDto.getUserId());
-        log.info("requestBody.getUserId() : {}", requestBody.getUserId());
+        log.info("TEAM CREATE COMPLETE: {}", teamResponseDto.toString());
 
         squadService.createSquadByTeamController(new Squad(), teamResponseDto.getTeamId(),requestBody.getUserId());
 
