@@ -66,9 +66,11 @@ public class MatchService {
         return match;
     }
 
-    public Match updateMatch(Match match) {
-
+    public Match updateMatch(Match match, Long matchId) {
         try {
+            if (matchId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Match findMatch = findVerifiedMatch(match.getMatchId());
 
             Optional.ofNullable(match.getHomeTeamHonorScore())

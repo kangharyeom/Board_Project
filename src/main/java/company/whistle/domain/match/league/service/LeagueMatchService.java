@@ -126,6 +126,9 @@ public class LeagueMatchService {
 
     public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId) {
         try {
+            if (leagueMatchId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 
             Optional.ofNullable(leagueMatch.getHomeTeamHonorScore())
@@ -238,6 +241,10 @@ public class LeagueMatchService {
             , Long leagueMatchId
     ) {
         try {
+            if (leagueMatchId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+
             LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 
             Optional.ofNullable(leagueMatch.getHomeTeamScore())
@@ -266,6 +273,9 @@ public class LeagueMatchService {
             , Long leagueMatchId
     ) {
         try {
+            if (leagueMatchId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             //리그 매치 정보 수정
             LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
 

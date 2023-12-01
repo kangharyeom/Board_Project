@@ -31,7 +31,7 @@ public class TeamService {
     public Team createTeam(
             Team team, Long userId, String teamName) {
         try {
-            if (userId == null || teamName == null) {
+            if (userId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             checkDuplUserId(userId);
@@ -58,8 +58,10 @@ public class TeamService {
     public Team updateTeam(
             Team team,
             Long teamId) {
-
         try {
+            if (teamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
 
             Optional.ofNullable(team.getChampionCount())
@@ -133,6 +135,9 @@ public class TeamService {
             Long awayTeamId
     ) {
         try {
+            if (homeTeamId == null || awayTeamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Team findHomeTeam = findVerifiedTeam(homeTeamId);
             Team findAwayTeam = findVerifiedTeam(awayTeamId);
             if(homeTeamScore>awayTeamScore){
@@ -180,6 +185,9 @@ public class TeamService {
             Long awayTeamId
     ) {
         try {
+            if (homeTeamId == null || awayTeamId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Team findHomeTeam = findVerifiedTeam(homeTeamId);
             Team findAwayTeam = findVerifiedTeam(awayTeamId);
             if(homeTeamScore>awayTeamScore){

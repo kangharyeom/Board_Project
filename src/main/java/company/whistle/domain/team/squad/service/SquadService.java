@@ -47,8 +47,12 @@ public class SquadService {
             squad.setName(user.getName());
             squad.setTeamMemberRole(TeamMemberRole.MEMBER);
             squadRepository.save(squad);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
         return squad;
     }
@@ -56,6 +60,9 @@ public class SquadService {
     public Squad createSquadByTeamController(
             Squad squad, Long teamId, Long userId) {
         try {
+            if (userId == null || teamId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
@@ -89,9 +96,12 @@ public class SquadService {
 
     public Squad updateSquad(
             Squad squad,
-            Long teamListId) {
+            Long squadId) {
         try {
-            Squad findSquad = findVerifiedSquad(teamListId);
+            if ( squadId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            Squad findSquad = findVerifiedSquad(squadId);
 
             Optional.ofNullable(squad.getPosition())
                     .ifPresent(findSquad::setPosition);

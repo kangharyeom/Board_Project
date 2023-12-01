@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 @Service
 @RequiredArgsConstructor
@@ -55,11 +56,15 @@ public class CommentService {
      * 댓글 수정
      */
     public Comment updateComment(Comment comment, Long commentId) {
-        Comment findComment = findVerifiedComment(commentId);
         try {
+            if (commentId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            Comment findComment = findVerifiedComment(commentId);
             User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
-            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 작성자와 로그인한 사람이 다를 경우
+            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             Optional.ofNullable(comment.getComment())
                     .ifPresent(findComment::setComment);

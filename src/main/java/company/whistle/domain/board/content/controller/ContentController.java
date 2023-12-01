@@ -40,7 +40,6 @@ public class ContentController {
      */
     @PostMapping
     public ResponseEntity<ContentResponseDto> postContent(@Validated @RequestBody ContentPostDto requestBody) {
-
         Content content = contentService.createContent(contentMapper.contentPostDtoToContent(requestBody), requestBody.getUserId());
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
         log.info("CONTENT POST COMPLETE: {}",contentResponse.toString());
@@ -54,7 +53,6 @@ public class ContentController {
     @PostMapping("/file")
     public ResponseEntity<ContentResponseDto> postContentFile(@RequestPart("data") ContentPostDto requestBody,
                                       @RequestPart(required=false, value="ContentFileUrl") List<MultipartFile> multipartFiles ) {
-
         if (multipartFiles == null) {
             throw new BusinessLogicException(Exceptions.CONTENT_FILE_NOT_FOUND);
         }
@@ -160,7 +158,7 @@ public class ContentController {
                                        @PathVariable("contentId") Long contentId) {
         requestBody.updateId(contentId);
         Content content = contentService.updateContent(
-                contentMapper.contentPatchDtoToContent(requestBody));
+                contentMapper.contentPatchDtoToContent(requestBody), contentId);
 
         ContentResponseDto contentResponse = contentMapper.contentToContentResponse(content, contentFileRepository);
         log.info("CONTENT PATCH COMPLETE: {}",contentResponse.toString());

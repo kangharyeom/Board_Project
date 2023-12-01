@@ -100,7 +100,7 @@ public class MatchController {
                                        @PathVariable("matchId") Long matchId) {
         requestBody.updateId(matchId);
         Match match = matchService.updateMatch(
-                matchMapper.matchPatchDtoToMatch(requestBody));
+                matchMapper.matchPatchDtoToMatch(requestBody), matchId);
 
         MatchResponseDto matchResponse = matchMapper.matchToMatchResponse(match);
         log.info("UN_RANK MATCH PATCH COMPLETE: {}", matchResponse.toString());

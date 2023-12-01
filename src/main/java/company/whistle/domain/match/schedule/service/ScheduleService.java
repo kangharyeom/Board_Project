@@ -89,6 +89,9 @@ public class ScheduleService {
     public Schedule createScheduleByMatchController(
             Schedule schedule, Long userId, Long teamId, Long matchId) {
         try {
+            if (userId == null || teamId == null || matchId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
             Match match = matchService.findMatch(matchId);
@@ -136,12 +139,12 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule updateSchedule(
-            Schedule schedule,
-            Long teamListId) {
-
+    public Schedule updateSchedule(Schedule schedule, Long scheduleId) {
         try {
-            Schedule findSchedule = findVerifiedSchedule(teamListId);
+            if (scheduleId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
             Optional.ofNullable(schedule.getHomeTeamHonorScore())
                     .ifPresent(findSchedule::setHomeTeamHonorScore);
@@ -222,11 +225,11 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule updateScheduleWithAwayTeam(
-            Schedule schedule
-            ,Long scheduleId
-    ) {
+    public Schedule updateScheduleWithAwayTeam(Schedule schedule,Long scheduleId) {
         try {
+            if (scheduleId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
             Optional.ofNullable(schedule.getAwayTeamHonorScore())
@@ -281,11 +284,11 @@ public class ScheduleService {
         return schedule;
     }
 
-    public Schedule updateMatchEnd(Schedule schedule
-            , Long scheduleId
-    ) {
-
+    public Schedule updateMatchEnd(Schedule schedule, Long scheduleId) {
         try {
+            if (scheduleId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
 
             Optional.ofNullable(schedule.getHomeTeamScore())
@@ -297,19 +300,21 @@ public class ScheduleService {
             Optional.ofNullable(schedule.getMatchStatus())
                     .ifPresent(findSchedule::setMatchStatus);
             scheduleRepository.save(findSchedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
         return schedule;
     }
 
-    public void updateForMatchEnd(
-            Long homeTeamScore
-            , Long awayTeamScore
-            , Long scheduleId
-    ) {
-
+    public void updateForMatchEnd(Long homeTeamScore, Long awayTeamScore, Long scheduleId ) {
         try {
+            if (scheduleId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             //리그 매치 정보 수정
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
 

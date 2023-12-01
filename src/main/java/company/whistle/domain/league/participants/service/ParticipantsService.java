@@ -83,6 +83,9 @@ public class ParticipantsService {
     public Participants createParticipantsByLeagueController(
             Participants participants, Long userId, Long teamId, Long leagueId) {
         try {
+            if (userId == null || teamId == null || leagueId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
@@ -131,6 +134,9 @@ public class ParticipantsService {
             Participants participants,
             Long participantsId) {
         try {
+            if (participantsId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Participants findParticipants = findVerifiedParticipants(participantsId);
 
             Optional.ofNullable(participants.getFormation())
@@ -198,6 +204,9 @@ public class ParticipantsService {
             ,Long awayTeamLeagueListId
     ) {
         try {
+            if (homeTeamLeagueListId == null || awayTeamLeagueListId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Participants findHomeTeamParticipants = findVerifiedParticipants(homeTeamLeagueListId);
             Participants findAwayTeamParticipants = findVerifiedParticipants(awayTeamLeagueListId);
 

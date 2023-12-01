@@ -52,10 +52,13 @@ public class UserService {
     }
 
     // 회원 수정
-    public User updateUser(User user) {
+    public User updateUser(User user, Long userId) {
         try {
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             // 회원 유무 확인
-            User findUser = existUser(user.getUserId());
+            User findUser = existUser(userId);
 
             // 새로 변경할 이메일 존재 유무 확인
             Optional.ofNullable(user.getEmail())

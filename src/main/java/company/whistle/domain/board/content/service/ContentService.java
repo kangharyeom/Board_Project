@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,7 +35,6 @@ public class ContentService {
      */
     public Content createContent(Content content, Long userId) {
         try {
-
             if (userId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
@@ -57,6 +57,9 @@ public class ContentService {
      */
     public Content createContentFile(Content content, Long userId,List<String> filePaths) {
         try {
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             content.setUser(user);
             blankCheck(filePaths);
@@ -82,12 +85,15 @@ public class ContentService {
     /*
      * 게시글 수정
      */
-    public Content updateContent(Content content) {
+    public Content updateContent(Content content, Long contentId) {
         try {
-            Content findContent = findVerifiedContent(content.getContentId());
+            if (contentId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            Content findContent = findVerifiedContent(contentId);
 
             User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
-            if (userService.getLoginUser().getUserId() != writer.getUserId()){ // 작성자와 로그인한 사람이 다를 경우
+            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())){ // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 

@@ -46,7 +46,7 @@ public class UserController {
                                       @RequestBody @Valid UserPatchDto requestBody) {
         requestBody.setUserId(userId);
 
-        User user = userService.updateUser(userMapper.userPatchDtoToUser(requestBody));
+        User user = userService.updateUser(userMapper.userPatchDtoToUser(requestBody), userId);
         user.setUserId(userId);
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
