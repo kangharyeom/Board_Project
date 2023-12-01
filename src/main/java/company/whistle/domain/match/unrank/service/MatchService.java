@@ -67,7 +67,7 @@ public class MatchService {
         return match;
     }
 
-    public Match updateBothMatch(Match match, Long matchId, Long matchApplyId, Long awayTeamUserId, Long awayTeamId) {
+    public Match postAwayTeamForMatch(Match match, Long matchId, Long matchApplyId, Long awayTeamUserId, Long awayTeamId) {
         try {
             if (matchId == null) {
                 log.info("matchId: {}", matchId);

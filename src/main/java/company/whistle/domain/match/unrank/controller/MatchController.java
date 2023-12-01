@@ -40,7 +40,7 @@ public class MatchController {
     public ResponseEntity<BothTeamInfoResponseDto> postAwayTeamForMatch(@RequestBody AwayTeamPostDto requestBody,
                                                                         @PathVariable("matchId") Long matchId) {
         requestBody.updateId(matchId);
-        Match match = matchService.updateBothMatch(
+        Match match = matchService.postAwayTeamForMatch(
                 matchMapper.matchPatchDtoToBothMatch(requestBody),
                 matchId,
                 requestBody.getMatchApplyId(), requestBody.getAwayTeamUserId(), requestBody.getAwayTeamId());
