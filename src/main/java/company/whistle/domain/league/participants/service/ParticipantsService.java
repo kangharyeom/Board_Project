@@ -37,6 +37,9 @@ public class ParticipantsService {
     public Participants createParticipants(
             Participants participants, Long userId, Long teamId, Long leagueId, Long leagueApplyId) {
         try {
+            if (userId == null || teamId == null || leagueId == null || leagueApplyId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
             LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
@@ -67,8 +70,12 @@ public class ParticipantsService {
             league.setMemberCount(team.getMemberCount()+ participants.getMemberCount());
             leagueRepository.save(league);
             participantsRepository.save(participants);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
         }
         return participants;
     }
@@ -110,8 +117,12 @@ public class ParticipantsService {
 
             userRepository.save(user);
             participantsRepository.save(participants);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
         }
         return participants;
     }
@@ -170,8 +181,12 @@ public class ParticipantsService {
         Optional.ofNullable(participants.getMostMom())
                 .ifPresent(findParticipants::setMostMom);*/
             participantsRepository.save(findParticipants);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
         }
         return participants;
     }
@@ -225,8 +240,12 @@ public class ParticipantsService {
             participantsRepository.save(findAwayTeamParticipants);
             log.info("LEAGUE_MATCH_END ABOUT HOME_TEAM TO PARTICIPANTS_REPOSITORY:{}", findHomeTeamParticipants);
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO PARTICIPANTS_REPOSITORY:{}", findAwayTeamParticipants);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
         }
     }
 

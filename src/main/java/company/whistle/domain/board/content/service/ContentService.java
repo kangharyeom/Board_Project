@@ -34,12 +34,20 @@ public class ContentService {
      */
     public Content createContent(Content content, Long userId) {
         try {
+
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
 
             content.setUser(user);
             contentRepository.save(content);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_CREATED);
         }
         return content;
     }
@@ -61,8 +69,12 @@ public class ContentService {
                 contentFileRepository.save(file);
                 fileNameList.add(file.getContentFileUrl());
             }
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_PATCHED);
         }
         return content;
     }
@@ -85,8 +97,12 @@ public class ContentService {
             Optional.ofNullable(content.getContent())
                     .ifPresent(findContent::setContent);
             contentRepository.save(findContent);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.CONTENT_NOT_PATCHED);
         }
         return content;
     }

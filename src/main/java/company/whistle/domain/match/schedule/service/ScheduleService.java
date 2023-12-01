@@ -37,6 +37,9 @@ public class ScheduleService {
     public Schedule createSchedule(
             Schedule schedule, Long awayTeamUserId, Long matchApplyId, Long awayTeamId, Long matchId) {
         try {
+            if (awayTeamUserId == null || matchApplyId == null || awayTeamId == null || matchId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(awayTeamUserId);
             MatchApply matchApply = matchApplyService.findMatchApply(matchApplyId);
             Team team = teamService.findTeam(awayTeamId);
@@ -73,8 +76,11 @@ public class ScheduleService {
 
             schedule.setHomeTeamName(match.getHomeTeamName());
             scheduleRepository.save(schedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_CREATED);
         }
         return schedule;
@@ -120,11 +126,13 @@ public class ScheduleService {
 
             userRepository.save(user);
             scheduleRepository.save(schedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_CREATED);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
-
         return schedule;
     }
 
@@ -204,6 +212,9 @@ public class ScheduleService {
         Optional.ofNullable(teamList.getMostMom())
                 .ifPresent(findTeamList::setMostMom);*/
             scheduleRepository.save(findSchedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -260,6 +271,9 @@ public class ScheduleService {
         Optional.ofNullable(teamList.getMostMom())
                 .ifPresent(findTeamList::setMostMom);*/
             scheduleRepository.save(findSchedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -332,8 +346,12 @@ public class ScheduleService {
             }
             scheduleRepository.save(findSchedule);
             log.info("UPDATE_FOR_MATCH_END TO SCHEDULE_REPOSITORY FINISHED:{}", findSchedule);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
         }
     }
 

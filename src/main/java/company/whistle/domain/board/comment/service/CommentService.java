@@ -30,19 +30,23 @@ public class CommentService {
     /*
      * 댓글 등록
      */
-    public Comment createComment(
-            Comment comment,
-            Long contentId,
-            Long userId) {
+    public Comment createComment(Comment comment, Long contentId, Long userId) {
         try {
+            if (userId == null || contentId == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             Content content = contentService.findContent(contentId);
             User user = userService.findUser(userId);
 
             comment.setUser(user);
             comment.setContent(content);
             commentRepository.save(comment);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_CREATED);
         }
         return comment;
     }
@@ -50,9 +54,7 @@ public class CommentService {
     /*
      * 댓글 수정
      */
-    public Comment updateComment(
-            Comment comment,
-            Long commentId) {
+    public Comment updateComment(Comment comment, Long commentId) {
         Comment findComment = findVerifiedComment(commentId);
         try {
             User writer = userService.findUser(findComment.getUser().getUserId()); // 작성자 찾기
@@ -62,8 +64,12 @@ public class CommentService {
             Optional.ofNullable(comment.getComment())
                     .ifPresent(findComment::setComment);
             commentRepository.save(findComment);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.COMMENT_NOT_PATCHED);
         }
         return comment;
     }

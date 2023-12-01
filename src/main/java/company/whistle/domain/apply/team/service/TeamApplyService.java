@@ -38,17 +38,21 @@ public class TeamApplyService {
             }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
-                teamApply.setTeam(team);
-                teamApply.setUser(user);
-                teamApply.setManagerName(user.getName());
-                teamApply.setTeamName(team.getTeamName());
-                teamApply.setAgeType(team.getAgeType());
-                teamApply.setLevelType(team.getLevelType());
+            teamApply.setTeam(team);
+            teamApply.setUser(user);
+            teamApply.setManagerName(user.getName());
+            teamApply.setTeamName(team.getTeamName());
+            teamApply.setAgeType(team.getAgeType());
+            teamApply.setLevelType(team.getLevelType());
             teamApplyRepository.save(teamApply);
+            log.info("TEAM_APPLY CREATED:{}", teamApply);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_CREATED);
         }
-        log.info("TEAM_APPLY CREATED:{}", teamApply);
         return teamApply;
     }
 
@@ -64,8 +68,9 @@ public class TeamApplyService {
         try {
             TeamApply findTeamApply = findVerifiedTeamApply(teamApplyId);
             teamApplyRepository.delete(findTeamApply);
-        } catch (Exception e) {
+        } catch (BusinessLogicException e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         }
     }
 

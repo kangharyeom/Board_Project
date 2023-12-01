@@ -46,6 +46,15 @@ public class LeagueMatchService {
             , Long awayTeamParticipantsId
     ) {
         try {
+            if (    homeTeamUserId == null          ||
+                    awayTeamUserId == null          ||
+                    homeTeamId == null              ||
+                    awayTeamId == null              ||
+                    homeTeamParticipantsId == null  ||
+                    awayTeamParticipantsId == null )
+            {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User homeTeamUser = userService.findUser(homeTeamUserId);
             User awayTeamUser = userService.findUser(awayTeamUserId);
             Team homeTeam = teamService.findTeam(homeTeamId);
@@ -105,11 +114,13 @@ public class LeagueMatchService {
             leagueMatch.setAwayTeamMatchResultStatus(leagueMatch.getAwayTeamMatchResultStatus());
 
             leagueMatchRepository.save(leagueMatch);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_CREATED);
         }
-
-
         return leagueMatch;
     }
 
@@ -213,8 +224,12 @@ public class LeagueMatchService {
                     .ifPresent(findLeagueMatch::setAwayTeamMatchResultStatus);
 
             leagueMatchRepository.save(findLeagueMatch);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
         return leagueMatch;
     }
@@ -235,8 +250,12 @@ public class LeagueMatchService {
                     .ifPresent(findLeagueMatch::setMatchStatus);
 
             leagueMatchRepository.save(findLeagueMatch);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
         return leagueMatch;
     }
@@ -292,8 +311,12 @@ public class LeagueMatchService {
             }
             leagueMatchRepository.save(findLeagueMatch);
             log.info("LEAGUE_MATCH_END TO LEAGUE_MATCH_REPOSITORY:{}", findLeagueMatch);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
         }
     }
 

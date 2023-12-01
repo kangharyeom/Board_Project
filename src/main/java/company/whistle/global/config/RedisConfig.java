@@ -23,33 +23,33 @@ public class RedisConfig {
     /*
     * For AWS server
     */
-    @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        RedisSentinelConfiguration config = new RedisSentinelConfiguration()
-                .master("mymaster")
-                .sentinel(host, 26379)
-                .sentinel(host, 26380)
-                .sentinel(host, 26381);
-        config.setPassword(password);
-
-        return new LettuceConnectionFactory(config);
-    }
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        RedisSentinelConfiguration config = new RedisSentinelConfiguration()
+//                .master("mymaster")
+//                .sentinel(host, 26379)
+//                .sentinel(host, 26380)
+//                .sentinel(host, 26381);
+//        config.setPassword(password);
+//
+//        return new LettuceConnectionFactory(config);
+//    }
 
     /*
      * For Local
      */
 
-//    @Bean
-//    public RedisConnectionFactory redisConnectionFactory() {
-//        return new LettuceConnectionFactory(host, port);
-//    }
-//    @Bean
-//    public RedisTemplate<String, Object> redisTemplate() {
-//        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-//        redisTemplate.setConnectionFactory(redisConnectionFactory());
-//        redisTemplate.setValueSerializer(new StringRedisSerializer());
-//        redisTemplate.setKeySerializer(new StringRedisSerializer());
-//
-//        return redisTemplate;
-//    }
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(host, port);
+    }
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+
+        return redisTemplate;
+    }
 }

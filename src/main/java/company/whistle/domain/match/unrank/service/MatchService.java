@@ -32,6 +32,9 @@ public class MatchService {
 
     public Match createMatch(Match match, Long userId, Long teamId) {
         try {
+            if (userId == null || teamId == null ) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
@@ -53,8 +56,12 @@ public class MatchService {
 
             userRepository.save(user);
             matchRepository.save(match);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.MATCH_NOT_CREATED);
         }
         return match;
     }
@@ -106,8 +113,12 @@ public class MatchService {
             Optional.ofNullable(match.getAwayTeamMatchResultStatus())
                     .ifPresent(findMatch::setAwayTeamMatchResultStatus);
             matchRepository.save(findMatch);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.MATCH_NOT_PATCHED);
         }
         return match;
     }

@@ -66,8 +66,12 @@ public class LeagueService {
             teamRepository.save(team);
             leagueRepository.save(league);
 
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_CREATED);
         }
         return league;
     }
@@ -111,8 +115,12 @@ public class LeagueService {
             Optional.ofNullable(league.getFrequency())
                     .ifPresent(findLeague::setFrequency);
             leagueRepository.save(findLeague);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_PATCHED);
         }
         return league;
     }
@@ -136,8 +144,9 @@ public class LeagueService {
             }
             leagueRepository.save(league);
             log.info("CHECK LEAGUE_MATCH_COUNT FOR LEAGUE_END TO LEAGUE_REPOSITORY:{}", endCount);
-        } catch (Exception e) {
-            log.error(e.getMessage(),e);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         }
     }
 

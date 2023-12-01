@@ -31,6 +31,9 @@ public class TeamService {
     public Team createTeam(
             Team team, Long userId, String teamName) {
         try {
+            if (userId == null || teamName == null) {
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             checkDuplUserId(userId);
             checkDuplTeamName(teamName);
 
@@ -42,8 +45,12 @@ public class TeamService {
 
             userRepository.save(user);
             teamRepository.save(team);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_CREATED);
         }
         return team;
     }
@@ -109,8 +116,12 @@ public class TeamService {
             Optional.ofNullable(team.getUniformType())
                     .ifPresent(findTeam::setUniformType);
             teamRepository.save(findTeam);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
-            log.error(e.getMessage(),e);
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
         return team;
     }
@@ -153,8 +164,12 @@ public class TeamService {
             teamRepository.save(findAwayTeam);
             log.info("UPDATE_FOR_MATCH_END ABOUT: HOME_TEAM TO TEAM_REPOSITORY:{}", findHomeTeam);
             log.info("UPDATE_FOR_MATCH_END ABOUT: AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
@@ -210,8 +225,12 @@ public class TeamService {
             teamRepository.save(findAwayTeam);
             log.info("LEAGUE_MATCH_END ABOUT HOME_TEAM TO TEAM_REPOSITORY:{}", findHomeTeam);
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
+        } catch (BusinessLogicException e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(e.getExceptions());
         } catch (Exception e) {
             log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
 
