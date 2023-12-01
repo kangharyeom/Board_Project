@@ -89,8 +89,6 @@ public class ParticipantsService {
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
-            user.setLeagueId(leagueId);
-
             League league = leagueService.findLeague(leagueId);
 
             participants.setUser(user);
@@ -104,17 +102,14 @@ public class ParticipantsService {
             participants.setLeagueMatchPoints(0L);
             participants.setLeagueMatchCount(0L);
 
-            participants.setTeamName(team.getTeamName());
-            participants.setSubManagerName(team.getSubManagerName());
             participants.setChampionCount(team.getChampionCount());
-            participants.setMemberCount(team.getMemberCount());
+            participants.setFormation(team.getFormation());
             participants.setHonorScore(team.getHonorScore());
-            participants.setAgeType(team.getAgeType());
-            participants.setLocationType(team.getLocationType());
-            participants.setLevelType(team.getLevelType());
-            participants.setFrequency(team.getFrequency());
+            participants.setLeagueHonorScore(team.getHonorScore());
+            participants.setMemberCount(team.getMemberCount());
+            participants.setSubManagerName(team.getSubManagerName());
+            participants.setTeamName(team.getTeamName());
             participants.setUniformType(team.getUniformType());
-            participants.setCleanSheet(participants.getCleanSheet());
 
             participants.setManagerName(user.getName());
 

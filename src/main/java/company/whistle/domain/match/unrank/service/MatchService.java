@@ -67,6 +67,62 @@ public class MatchService {
         return match;
     }
 
+    public Match updateBothMatch(Match match, Long matchId, Long matchApplyId, Long awayTeamUserId, Long awayTeamId) {
+        try {
+            if (matchId == null) {
+                log.info("matchId: {}", matchId);
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
+            userService.findUser(awayTeamUserId);
+            Team team = teamService.findTeam(awayTeamId);
+
+            findVerifiedMatchApply(matchApplyId);
+            Match findMatch = findVerifiedMatch(match.getMatchId());
+            log.info("findMatch:{}",findMatch.toString());
+
+            Optional.of(awayTeamId)
+                    .ifPresent(findMatch::setAwayTeamId);
+
+            Optional.of(awayTeamUserId)
+                    .ifPresent(findMatch::setAwayTeamUserId);
+
+            Optional.ofNullable(team.getHonorScore())
+                    .ifPresent(findMatch::setAwayTeamHonorScore);
+
+            Optional.ofNullable(team.getTeamName())
+                    .ifPresent(findMatch::setAwayTeamName);
+
+            Optional.ofNullable(team.getManagerName())
+                    .ifPresent(findMatch::setAwayTeamManagerName);
+
+            Optional.ofNullable(team.getTotalWinRecord())
+                    .ifPresent(findMatch::setAwayTeamTotalWinRecord);
+
+            Optional.ofNullable(team.getTotalDrawRecord())
+                    .ifPresent(findMatch::setAwayTeamTotalDrawRecord);
+
+            Optional.ofNullable(team.getTotalLoseRecord())
+                    .ifPresent(findMatch::setAwayTeamTotalLoseRecord);
+
+            Optional.ofNullable(team.getLevelType())
+                    .ifPresent(findMatch::setAwayTeamLevelType);
+
+            Optional.ofNullable(team.getAgeType())
+                    .ifPresent(findMatch::setAwayTeamAgeType);
+
+            Optional.ofNullable(team.getUniformType())
+                    .ifPresent(findMatch::setAwayTeamUniformType);
+
+            matchRepository.save(findMatch);
+            return findMatch;
+        } catch (BusinessLogicException e) {
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            throw new BusinessLogicException(Exceptions.MATCH_NOT_PATCHED);
+        }
+    }
+
     public Match updateMatch(Match match, Long matchId) {
         try {
             if (matchId == null) {
@@ -171,7 +227,14 @@ public class MatchService {
         Optional<Match> optionalMatch = matchRepository.findById(matchId);
 
         return optionalMatch.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+                        new BusinessLogicException(Exceptions.MATCH_NOT_FOUND));
+    }
+
+    public Match findVerifiedMatchApply(Long matchApplyId) {
+        Optional<Match> optionalMatch = matchRepository.findById(matchApplyId);
+
+        return optionalMatch.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_FOUND));
     }
 
     public void findVerifiedExistsLeagueByTeamId(long teamId) {

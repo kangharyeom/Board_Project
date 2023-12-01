@@ -1,11 +1,6 @@
 package company.whistle.domain.match.unrank.controller;
 
-import company.whistle.domain.match.schedule.entity.Schedule;
-import company.whistle.domain.match.schedule.service.ScheduleService;
-import company.whistle.domain.match.unrank.dto.MatchListDto;
-import company.whistle.domain.match.unrank.dto.MatchPatchDto;
-import company.whistle.domain.match.unrank.dto.MatchPostDto;
-import company.whistle.domain.match.unrank.dto.MatchResponseDto;
+import company.whistle.domain.match.unrank.dto.*;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.match.unrank.mapper.MatchMapper;
 import company.whistle.domain.match.unrank.service.MatchService;
@@ -29,18 +24,31 @@ import java.util.List;
 public class MatchController {
     private final MatchService matchService;
     private final MatchMapper matchMapper;
-    private final ScheduleService scheduleService;
 
     @PostMapping
-    public ResponseEntity<MatchResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
+    public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
         Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
-        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+        BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
         log.info("UN_RANK MATCH POST COMPLETE: {}", matchResponseDto.toString());
 
-        scheduleService.createScheduleByMatchController(new Schedule(), matchResponseDto.getUserId(), matchResponseDto.getTeamId(), matchResponseDto.getMatchId());
 
         return ResponseEntity.ok(matchResponseDto);
+    }
+
+    @PostMapping("/{matchId}")
+    public ResponseEntity<BothTeamInfoResponseDto> postAwayTeamForMatch(@RequestBody AwayTeamPostDto requestBody,
+                                                                        @PathVariable("matchId") Long matchId) {
+        requestBody.updateId(matchId);
+        Match match = matchService.updateBothMatch(
+                matchMapper.matchPatchDtoToBothMatch(requestBody),
+                matchId,
+                requestBody.getMatchApplyId(), requestBody.getAwayTeamUserId(), requestBody.getAwayTeamId());
+
+        BothTeamInfoResponseDto matchResponse = matchMapper.matchBothTeamResponse(match);
+        log.info("UN_RANK MATCH AWAY_TEAM CREATE COMPLETE: {}", matchResponse.toString());
+
+        return ResponseEntity.ok(matchResponse);
     }
 
     @GetMapping("/{matchId}")

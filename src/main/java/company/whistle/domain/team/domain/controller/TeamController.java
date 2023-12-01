@@ -1,11 +1,8 @@
 package company.whistle.domain.team.domain.controller;
 
+import company.whistle.domain.team.domain.dto.*;
 import company.whistle.domain.team.squad.entity.Squad;
 import company.whistle.domain.team.squad.service.SquadService;
-import company.whistle.domain.team.domain.dto.TeamPostDto;
-import company.whistle.domain.team.domain.dto.TeamResponseDto;
-import company.whistle.domain.team.domain.dto.TeamListDto;
-import company.whistle.domain.team.domain.dto.TeamPatchDto;
 import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.team.domain.mapper.TeamMapper;
 import company.whistle.domain.team.domain.service.TeamService;
@@ -34,14 +31,14 @@ public class TeamController {
     @PostMapping
     public ResponseEntity<TeamResponseDto> postTeam(@Valid @RequestBody TeamPostDto requestBody ){
         Team team = teamService.createTeam(
-                teamMapper.teamPostDtoToTeam(requestBody),
-                requestBody.getUserId(),
-                requestBody.getTeamName()
-        );
+                teamMapper.teamPostDtoToTeam(requestBody), requestBody.getUserId(), requestBody.getTeamName());
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("TEAM CREATE COMPLETE: {}", teamResponseDto.toString());
 
-        squadService.createSquadByTeamController(new Squad(), teamResponseDto.getTeamId(),requestBody.getUserId());
+        Squad squad = squadService.createSquadByTeamController(
+                teamMapper.squadPostDtoToSquad(requestBody), teamResponseDto.getTeamId(),requestBody.getUserId());
+        SquadResponseDto squadResponseDto = teamMapper.squadToSquadResponse(squad);
+        log.info("SQUAD CREATE COMPLETE: {}", squadResponseDto.toString());
 
         return ResponseEntity.ok(teamResponseDto);
     }

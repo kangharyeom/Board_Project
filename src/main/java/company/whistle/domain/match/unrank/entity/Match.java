@@ -24,6 +24,8 @@ public class Match extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
 
+    private Long applyId;
+
     @Column
     private Long homeTeamHonorScore;
 
@@ -42,6 +44,9 @@ public class Match extends Auditable {
     @Column
     private Long homeTeamTotalLoseRecord;
 
+    @Column
+    private Long homeTeamScore = 0L;
+
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 
@@ -50,6 +55,51 @@ public class Match extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private UniformType homeTeamUniformType;
+
+
+
+
+
+
+    @Column
+    private Long awayTeamUserId;
+
+    @Column
+    private Long awayTeamId;
+
+    @Column
+    private Long awayTeamScore = 0L;
+
+    @Column
+    private Long awayTeamHonorScore;
+
+    @Column
+    private String awayTeamName;
+
+    @Column
+    private String awayTeamManagerName;
+
+    @Column
+    private Long awayTeamTotalWinRecord;
+
+    @Column
+    private Long awayTeamTotalDrawRecord;
+
+    @Column
+    private Long awayTeamTotalLoseRecord;
+
+    @Enumerated(EnumType.STRING)
+    private LevelType awayTeamLevelType;
+
+    @Enumerated(EnumType.STRING)
+    private AgeType awayTeamAgeType;
+
+    @Enumerated(EnumType.STRING)
+    private UniformType awayTeamUniformType;
+
+
+
+
 
     @Enumerated(EnumType.STRING)
     private LocationType locationType;
@@ -60,19 +110,19 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private SportsType sportsType;
 
-    @Column(nullable = false)
+    @Column
+    private String matchRules;
+
+    @Column
     private String matchTime;
 
     @Column
     private String matchDate;
 
-    @Column
-    private String matchRules;
-
     // DB Input
 
     @Enumerated(EnumType.STRING)
-    private MatchStatus matchStatus = MatchStatus.BEFORE;
+    private MatchStatus matchStatus = MatchStatus.RIVAL_RECRUIT;
 
     @Enumerated(EnumType.STRING)
     private MatchResultStatus homeTeamMatchResultStatus = MatchResultStatus.NONE;

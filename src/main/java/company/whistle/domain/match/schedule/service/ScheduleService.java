@@ -102,8 +102,6 @@ public class ScheduleService {
             Team team = teamService.findTeam(teamId);
             Match match = matchService.findMatch(matchId);
 
-            user.setMatchId(matchId);
-
             schedule.setUser(user);
             schedule.setTeam(team);
             schedule.setMatch(match);

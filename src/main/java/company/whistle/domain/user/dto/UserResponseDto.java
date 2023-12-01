@@ -11,9 +11,6 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDto {
     private Long userId;
-    private Long teamId;
-    private Long matchId;
-    private Long leagueId;
     private String loginId;
     private String email;
     private String name;
@@ -27,9 +24,6 @@ public class UserResponseDto {
     public String toString() {
         return "UserResponseDto{" +
                 "userId=" + userId +
-                ", teamId=" + teamId +
-                ", matchId=" + matchId +
-                ", leagueId=" + leagueId +
                 ", loginId='" + loginId + '\'' +
                 ", email='" + email + '\'' +
                 ", name='" + name + '\'' +

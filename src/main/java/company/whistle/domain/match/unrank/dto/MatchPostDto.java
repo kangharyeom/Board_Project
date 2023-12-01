@@ -35,6 +35,5 @@ public class MatchPostDto {
     private String matchTime;
     @NotBlank(message = "경기 날짜를 입력 해야 합니다.")
     private String matchDate;
-    private String matchStatus = "BEFORE";
     private String matchRules;
 }

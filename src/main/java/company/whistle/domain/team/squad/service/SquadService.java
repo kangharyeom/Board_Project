@@ -65,12 +65,9 @@ public class SquadService {
             if (userId == null || teamId == null ) {
                 log.info("userId: {}", userId);
                 log.info("teamId: {}", teamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
-
-            user.setTeamId(teamId);
 
             squad.setUser(user);
             squad.setTeam(team);
@@ -78,15 +75,8 @@ public class SquadService {
             squad.setName(user.getName());
             squad.setPosition(Position.FORWARDS);
             squad.setTeamMemberRole(TeamMemberRole.MANAGER);
-            squad.setAgeType(team.getAgeType());
-            squad.setLocationType(team.getLocationType());
-            squad.setLevelType(team.getLevelType());
-            squad.setFrequency(team.getFrequency());
 
             userRepository.save(user);
-
-            log.info("teamId {}", teamId);
-            log.info("getTeamId {}", user.getTeamId());
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
             throw e;

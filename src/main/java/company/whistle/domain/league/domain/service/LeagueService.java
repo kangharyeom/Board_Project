@@ -60,11 +60,11 @@ public class LeagueService {
             league.setManagerName(user.getName());
             league.setManagerTeamName(team.getTeamName());
             league.setHonorScore(team.getHonorScore());
+            league.setMemberCount(team.getMemberCount());
 
             userRepository.save(user);
             teamRepository.save(team);
             leagueRepository.save(league);
-
         } catch (BusinessLogicException e) {
             throw e;
         } catch (Exception e) {

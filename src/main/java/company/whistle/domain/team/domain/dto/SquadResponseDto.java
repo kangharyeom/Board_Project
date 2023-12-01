@@ -1,4 +1,4 @@
-package company.whistle.domain.team.squad.dto;
+package company.whistle.domain.team.domain.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,7 +16,7 @@ public class SquadResponseDto {
     private Long teamApplyId;
     private String name;
     private String position;
-    private String teamMemberRole;
+    private String teamMemberType;
     private String ageType;
     private String locationType;
     private String levelType;
@@ -34,7 +34,7 @@ public class SquadResponseDto {
                 ", teamApplyId=" + teamApplyId +
                 ", name='" + name + '\'' +
                 ", position='" + position + '\'' +
-                ", teamMemberRole='" + teamMemberRole + '\'' +
+                ", teamMemberType='" + teamMemberType + '\'' +
                 ", ageType='" + ageType + '\'' +
                 ", locationType='" + locationType + '\'' +
                 ", levelType='" + levelType + '\'' +

@@ -54,6 +54,8 @@ public class MatchApplyService {
             matchApply.setApplyType(matchApply.getApplyType());
 
             matchApplyRepository.save(matchApply);
+        } catch (BusinessLogicException e) {
+            throw e;
         } catch (Exception e) {
             throw new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_CREATED);
         }

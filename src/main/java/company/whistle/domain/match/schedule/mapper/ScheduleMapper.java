@@ -45,20 +45,14 @@ public interface ScheduleMapper {
     }
 
     default ScheduleResponseDto scheduleToScheduleResponse(Schedule schedule){
-
         User user = schedule.getUser();
-
         Team team = schedule.getTeam();
-
-        MatchApply matchApply = schedule.getMatchApply();
-
         Match match = schedule.getMatch();
 
         return ScheduleResponseDto.builder()
                 .homeTeamUserId(user.getUserId())
                 .homeTeamId(team.getTeamId())
                 .matchId(match.getMatchId())
-                .matchApplyId(matchApply.getMatchApplyId())
                 .scheduleId(schedule.getScheduleId())
                 .homeTeamScore(schedule.getHomeTeamScore())
                 .homeTeamHonorScore(schedule.getHomeTeamHonorScore())

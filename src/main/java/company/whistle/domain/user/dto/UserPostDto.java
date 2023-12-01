@@ -16,10 +16,6 @@ public class UserPostDto {
     @NotBlank(message = "아이디는 공백이 아니어야 합니다.")
     private String loginId;
 
-    private Long teamId;
-    private Long matchId;
-    private Long leagueId;
-
     @Email(message = "올바른 형식으로 입력해야 합니다.")
     @Length(min = 1, max = 60, message = "사이즈를 확인하세요.")
     @NotBlank(message = "이메일은 공백이 아니어야 합니다.")

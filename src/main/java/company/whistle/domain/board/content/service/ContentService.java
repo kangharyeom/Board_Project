@@ -58,7 +58,6 @@ public class ContentService {
     public Content createContentFile(Content content, Long userId,List<String> filePaths) {
         try {
             if (userId == null) {
-                log.info("userId: {}", userId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);

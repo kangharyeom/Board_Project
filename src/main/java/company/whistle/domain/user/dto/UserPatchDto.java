@@ -15,8 +15,6 @@ import javax.validation.constraints.Size;
 @Setter
 public class UserPatchDto {
     private Long userId;
-    private Long teamId;
-
     private String loginId;
 
     @Email(message = "올바른 형식으로 입력해야 합니다.")

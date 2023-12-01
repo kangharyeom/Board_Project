@@ -22,7 +22,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/api/lists/schedules")
+@RequestMapping("/api/matches/schedules")
 public class ScheduleController {
     private final ScheduleService scheduleService;
     private final ScheduleMapper scheduleMapper;

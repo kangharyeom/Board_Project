@@ -21,7 +21,6 @@ public class LeagueResponseDto {
     private Long matchCount;
     private Long teamCount;
     private Long honorScore;
-    private Long winPoints;
     private String leagueName;
     private String managerName;
     private String managerTeamName;
@@ -34,9 +33,36 @@ public class LeagueResponseDto {
     private String frequency;
     private String seasonType;
 
-    private List<Content> contents;
     private List<Schedule> schedules;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+
+    @Override
+    public String toString() {
+        return "LeagueResponseDto{" +
+                "leagueId=" + leagueId +
+                ", userId=" + userId +
+                ", teamId=" + teamId +
+                ", leagueEndCount=" + leagueEndCount +
+                ", memberCount=" + memberCount +
+                ", matchCount=" + matchCount +
+                ", teamCount=" + teamCount +
+                ", honorScore=" + honorScore +
+                ", leagueName='" + leagueName + '\'' +
+                ", managerName='" + managerName + '\'' +
+                ", managerTeamName='" + managerTeamName + '\'' +
+                ", sportsType='" + sportsType + '\'' +
+                ", ageType='" + ageType + '\'' +
+                ", locationType='" + locationType + '\'' +
+                ", period='" + period + '\'' +
+                ", levelType='" + levelType + '\'' +
+                ", leagueRules='" + leagueRules + '\'' +
+                ", frequency='" + frequency + '\'' +
+                ", seasonType='" + seasonType + '\'' +
+                ", schedules=" + schedules +
+                ", createdAt=" + createdAt +
+                ", modifiedAt=" + modifiedAt +
+                '}';
+    }
 }

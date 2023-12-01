@@ -13,7 +13,7 @@ public class SquadPostDto {
     private Long applyId;
     private String name;
     private String position;
-    private String teamMemberType;
+    private String teamMemberRole;
     private String ageType;
     private String locationType;
     private String levelType;

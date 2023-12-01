@@ -3,6 +3,7 @@ package company.whistle.domain.league.domain.controller;
 import company.whistle.domain.league.domain.dto.LeaguePatchDto;
 import company.whistle.domain.league.domain.dto.LeaguePostDto;
 import company.whistle.domain.league.domain.dto.LeagueResponseDto;
+import company.whistle.domain.league.domain.dto.ParticipantsResponseDto;
 import company.whistle.domain.league.domain.entity.League;
 import company.whistle.domain.league.domain.mapper.LeagueMapper;
 import company.whistle.domain.league.domain.service.LeagueService;
@@ -45,9 +46,12 @@ public class LeagueController {
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
         log.info("LEAGUE POST COMPLETE:{}", leagueResponseDto);
 
-
         // 리그 리스트 생성
-        participantsService.createParticipantsByLeagueController(new Participants(),requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());
+        Participants participants = participantsService.createParticipantsByLeagueController(
+                leagueMapper.participantsPostDtoToParticipants(requestBody) ,
+                requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());
+        ParticipantsResponseDto participantsResponseDto = leagueMapper.participantsToParticipantsResponse(participants);
+        log.info("PARTICIPANTS POST COMPLETE:{}", participantsResponseDto);
 
         return ResponseEntity.ok(leagueResponseDto);
     }
