@@ -152,7 +152,7 @@ public class LeagueController {
                                        @PathVariable("leagueId") Long leagueId) {
         requestBody.updateId(leagueId);
         League league = leagueService.updateLeague(
-                leagueMapper.leaguePatchDtoToLeague(requestBody));
+                leagueMapper.leaguePatchDtoToLeague(requestBody), requestBody.getLeagueId());
 
         LeagueResponseDto leagueResponse = leagueMapper.leagueToLeagueResponse(league);
 

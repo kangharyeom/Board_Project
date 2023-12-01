@@ -15,9 +15,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
-/*
- * LeagueApplyService
- */
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -34,6 +32,8 @@ public class TeamApplyService {
     public TeamApply createTeamApply(TeamApply teamApply, Long userId, Long teamId) {
         try {
             if (userId == null || teamId == null) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -47,8 +47,7 @@ public class TeamApplyService {
             teamApplyRepository.save(teamApply);
             log.info("TEAM_APPLY CREATED:{}", teamApply);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_CREATED);

@@ -32,6 +32,7 @@ public class TeamService {
             Team team, Long userId, String teamName) {
         try {
             if (userId == null) {
+                log.info("userId: {}", userId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             checkDuplUserId(userId);
@@ -46,10 +47,8 @@ public class TeamService {
             userRepository.save(user);
             teamRepository.save(team);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_NOT_CREATED);
         }
         return team;
@@ -60,6 +59,7 @@ public class TeamService {
             Long teamId) {
         try {
             if (teamId == null) {
+                log.info("teamId: {}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
@@ -119,10 +119,8 @@ public class TeamService {
                     .ifPresent(findTeam::setUniformType);
             teamRepository.save(findTeam);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
-            log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
         return team;
@@ -136,6 +134,8 @@ public class TeamService {
     ) {
         try {
             if (homeTeamId == null || awayTeamId == null) {
+                log.info("homeTeamId: {}", homeTeamId);
+                log.info("awayTeamId: {}", awayTeamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Team findHomeTeam = findVerifiedTeam(homeTeamId);
@@ -186,6 +186,8 @@ public class TeamService {
     ) {
         try {
             if (homeTeamId == null || awayTeamId == null) {
+                log.info("homeTeamId: {}", homeTeamId);
+                log.info("awayTeamId: {}", awayTeamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Team findHomeTeam = findVerifiedTeam(homeTeamId);
@@ -234,8 +236,7 @@ public class TeamService {
             log.info("LEAGUE_MATCH_END ABOUT HOME_TEAM TO TEAM_REPOSITORY:{}", findHomeTeam);
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);

@@ -34,6 +34,8 @@ public class CommentService {
     public Comment createComment(Comment comment, Long contentId, Long userId) {
         try {
             if (userId == null || contentId == null) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", contentId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Content content = contentService.findContent(contentId);
@@ -43,8 +45,7 @@ public class CommentService {
             comment.setContent(content);
             commentRepository.save(comment);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.COMMENT_NOT_CREATED);
@@ -58,6 +59,7 @@ public class CommentService {
     public Comment updateComment(Comment comment, Long commentId) {
         try {
             if (commentId == null) {
+                log.info("commentId: {}", commentId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Comment findComment = findVerifiedComment(commentId);
@@ -70,8 +72,7 @@ public class CommentService {
                     .ifPresent(findComment::setComment);
             commentRepository.save(findComment);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.COMMENT_NOT_PATCHED);

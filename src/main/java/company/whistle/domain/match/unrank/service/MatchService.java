@@ -33,6 +33,8 @@ public class MatchService {
     public Match createMatch(Match match, Long userId, Long teamId) {
         try {
             if (userId == null || teamId == null ) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -57,8 +59,7 @@ public class MatchService {
             userRepository.save(user);
             matchRepository.save(match);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.MATCH_NOT_CREATED);
@@ -69,6 +70,7 @@ public class MatchService {
     public Match updateMatch(Match match, Long matchId) {
         try {
             if (matchId == null) {
+                log.info("matchId: {}", matchId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Match findMatch = findVerifiedMatch(match.getMatchId());
@@ -116,8 +118,7 @@ public class MatchService {
                     .ifPresent(findMatch::setAwayTeamMatchResultStatus);
             matchRepository.save(findMatch);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.MATCH_NOT_PATCHED);

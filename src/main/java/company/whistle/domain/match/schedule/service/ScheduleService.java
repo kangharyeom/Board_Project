@@ -38,6 +38,10 @@ public class ScheduleService {
             Schedule schedule, Long awayTeamUserId, Long matchApplyId, Long awayTeamId, Long matchId) {
         try {
             if (awayTeamUserId == null || matchApplyId == null || awayTeamId == null || matchId == null) {
+                log.info("awayTeamUserId: {}", awayTeamUserId);
+                log.info("matchApplyId: {}", matchApplyId);
+                log.info("awayTeamId: {}", awayTeamId);
+                log.info("matchId: {}", matchId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(awayTeamUserId);
@@ -77,8 +81,7 @@ public class ScheduleService {
             schedule.setHomeTeamName(match.getHomeTeamName());
             scheduleRepository.save(schedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_CREATED);
@@ -90,6 +93,9 @@ public class ScheduleService {
             Schedule schedule, Long userId, Long teamId, Long matchId) {
         try {
             if (userId == null || teamId == null || matchId == null ) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
+                log.info("matchId: {}", matchId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -130,8 +136,7 @@ public class ScheduleService {
             userRepository.save(user);
             scheduleRepository.save(schedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -142,6 +147,7 @@ public class ScheduleService {
     public Schedule updateSchedule(Schedule schedule, Long scheduleId) {
         try {
             if (scheduleId == null ) {
+                log.info("scheduleId: {}", scheduleId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
@@ -216,8 +222,7 @@ public class ScheduleService {
                 .ifPresent(findTeamList::setMostMom);*/
             scheduleRepository.save(findSchedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -228,6 +233,7 @@ public class ScheduleService {
     public Schedule updateScheduleWithAwayTeam(Schedule schedule,Long scheduleId) {
         try {
             if (scheduleId == null ) {
+                log.info("scheduleId: {}", scheduleId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
@@ -275,8 +281,7 @@ public class ScheduleService {
                 .ifPresent(findTeamList::setMostMom);*/
             scheduleRepository.save(findSchedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -287,6 +292,7 @@ public class ScheduleService {
     public Schedule updateMatchEnd(Schedule schedule, Long scheduleId) {
         try {
             if (scheduleId == null ) {
+                log.info("scheduleId: {}", scheduleId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Schedule findSchedule = findVerifiedSchedule(scheduleId);
@@ -301,8 +307,7 @@ public class ScheduleService {
                     .ifPresent(findSchedule::setMatchStatus);
             scheduleRepository.save(findSchedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);
@@ -313,6 +318,7 @@ public class ScheduleService {
     public void updateForMatchEnd(Long homeTeamScore, Long awayTeamScore, Long scheduleId ) {
         try {
             if (scheduleId == null ) {
+                log.info("scheduleId: {}", scheduleId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             //리그 매치 정보 수정
@@ -352,8 +358,7 @@ public class ScheduleService {
             scheduleRepository.save(findSchedule);
             log.info("UPDATE_FOR_MATCH_END TO SCHEDULE_REPOSITORY FINISHED:{}", findSchedule);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SCHEDULE_NOT_PATCHED);

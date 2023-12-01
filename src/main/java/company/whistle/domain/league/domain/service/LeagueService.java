@@ -43,8 +43,8 @@ public class LeagueService {
     public League createLeague(League league, Long userId, Long teamId, String leagueName) {
         try {
             if(userId==null || teamId==null){
-                log.info("userId:{}",userId);
-                log.info("teamId:{}",teamId);
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -66,8 +66,7 @@ public class LeagueService {
             leagueRepository.save(league);
 
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_NOT_CREATED);
@@ -75,8 +74,12 @@ public class LeagueService {
         return league;
     }
 
-    public League updateLeague(League league) {
+    public League updateLeague(League league, Long leagueId) {
         try {
+            if(leagueId==null){
+                log.info("leagueId: {}", leagueId);
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             League findLeague = findVerifiedLeague(league.getLeagueId());
 
             // 리그 관리자만 수정 가능하도록
@@ -115,8 +118,7 @@ public class LeagueService {
                     .ifPresent(findLeague::setFrequency);
             leagueRepository.save(findLeague);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_NOT_PATCHED);
@@ -124,39 +126,46 @@ public class LeagueService {
         return league;
     }
 
-    public void checkEndTheLeague(
-            Long leagueId
-    ) {
+    public void checkEndTheLeague(Long leagueId) {
         try {
+            if(leagueId==null){
+                log.info("leagueId: {}", leagueId);
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             League league = findVerifiedLeague(leagueId);
             long leagueEndCount = league.getLeagueEndCount();
             long teamCount = league.getTeamCount();
             long matchCount = league.getMatchCount();
             long endCount = (teamCount * matchCount) / 2;
 
-            if(leagueEndCount == endCount){
+            if (leagueEndCount == endCount) {
                 league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
                 Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
                 Team team = teamService.findTeam(participants.getTeam().getTeamId());
-                participants.setChampionCount(participants.getChampionCount()+1L);
-                team.setChampionCount(team.getChampionCount()+1L);
+                participants.setChampionCount(participants.getChampionCount() + 1L);
+                team.setChampionCount(team.getChampionCount() + 1L);
             }
             leagueRepository.save(league);
             log.info("CHECK LEAGUE_MATCH_COUNT FOR LEAGUE_END TO LEAGUE_REPOSITORY:{}", endCount);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
+        } catch (Exception e) {
+            log.error(e.getMessage(),e);
         }
     }
 
-    public void updateForLeagueMatchEnd(
-            Long leagueId
-    ) {
+    public void updateForLeagueMatchEnd(Long leagueId) {
         try {
+            if(leagueId==null){
+                log.info("leagueId: {}", leagueId);
+                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            }
             League findLeague = findVerifiedLeague(leagueId);
             findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
             leagueRepository.save(findLeague);
             log.info("LEAGUE_MATCH_END FOR LEAGUE_END_COUNT TO LEAGUE_REPOSITORY:{}", findLeague);
+        } catch (BusinessLogicException e) {
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(),e);
         }

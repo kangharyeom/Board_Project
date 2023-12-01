@@ -42,8 +42,7 @@ public class UserService {
             userRepository.save(user);
             log.info("USER POST COMPLETE: {}", user.toString());
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.USER_NOT_CREATED);
@@ -55,6 +54,7 @@ public class UserService {
     public User updateUser(User user, Long userId) {
         try {
             if (userId == null) {
+                log.info("userId: {}", userId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             // 회원 유무 확인
@@ -75,8 +75,7 @@ public class UserService {
             userRepository.save(findUser);
             log.info("USER PATCH COMPLETE: {}", user.toString());
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.USER_NOT_PATCHED);

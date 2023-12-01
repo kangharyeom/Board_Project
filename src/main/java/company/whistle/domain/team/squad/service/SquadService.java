@@ -35,6 +35,9 @@ public class SquadService {
             Squad squad, Long userId, Long teamId, Long teamApplyId) {
         try {
             if (userId == null || teamId == null || teamApplyId == null) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
+                log.info("teamApplyId: {}", teamApplyId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -48,8 +51,7 @@ public class SquadService {
             squad.setTeamMemberRole(TeamMemberRole.MEMBER);
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
@@ -61,6 +63,8 @@ public class SquadService {
             Squad squad, Long teamId, Long userId) {
         try {
             if (userId == null || teamId == null ) {
+                log.info("userId: {}", userId);
+                log.info("teamId: {}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findUser(userId);
@@ -85,8 +89,7 @@ public class SquadService {
             log.info("getTeamId {}", user.getTeamId());
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SQUAD_NOT_CREATED);
@@ -99,6 +102,7 @@ public class SquadService {
             Long squadId) {
         try {
             if ( squadId == null ) {
+                log.info("squadId: {}", squadId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Squad findSquad = findVerifiedSquad(squadId);
@@ -122,8 +126,7 @@ public class SquadService {
                 .ifPresent(findSquad::setMostMom);*/
             squadRepository.save(findSquad);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.SQUAD_NOT_PATCHED);
