@@ -63,8 +63,8 @@ public class MatchApplyService {
         return matchApply;
     }
 
-    public MatchApply findMatchApply(Long applyId) {
-        return findVerifiedMatchApply(applyId);
+    public MatchApply findMatchApply(Long matchApplyId) {
+        return findVerifiedMatchApply(matchApplyId);
     }
 
     public List<MatchApply> findAllByTeamId(Long teamId){

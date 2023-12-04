@@ -5,47 +5,18 @@ import company.whistle.domain.apply.team.entity.TeamApply;
 import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.user.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface TeamApplyMapper {
-    TeamApply applyPostDtoToTeamApply(TeamApplyPostDto requestBody);
+    TeamApply teamApplyPostDtoToTeamApply(TeamApplyPostDto requestBody);
 
-    default TeamApplyResponseDto teamApplyToTeamApplyResponse(TeamApply teamApply){
-
-        User user = teamApply.getUser();
-        Team team = teamApply.getTeam();
-
-        return TeamApplyResponseDto.builder()
-                .userId(user.getUserId())
-                .teamId(team.getTeamId())
-                .teamApplyId(teamApply.getTeamApplyId())
-                .teamName(teamApply.getTeamName())
-                .createdAt(teamApply.getCreatedAt())
-                .modifiedAt(teamApply.getModifiedAt())
-                .build();
-    }
-
-    default TeamApplyResponseDto applyToTeamApplyResponse(TeamApply teamApply){
-
-        User user = teamApply.getUser();
-        Team team = teamApply.getTeam();
-
-        return TeamApplyResponseDto.builder()
-                .userId(user.getUserId())
-                .teamId(team.getTeamId())
-                .teamApplyId(teamApply.getTeamApplyId())
-                .managerName(teamApply.getManagerName())
-                .teamName(teamApply.getTeamName())
-                .ageType(String.valueOf(teamApply.getAgeType()))
-                .levelType(String.valueOf(teamApply.getLevelType()))
-                .applyType(String.valueOf(teamApply.getApplyType()))
-                .createdAt(teamApply.getCreatedAt())
-                .modifiedAt(teamApply.getModifiedAt())
-                .build();
-    }
+    @Mapping(source = "user.userId", target = "userId")
+    @Mapping(source = "team.teamId", target = "teamId")
+    TeamApplyResponseDto teamApplyToTeamApplyResponse(TeamApply teamApply);
 
     default TeamApplyListDto teamApplyListDtoToTeamApplyResponse(List<TeamApply> teamApplies){
 

@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 public interface TeamApplyRepository extends JpaRepository<TeamApply,Long> {
-    // applyId 단위 전체 조회
+    // teamApplyId 단위 전체 조회
     @Query(value = "select * from team_applies where team_apply_id = :teamApplyId", nativeQuery = true)
     List<TeamApply> findAllByTeamApplyId(@Param("teamApplyId") long teamApplyId);
 

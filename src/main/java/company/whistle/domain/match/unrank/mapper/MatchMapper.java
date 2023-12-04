@@ -18,7 +18,6 @@ public interface MatchMapper {
     @Mapping(source = "team.teamId", target = "homeTeamId")
     BothTeamInfoResponseDto matchBothTeamResponse(Match match);
     MatchResponseDto matchToMatchResponse(Match match);
-
 //    default MatchResponseDto matchToMatchResponse(Match match){
 //        User user = match.getUser();
 //        Team team = match.getTeam();

@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/api/teams/squads")
+@RequestMapping("/api/teams/{teamId}/squads")
 public class SquadController {
     private final SquadService squadService;
     private final SquadMapper squadMapper;

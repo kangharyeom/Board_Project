@@ -1,13 +1,10 @@
 package company.whistle.domain.league.domain.dto;
 
-import company.whistle.domain.board.content.entity.Content;
-import company.whistle.domain.match.schedule.entity.Schedule;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @Getter
@@ -32,8 +29,6 @@ public class LeagueResponseDto {
     private String leagueRules;
     private String frequency;
     private String seasonType;
-
-    private List<Schedule> schedules;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -60,7 +55,6 @@ public class LeagueResponseDto {
                 ", leagueRules='" + leagueRules + '\'' +
                 ", frequency='" + frequency + '\'' +
                 ", seasonType='" + seasonType + '\'' +
-                ", schedules=" + schedules +
                 ", createdAt=" + createdAt +
                 ", modifiedAt=" + modifiedAt +
                 '}';

@@ -60,17 +60,17 @@ public class LeagueApplyService {
         return leagueApply;
     }
 
-    public LeagueApply findLeagueApply(Long applyId) {
-        return findVerifiedLeagueApply(applyId);
+    public LeagueApply findLeagueApply(Long leagueApplyId) {
+        return findVerifiedLeagueApply(leagueApplyId);
     }
 
     public List<LeagueApply> findAllByLeagueId(Long leagueId){
         return leagueApplyRepository.findAllByLeagueId(leagueId);
     }
 
-    public void deleteApply(Long applyId) {
+    public void deleteApply(Long leagueApplyId) {
         try {
-            LeagueApply findLeagueApply = findVerifiedLeagueApply(applyId);
+            LeagueApply findLeagueApply = findVerifiedLeagueApply(leagueApplyId);
             leagueApplyRepository.delete(findLeagueApply);
         } catch (Exception e) {
             throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_DELETED);
@@ -81,8 +81,8 @@ public class LeagueApplyService {
      * apply 검증 로직
      * repository에 Apply가 없는 경우 exception을 리턴
      */
-    public LeagueApply findVerifiedLeagueApply(Long applyId) {
-        Optional<LeagueApply> optionalApply = leagueApplyRepository.findById(applyId);
+    public LeagueApply findVerifiedLeagueApply(Long leagueApplyId) {
+        Optional<LeagueApply> optionalApply = leagueApplyRepository.findById(leagueApplyId);
 
         LeagueApply findLeagueApply =
                 optionalApply.orElseThrow(() ->

@@ -4,6 +4,8 @@ import company.whistle.domain.apply.league.dto.*;
 import company.whistle.domain.apply.league.entity.LeagueApply;
 import company.whistle.domain.apply.league.mapper.LeagueApplyMapper;
 import company.whistle.domain.apply.league.service.LeagueApplyService;
+import company.whistle.domain.board.comment.dto.CommentResponseDto;
+import company.whistle.domain.board.comment.entity.Comment;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -24,7 +26,7 @@ public class LeagueApplyController {
     /*
      * 리그 가입 신청
      */
-    @PostMapping
+    @PostMapping("/{leagueId}")
     public ResponseEntity<LeagueApplyResponseDto> postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody) {
         LeagueApply leagueApply = leagueApplyService.createLeagueApply(leagueApplyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
         LeagueApplyResponseDto leagueApplyResponseDto = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
@@ -34,21 +36,33 @@ public class LeagueApplyController {
     }
 
     /*
-     * leagueId 단위 리그 가입 신청 조회
+     * leagueApplyId 단위 리그 가입 신청 단건 조회
      */
-    @GetMapping("/{leagueApplyId}")
-    public ResponseEntity<LeagueApplyListDto> getAppliesByLeagueId(@PathVariable("leagueApplyId") Long leagueApplyId){
+    @GetMapping("/{leagueId}/{leagueApplyId}")
+    public ResponseEntity<LeagueApplyResponseDto> getAppliesByLeagueApplyId(@PathVariable("leagueApplyId") Long leagueApplyId){
+        LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
+        LeagueApplyResponseDto leagueApplyResponse = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
+        log.info("TOTAL LEAGUE_APPLIY INFO:" + leagueApplyResponse);
+        return ResponseEntity.ok(leagueApplyResponse);
+    }
 
-        List<LeagueApply> applies = leagueApplyService.findAllByLeagueId(leagueApplyId);
+    /*
+     * leagueApplyId 단위 리그 가입 신청 전체 조회
+     */
+    @GetMapping("/{leagueId}")
+    public ResponseEntity<LeagueApplyListDto> getAppliesByLeagueId(@PathVariable("leagueId") Long leagueId){
+
+        List<LeagueApply> applies = leagueApplyService.findAllByLeagueId(leagueId);
         log.info("TOTAL LEAGUE_APPLIES INFO:" + applies);
         return new ResponseEntity<>(leagueApplyMapper.leagueApplyListDtoToLeagueApplyResponse(applies),
                 HttpStatus.OK);
     }
 
+
     /*
-     * apply 제거
+     * leagueApply 제거
      */
-    @DeleteMapping("/{leagueApplyId}")
+    @DeleteMapping("/{leagueId}/{leagueApplyId}")
     public ResponseEntity<HttpStatus> deleteApply(@PathVariable("leagueApplyId") Long leagueApplyId) {
         leagueApplyService.deleteApply(leagueApplyId);
 

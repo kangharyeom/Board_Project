@@ -7,6 +7,7 @@ import company.whistle.domain.board.comment.entity.Comment;
 import company.whistle.domain.board.content.entity.Content;
 import company.whistle.domain.user.entity.User;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 @Mapper(componentModel = "spring")
@@ -15,21 +16,23 @@ public interface CommentMapper {
 
     Comment commentPatchDtoToComment(CommentPatchDto requestBody);
 
-    default CommentResponseDto commentToCommentResponseDto(Comment comment) {
-        User user = comment.getUser();
-        Content content = comment.getContent();
-
-        return CommentResponseDto.builder()
-                .commentId(comment.getCommentId())
-                .userId(user.getUserId())
-                .name(user.getName())
-                .contentId(content.getContentId())
-                .title(content.getTitle())
-                .comment(comment.getComment())
-                .createdAt(comment.getCreatedAt())
-                .modifiedAt(comment.getModifiedAt())
-                .build();
-    }
+    @Mapping(source = "user.userId", target = "userId")
+    @Mapping(source = "content.teamId", target = "contentId")
+    @Mapping(source = "user.name", target = "name")
+    @Mapping(source = "content.title", target = "title")
+    CommentResponseDto commentToCommentResponseDto(Comment comment);
+//    default CommentResponseDto commentToCommentResponseDto(Comment comment){
+//        return CommentResponseDto.builder()
+//                .contentId(content.getContentId())
+//                .userId(user.getUserId())
+//                .name(user.getName())
+//                .title(content.getTitle())
+//                .commentId(comment.getCommentId())
+//                .comment(comment.getComment())
+//                .createdAt(comment.getCreatedAt())
+//                .modifiedAt(comment.getModifiedAt())
+//                .build();
+//    }
     List<CommentResponseDto> commentsToCommentResponseDtos(List<Comment> comment);
     List<CommentResponseDto> contentCommentsToCommentResponseDtos(List<Comment> comment);
 }

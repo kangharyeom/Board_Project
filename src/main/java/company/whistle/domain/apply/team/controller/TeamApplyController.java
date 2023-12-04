@@ -24,24 +24,36 @@ public class TeamApplyController {
     /*
     * 팀 가입 신청
     */
-    @PostMapping
+    @PostMapping({"/{teamId}"})
     public ResponseEntity<TeamApplyResponseDto> postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody) {
         TeamApply teamApply = teamApplyService.createTeamApply(
-                teamApplyMapper.applyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+                teamApplyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
 
-        TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.applyToTeamApplyResponse(teamApply);
+        TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.teamApplyToTeamApplyResponse(teamApply);
         log.info("TEAM_APPLY POST COMPLETE: {}",teamApplyResponseDto.toString());
 
         return ResponseEntity.ok(teamApplyResponseDto);
     }
 
     /*
-     * teamId 단위 팀 가입 신청 조회
+     * teamApplyId 단위 팀 가입 신청 단건 조회
      */
-    @GetMapping("/{teamApplyId}")
-    public ResponseEntity<TeamApplyListDto> getTeamAppliesByTeamId(@PathVariable("teamApplyId") Long teamApplyId){
+    @GetMapping("/{teamId}/{teamApplyId}")
+    public ResponseEntity<TeamApplyResponseDto> getTeamAppliesByTeamApplyId(@PathVariable("teamApplyId") Long teamApplyId){
 
-        List<TeamApply> teamApplies = teamApplyService.findAllByTeamApplyId(teamApplyId);
+        TeamApply teamApply = teamApplyService.findTeamApply(teamApplyId);
+        TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.teamApplyToTeamApplyResponse(teamApply);
+        log.info("TEAM_APPLIY BY TEAM_APPLY_ID INFO:" + teamApplyResponseDto);
+        return ResponseEntity.ok(teamApplyResponseDto);
+    }
+
+    /*
+     * teamId 단위 팀 가입 신청 전체 조회
+     */
+    @GetMapping("/{teamId}")
+    public ResponseEntity<TeamApplyListDto> getTeamAppliesByTeamId(@PathVariable("teamId") Long teamId){
+
+        List<TeamApply> teamApplies = teamApplyService.findAllByTeamApplyId(teamId);
         log.info("TOTAL TEAM_APPLIES INFO:" + teamApplies);
         return new ResponseEntity<>(teamApplyMapper.teamApplyListDtoToTeamApplyResponse(teamApplies),
                 HttpStatus.OK);
@@ -50,7 +62,7 @@ public class TeamApplyController {
     /*
      * apply 제거
      */
-    @DeleteMapping("/{teamApplyId}")
+    @DeleteMapping("/{teamId}/{teamApplyId}")
     public ResponseEntity<HttpStatus> deleteTeamApply(@PathVariable("teamApplyId") Long teamApplyId) {
         teamApplyService.deleteTeamApply(teamApplyId);
 

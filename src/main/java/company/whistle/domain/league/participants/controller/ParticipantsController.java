@@ -18,7 +18,7 @@ import java.util.List;
 @Validated
 @RequiredArgsConstructor
 @Log4j2
-@RequestMapping("/api/leagues/participants")
+@RequestMapping("/api/leagues/{leagueId}/participants")
 public class ParticipantsController {
     private final ParticipantsService participantsService;
     private final ParticipantsMapper participantsMapper;
@@ -50,8 +50,8 @@ public class ParticipantsController {
     @GetMapping
     public ResponseEntity<List<ParticipantsResponseDto>> getParticipants() {
 
-        List<Participants> participantss = participantsService.findAllParticipants();
-        return new ResponseEntity<>(participantsMapper.participantssToParticipantsResponse(participantss),
+        List<Participants> participants = participantsService.findAllParticipants();
+        return new ResponseEntity<>(participantsMapper.participantssToParticipantsResponse(participants),
                 HttpStatus.OK);
     }
 

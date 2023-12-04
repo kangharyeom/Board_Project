@@ -24,7 +24,7 @@ public class MatchApplyController {
     /*
     * 경기 참여 신청
     */
-    @PostMapping
+    @PostMapping("/{matchId}")
     public ResponseEntity<MatchApplyResponseDto> postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody) {
 
         MatchApply matchApply = matchApplyService.createMatchApply(matchApplyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
@@ -35,21 +35,42 @@ public class MatchApplyController {
     }
 
     /*
-     * matchId 단위 경기 신청 조회
+     * matchApplyId 단위 경기 신청 단건 조회
      */
-    @GetMapping("/{matchApplyId}")
-    public ResponseEntity<MatchApplyListDto> getMatchAppliesByMatchApplyId(@PathVariable("matchApplyId") Long matchApplyId){
+    @GetMapping("/{matchId}/{matchApplyId}")
+    public ResponseEntity<MatchApplyResponseDto> getMatchAppliesByMatchApplyId(@PathVariable("matchApplyId") Long matchApplyId){
+        MatchApply matchApply = matchApplyService.findMatchApply(matchApplyId);
+        MatchApplyResponseDto matchApplyResponseDto = matchApplyMapper.matchApplyToMatchApplyResponse(matchApply);
+        log.info("MATCH_APPLY INFO:" + matchApplyResponseDto);
+        return ResponseEntity.ok(matchApplyResponseDto);
+    }
 
-        List<MatchApply> matchApplies = matchApplyService.findAllByMatchApplyId(matchApplyId);
-        log.info("TOTAL MATCH_APPLIES INFO:" + matchApplies);
-        return new ResponseEntity<>(matchApplyMapper.matchApplyListDtoToMatchApplyResponse(matchApplies),
+    /*
+     * matchId 단위 경기 신청 전체 조회
+     */
+    @GetMapping("/{matchId}")
+    public ResponseEntity<MatchApplyListDto> getMatchAppliesByMatchId(@PathVariable("matchId") Long matchId){
+        List<MatchApply> matches = matchApplyService.findAllByMatchApplyId(matchId);
+        log.info("TOTAL MATCH_APPLIES INFO:" + matches);
+        return new ResponseEntity<>(matchApplyMapper.matchApplyListDtoToMatchApplyResponse(matches),
+                HttpStatus.OK);
+    }
+
+    /*
+     * teamId 단위 경기 신청 전체 조회
+     */
+    @GetMapping("teams/{teamId}")
+    public ResponseEntity<MatchApplyListDto> getMatchAppliesByTeamId(@PathVariable("teamId") Long teamId){
+        List<MatchApply> matches = matchApplyService.findAllByTeamId(teamId);
+        log.info("TOTAL MATCH_APPLIES BY TEAM_ID INFO:" + matches);
+        return new ResponseEntity<>(matchApplyMapper.matchApplyListDtoToMatchApplyResponse(matches),
                 HttpStatus.OK);
     }
 
     /*
      * apply 제거
      */
-    @DeleteMapping("/{matchApplyId}")
+    @DeleteMapping("/{matchId}/{matchApplyId}")
     public ResponseEntity<HttpStatus> deleteMatchApply(@PathVariable("matchApplyId") Long matchApplyId) {
         matchApplyService.deleteMatchApply(matchApplyId);
 
