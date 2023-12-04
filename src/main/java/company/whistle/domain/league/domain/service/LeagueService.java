@@ -4,6 +4,7 @@ import company.whistle.domain.league.domain.repository.LeagueRepository;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.global.constant.LeagueRole;
 import company.whistle.global.constant.SeasonType;
+import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.league.domain.entity.League;
@@ -49,6 +50,10 @@ public class LeagueService {
             }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
+
+            if (user.getTeamMemberRole() == TeamMemberRole.MEMBER || user.getTeamMemberRole() == TeamMemberRole.TEMPORARY_MEMBER) {
+                throw new BusinessLogicException(Exceptions.USER_NOT_TEAM_MANAGER);
+            }
 
             checkDuplTeamId(team.getTeamId());
             checkDuplLeagueName(leagueName);

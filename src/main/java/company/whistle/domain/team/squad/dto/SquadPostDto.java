@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class SquadPostDto {
     private Long userId;
     private Long teamId;
-    private Long applyId;
+    private Long teamApplyId;
     private String name;
     private String position;
     private String teamMemberRole;

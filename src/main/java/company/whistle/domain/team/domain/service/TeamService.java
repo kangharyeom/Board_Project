@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -31,8 +32,8 @@ public class TeamService {
     public Team createTeam(
             Team team, Long userId, String teamName) {
         try {
+
             if (userId == null) {
-                log.info("userId: {}", userId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             checkDuplUserId(userId);

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -42,13 +43,21 @@ public class SquadService {
             }
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
+
+            if (!Objects.equals(userService.getLoginUser().getTeamMemberRole(), TeamMemberRole.MEMBER           )||
+                    Objects.equals(userService.getLoginUser().getTeamMemberRole(), TeamMemberRole.TEMPORARY_MEMBER )||
+                    Objects.equals(userService.getLoginUser().getTeamMemberRole(), null )) { // 작성자의 권한이 MEMBER 또는 TEMPORARY_MEMBER인 경우 권한 없음
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
             TeamApply teamApply = teamApplyService.findTeamApply(teamApplyId);
 
+            user.setTeamMemberRole(TeamMemberRole.MANAGER);
             squad.setUser(user);
             squad.setTeam(team);
             squad.setTeamApply(teamApply);
             squad.setName(user.getName());
             squad.setTeamMemberRole(TeamMemberRole.MEMBER);
+            userRepository.save(user);
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
             throw e;
@@ -69,11 +78,14 @@ public class SquadService {
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
+            if (!Objects.equals(userService.getLoginUser().getUserId(), user.getUserId())) { // 작성자와 로그인한 사람이 다를 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
+
             squad.setUser(user);
             squad.setTeam(team);
 
             squad.setName(user.getName());
-            squad.setPosition(Position.FORWARDS);
             squad.setTeamMemberRole(TeamMemberRole.MANAGER);
 
             userRepository.save(user);

@@ -6,6 +6,7 @@ import company.whistle.domain.team.squad.service.SquadService;
 import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.team.domain.mapper.TeamMapper;
 import company.whistle.domain.team.domain.service.TeamService;
+import company.whistle.domain.user.service.UserService;
 import company.whistle.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,15 +29,17 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
     private final SquadService squadService;
+    private final UserService userService;
     @PostMapping
     public ResponseEntity<TeamResponseDto> postTeam(@Valid @RequestBody TeamPostDto requestBody ){
+        Long userId = userService.getLoginUser().getUserId();
         Team team = teamService.createTeam(
-                teamMapper.teamPostDtoToTeam(requestBody), requestBody.getUserId(), requestBody.getTeamName());
+                teamMapper.teamPostDtoToTeam(requestBody), userId,requestBody.getTeamName());
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("TEAM CREATE COMPLETE: {}", teamResponseDto.toString());
 
         Squad squad = squadService.createSquadByTeamController(
-                teamMapper.squadPostDtoToSquad(requestBody), teamResponseDto.getTeamId(),requestBody.getUserId());
+                teamMapper.squadPostDtoToSquad(requestBody), teamResponseDto.getTeamId(),userId);
         SquadResponseDto squadResponseDto = teamMapper.squadToSquadResponse(squad);
         log.info("SQUAD CREATE COMPLETE: {}", squadResponseDto.toString());
 
