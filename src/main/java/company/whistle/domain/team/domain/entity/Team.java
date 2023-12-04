@@ -5,7 +5,6 @@ import company.whistle.global.audit.Auditable;
 import company.whistle.global.constant.*;
 import company.whistle.domain.league.domain.entity.League;
 import company.whistle.domain.league.participants.entity.Participants;
-import company.whistle.domain.match.schedule.entity.Schedule;
 import company.whistle.domain.team.squad.entity.Squad;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.user.entity.User;
@@ -116,9 +115,6 @@ public class Team extends Auditable {
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Squad> squads = new ArrayList<>();
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Participants> participants = new ArrayList<>();

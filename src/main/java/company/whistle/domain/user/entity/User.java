@@ -10,7 +10,6 @@ import company.whistle.domain.board.comment.entity.Comment;
 import company.whistle.global.constant.*;
 import company.whistle.domain.board.content.entity.Content;
 import company.whistle.domain.league.domain.entity.League;
-import company.whistle.domain.match.schedule.entity.Schedule;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.team.domain.entity.Team;
 import lombok.AllArgsConstructor;
@@ -100,9 +99,6 @@ public class User extends Auditable {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Squad> squads = new ArrayList<>();
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Participants> participants = new ArrayList<>();

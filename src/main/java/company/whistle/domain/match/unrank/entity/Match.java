@@ -1,7 +1,6 @@
 package company.whistle.domain.match.unrank.entity;
 
 import company.whistle.domain.apply.match.entity.MatchApply;
-import company.whistle.domain.match.schedule.entity.Schedule;
 import company.whistle.global.audit.Auditable;
 import company.whistle.global.constant.*;
 import company.whistle.domain.team.domain.entity.Team;
@@ -132,9 +131,6 @@ public class Match extends Auditable {
 
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<MatchApply> matchApplies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedule = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

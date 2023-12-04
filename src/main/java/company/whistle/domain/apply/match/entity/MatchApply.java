@@ -1,6 +1,5 @@
 package company.whistle.domain.apply.match.entity;
 
-import company.whistle.domain.match.schedule.entity.Schedule;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.user.entity.User;
@@ -39,9 +38,6 @@ public class MatchApply extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private ApplyType applyType;
-
-    @OneToMany(mappedBy = "matchApply", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
