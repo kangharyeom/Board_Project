@@ -12,11 +12,24 @@ public interface MatchMapper {
     Match matchPostDtoToMatch(MatchPostDto requestBody);
 
     Match matchPatchDtoToMatch(MatchPatchDto requestBody);
+
+    Match matchEndDtoToMatch(MatchEndDto requestBody);
+
+    Match homeTeamPostDtoToMatch(HomeTeamPostDto requestBody);
     Match matchPatchDtoToBothMatch(AwayTeamPostDto requestBody);
 
     @Mapping(source = "user.userId", target = "homeTeamUserId")
+    @Mapping(source = "match.awayTeamUserId", target = "awayTeamUserId")
     @Mapping(source = "team.teamId", target = "homeTeamId")
+    @Mapping(source = "match.awayTeamId", target = "awayTeamId")
+    @Mapping(source = "team.honorScore", target = "homeTeamHonorScore")
     BothTeamInfoResponseDto matchBothTeamResponse(Match match);
+
+    @Mapping(source = "match.homeTeamUserId", target = "homeTeamUserId")
+    @Mapping(source = "match.awayTeamUserId", target = "awayTeamUserId")
+    @Mapping(source = "match.homeTeamId", target = "homeTeamId")
+    @Mapping(source = "match.awayTeamId", target = "awayTeamId")
+    MatchEndResponseDto MatchEndResponseDtoTeamResponse(Match match);
     MatchResponseDto matchToMatchResponse(Match match);
 //    default MatchResponseDto matchToMatchResponse(Match match){
 //        User user = match.getUser();

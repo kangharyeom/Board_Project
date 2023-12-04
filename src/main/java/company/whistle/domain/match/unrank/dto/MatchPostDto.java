@@ -12,7 +12,6 @@ import javax.validation.constraints.NotBlank;
 public class MatchPostDto {
     private Long userId;
     private Long teamId;
-    private Long homeTeamHonorScore;
     private String homeTeamName;
     private String homeTeamManagerName;
     private Long homeTeamLeagueMatchPoints;

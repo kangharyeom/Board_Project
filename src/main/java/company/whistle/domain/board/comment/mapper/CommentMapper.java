@@ -17,7 +17,7 @@ public interface CommentMapper {
     Comment commentPatchDtoToComment(CommentPatchDto requestBody);
 
     @Mapping(source = "user.userId", target = "userId")
-    @Mapping(source = "content.teamId", target = "contentId")
+    @Mapping(source = "content.contentId", target = "contentId")
     @Mapping(source = "user.name", target = "name")
     @Mapping(source = "content.title", target = "title")
     CommentResponseDto commentToCommentResponseDto(Comment comment);

@@ -44,7 +44,6 @@ public class MatchPatchDto {
     private String matchStatus = "BEFORE";
     private String matchRules;
 
-
     public void updateId(Long id){
         this.matchId = id;
     }

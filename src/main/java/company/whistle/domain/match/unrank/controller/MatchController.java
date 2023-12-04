@@ -26,10 +26,12 @@ public class MatchController {
     private final MatchMapper matchMapper;
 
     @PostMapping
-    public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
+    public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody HomeTeamPostDto requestBody) {
+//    public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
-        Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
+        Match match = matchService.createHomeTeamToMatch(matchMapper.homeTeamPostDtoToMatch(requestBody), requestBody.getHomeTeamUserId(),requestBody.getHomeTeamId());
         BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
+//        BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
         log.info("UN_RANK MATCH POST COMPLETE: {}", matchResponseDto.toString());
 
 
@@ -51,10 +53,26 @@ public class MatchController {
         return ResponseEntity.ok(matchResponse);
     }
 
+    @PostMapping("/{matchId}/end")
+//    @PatchMapping("/{matchId}/end")
+    public ResponseEntity<MatchEndResponseDto> matchEnd(@RequestBody MatchEndDto requestBody,
+                                                          @PathVariable("matchId") Long matchId) {
+        requestBody.updateId(matchId);
+        Match match = matchService.matchEnd(
+                matchMapper.matchEndDtoToMatch(requestBody), matchId,
+                requestBody.getHomeTeamScore(), requestBody.getAwayTeamScore(),
+                requestBody.getHomeTeamId(), requestBody.getAwayTeamId());
+
+        MatchEndResponseDto matchResponse = matchMapper.MatchEndResponseDtoTeamResponse(match);
+        log.info("UN_RANK MATCH_END PATCH COMPLETE: {}", matchResponse.toString());
+
+        return ResponseEntity.ok(matchResponse);
+    }
+
     @GetMapping("/{matchId}")
-    public ResponseEntity<MatchResponseDto> getMatch(@PathVariable("matchId") Long matchId) {
+    public ResponseEntity<BothTeamInfoResponseDto> getMatch(@PathVariable("matchId") Long matchId) {
         Match match = matchService.findMatch(matchId);
-        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+        BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
 
         return ResponseEntity.ok(matchResponseDto);
     }
@@ -116,6 +134,8 @@ public class MatchController {
 
         return ResponseEntity.ok(matchResponse);
     }
+
+
 
     @DeleteMapping("/{matchId}")
     public ResponseEntity<HttpStatus> deleteMatch(@PathVariable("matchId") Long matchId) {

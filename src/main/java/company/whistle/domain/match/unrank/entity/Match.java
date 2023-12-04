@@ -23,16 +23,23 @@ public class Match extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long matchId;
 
-    private Long applyId;
+    @Column
+    private Long homeTeamUserId;
 
     @Column
-    private Long homeTeamHonorScore;
+    private Long homeTeamId;
+
+    @Enumerated(EnumType.STRING)
+    private UniformType homeTeamUniformType;
 
     @Column
     private String homeTeamName;
 
     @Column
     private String homeTeamManagerName;
+
+    @Column
+    private Long homeTeamHonorScore;
 
     @Column
     private Long homeTeamTotalWinRecord;
@@ -43,31 +50,13 @@ public class Match extends Auditable {
     @Column
     private Long homeTeamTotalLoseRecord;
 
-    @Column
-    private Long homeTeamScore = 0L;
-
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 
     @Enumerated(EnumType.STRING)
     private AgeType homeTeamAgeType;
 
-    @Enumerated(EnumType.STRING)
-    private UniformType homeTeamUniformType;
 
-
-
-
-
-
-    @Column
-    private Long awayTeamUserId;
-
-    @Column
-    private Long awayTeamId;
-
-    @Column
-    private Long awayTeamScore = 0L;
 
     @Column
     private Long awayTeamHonorScore;
@@ -96,16 +85,6 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private UniformType awayTeamUniformType;
 
-
-
-
-
-    @Enumerated(EnumType.STRING)
-    private LocationType locationType;
-
-    @Enumerated(EnumType.STRING)
-    private MatchType matchType;
-
     @Enumerated(EnumType.STRING)
     private SportsType sportsType;
 
@@ -118,7 +97,27 @@ public class Match extends Auditable {
     @Column
     private String matchDate;
 
+    // userInput
+
+    @Enumerated(EnumType.STRING)
+    private LocationType locationType;
+
     // DB Input
+
+    @Column
+    private Long awayTeamUserId;
+
+    @Column
+    private Long awayTeamId;
+
+    @Enumerated(EnumType.STRING)
+    private MatchType matchType;
+
+    @Column
+    private Long homeTeamScore = 0L;
+
+    @Column
+    private Long awayTeamScore = 0L;
 
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus = MatchStatus.RIVAL_RECRUIT;
