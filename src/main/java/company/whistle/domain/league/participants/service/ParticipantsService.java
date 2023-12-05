@@ -5,6 +5,7 @@ import company.whistle.domain.apply.league.service.LeagueApplyService;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.domain.league.participants.repository.ParticipantsRepository;
 import company.whistle.domain.user.repository.UserRepository;
+import company.whistle.global.constant.LeagueRole;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.league.domain.entity.League;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -35,15 +37,28 @@ public class ParticipantsService {
     private final LeagueRepository leagueRepository;
     private final UserRepository userRepository;
     public Participants createParticipants(
-            Participants participants, Long userId, Long teamId, Long leagueId, Long leagueApplyId) {
+            Participants participants
+    , String teamName) {
         try {
-            if (userId == null || teamId == null || leagueId == null || leagueApplyId == null) {
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            Long loginUserId = userService.getLoginUser().getUserId();
+            if (loginUserId == null || teamName == null) {
+                log.info("loginUserId:{}", loginUserId);
+                log.info("teamName:{}", teamName);
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            User user = userService.findUser(userId);
-            Team team = teamService.findTeam(teamId);
-            LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
-            League league = leagueService.findLeague(leagueId);
+
+            checkDuplTeamNameFromParticipants(teamName);
+
+            League league = leagueService.findLeagueByUserId(loginUserId);
+            if (!Objects.equals(userService.getLoginUser().getName(), league.getManagerName()))
+            {
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
+            // apply한 유저와 팀 정보
+            Team team = teamService.findTeamByTeamName(teamName);
+            log.info("teamName:{}", teamName);
+            LeagueApply leagueApply = leagueApplyService.findLeagueApplyByTeamName(teamName);
+            User user = userService.findUser(team.getUser().getUserId());
 
             participants.setUser(user);
             participants.setTeam(team);
@@ -60,12 +75,6 @@ public class ParticipantsService {
 
             participants.setLeagueName(league.getLeagueName());
 
-            participants.setTeamAssist(participants.getTeamAssist());
-            participants.setTeamGoals(participants.getTeamGoals());
-            participants.setLeagueHonorScore(participants.getLeagueHonorScore());
-            participants.setLeagueMatchCount(participants.getLeagueMatchCount());
-
-            //비즈니스 로직
             league.setTeamCount(+1L);
             league.setMemberCount(team.getMemberCount()+ participants.getMemberCount());
             leagueRepository.save(league);
@@ -112,6 +121,7 @@ public class ParticipantsService {
             participants.setUniformType(team.getUniformType());
 
             participants.setManagerName(user.getName());
+            user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
 
             userRepository.save(user);
             participantsRepository.save(participants);
@@ -292,5 +302,18 @@ public class ParticipantsService {
         Optional<Participants> optionalLeague = participantsRepository.findById(participantsId);
         return optionalLeague.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
+    }
+
+    public Participants findParticipantsByTeamName(String teamName) {
+        Optional<Participants> optionalLeague = participantsRepository.findByTeamName(teamName);
+        return optionalLeague.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
+    }
+
+    public void checkDuplTeamNameFromParticipants(String teamName) {
+        Optional<Participants> participants = participantsRepository.findByTeamName(teamName);
+        if(participants.isPresent()) {
+            throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
+        }
     }
 }

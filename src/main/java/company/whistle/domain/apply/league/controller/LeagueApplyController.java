@@ -27,8 +27,8 @@ public class LeagueApplyController {
      * 리그 가입 신청
      */
     @PostMapping("/{leagueId}")
-    public ResponseEntity<LeagueApplyResponseDto> postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody) {
-        LeagueApply leagueApply = leagueApplyService.createLeagueApply(leagueApplyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
+    public ResponseEntity<LeagueApplyResponseDto> postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody, @PathVariable Long leagueId) {
+        LeagueApply leagueApply = leagueApplyService.createLeagueApply(leagueApplyMapper.leagueApplyPostDtoToLeagueApply(requestBody), leagueId);
         LeagueApplyResponseDto leagueApplyResponseDto = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
         log.info("MATCH_APPLY POST COMPLETE: {}",leagueApplyResponseDto.toString());
 

@@ -151,6 +151,12 @@ public class UserService {
                         new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 
+    public User findUserByName(String name) {
+        Optional<User> optionalUser = userRepository.findByName(name);
+        return optionalUser.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.USER_NOT_FOUND));
+    }
+
     public User findVerifiedUserByLeagueRole(LeagueRole leagueRole) {
         Optional<User> optionalUser = userRepository.findByLeagueRole(leagueRole);
         return optionalUser.orElseThrow(() ->

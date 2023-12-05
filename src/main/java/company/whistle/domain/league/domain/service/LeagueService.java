@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -41,31 +42,36 @@ public class LeagueService {
     /*
     * 리그 생성
     */
-    public League createLeague(League league, Long userId, Long teamId, String leagueName) {
+    public League createLeague(League league, String leagueName, String teamName) {
         try {
-            if(userId==null || teamId==null){
-                log.info("userId: {}", userId);
-                log.info("teamId: {}", teamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
-            }
-            User user = userService.findUser(userId);
-            Team team = teamService.findTeam(teamId);
-
-            if (user.getTeamMemberRole() == TeamMemberRole.MEMBER || user.getTeamMemberRole() == TeamMemberRole.TEMPORARY_MEMBER) {
-                throw new BusinessLogicException(Exceptions.USER_NOT_TEAM_MANAGER);
+            Long userId = userService.getLoginUser().getUserId();
+            if (userId == null || teamName ==null || leagueName== null) {
+                log.info("userId:{}", userId);
+                log.info("teamName:{}", teamName);
+                log.info("leagueName:{}", leagueName);
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
 
-            checkDuplTeamId(team.getTeamId());
             checkDuplLeagueName(leagueName);
+            User user = userService.findUser(userId);
+            Team team = teamService.findTeamByTeamName(teamName);
+
+            if (!Objects.equals(user.getName(), team.getManagerName()) || team.getManagerName()==null) {
+                if (!Objects.equals(user.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
+                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                }
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
+            checkDuplTeamId(team.getTeamId());
 
             league.setUser(user);
-            user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
             league.setTeam(team);
             team.setLeagueName(league.getLeagueName());
             league.setManagerName(user.getName());
             league.setManagerTeamName(team.getTeamName());
             league.setHonorScore(team.getHonorScore());
             league.setMemberCount(team.getMemberCount());
+            user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
 
             userRepository.save(user);
             teamRepository.save(team);
@@ -81,16 +87,16 @@ public class LeagueService {
 
     public League updateLeague(League league, Long leagueId) {
         try {
-            if(leagueId==null){
-                log.info("leagueId: {}", leagueId);
+            Long userId = userService.getLoginUser().getUserId();
+            if(leagueId==null || userId == null){
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            League findLeague = findVerifiedLeague(league.getLeagueId());
-
+            League findLeague = findLeagueByUserId(userId);
             // 리그 관리자만 수정 가능하도록
             User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
-            if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
+            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 로그인한 유저와 관리자가 다른 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             Optional.ofNullable(league.getManagerTeamName())
                     .ifPresent(findLeague::setManagerTeamName);
@@ -229,6 +235,13 @@ public class LeagueService {
 
         return optionalLeague.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+    }
+
+    public League findLeagueByUserId(Long userId) {
+        Optional<League> optionalLeague = leagueRepository.findById(userId);
+
+        return optionalLeague.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND));
     }
 
     public void checkDuplTeamId(long teamId) {

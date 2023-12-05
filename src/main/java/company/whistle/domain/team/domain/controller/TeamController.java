@@ -32,14 +32,13 @@ public class TeamController {
     private final UserService userService;
     @PostMapping
     public ResponseEntity<TeamResponseDto> postTeam(@Valid @RequestBody TeamPostDto requestBody ){
-        Long userId = userService.getLoginUser().getUserId();
         Team team = teamService.createTeam(
-                teamMapper.teamPostDtoToTeam(requestBody), userId,requestBody.getTeamName());
+                teamMapper.teamPostDtoToTeam(requestBody), requestBody.getTeamName());
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("TEAM CREATE COMPLETE: {}", teamResponseDto.toString());
 
         Squad squad = squadService.createSquadByTeamController(
-                teamMapper.squadPostDtoToSquad(requestBody), teamResponseDto.getTeamId(),userId);
+                teamMapper.squadPostDtoToSquad(requestBody));
         SquadResponseDto squadResponseDto = teamMapper.squadToSquadResponse(squad);
         log.info("SQUAD CREATE COMPLETE: {}", squadResponseDto.toString());
 
@@ -50,10 +49,9 @@ public class TeamController {
     public ResponseEntity<TeamResponseDto> patchTeam(@Valid @RequestBody TeamPatchDto requestBody,
                                        @PathVariable("teamId") @Positive Long teamId){
         Team team = teamService.updateTeam(
-                teamMapper.teamPatchDtoToTeam(requestBody),
-                teamId);
+                teamMapper.teamPatchDtoToTeam(requestBody), teamId);
 
-        team.setTeamId(teamId);
+//        team.setTeamId(teamId);
         TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(userResponseDto);

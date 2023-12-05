@@ -1,6 +1,7 @@
 package company.whistle.domain.apply.league.repository;
 
 import company.whistle.domain.apply.league.entity.LeagueApply;
+import company.whistle.domain.team.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +24,9 @@ public interface LeagueApplyRepository extends JpaRepository<LeagueApply,Long> {
     // leagueId 단위 조회
     @Query(value = "select * from league_applies where league_id = :leagueId order by created_at desc", nativeQuery = true)
     List<LeagueApply> findAllByLeagueId(@Param("leagueId") long leagueId);
+
+    @Query(value = "select * from league_applies where team_Name = :teamName", nativeQuery = true)
+    Optional<LeagueApply> findByTeamName(@Param("teamName") String teamName);
 
     /*
      * applyId 단위 조회

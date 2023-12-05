@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 /*
  * ApplyService
@@ -34,14 +35,25 @@ public class LeagueApplyService {
      * LeagueApply 생성
      * user, team, league가 존재하는지 확인 후 team, user, league가 존재하면 applyRepository에 저장
      */
-    public LeagueApply createLeagueApply(LeagueApply leagueApply, Long userId, Long leagueId, Long teamId) {
+    public LeagueApply createLeagueApply(LeagueApply leagueApply, Long leagueId) {
         try {
-            if (userId == null || leagueId == null || teamId == null) {
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            if (leagueId == null) {
+                throw new BusinessLogicException(Exceptions.LEAGUE_ID_IS_NULL);
             }
-            User user = userService.findUser(userId);
             League league = leagueService.findLeague(leagueId);
-            Team team = teamService.findTeam(teamId);
+            Long loginUserId = userService.getLoginUser().getUserId();
+            if (loginUserId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
+            }
+            User user = userService.findUser(loginUserId);
+            Team team = teamService.findTeamByUserId(loginUserId);
+            if (!Objects.equals(userService.getLoginUser().getName(), team.getManagerName()))
+            {
+                if (!Objects.equals(userService.getLoginUser().getName(), team.getSubManagerName())){
+                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                }
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             leagueApply.setLeague(league);
             leagueApply.setUser(user);
@@ -90,4 +102,15 @@ public class LeagueApplyService {
         log.info("APPLY EXIST: {}", findLeagueApply.toString());
         return findLeagueApply;
     }
+
+    public LeagueApply findLeagueApplyByTeamName(String teamName) {
+        Optional<LeagueApply> optionalApply = leagueApplyRepository.findByTeamName(teamName);
+
+        LeagueApply findLeagueApply =
+                optionalApply.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_FOUND));
+        log.info("APPLY EXIST: {}", findLeagueApply.toString());
+        return findLeagueApply;
+    }
+
 }

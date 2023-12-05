@@ -21,4 +21,5 @@ public interface TeamApplyRepository extends JpaRepository<TeamApply,Long> {
      * findVerified를 위해 Optional<LeagueApply>로 가져옴
      */
     Optional<TeamApply> findByTeamApplyId(@Param("teamApplyId") long teamApplyId);
+    Optional<TeamApply> findByUserName(@Param("name") String name);
 }

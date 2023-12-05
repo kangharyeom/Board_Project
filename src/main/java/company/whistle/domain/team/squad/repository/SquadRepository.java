@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SquadRepository extends JpaRepository<Squad, Long> {
     @Query(value = "select * from squads where league_id = :leagueId", nativeQuery = true)
@@ -22,5 +23,7 @@ public interface SquadRepository extends JpaRepository<Squad, Long> {
 
     @Query(value = "select * from squads order by honor_score desc", nativeQuery = true)
     List<Squad> findHonorScore();
+
+    Optional<Squad> findByUserName(@Param("name") String name);
 
 }

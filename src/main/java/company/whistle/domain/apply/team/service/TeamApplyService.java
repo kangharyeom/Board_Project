@@ -29,13 +29,14 @@ public class TeamApplyService {
      * TeamApply 생성
      * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
      */
-    public TeamApply createTeamApply(TeamApply teamApply, Long userId, Long teamId) {
+    public TeamApply createTeamApply(TeamApply teamApply, Long teamId) {
         try {
-            if (userId == null || teamId == null) {
-                log.info("userId: {}", userId);
-                log.info("teamId: {}", teamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            Long userId = userService.getLoginUser().getUserId();
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
+            teamService.checkDuplUserId(userId);
+
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
             teamApply.setTeam(team);
@@ -79,6 +80,16 @@ public class TeamApplyService {
      */
     public TeamApply findVerifiedTeamApply(Long teamApplyId) {
         Optional<TeamApply> optionalApply = teamApplyRepository.findById(teamApplyId);
+
+        TeamApply findTeamApply =
+                optionalApply.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND));
+        log.info("APPLY EXIST: {}", findTeamApply.toString());
+        return findTeamApply;
+    }
+
+    public TeamApply findTeamApplyByUserName(String name) {
+        Optional<TeamApply> optionalApply = teamApplyRepository.findByUserName(name);
 
         TeamApply findTeamApply =
                 optionalApply.orElseThrow(() ->

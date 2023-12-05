@@ -4,6 +4,8 @@ import company.whistle.domain.match.unrank.dto.*;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.match.unrank.mapper.MatchMapper;
 import company.whistle.domain.match.unrank.service.MatchService;
+import company.whistle.global.exception.BusinessLogicException;
+import company.whistle.global.exception.Exceptions;
 import company.whistle.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,13 +29,9 @@ public class MatchController {
 
     @PostMapping
     public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody HomeTeamPostDto requestBody) {
-//    public ResponseEntity<BothTeamInfoResponseDto> postMatch(@Validated @RequestBody MatchPostDto requestBody) {
-
-        Match match = matchService.createHomeTeamToMatch(matchMapper.homeTeamPostDtoToMatch(requestBody), requestBody.getHomeTeamUserId(),requestBody.getHomeTeamId());
+        Match match = matchService.createHomeTeamToMatch(matchMapper.homeTeamPostDtoToMatch(requestBody));
         BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
-//        BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
         log.info("UN_RANK MATCH POST COMPLETE: {}", matchResponseDto.toString());
-
 
         return ResponseEntity.ok(matchResponseDto);
     }

@@ -30,22 +30,19 @@ public class TeamService {
     private final UserRepository userRepository;
     private final UserService userService;
     public Team createTeam(
-            Team team, Long userId, String teamName) {
+            Team team, String teamName) {
         try {
-
+            Long userId = userService.getLoginUser().getUserId();
             if (userId == null) {
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
             checkDuplUserId(userId);
             checkDuplTeamName(teamName);
-
             User user = userService.findUser(userId);
 
-            user.setTeamMemberRole(TeamMemberRole.MANAGER);
             team.setUser(user);
             team.setManagerName(user.getName());
 
-            userRepository.save(user);
             teamRepository.save(team);
         } catch (BusinessLogicException e) {
             throw e;
@@ -56,50 +53,23 @@ public class TeamService {
     }
 
     public Team updateTeam(
-            Team team,
-            Long teamId) {
+            Team team, Long teamId) {
         try {
-            if (teamId == null) {
-                log.info("teamId: {}", teamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            Long userId = userService.getLoginUser().getUserId();
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            Team findTeam = findVerifiedTeam(teamId); //ID로 멤버 존재 확인하고 comment 정보 반환
+            String managerName = userService.getLoginUser().getName();
 
+            Team findTeam = findVerifiedTeamByUserId(userId);
+            if (!Objects.equals(findTeam.getTeamId(), teamId) && Objects.equals(findTeam.getManagerName(), managerName)){
+                if (!Objects.equals(findTeam.getTeamId(), teamId) && Objects.equals(findTeam.getSubManagerName(), managerName)){
+                     throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                 }
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
             Optional.ofNullable(team.getChampionCount())
                     .ifPresent(findTeam::setChampionCount);
-
-            Optional.ofNullable(team.getMemberCount())
-                    .ifPresent(findTeam::setMemberCount);
-
-            Optional.ofNullable(team.getLeagueWinRecord())
-                    .ifPresent(findTeam::setLeagueWinRecord);
-
-            Optional.ofNullable(team.getLeagueDrawRecord())
-                    .ifPresent(findTeam::setLeagueDrawRecord);
-
-            Optional.ofNullable(team.getLeagueLoseRecord())
-                    .ifPresent(findTeam::setLeagueLoseRecord);
-
-            Optional.ofNullable(team.getTotalWinRecord())
-                    .ifPresent(findTeam::setTotalWinRecord);
-
-            Optional.ofNullable(team.getTotalDrawRecord())
-                    .ifPresent(findTeam::setTotalDrawRecord);
-
-            Optional.ofNullable(team.getTotalLoseRecord())
-                    .ifPresent(findTeam::setTotalLoseRecord);
-
-            Optional.ofNullable(team.getHonorScore())
-                    .ifPresent(findTeam::setHonorScore);
-
-            Optional.ofNullable(team.getMostGoals())
-                    .ifPresent(findTeam::setMostGoals);
-
-            Optional.ofNullable(team.getMostAssist())
-                    .ifPresent(findTeam::setMostAssist);
-
-            Optional.ofNullable(team.getMostMom())
-                    .ifPresent(findTeam::setMostMom);
 
             Optional.ofNullable(team.getIntroduction())
                     .ifPresent(findTeam::setIntroduction);
@@ -118,63 +88,12 @@ public class TeamService {
 
             Optional.ofNullable(team.getUniformType())
                     .ifPresent(findTeam::setUniformType);
+
             teamRepository.save(findTeam);
+            return findTeam;
         } catch (BusinessLogicException e) {
             throw e;
         } catch (Exception e) {
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
-        }
-        return team;
-    }
-
-    public void updateForMatchEnd(
-            Long homeTeamScore,
-            Long awayTeamScore,
-            Long homeTeamId,
-            Long awayTeamId
-    ) {
-        try {
-            if (homeTeamId == null || awayTeamId == null) {
-                log.info("homeTeamId: {}", homeTeamId);
-                log.info("awayTeamId: {}", awayTeamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
-            }
-            Team findHomeTeam = findVerifiedTeam(homeTeamId);
-            Team findAwayTeam = findVerifiedTeam(awayTeamId);
-            if(homeTeamScore>awayTeamScore){
-                findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+300L);
-                findHomeTeam.setTotalWinRecord(findHomeTeam.getTotalWinRecord()+1L);
-
-                findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+10L);
-                findAwayTeam.setTotalLoseRecord(findAwayTeam.getTotalLoseRecord()+1L);
-
-                //homeTeam 패배한 경우
-            } else if(homeTeamScore<awayTeamScore){
-                findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+10L);
-                findHomeTeam.setTotalLoseRecord(findHomeTeam.getTotalLoseRecord()+1L);
-
-                findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+300L);
-                findAwayTeam.setTotalWinRecord(findAwayTeam.getTotalWinRecord()+1L);
-
-                //무승부인 경우
-            } else {
-                findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+100L);
-                findHomeTeam.setTotalDrawRecord(findHomeTeam.getTotalDrawRecord()+1L);
-                findHomeTeam.setLeagueMatchPoints(findHomeTeam.getLeagueMatchPoints()+1L);
-
-                findAwayTeam.setHonorScore(findAwayTeam.getHonorScore()+100L);
-                findAwayTeam.setTotalDrawRecord(findAwayTeam.getTotalDrawRecord()+1L);
-
-            }
-            teamRepository.save(findHomeTeam);
-            teamRepository.save(findAwayTeam);
-            log.info("UPDATE_FOR_MATCH_END ABOUT: HOME_TEAM TO TEAM_REPOSITORY:{}", findHomeTeam);
-            log.info("UPDATE_FOR_MATCH_END ABOUT: AWAY_TEAM TO TEAM_REPOSITORY:{}", findAwayTeam);
-        } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.TEAM_NOT_PATCHED);
         }
     }
@@ -287,9 +206,17 @@ public class TeamService {
 
     public Team findVerifiedTeamByUserId(long userId) {
         Team team;
-        try {
-            team = teamRepository.findByUserId(userId);
-        } catch (NoSuchElementException ex) {
+        team = teamRepository.findByUserId(userId);
+        if (team == null) {
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
+        }
+        return team;
+    }
+
+    public Team findTeamByTeamName(String teamName) {
+        Team team;
+        team = teamRepository.findByTeamName(teamName);
+        if (team == null) {
             throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
         }
         return team;

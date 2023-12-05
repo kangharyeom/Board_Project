@@ -10,10 +10,12 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 public class LeagueMatchPostDto {
+    private Long leagueId;
     private Long homeTeamUserId;
     private Long awayTeamUserId;
     private Long homeTeamId;
     private Long awayTeamId;
+    private String leagueName;
     private Long homeTeamLeagueListId;
     private Long awayTeamLeagueListId;
     private Long homeTeamScore = 0L;

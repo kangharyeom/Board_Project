@@ -25,7 +25,7 @@ public class SquadController {
 
     @PostMapping
     public ResponseEntity<SquadResponseDto> postSquad(@RequestBody SquadPostDto requestBody){
-        Squad squad = squadService.createSquad(squadMapper.squadPostDtoToSquad(requestBody), requestBody.getUserId(), requestBody.getTeamId(), requestBody.getTeamApplyId());
+        Squad squad = squadService.createSquad(squadMapper.squadPostDtoToSquad(requestBody),requestBody.getName());
         SquadResponseDto squadResponse = squadMapper.squadToSquadResponse(squad);
 
         return ResponseEntity.ok(squadResponse);

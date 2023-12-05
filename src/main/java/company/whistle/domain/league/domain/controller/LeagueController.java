@@ -39,17 +39,16 @@ public class LeagueController {
 
         League league = leagueService.createLeague(
                 leagueMapper.leaguePostDtoToLeague(requestBody),
-                requestBody.getUserId(),
-                requestBody.getTeamId(),
-                requestBody.getLeagueName()
+                requestBody.getLeagueName(),
+                requestBody.getTeamName()
         );
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
         log.info("LEAGUE POST COMPLETE:{}", leagueResponseDto);
 
-        // 리그 리스트 생성
+        // 리그 참가자 생성
         Participants participants = participantsService.createParticipantsByLeagueController(
                 leagueMapper.participantsPostDtoToParticipants(requestBody) ,
-                requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());
+                leagueResponseDto.getUserId(), leagueResponseDto.getTeamId(), leagueResponseDto.getLeagueId());
         ParticipantsResponseDto participantsResponseDto = leagueMapper.participantsToParticipantsResponse(participants);
         log.info("PARTICIPANTS POST COMPLETE:{}", participantsResponseDto);
 

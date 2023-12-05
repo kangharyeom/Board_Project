@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ParticipantsPostDto {
-    private Long userId;
-    private Long teamId;
-    private Long leagueId;
-    private Long leagueApplyId;
+//    private Long userId;
+//    private Long teamId;
+//    private Long leagueId;
+//    private Long leagueApplyId;
     private Long leagueHonorScore;
     private Long honorScore;
     private Long memberCount;

@@ -10,8 +10,6 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @Getter
 public class TeamPostDto {
-    private Long userId;
-
     @NotBlank(message = "팀 이름을 입력 해야 합니다.")
     private String teamName;
     private String introduction;

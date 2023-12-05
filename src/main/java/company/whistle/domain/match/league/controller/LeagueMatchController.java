@@ -33,24 +33,17 @@ public class LeagueMatchController {
 
     @PostMapping
     public ResponseEntity<LeagueMatchResponseDto> postLeagueMatch(@Validated @RequestBody LeagueMatchPostDto requestBody) {
-
-        LeagueMatch leagueMatch = leagueMatchService.createLeagueMatch(leagueMatchMapper.leagueMatchPostDtoToLeagueMatch(requestBody)
-                , requestBody.getHomeTeamUserId()
-                , requestBody.getAwayTeamUserId()
-                , requestBody.getHomeTeamId()
-                , requestBody.getAwayTeamId()
-                , requestBody.getHomeTeamLeagueListId()
-                , requestBody.getAwayTeamLeagueListId()
+        LeagueMatch leagueMatch = leagueMatchService.createLeagueMatch(leagueMatchMapper.leagueMatchPostDtoToLeagueMatch(requestBody),
+                requestBody.getHomeTeamName(),
+                requestBody.getAwayTeamName()
         );
 
         LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchPostToLeagueMatchResponse(
                 leagueMatch
-                , requestBody.getHomeTeamUserId()
-                , requestBody.getAwayTeamUserId()
-                , requestBody.getHomeTeamId()
-                , requestBody.getAwayTeamId()
-                , requestBody.getHomeTeamLeagueListId()
-                , requestBody.getAwayTeamLeagueListId()
+                , leagueMatch.getHomeTeamUserId()
+                , leagueMatch.getAwayTeamUserId()
+                , leagueMatch.getHomeTeamId()
+                , leagueMatch.getAwayTeamId()
         );
         log.info("LEAGUE_MATCH POST COMPLETE:{}", leagueMatchResponseDto.toString());
 

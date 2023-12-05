@@ -1,5 +1,6 @@
 package company.whistle.domain.match.league.service;
 
+import company.whistle.domain.league.domain.service.LeagueService;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.domain.match.league.repository.LeagueMatchRepository;
 import company.whistle.global.constant.MatchResultStatus;
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -34,33 +36,43 @@ public class LeagueMatchService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final TeamService teamService;
+    private final LeagueService leagueService;
     private final ParticipantsService participantsService;
     private final LeagueRepository leagueRepository;
 
     public LeagueMatch createLeagueMatch(LeagueMatch leagueMatch
-            , Long homeTeamUserId
-            , Long awayTeamUserId
-            , Long homeTeamId
-            , Long awayTeamId
-            , Long homeTeamParticipantsId
-            , Long awayTeamParticipantsId
+            , String homeTeamName
+            , String awayTeamName
     ) {
         try {
-            if (    homeTeamUserId == null          ||
-                    awayTeamUserId == null          ||
-                    homeTeamId == null              ||
-                    awayTeamId == null              ||
-                    homeTeamParticipantsId == null  ||
-                    awayTeamParticipantsId == null )
-            {
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            if (homeTeamName == null || awayTeamName == null) {
+                throw new BusinessLogicException(Exceptions.TEAM_NAME_IS_NULL);
             }
-            User homeTeamUser = userService.findUser(homeTeamUserId);
-            User awayTeamUser = userService.findUser(awayTeamUserId);
-            Team homeTeam = teamService.findTeam(homeTeamId);
-            Team awayTeam = teamService.findTeam(awayTeamId);
-            Participants homeTeamParticipants = participantsService.findParticipants(homeTeamParticipantsId);
-            Participants awayTeamParticipants = participantsService.findParticipants(awayTeamParticipantsId);
+            Long loginUserId = userService.getLoginUser().getUserId();
+            String loginUserName = userService.getLoginUser().getName();
+            if (loginUserId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
+            }
+
+            Team homeTeam = teamService.findTeamByTeamName(homeTeamName);
+            Team awayTeam = teamService.findTeamByTeamName(awayTeamName);
+            User homeTeamUser = userService.findUser(homeTeam.getUser().getUserId());
+            User awayTeamUser = userService.findUser(awayTeam.getUser().getUserId());
+            Participants homeTeamParticipants = participantsService.findParticipantsByTeamName(homeTeamName);
+            Participants awayTeamParticipants = participantsService.findParticipantsByTeamName(awayTeamName);
+
+            League league = leagueService.findLeagueByUserId(loginUserId);
+            Team loginTeam = teamService.findTeamByUserId(loginUserId);
+            // 로그인한 유저가 리그 관리자가 아니거나, 홈 or 어웨이 팀 매니저가 아닌 경우 예외처리
+            if ((!Objects.equals(league.getManagerName(), loginUserName))) {
+                if ((!Objects.equals(homeTeam.getManagerName(), loginTeam.getManagerName()))) {
+                    if ((!Objects.equals(awayTeam.getManagerName(), loginTeam.getManagerName()))) {
+                        throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                    }
+                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                }
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             leagueMatch.setUser(homeTeamUser);
             leagueMatch.setUser(awayTeamUser);
@@ -126,10 +138,29 @@ public class LeagueMatchService {
 
     public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId) {
         try {
+            Long loginUserId = userService.getLoginUser().getUserId();
+            if (loginUserId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
+            }
+
             if (leagueMatchId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             LeagueMatch findLeagueMatch = findVerifiedLeagueMatch(leagueMatchId);
+
+            User loginUser = userService.getLoginUser();
+            String loginUserName = loginUser.getName();
+            long teamId = loginUser.getTeamId();
+            Team loginTeam = teamService.findVerifiedTeam(teamId);
+//            if ((!Objects.equals(league.getManagerName(), loginUserName))) {
+//                if ((!Objects.equals(homeTeam.getManagerName(), loginTeam.getManagerName()))) {
+//                    if ((!Objects.equals(awayTeam.getManagerName(), loginTeam.getManagerName()))) {
+//                        throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+//                    }
+//                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+//                }
+//                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+//            }
 
             Optional.ofNullable(leagueMatch.getHomeTeamHonorScore())
                     .ifPresent(findLeagueMatch::setHomeTeamHonorScore);
@@ -375,13 +406,20 @@ public class LeagueMatchService {
         Optional<LeagueMatch> optionalLeagueMatch = leagueMatchRepository.findById(leagueMatchId);
 
         return optionalLeagueMatch.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+                        new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_FOUND));
+    }
+
+    public LeagueMatch findVerifiedLeagueMatchByUserId(Long userId) {
+        Optional<LeagueMatch> optionalLeagueMatch = leagueMatchRepository.findById(userId);
+
+        return optionalLeagueMatch.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_FOUND));
     }
 
     public League findVerifiedLeague(Long leagueId) {
         Optional<League> optionalMatch = leagueRepository.findById(leagueId);
 
         return optionalMatch.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+                        new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_FOUND));
     }
 }

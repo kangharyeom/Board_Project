@@ -27,10 +27,7 @@ public class ParticipantsController {
     public ResponseEntity<ParticipantsResponseDto> postParticipants(@RequestBody ParticipantsPostDto requestBody) {
 
         Participants participants = participantsService.createParticipants(participantsMapper.participantsPostDtoToParticipants(requestBody),
-                requestBody.getUserId(),
-                requestBody.getTeamId(),
-                requestBody.getLeagueId(),
-                requestBody.getLeagueApplyId()
+                requestBody.getTeamName()
         );
 
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);

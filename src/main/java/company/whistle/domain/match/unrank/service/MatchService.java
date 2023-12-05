@@ -5,6 +5,7 @@ import company.whistle.domain.match.unrank.repository.MatchRepository;
 import company.whistle.domain.team.domain.repository.TeamRepository;
 import company.whistle.global.constant.MatchResultStatus;
 import company.whistle.global.constant.MatchStatus;
+import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.team.domain.entity.Team;
@@ -34,52 +35,18 @@ public class MatchService {
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 
-    public Match createMatch(Match match, Long homeTeamUserId, Long homeTeamId) {
+    public Match createHomeTeamToMatch(Match match) {
         try {
-            if (homeTeamUserId == null || homeTeamId == null ) {
-                log.info("userId: {}", homeTeamUserId);
-                log.info("teamId: {}", homeTeamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            Long userId = userService.getLoginUser().getUserId();
+            if (userId == null) {
+                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            User user = userService.findUser(homeTeamUserId);
-            Team team = teamService.findTeam(homeTeamId);
-
-            findVerifiedExistsByTeamId(homeTeamId);
-
-            match.setUser(user);
-            match.setTeam(team);
-
-            match.setHomeTeamName(team.getTeamName());
-            match.setHomeTeamManagerName(team.getManagerName());
-            match.setHomeTeamTotalWinRecord(team.getTotalWinRecord());
-            match.setHomeTeamTotalDrawRecord(team.getTotalDrawRecord());
-            match.setHomeTeamTotalLoseRecord(team.getTotalLoseRecord());
-            match.setHomeTeamLevelType(team.getLevelType());
-            match.setHomeTeamAgeType(team.getAgeType());
-            match.setHomeTeamUniformType(team.getUniformType());
-            match.setMatchType(match.getMatchType());
-
-            matchRepository.save(match);
-        } catch (BusinessLogicException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(Exceptions.MATCH_NOT_CREATED);
-        }
-        return match;
-    }
-
-    public Match createHomeTeamToMatch(Match match, Long userId, Long teamId) {
-        try {
-            if (userId == null || teamId == null ) {
-                log.info("userId: {}", userId);
-                log.info("teamId: {}", teamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            if (userService.getLoginUser().getTeamMemberRole() != TeamMemberRole.MANAGER ||
+                    userService.getLoginUser().getTeamMemberRole() == TeamMemberRole.SUB_MANAGER) {
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
             User user = userService.findUser(userId);
-            Team team = teamService.findTeam(teamId);
-
-            findVerifiedExistsByTeamId(teamId);
+            Team team  = teamService.findTeamByUserId(userId);
 
             match.setUser(user);
             match.setTeam(team);
@@ -107,7 +74,6 @@ public class MatchService {
     public Match postAwayTeamForMatch(Match match, Long matchId, Long matchApplyId, Long awayTeamUserId, Long awayTeamId) {
         try {
             if (matchId == null) {
-                log.info("matchId: {}", matchId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             Match findMatch = findVerifiedMatch(match.getMatchId());

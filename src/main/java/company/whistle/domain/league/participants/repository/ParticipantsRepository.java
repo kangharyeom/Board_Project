@@ -1,11 +1,13 @@
 package company.whistle.domain.league.participants.repository;
 
 import company.whistle.domain.league.participants.entity.Participants;
+import company.whistle.domain.team.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface ParticipantsRepository extends JpaRepository<Participants, Long> {
     @Query(value = "select * from Participants where league_id = :leagueId", nativeQuery = true)
@@ -19,6 +21,9 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Long
 
     @Query(value = "select league_lose_record from Participants where league_id = :leagueId", nativeQuery = true)
     Participants findLeagueLoseRecordByLeagueId(@Param("leagueId") long leagueId);
+
+    @Query(value = "select * from Participants where team_Name = :teamName", nativeQuery = true)
+    Optional<Participants> findByTeamName(@Param("teamName") String teamName);
 
     @Query(value = "select * from Participants where user_id = :userId", nativeQuery = true)
     List<Participants> findByUserId(@Param("userId") long userId);

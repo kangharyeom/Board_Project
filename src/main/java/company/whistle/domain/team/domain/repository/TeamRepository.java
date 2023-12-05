@@ -15,6 +15,12 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "select * from teams where user_id = :userId", nativeQuery = true)
     Team findByUserId(@Param("userId") long userId);
 
+    @Query(value = "select manager_name from teams where user_id = :userId", nativeQuery = true)
+    String findManagerNameByUserId(@Param("userId") long userId);
+
+    @Query(value = "select sub_manager_name from teams where user_id = :userId", nativeQuery = true)
+    String findSubManagerNameByUserId(@Param("userId") long userId);
+
     @Query(value = "select * from teams where team_Name = :teamName", nativeQuery = true)
     Team findByTeamName(@Param("teamName") String teamName);
 

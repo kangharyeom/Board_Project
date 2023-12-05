@@ -2,8 +2,11 @@ package company.whistle.global.exception;
 
 import lombok.Getter;
 
+@Getter
 public enum Exceptions {
     ID_IS_NULL(400, "ID IS NULL"),
+    NAME_IS_NULL(400, "NAME IS NULL"),
+    TEAM_NAME_IS_NULL(400, "TEAM NAME IS NULL"),
     ID_NOT_EXIST(404, "ID IS NOT EXIST"),
     INVALID_DATE(400, "INVALID DATE"),
     INVALID_VALUES(400, "INVALID VALUES"),
@@ -60,6 +63,7 @@ public enum Exceptions {
     TEAM_NOT_PATCHED(403, "TEAM NOT PATCHED"),
     TEAM_NOT_DELETED(403, "TEAM NOT DELETED"),
     TEAM_NOT_FOUND(404, "TEAM NOT FOUND"),
+    TEAM_NAME_NOT_FOUND(404, "TEAM NAME NOT FOUND"),
     TEAM_EXISTS(409, "TEAM EXISTS"),
     TEAM_ID_EXISTS(409, "TEAM_ID EXISTS"),
     TEAM_NAME_EXISTS(409, "TEAM NAME EXISTS"),
@@ -126,11 +130,9 @@ public enum Exceptions {
     CONTENT_FILE_NOT_FOUND(404, "CONTENT_FILE NOT FOUND"),
     CONTENT_FILE_CHECK_ERROR(409, "CONTENT_FILE CHECK ERROR");
 
-    @Getter
-    private int status;
+    private final int status;
 
-    @Getter
-    private String message;
+    private final String message;
 
     Exceptions(int status, String message) {
         this.status = status;

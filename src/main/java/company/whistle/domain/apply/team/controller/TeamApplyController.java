@@ -25,9 +25,9 @@ public class TeamApplyController {
     * 팀 가입 신청
     */
     @PostMapping({"/{teamId}"})
-    public ResponseEntity<TeamApplyResponseDto> postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody) {
+    public ResponseEntity<TeamApplyResponseDto> postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody, @PathVariable Long teamId) {
         TeamApply teamApply = teamApplyService.createTeamApply(
-                teamApplyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+                teamApplyMapper.teamApplyPostDtoToTeamApply(requestBody), teamId);
 
         TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.teamApplyToTeamApplyResponse(teamApply);
         log.info("TEAM_APPLY POST COMPLETE: {}",teamApplyResponseDto.toString());

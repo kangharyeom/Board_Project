@@ -228,8 +228,6 @@ public interface LeagueMatchMapper {
             , Long awayTeamUserId
             , Long homeTeamId
             , Long awayTeamId
-            , Long homeTeamLeagueListId
-            , Long awayTeamLeagueListId
     );
 
     default LeagueMatchEndResponseDto leagueMatchToLeagueMatchEndResponse(LeagueMatch leagueMatch){

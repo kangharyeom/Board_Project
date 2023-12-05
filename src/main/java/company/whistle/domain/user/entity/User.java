@@ -37,6 +37,9 @@ public class User extends Auditable {
     @Column(nullable = false, unique = true, updatable = false)
     private String loginId;
 
+    @Column
+    private Long teamId;
+
     @Email
     @NotBlank(message = "이메일을 입력해주세요.")
     private String email;
