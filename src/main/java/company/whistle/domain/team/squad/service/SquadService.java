@@ -73,6 +73,7 @@ public class SquadService {
 
             teamApply.setApplyStatus(ApplyStatus.ACCEPTED);
 
+            teamApplyRepository.save(teamApply);
             userRepository.save(user);
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
