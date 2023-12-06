@@ -19,7 +19,7 @@ public interface TeamApplyRepository extends JpaRepository<TeamApply,Long> {
     @Query(value = "select * from team_applies where user_id = :userId", nativeQuery = true)
     TeamApply findTeamApplyByUserId(@Param("userId") long userId);
 
-    @Query(value = "select * from team_applies where team_id = :teamId and user_id = :userId and apply_status = APPLIED ", nativeQuery = true)
+    @Query(value = "select * from team_applies where team_id = :teamId and user_id = :userId and apply_status = 'APPLIED' ", nativeQuery = true)
     TeamApply checkTeamApplyByTeamIdAndUserId(@Param("teamId") long teamId, @Param("userId") long userId);
 
     @Query(value = "select apply_status from team_applies where user_id = :userId", nativeQuery = true)

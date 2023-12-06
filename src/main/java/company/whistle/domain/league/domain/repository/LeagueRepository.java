@@ -13,7 +13,7 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
 
     // userId단위 리그 조회
     @Query(value = "select * from leagues where user_id = :userId", nativeQuery = true)
-    List<League> findByUserId(@Param("userId") long userId);
+    League findByUserId(@Param("userId") long userId);
 
     // 최신 등록된 리그 순서 조회
     @Query(value = "select * from leagues order by created_at desc", nativeQuery = true)

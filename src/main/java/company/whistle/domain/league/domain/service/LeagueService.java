@@ -257,10 +257,12 @@ public class LeagueService {
 
 
     public League findLeagueByUserId(Long userId) {
-        Optional<League> optionalLeague = leagueRepository.findById(userId);
+        League optionalLeague = leagueRepository.findByUserId(userId);
 
-        return optionalLeague.orElseThrow(() ->
-                new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND));
+        if (optionalLeague == null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND);
+        }
+        return optionalLeague;
     }
 
     public String findMgrNameOFLeagueByUserId(Long userId) {
