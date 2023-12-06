@@ -27,7 +27,7 @@ public class MatchApplyController {
     @PostMapping("/{matchId}")
     public ResponseEntity<MatchApplyResponseDto> postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody) {
 
-        MatchApply matchApply = matchApplyService.createMatchApply(matchApplyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(),requestBody.getTeamId());
+        MatchApply matchApply = matchApplyService.createMatchApply(matchApplyMapper.matchApplyPostDtoToMatchApply(requestBody), requestBody.getMatchId(),requestBody.getTeamId());
         MatchApplyResponseDto matchApplyResponseDto = matchApplyMapper.matchApplyToMatchApplyResponse(matchApply);
         log.info("MATCH_APPLY POST COMPLETE: {}",matchApplyResponseDto.toString());
 

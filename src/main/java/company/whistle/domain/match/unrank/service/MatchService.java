@@ -3,6 +3,8 @@ package company.whistle.domain.match.unrank.service;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.match.unrank.repository.MatchRepository;
 import company.whistle.domain.team.domain.repository.TeamRepository;
+import company.whistle.domain.team.squad.entity.Squad;
+import company.whistle.domain.team.squad.service.SquadService;
 import company.whistle.global.constant.MatchResultStatus;
 import company.whistle.global.constant.MatchStatus;
 import company.whistle.global.constant.TeamMemberRole;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,21 +35,31 @@ public class MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
     private final TeamService teamService;
+    private final SquadService squadService;
     private final TeamRepository teamRepository;
     private final UserRepository userRepository;
 
     public Match createHomeTeamToMatch(Match match) {
         try {
-            Long userId = userService.getLoginUser().getUserId();
-            if (userId == null) {
+            Long loginUserId = userService.getLoginUser().getUserId();
+            if (loginUserId == null) {
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            if (userService.getLoginUser().getTeamMemberRole() != TeamMemberRole.MANAGER ||
-                    userService.getLoginUser().getTeamMemberRole() == TeamMemberRole.SUB_MANAGER) {
+
+            User user = userService.findUser(loginUserId);
+            Long teamId = squadService.findTeamIdOfSquadByUserId(loginUserId);
+            Team team  = teamService.findTeamByUserId(teamId);
+            String loginUserName = user.getName();
+            /*
+             * CHECK USER AUTHORIZATION
+             * 유저가 관리자 권한을 가지고 접근하는지 검사
+             * */
+            if (!Objects.equals(team.getManagerName(), loginUserName)) {
+                if (Objects.equals(team.getSubManagerName(), loginUserName)) {
+                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
-            User user = userService.findUser(userId);
-            Team team  = teamService.findTeamByUserId(userId);
 
             match.setUser(user);
             match.setTeam(team);
@@ -59,7 +72,7 @@ public class MatchService {
             match.setHomeTeamLevelType(team.getLevelType());
             match.setHomeTeamAgeType(team.getAgeType());
             match.setHomeTeamUniformType(team.getUniformType());
-            match.setMatchType(match.getMatchType());
+//            match.setMatchType(match.getMatchType());
 
             matchRepository.save(match);
         } catch (BusinessLogicException e) {

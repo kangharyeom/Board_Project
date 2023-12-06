@@ -4,6 +4,7 @@ import company.whistle.domain.apply.league.entity.LeagueApply;
 import company.whistle.domain.apply.league.service.LeagueApplyService;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.domain.league.participants.repository.ParticipantsRepository;
+import company.whistle.domain.team.domain.repository.TeamRepository;
 import company.whistle.domain.user.repository.UserRepository;
 import company.whistle.global.constant.LeagueRole;
 import company.whistle.global.exception.BusinessLogicException;
@@ -31,33 +32,31 @@ import java.util.Optional;
 public class ParticipantsService {
     private final ParticipantsRepository participantsRepository;
     private final TeamService teamService;
+    private final TeamRepository teamRepository;
     private final LeagueService leagueService;
     private final UserService userService;
     private final LeagueApplyService leagueApplyService;
     private final LeagueRepository leagueRepository;
     private final UserRepository userRepository;
-    public Participants createParticipants(
-            Participants participants
-    , String teamName) {
+    public Participants createParticipants(Participants participants, Long teamId) {
         try {
             Long loginUserId = userService.getLoginUser().getUserId();
-            if (loginUserId == null || teamName == null) {
+            if (loginUserId == null || teamId == null) {
                 log.info("loginUserId:{}", loginUserId);
-                log.info("teamName:{}", teamName);
-                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
+                log.info("teamId:{}", teamId);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
 
-            checkDuplTeamNameFromParticipants(teamName);
+            // team 중복 체크
+            checkDuplTeamIdFromParticipants(teamId);
 
             League league = leagueService.findLeagueByUserId(loginUserId);
             if (!Objects.equals(userService.getLoginUser().getName(), league.getManagerName()))
-            {
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
-            }
-            // apply한 유저와 팀 정보
-            Team team = teamService.findTeamByTeamName(teamName);
-            log.info("teamName:{}", teamName);
-            LeagueApply leagueApply = leagueApplyService.findLeagueApplyByTeamName(teamName);
+
+            // apply한 유저와 팀 정보 검색 및 주입
+            Team team = teamService.findTeamByTeamId(teamId);
+            LeagueApply leagueApply = leagueApplyService.findLeagueApplyByTeamId(teamId);
             User user = userService.findUser(team.getUser().getUserId());
 
             participants.setUser(user);
@@ -75,13 +74,15 @@ public class ParticipantsService {
 
             participants.setLeagueName(league.getLeagueName());
 
+            team.setLeagueId(league.getLeagueId());
+
             league.setTeamCount(+1L);
             league.setMemberCount(team.getMemberCount()+ participants.getMemberCount());
+            teamRepository.save(team);
             leagueRepository.save(league);
             participantsRepository.save(participants);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
@@ -93,8 +94,13 @@ public class ParticipantsService {
             Participants participants, Long userId, Long teamId, Long leagueId) {
         try {
             if (userId == null || teamId == null || leagueId == null) {
+                log.info("userId:{}", userId);
+                log.info("teamId:{}", teamId);
+                log.info("leagueId:{}", leagueId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
+            checkDupUserIdFromParticipants(userId);
+
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
 
@@ -122,12 +128,13 @@ public class ParticipantsService {
 
             participants.setManagerName(user.getName());
             user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
+            team.setLeagueId(league.getLeagueId());
 
+            teamRepository.save(team);
             userRepository.save(user);
             participantsRepository.save(participants);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_CREATED);
@@ -147,27 +154,6 @@ public class ParticipantsService {
             Optional.ofNullable(participants.getFormation())
                     .ifPresent(findParticipants::setFormation);
 
-            Optional.ofNullable(participants.getChampionCount())
-                    .ifPresent(findParticipants::setChampionCount);
-
-            Optional.ofNullable(participants.getMemberCount())
-                    .ifPresent(findParticipants::setMemberCount);
-
-            Optional.ofNullable(participants.getLeagueMatchCount())
-                    .ifPresent(findParticipants::setLeagueMatchCount);
-
-            Optional.ofNullable(participants.getLeagueWinRecord())
-                    .ifPresent(findParticipants::setLeagueWinRecord);
-
-            Optional.ofNullable(participants.getLeagueDrawRecord())
-                    .ifPresent(findParticipants::setLeagueDrawRecord);
-
-            Optional.ofNullable(participants.getLeagueLoseRecord())
-                    .ifPresent(findParticipants::setLeagueLoseRecord);
-
-            Optional.ofNullable(participants.getHonorScore())
-                    .ifPresent(findParticipants::setHonorScore);
-
             Optional.ofNullable(participants.getAgeType())
                     .ifPresent(findParticipants::setAgeType);
 
@@ -183,18 +169,9 @@ public class ParticipantsService {
             Optional.ofNullable(participants.getUniformType())
                     .ifPresent(findParticipants::setUniformType);
 
-        /*Optional.ofNullable(participants.getMostGoals())
-                .ifPresent(findParticipants::setMostGoals);
-
-        Optional.ofNullable(participants.getMostAssist())
-                .ifPresent(findParticipants::setMostAssist);
-
-        Optional.ofNullable(participants.getMostMom())
-                .ifPresent(findParticipants::setMostMom);*/
             participantsRepository.save(findParticipants);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
@@ -255,8 +232,7 @@ public class ParticipantsService {
             log.info("LEAGUE_MATCH_END ABOUT HOME_TEAM TO PARTICIPANTS_REPOSITORY:{}", findHomeTeamParticipants);
             log.info("LEAGUE_MATCH_END ABOUT AWAY_TEAM TO PARTICIPANTS_REPOSITORY:{}", findAwayTeamParticipants);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.PARTICIPANTS_NOT_PATCHED);
@@ -279,11 +255,6 @@ public class ParticipantsService {
         return participantsRepository.findHonorScore();
     }
 
-
-    public List<Participants> findAllLeaguesByLeagueId(long leagueId) {
-        return participantsRepository.findAllLeaguesByLeagueId(leagueId);
-    }
-
     public List<Participants> findAllParticipants() {
         return participantsRepository.findAll();
     }
@@ -304,16 +275,25 @@ public class ParticipantsService {
                         new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
     }
 
-    public Participants findParticipantsByTeamName(String teamName) {
-        Optional<Participants> optionalLeague = participantsRepository.findByTeamName(teamName);
+    public Participants findParticipantsByTeamId(Long teamId) {
+        Optional<Participants> optionalLeague = participantsRepository.findParticipantsByTeamId(teamId);
         return optionalLeague.orElseThrow(() ->
                 new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
     }
 
-    public void checkDuplTeamNameFromParticipants(String teamName) {
-        Optional<Participants> participants = participantsRepository.findByTeamName(teamName);
-        if(participants.isPresent()) {
-            throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
+    public void checkDuplTeamIdFromParticipants(Long teamId) {
+        Long teamIdOfParticipants = participantsRepository.checkDuplTeamIdFromParticipants(teamId);
+        if(teamIdOfParticipants != null) {
+            throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
         }
     }
+
+    public void checkDupUserIdFromParticipants(Long userId) {
+        Optional<Participants> participants = participantsRepository.findById(userId);
+        if(participants.isPresent()) {
+            throw new BusinessLogicException(Exceptions.USER_ID_EXISTS);
+        }
+    }
+
+
 }

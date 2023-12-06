@@ -13,6 +13,9 @@ public interface LeagueApplyRepository extends JpaRepository<LeagueApply,Long> {
     @Query(value = "select * from league_applies where league_apply_id = :leagueApplyId", nativeQuery = true)
     List<LeagueApply> findAllByLeagueApplyId(@Param("leagueApplyId") long leagueApplyId);
 
+    @Query(value = "select * from league_applies where team_id = :teamId", nativeQuery = true)
+    LeagueApply findLeagueApplyByTeamId(@Param("teamId") long teamId);
+
     // teamId 단위 조회
     @Query(value = "select * from league_applies where team_id = :teamId order by created_at desc", nativeQuery = true)
     List<LeagueApply> findAllByTeamId(@Param("teamId") long teamId);
@@ -33,4 +36,8 @@ public interface LeagueApplyRepository extends JpaRepository<LeagueApply,Long> {
      * findVerified를 위해 Optional<LeagueApply>로 가져옴
      */
     Optional<LeagueApply> findByLeagueApplyId(@Param("leagueApplyId") long leagueApplyId);
+
+    @Query(value = "select team_id from league_applies where team_id = :teamId", nativeQuery = true)
+    Long checkDuplLeagueApplyByTeamId(@Param("teamId") long teamId);
+
 }

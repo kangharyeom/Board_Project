@@ -9,10 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LeagueRepository extends JpaRepository<League, Long> {
-    // 리그 전체 조회
-    @Query(value = "select * from leagues where league_id = :leagueId", nativeQuery = true)
-    List<League> findAllByLeagueId(@Param("leagueId") long leagueId);
-
     Optional<League> findByLeagueId(long leagueId);
 
     // userId단위 리그 조회
@@ -43,9 +39,16 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     @Query(value = "SELECT * FROM leagues WHERE season_type = 'TEAM_RECRUIT' ORDER BY league_id DESC", nativeQuery = true)
     List<League> findLeagueRecruit();
 
-    @Query(value = "select * from leagues where team_id = :teamId", nativeQuery = true)
-    League checkDuplTeamId(@Param("teamId") long teamId);
+    @Query(value = "select manager_name from leagues where user_id = :userId", nativeQuery = true)
+    String findMgrNameOFLeagueByUserId(@Param("userId") long userId);
 
-    @Query(value = "select * from leagues where league_name = :leagueName", nativeQuery = true)
-    League checkDuplLeagueName(@Param("leagueName") String leagueName);
+    @Query(value = "select team_id from leagues where team_id = :teamId", nativeQuery = true)
+    Long checkDuplTeamId(@Param("teamId") long teamId);
+
+    @Query(value = "select league_name from leagues where league_name = :leagueName", nativeQuery = true)
+    String checkDuplLeagueName(@Param("leagueName") String leagueName);
+
+    @Query(value = "select manager_team_name from leagues where manager_team_name = :managerTeamName", nativeQuery = true)
+    String checkDuplManagerTeamName(@Param("managerTeamName") String managerTeamName);
+
 }

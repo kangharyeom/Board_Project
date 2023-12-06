@@ -26,4 +26,7 @@ public interface SquadRepository extends JpaRepository<Squad, Long> {
 
     Optional<Squad> findByUserName(@Param("name") String name);
 
+    @Query(value = "select team_id from squads where user_id = :userId", nativeQuery = true)
+    Long findTeamIdOfSquadByUserId(@Param("userId") long userId);
+
 }

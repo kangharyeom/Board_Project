@@ -6,6 +6,7 @@ import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.team.domain.service.TeamService;
 import company.whistle.domain.user.entity.User;
 import company.whistle.domain.user.service.UserService;
+import company.whistle.global.constant.ApplyStatus;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -35,9 +37,13 @@ public class TeamApplyService {
             if (userId == null) {
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            teamService.checkDuplUserId(userId);
-
+            checkDuplUserIdFromTeamApply(userId);
+            teamService.checkDuplUserIdFromTeam(userId);
             User user = userService.findUser(userId);
+            if (user.getTeamId() != null) {
+                throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
+            }
+
             Team team = teamService.findTeam(teamId);
             teamApply.setTeam(team);
             teamApply.setUser(user);
@@ -45,6 +51,7 @@ public class TeamApplyService {
             teamApply.setTeamName(team.getTeamName());
             teamApply.setAgeType(team.getAgeType());
             teamApply.setLevelType(team.getLevelType());
+            teamApply.setApplyStatus(ApplyStatus.APPLIED);
             teamApplyRepository.save(teamApply);
             log.info("TEAM_APPLY CREATED:{}", teamApply);
         } catch (BusinessLogicException e) {
@@ -88,13 +95,26 @@ public class TeamApplyService {
         return findTeamApply;
     }
 
-    public TeamApply findTeamApplyByUserName(String name) {
-        Optional<TeamApply> optionalApply = teamApplyRepository.findByUserName(name);
-
-        TeamApply findTeamApply =
-                optionalApply.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND));
-        log.info("APPLY EXIST: {}", findTeamApply.toString());
-        return findTeamApply;
+    public TeamApply findTeamApplyByUserId(Long userId) {
+        TeamApply teamApply = teamApplyRepository.findTeamApplyByUserId(userId);
+        if (teamApply == null) {
+            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND);
+        }
+        return teamApply;
     }
+
+    public TeamApply findTeamApplyByTeamIdAndUserId(Long teamId, Long userId) {
+        TeamApply teamApply = teamApplyRepository.checkTeamApplyByTeamIdAndUserId(teamId, userId);
+        if (teamApply==null) {
+            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND);
+        }
+        return teamApply;
+    }
+    public void checkDuplUserIdFromTeamApply(Long userId) {
+        String teamApply = teamApplyRepository.checkDuplUserIdFromTeamApply(userId);
+        if (Objects.equals(teamApply, "APPLIED")) {
+            throw new BusinessLogicException(Exceptions.TEAM_APPLY_EXISTS);
+        }
+    }
+
 }

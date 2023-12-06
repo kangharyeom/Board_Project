@@ -51,7 +51,6 @@ public class TeamController {
         Team team = teamService.updateTeam(
                 teamMapper.teamPatchDtoToTeam(requestBody), teamId);
 
-//        team.setTeamId(teamId);
         TeamResponseDto userResponseDto = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(userResponseDto);

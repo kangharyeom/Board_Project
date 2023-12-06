@@ -1,7 +1,5 @@
 package company.whistle.domain.team.domain.service;
 
-import company.whistle.domain.user.repository.UserRepository;
-import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.team.domain.entity.Team;
@@ -17,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -27,21 +24,26 @@ import java.util.Optional;
 @Log4j2
 public class TeamService {
     private final TeamRepository teamRepository;
-    private final UserRepository userRepository;
     private final UserService userService;
     public Team createTeam(
             Team team, String teamName) {
         try {
-            Long userId = userService.getLoginUser().getUserId();
-            if (userId == null) {
-                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if (loginUserId == null || teamName == null) {
+                log.info("userId:{}",loginUserId);
+                log.info("teamName:{}",teamName);
+                throw new BusinessLogicException(Exceptions.IDS_OR_NAMES_ARE_NULL);
             }
-            checkDuplUserId(userId);
-            checkDuplTeamName(teamName);
-            User user = userService.findUser(userId);
 
-            team.setUser(user);
-            team.setManagerName(user.getName());
+            if (loginUser.getTeamId() != null) {
+                throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
+            }
+            checkDuplUserIdFromTeam(loginUserId);
+            checkDuplTeamNameFromTeam(teamName);
+
+            team.setUser(loginUser);
+            team.setManagerName(loginUser.getName());
 
             teamRepository.save(team);
         } catch (BusinessLogicException e) {
@@ -56,7 +58,9 @@ public class TeamService {
             Team team, Long teamId) {
         try {
             Long userId = userService.getLoginUser().getUserId();
-            if (userId == null) {
+            if (userId == null || teamId == null) {
+                log.info("userId:{}",userId);
+                log.info("teamId:{}",teamId);
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
             String managerName = userService.getLoginUser().getName();
@@ -68,8 +72,6 @@ public class TeamService {
                  }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
-            Optional.ofNullable(team.getChampionCount())
-                    .ifPresent(findTeam::setChampionCount);
 
             Optional.ofNullable(team.getIntroduction())
                     .ifPresent(findTeam::setIntroduction);
@@ -79,12 +81,6 @@ public class TeamService {
 
             Optional.ofNullable(team.getLocationType())
                     .ifPresent(findTeam::setLocationType);
-
-            Optional.ofNullable(team.getManagerName())
-                    .ifPresent(findTeam::setManagerName);
-
-            Optional.ofNullable(team.getSubManagerName())
-                    .ifPresent(findTeam::setSubManagerName);
 
             Optional.ofNullable(team.getUniformType())
                     .ifPresent(findTeam::setUniformType);
@@ -108,7 +104,7 @@ public class TeamService {
             if (homeTeamId == null || awayTeamId == null) {
                 log.info("homeTeamId: {}", homeTeamId);
                 log.info("awayTeamId: {}", awayTeamId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
             Team findHomeTeam = findVerifiedTeam(homeTeamId);
             Team findAwayTeam = findVerifiedTeam(awayTeamId);
@@ -184,10 +180,6 @@ public class TeamService {
                 Sort.by("teamId").descending()));
     }
 
-    public Team findTeam(int teamId) {
-        return findVerifiedTeam(teamId);
-    }
-
     public void deleteTeam(long teamId) {
         try {
             Team findTeam = findVerifiedTeam(teamId);
@@ -205,33 +197,41 @@ public class TeamService {
     }
 
     public Team findVerifiedTeamByUserId(long userId) {
-        Team team;
-        team = teamRepository.findByUserId(userId);
-        if (team == null) {
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
-        }
-        return team;
+        Optional<Team> optionalTeam = teamRepository.findById(userId);
+        return optionalTeam.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
     }
 
     public Team findTeamByTeamName(String teamName) {
-        Team team;
-        team = teamRepository.findByTeamName(teamName);
-        if (team == null) {
-            throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
-        }
-        return team;
+        Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
+        return optionalTeam.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
     }
 
-    public void checkDuplUserId(long userId) {
-        Team team = teamRepository.findByUserId(userId);
-        if(team !=null) {
+    public String findTeamManagerNameByUserId(long userId) {
+        String teamManagerName = teamRepository.findTeamManagerNameByUserId(userId);
+        if (teamManagerName == null) {
+            throw new BusinessLogicException(Exceptions.TEAM_MANAGER_NAME_NOT_FOUND);
+        }
+        return teamManagerName;
+    }
+
+    public Team findTeamByTeamId(Long teamId) {
+        Optional<Team> optionalTeam = teamRepository.findByTeamId(teamId);
+        return optionalTeam.orElseThrow(() ->
+                new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
+    }
+
+    public void checkDuplUserIdFromTeam(long userId) {
+        Long team = teamRepository.checkDuplUserId(userId);
+        if(team != null) {
             throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
         }
     }
 
-    public void checkDuplTeamName(String teamName) {
-        Team team = teamRepository.findByTeamName(teamName);
-        if(team !=null) {
+    public void checkDuplTeamNameFromTeam(String managerTeamName) {
+        String team = teamRepository.checkDuplTeamName(managerTeamName);
+        if(team != null) {
             throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
         }
     }

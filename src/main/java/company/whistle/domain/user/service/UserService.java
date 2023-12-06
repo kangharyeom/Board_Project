@@ -145,12 +145,6 @@ public class UserService {
         }
     }
 
-    public User findVerifiedUser(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-    }
-
     public User findUserByName(String name) {
         Optional<User> optionalUser = userRepository.findByName(name);
         return optionalUser.orElseThrow(() ->
@@ -161,11 +155,5 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByLeagueRole(leagueRole);
         return optionalUser.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.UNAUTHORIZED));
-    }
-
-    public User findVerifiedUserByTeamMemberRole(long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 }

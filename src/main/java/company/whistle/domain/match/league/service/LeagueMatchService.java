@@ -40,39 +40,41 @@ public class LeagueMatchService {
     private final ParticipantsService participantsService;
     private final LeagueRepository leagueRepository;
 
-    public LeagueMatch createLeagueMatch(LeagueMatch leagueMatch
-            , String homeTeamName
-            , String awayTeamName
+    public LeagueMatch createLeagueMatch(LeagueMatch leagueMatch, Long leagueId, Long homeTeamId, Long awayTeamId
     ) {
         try {
-            if (homeTeamName == null || awayTeamName == null) {
+            if (leagueId == null || homeTeamId == null || awayTeamId == null) {
+                log.info("leagueId:{}",leagueId);
+                log.info("homeTeamId:{}",homeTeamId);
+                log.info("awayTeamId:{}",awayTeamId);
                 throw new BusinessLogicException(Exceptions.TEAM_NAME_IS_NULL);
             }
+
             Long loginUserId = userService.getLoginUser().getUserId();
             String loginUserName = userService.getLoginUser().getName();
             if (loginUserId == null) {
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
 
-            Team homeTeam = teamService.findTeamByTeamName(homeTeamName);
-            Team awayTeam = teamService.findTeamByTeamName(awayTeamName);
-            User homeTeamUser = userService.findUser(homeTeam.getUser().getUserId());
-            User awayTeamUser = userService.findUser(awayTeam.getUser().getUserId());
-            Participants homeTeamParticipants = participantsService.findParticipantsByTeamName(homeTeamName);
-            Participants awayTeamParticipants = participantsService.findParticipantsByTeamName(awayTeamName);
-
-            League league = leagueService.findLeagueByUserId(loginUserId);
-            Team loginTeam = teamService.findTeamByUserId(loginUserId);
+            Team homeTeam = teamService.findTeamByTeamId(homeTeamId);
+            Team awayTeam = teamService.findTeamByTeamId(awayTeamId);
+            String loginTeamManagerName = teamService.findTeamManagerNameByUserId(loginUserId);
             // 로그인한 유저가 리그 관리자가 아니거나, 홈 or 어웨이 팀 매니저가 아닌 경우 예외처리
-            if ((!Objects.equals(league.getManagerName(), loginUserName))) {
-                if ((!Objects.equals(homeTeam.getManagerName(), loginTeam.getManagerName()))) {
-                    if ((!Objects.equals(awayTeam.getManagerName(), loginTeam.getManagerName()))) {
+            if ((!Objects.equals(leagueService.findMgrNameOFLeagueByUserId(loginUserId), loginUserName))) {
+                if ((!Objects.equals(homeTeam.getManagerName(), loginTeamManagerName))) {
+                    if ((!Objects.equals(awayTeam.getManagerName(), loginTeamManagerName))) {
                         throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
                     }
                     throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
+
+            User homeTeamUser = userService.findUser(homeTeam.getUser().getUserId());
+            User awayTeamUser = userService.findUser(awayTeam.getUser().getUserId());
+
+            Participants homeTeamParticipants = participantsService.findParticipantsByTeamId(homeTeamId);
+            Participants awayTeamParticipants = participantsService.findParticipantsByTeamId(awayTeamId);
 
             leagueMatch.setUser(homeTeamUser);
             leagueMatch.setUser(awayTeamUser);
@@ -127,8 +129,7 @@ public class LeagueMatchService {
 
             leagueMatchRepository.save(leagueMatch);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_CREATED);
@@ -136,7 +137,7 @@ public class LeagueMatchService {
         return leagueMatch;
     }
 
-    public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId) {
+    public LeagueMatch updateLeagueMatch(LeagueMatch leagueMatch, Long leagueMatchId, Long homeTeamId, Long awayTeamId) {
         try {
             Long loginUserId = userService.getLoginUser().getUserId();
             if (loginUserId == null) {
@@ -259,8 +260,7 @@ public class LeagueMatchService {
 
             leagueMatchRepository.save(findLeagueMatch);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
@@ -289,8 +289,7 @@ public class LeagueMatchService {
 
             leagueMatchRepository.save(findLeagueMatch);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);
@@ -353,8 +352,7 @@ public class LeagueMatchService {
             leagueMatchRepository.save(findLeagueMatch);
             log.info("LEAGUE_MATCH_END TO LEAGUE_MATCH_REPOSITORY:{}", findLeagueMatch);
         } catch (BusinessLogicException e) {
-            log.error(e.getMessage(), e);
-            throw new BusinessLogicException(e.getExceptions());
+            throw e;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
             throw new BusinessLogicException(Exceptions.LEAGUE_MATCH_NOT_PATCHED);

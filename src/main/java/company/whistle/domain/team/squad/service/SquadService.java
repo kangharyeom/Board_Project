@@ -1,9 +1,11 @@
 package company.whistle.domain.team.squad.service;
 
 import company.whistle.domain.apply.team.entity.TeamApply;
+import company.whistle.domain.apply.team.repository.TeamApplyRepository;
 import company.whistle.domain.apply.team.service.TeamApplyService;
 import company.whistle.domain.team.squad.entity.Squad;
 import company.whistle.domain.user.repository.UserRepository;
+import company.whistle.global.constant.ApplyStatus;
 import company.whistle.global.constant.Position;
 import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.exception.BusinessLogicException;
@@ -32,20 +34,25 @@ public class SquadService {
     private final TeamService teamService;
     private final UserService userService;
     private final TeamApplyService teamApplyService;
+    private final TeamApplyRepository teamApplyRepository;
     public Squad createSquad(
-            Squad squad, String name) {
+            Squad squad, Long teamId, Long userId) {
         try {
-            Long userId = userService.getLoginUser().getUserId();
-            if (name == null || userId == null) {
-                log.info("name:{}", name);
-                log.info("userId:{}", userId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
-            }
-            checkDuplUserId(name);
-
-            User loginUser = userService.findUser(userId);
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
             String loginUserName = loginUser.getName();
-            long teamId = loginUser.getTeamId();
+            if (teamId == null || userId == null || loginUserId == null || loginUserName == null) {
+                log.info("teamId:{}", teamId);
+                log.info("userId:{}", userId);
+                log.info("loginUserId:{}", loginUserId);
+                log.info("loginUserName:{}", loginUserName);
+                throw new BusinessLogicException(Exceptions.IDS_OR_NAMES_ARE_NULL);
+            }
+            // squad에 userId 값이 있는지 체크
+            checkDuplUserIdFromSquad(userId);
+
+            //teamApply의 teamId값과 userId값이 일치하고 Applied되어있는지 확인
+            TeamApply teamApply = teamApplyService.findTeamApplyByTeamIdAndUserId(teamId, userId);
 
             Team team = teamService.findVerifiedTeam(teamId);
             if (!Objects.equals(team.getManagerName(), loginUserName)) {
@@ -54,8 +61,7 @@ public class SquadService {
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
-            User user = userService.findUserByName(name);
-            TeamApply teamApply = teamApplyService.findTeamApplyByUserName(name);
+            User user = userService.findUser(userId);
 
             user.setTeamMemberRole(TeamMemberRole.MANAGER);
             user.setTeamId(teamId);
@@ -64,6 +70,9 @@ public class SquadService {
             squad.setTeamApply(teamApply);
             squad.setName(user.getName());
             squad.setTeamMemberRole(TeamMemberRole.MEMBER);
+
+            teamApply.setApplyStatus(ApplyStatus.ACCEPTED);
+
             userRepository.save(user);
             squadRepository.save(squad);
         } catch (BusinessLogicException e) {
@@ -114,7 +123,7 @@ public class SquadService {
             if ( squadId == null || userId == null) {
                 log.info("userId: {}", userId);
                 log.info("squadId: {}", squadId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
 
             String loginUser = userService.findUser(userId).getName();
@@ -182,10 +191,6 @@ public class SquadService {
         return squadRepository.findAll();
     }
 
-    public Squad findSquad(int squadId) {
-        return findVerifiedSquad(squadId);
-    }
-
     public void deleteSquad(long squadId) {
         try {
             Squad findSquad = findVerifiedSquad(squadId);
@@ -208,10 +213,26 @@ public class SquadService {
                 new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND));
     }
 
-    public void checkDuplUserId(String name) {
+    public Long findTeamIdOfSquadByUserId(long userId) {
+        Long teamId = squadRepository.findTeamIdOfSquadByUserId(userId);
+        if (teamId == null) {
+            throw new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND);
+        }
+        return teamId;
+    }
+
+    public void checkDuplUserName(String name) {
         Optional<Squad> squad = squadRepository.findByUserName(name);
         if(squad.isPresent()) {
             throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
         }
     }
+
+    public void checkDuplUserIdFromSquad(long userId) {
+        boolean squad = squadRepository.existsById(userId);
+        if(squad) {
+            throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
+        }
+    }
+
 }

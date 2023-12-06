@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 /*
  * LeagueApplyService
@@ -34,14 +35,39 @@ public class MatchApplyService {
      * MatchApply 생성
      * user, team, match가 존재하는지 확인 후 team, user, match가 존재하면 applyRepository에 저장
      */
-    public MatchApply createMatchApply(MatchApply matchApply, Long userId, Long matchId, Long teamId) {
+    public MatchApply createMatchApply(MatchApply matchApply, Long matchId, Long teamId) {
         try {
-            if (userId == null || matchId == null || teamId == null) {
+            // MatchApply에 중복된 teamId가 있는지 확인
+            checkDuplMatchApplyByTeamId(teamId);
+
+            // 로그인한 유저 정보 조회
+            User loginUser = userService.getLoginUser();
+
+            // 로그인한 유저 Id 주입
+            Long loginUserId = loginUser.getUserId();
+            if (loginUserId == null || matchId == null || teamId == null) {
+                log.info("loginUserId:{}", loginUserId);
+                log.info("matchId:{}", matchId);
+                log.info("teamId:{}", teamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            User user = userService.findUser(userId);
+
+            Team team = teamService.findTeamByUserId(loginUserId);
+            /*
+             * user
+             * 매니저 또는 부매니저가 매치를 생성할 수 있기 때문에
+             * userId는 해당 팀의 매니저 userId를 주입
+             * */
+            User user = userService.findUser(team.getUser().getUserId());
             Match match = matchService.findMatch(matchId);
-            Team team = teamService.findTeam(teamId);
+
+            // 로그인한 유저 권한 검증
+            if (!Objects.equals(loginUser.getName(), team.getManagerName()) || team.getManagerName()==null) {
+                if (!Objects.equals(loginUser.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
+                    throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+                }
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
 
             matchApply.setUser(user);
             matchApply.setMatch(match);
@@ -71,10 +97,6 @@ public class MatchApplyService {
         return matchApplyRepository.findAllByTeamId(teamId);
     }
 
-    public List<MatchApply> findAllByMatchId(Long matchId){
-        return matchApplyRepository.findAllByMatchId(matchId);
-    }
-
     public List<MatchApply> findAllByMatchApplyId(Long matchApplyId){
         return matchApplyRepository.findAllByMatchApplyId(matchApplyId);
     }
@@ -100,5 +122,11 @@ public class MatchApplyService {
                         new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_FOUND));
         log.info("APPLY EXIST: {}", findMatchApply.toString());
         return findMatchApply;
+    }
+    public void checkDuplMatchApplyByTeamId(Long teamId) {
+        Long checkTeamId = matchApplyRepository.checkDuplMatchApplyByTeamId(teamId);
+        if (checkTeamId == null) {
+            throw new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_FOUND);
+        }
     }
 }

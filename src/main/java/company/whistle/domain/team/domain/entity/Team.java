@@ -27,6 +27,9 @@ public class Team extends Auditable {
     private Long teamId;
 
     @Column
+    private Long leagueId;
+
+    @Column
     private Long championCount;
 
     @Column

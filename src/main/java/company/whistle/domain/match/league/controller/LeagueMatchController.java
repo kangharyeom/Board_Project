@@ -33,9 +33,10 @@ public class LeagueMatchController {
 
     @PostMapping
     public ResponseEntity<LeagueMatchResponseDto> postLeagueMatch(@Validated @RequestBody LeagueMatchPostDto requestBody) {
-        LeagueMatch leagueMatch = leagueMatchService.createLeagueMatch(leagueMatchMapper.leagueMatchPostDtoToLeagueMatch(requestBody),
-                requestBody.getHomeTeamName(),
-                requestBody.getAwayTeamName()
+        LeagueMatch leagueMatch = leagueMatchService.createLeagueMatch(leagueMatchMapper.leagueMatchPostDtoToLeagueMatch(requestBody)
+                ,requestBody.getLeagueId()
+                , requestBody.getHomeTeamId()
+                , requestBody.getAwayTeamId()
         );
 
         LeagueMatchResponseDto leagueMatchResponseDto = leagueMatchMapper.leagueMatchPostToLeagueMatchResponse(
@@ -107,7 +108,7 @@ public class LeagueMatchController {
     public ResponseEntity<LeagueMatchResponseDto> patchLeagueMatch(@RequestBody LeagueMatchPatchDto requestBody,
                                        @PathVariable("leagueMatchId") Long leagueMatchId) {
         LeagueMatch leagueMatch = leagueMatchService.updateLeagueMatch(
-                leagueMatchMapper.leagueMatchPatchDtoToLeagueMatch(requestBody),leagueMatchId);
+                leagueMatchMapper.leagueMatchPatchDtoToLeagueMatch(requestBody),leagueMatchId,requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
 
         LeagueMatchResponseDto matchResponse = leagueMatchMapper.leagueMatchToLeagueMatchResponse(leagueMatch);
 

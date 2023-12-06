@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public class ParticipantsPostDto {
 //    private Long userId;
-//    private Long teamId;
+    private Long teamId;
 //    private Long leagueId;
 //    private Long leagueApplyId;
     private Long leagueHonorScore;

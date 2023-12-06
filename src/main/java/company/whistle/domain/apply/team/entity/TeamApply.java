@@ -5,6 +5,7 @@ import company.whistle.domain.team.domain.entity.Team;
 import company.whistle.domain.user.entity.User;
 import company.whistle.global.audit.Auditable;
 import company.whistle.global.constant.AgeType;
+import company.whistle.global.constant.ApplyStatus;
 import company.whistle.global.constant.ApplyType;
 import company.whistle.global.constant.LevelType;
 import lombok.Getter;
@@ -38,6 +39,9 @@ public class TeamApply extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private ApplyType applyType;
+
+    @Enumerated(EnumType.STRING)
+    private ApplyStatus applyStatus;
 
     @OneToMany(mappedBy = "teamApply", cascade = CascadeType.REMOVE)
     private List<Squad> squads = new ArrayList<>();

@@ -33,27 +33,37 @@ public class LeagueApplyService {
 
     /*
      * LeagueApply 생성
-     * user, team, league가 존재하는지 확인 후 team, user, league가 존재하면 applyRepository에 저장
      */
     public LeagueApply createLeagueApply(LeagueApply leagueApply, Long leagueId) {
         try {
-            if (leagueId == null) {
-                throw new BusinessLogicException(Exceptions.LEAGUE_ID_IS_NULL);
+            // 로그인한 유저의 팀 정보 조회
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if ( leagueId == null || loginUserId == null) {
+                log.info("leagueId:{}", leagueId);
+                log.info("loginUserId:{}", loginUserId);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
-            League league = leagueService.findLeague(leagueId);
-            Long loginUserId = userService.getLoginUser().getUserId();
-            if (loginUserId == null) {
-                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
-            }
-            User user = userService.findUser(loginUserId);
+
             Team team = teamService.findTeamByUserId(loginUserId);
-            if (!Objects.equals(userService.getLoginUser().getName(), team.getManagerName()))
-            {
-                if (!Objects.equals(userService.getLoginUser().getName(), team.getSubManagerName())){
+            if (team.getLeagueId() != null) {
+                throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
+            }
+
+            //리그 apply에 신청한 팀 중복 검증
+            checkDuplLeagueApplyByTeamId(team.getTeamId());
+
+            // team 매니저의 user정보 주입
+            User user = userService.findUser(team.getUser().getUserId());
+            // 로그인한 유저 권한 검증
+            if (!Objects.equals(loginUser.getName(), team.getManagerName()) || team.getManagerName()==null) {
+                if (!Objects.equals(loginUser.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
                     throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
+
+            League league = leagueService.findLeague(leagueId);
 
             leagueApply.setLeague(league);
             leagueApply.setUser(user);
@@ -65,6 +75,8 @@ public class LeagueApplyService {
             leagueApply.setApplyType(leagueApply.getApplyType());
 
             leagueApplyRepository.save(leagueApply);
+        } catch (BusinessLogicException e) {
+            throw e;
         } catch (Exception e) {
             throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_CREATED);
         }
@@ -112,5 +124,18 @@ public class LeagueApplyService {
         log.info("APPLY EXIST: {}", findLeagueApply.toString());
         return findLeagueApply;
     }
+    public LeagueApply findLeagueApplyByTeamId(long teamId) {
+        LeagueApply optionalApply = leagueApplyRepository.findLeagueApplyByTeamId(teamId);
+        if (optionalApply == null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_FOUND);
+        }
+        return optionalApply;
+    }
 
+    public void checkDuplLeagueApplyByTeamId(long teamId) {
+        Long chekTeamId = leagueApplyRepository.checkDuplLeagueApplyByTeamId(teamId);
+        if (chekTeamId != null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_EXISTS);
+        }
+    }
 }

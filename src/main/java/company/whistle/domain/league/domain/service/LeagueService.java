@@ -4,7 +4,6 @@ import company.whistle.domain.league.domain.repository.LeagueRepository;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.global.constant.LeagueRole;
 import company.whistle.global.constant.SeasonType;
-import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.league.domain.entity.League;
@@ -42,19 +41,25 @@ public class LeagueService {
     /*
     * 리그 생성
     */
-    public League createLeague(League league, String leagueName, String teamName) {
+    public League createLeague(League league, String leagueName, String managerTeamName) {
         try {
             Long userId = userService.getLoginUser().getUserId();
-            if (userId == null || teamName ==null || leagueName== null) {
+            if (userId == null || managerTeamName ==null || leagueName== null) {
                 log.info("userId:{}", userId);
-                log.info("teamName:{}", teamName);
+                log.info("teamName:{}", managerTeamName);
                 log.info("leagueName:{}", leagueName);
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
 
+            checkDuplManagerTeamName(managerTeamName);
             checkDuplLeagueName(leagueName);
             User user = userService.findUser(userId);
-            Team team = teamService.findTeamByTeamName(teamName);
+            Team team = teamService.findTeamByTeamName(managerTeamName);
+
+            //팀에 이미 leagueId 값이 있다면 예외 발생
+            if (team.getLeagueId() != null) {
+                throw new BusinessLogicException(Exceptions.TEAM_HAS_LEAGUE);
+            }
 
             if (!Objects.equals(user.getName(), team.getManagerName()) || team.getManagerName()==null) {
                 if (!Objects.equals(user.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
@@ -152,10 +157,23 @@ public class LeagueService {
             if (leagueEndCount == endCount) {
                 league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
                 Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
+
+                // 우승한 팀에게 우승 점수 부여
                 Team team = teamService.findTeam(participants.getTeam().getTeamId());
                 participants.setChampionCount(participants.getChampionCount() + 1L);
                 team.setChampionCount(team.getChampionCount() + 1L);
+                team.setHonorScore(team.getHonorScore()+1000L);
+                participantsRepository.save(participants);
+                teamRepository.save(team);
             }
+
+            // 모든 팀 leagueId값 초기화
+            List<Team> teamList = teamRepository.findAllTeamByLeagueId(leagueId);
+            for (Team team : teamList) {
+                team.setLeagueId(null);
+                teamRepository.save(team);
+            }
+
             leagueRepository.save(league);
             log.info("CHECK LEAGUE_MATCH_COUNT FOR LEAGUE_END TO LEAGUE_REPOSITORY:{}", endCount);
         } catch (BusinessLogicException e) {
@@ -237,6 +255,7 @@ public class LeagueService {
                         new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
     }
 
+
     public League findLeagueByUserId(Long userId) {
         Optional<League> optionalLeague = leagueRepository.findById(userId);
 
@@ -244,17 +263,32 @@ public class LeagueService {
                 new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND));
     }
 
+    public String findMgrNameOFLeagueByUserId(Long userId) {
+        String managerName = leagueRepository.findMgrNameOFLeagueByUserId(userId);
+        if (managerName == null) {
+            throw new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND);
+        }
+        return managerName;
+    }
+
     public void checkDuplTeamId(long teamId) {
-        League league = leagueRepository.checkDuplTeamId(teamId);
+        Long league = leagueRepository.checkDuplTeamId(teamId);
         if(league !=null) {
             throw new BusinessLogicException(Exceptions.YOUR_TEAM_ALREADY_HAS_LEAGUE);
         }
     }
 
     public void checkDuplLeagueName(String leagueName) {
-        League league = leagueRepository.checkDuplLeagueName(leagueName);
+        String league = leagueRepository.checkDuplLeagueName(leagueName);
         if(league !=null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_NAME_EXISTS);
+        }
+    }
+
+    public void checkDuplManagerTeamName(String teamName) {
+        String checkTeamName = leagueRepository.checkDuplManagerTeamName(teamName);
+        if(checkTeamName !=null) {
+            throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
         }
     }
 }

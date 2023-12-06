@@ -10,20 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ParticipantsRepository extends JpaRepository<Participants, Long> {
-    @Query(value = "select * from Participants where league_id = :leagueId", nativeQuery = true)
-    List<Participants> findAllLeaguesByLeagueId(@Param("leagueId") long leagueId);
-
     @Query(value = "SELECT * from Participants WHERE league_id = :leagueId order by league_match_points desc limit 1", nativeQuery = true)
     Participants findWinnerByLeagueId(@Param("leagueId") long leagueId);
 
-    @Query(value = "SELECT * from Participants WHERE league_id = :leagueId order by league_match_points desc", nativeQuery = true)
-    Participants findLeagueWinPointsByLeagueId(@Param("leagueId") long leagueId);
-
-    @Query(value = "select league_lose_record from Participants where league_id = :leagueId", nativeQuery = true)
-    Participants findLeagueLoseRecordByLeagueId(@Param("leagueId") long leagueId);
-
-    @Query(value = "select * from Participants where team_Name = :teamName", nativeQuery = true)
-    Optional<Participants> findByTeamName(@Param("teamName") String teamName);
+    @Query(value = "select * from Participants where team_id = :teamId", nativeQuery = true)
+    Optional<Participants> findParticipantsByTeamId(@Param("teamId") long teamId);
 
     @Query(value = "select * from Participants where user_id = :userId", nativeQuery = true)
     List<Participants> findByUserId(@Param("userId") long userId);
@@ -36,5 +27,8 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Long
 
     @Query(value = "select * from Participants order by honor_score desc", nativeQuery = true)
     List<Participants> findHonorScore();
+
+    @Query(value = "select team_id from Participants where team_id = :teamId", nativeQuery = true)
+    Long checkDuplTeamIdFromParticipants(@Param("teamId") long teamId);
 
 }

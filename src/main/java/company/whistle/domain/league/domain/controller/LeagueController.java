@@ -40,7 +40,7 @@ public class LeagueController {
         League league = leagueService.createLeague(
                 leagueMapper.leaguePostDtoToLeague(requestBody),
                 requestBody.getLeagueName(),
-                requestBody.getTeamName()
+                requestBody.getManagerTeamName()
         );
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
         log.info("LEAGUE POST COMPLETE:{}", leagueResponseDto);
