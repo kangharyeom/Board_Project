@@ -53,9 +53,9 @@ public class TeamApplyService {
              * TeamApply 중복 체크
              * 해당 유저가 이미 TeamApply 에 APPLIED 하였고 user_id 값이 DB에 있는 경우 TEAM_APPLY_EXISTS 를 던짐
              * */
-            checkDuplUserIdFromTeamApply(userId);
+            existByUserId(userId);
 
-            Team team = teamService.findTeam(teamId);
+            Team team = teamService.findByTeamId(teamId);
             teamApply.setTeam(team);
             teamApply.setUser(loginUser);
             teamApply.setManagerName(loginUser.getName());
@@ -74,17 +74,13 @@ public class TeamApplyService {
         return teamApply;
     }
 
-    public TeamApply findTeamApply(Long teamApplyId) {
-        return findVerifiedTeamApply(teamApplyId);
-    }
-
     public List<TeamApply> findAllByTeamApplyId(Long teamApplyId){
         return teamApplyRepository.findAllByTeamApplyId(teamApplyId);
     }
 
     public void deleteTeamApply(Long teamApplyId) {
         try {
-            TeamApply findTeamApply = findVerifiedTeamApply(teamApplyId);
+            TeamApply findTeamApply = findByTeamApplyId(teamApplyId);
             teamApplyRepository.delete(findTeamApply);
         } catch (BusinessLogicException e) {
             log.error(e.getMessage(), e);
@@ -92,11 +88,7 @@ public class TeamApplyService {
         }
     }
 
-    /*
-     * apply 검증 로직
-     * repository에 Apply가 없는 경우 exception을 리턴
-     */
-    public TeamApply findVerifiedTeamApply(Long teamApplyId) {
+    public TeamApply findByTeamApplyId(Long teamApplyId) {
         Optional<TeamApply> optionalApply = teamApplyRepository.findById(teamApplyId);
 
         TeamApply findTeamApply =
@@ -106,23 +98,16 @@ public class TeamApplyService {
         return findTeamApply;
     }
 
-    public TeamApply findTeamApplyByUserId(Long userId) {
-        TeamApply teamApply = teamApplyRepository.findTeamApplyByUserId(userId);
-        if (teamApply == null) {
-            throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND);
-        }
-        return teamApply;
-    }
-
-    public TeamApply findTeamApplyByTeamIdAndUserId(Long teamId, Long userId) {
-        TeamApply teamApply = teamApplyRepository.checkTeamApplyByTeamIdAndUserId(teamId, userId);
+    public TeamApply findByTeamIdAndUserId(Long teamId, Long userId) {
+        TeamApply teamApply = teamApplyRepository.findByTeamIdAndUserId(teamId, userId);
         if (teamApply==null) {
             throw new BusinessLogicException(Exceptions.TEAM_APPLY_NOT_FOUND);
         }
         return teamApply;
     }
-    public void checkDuplUserIdFromTeamApply(Long userId) {
-        String teamApply = teamApplyRepository.checkDuplUserIdFromTeamApply(userId);
+
+    public void existByUserId(Long userId) {
+        String teamApply = teamApplyRepository.existByUserId(userId);
         if (Objects.equals(teamApply, "APPLIED")) {
             throw new BusinessLogicException(Exceptions.TEAM_APPLY_EXISTS);
         }

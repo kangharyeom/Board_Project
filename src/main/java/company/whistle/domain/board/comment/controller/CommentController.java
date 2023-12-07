@@ -65,7 +65,7 @@ public class CommentController {
      */
     @GetMapping("/{commentId}")
     public ResponseEntity<CommentResponseDto> getComment(@PathVariable("commentId") @Positive Long commentId){
-        Comment comment = commentService.findComment(commentId);
+        Comment comment = commentService.findByCommentId(commentId);
         CommentResponseDto commentResponse = commentMapper.commentToCommentResponseDto(comment);
 
         return ResponseEntity.ok(commentResponse);
@@ -76,7 +76,7 @@ public class CommentController {
      */
     @GetMapping("/contents/{contentId}")
     public ResponseEntity<List<CommentResponseDto>> getContentComments(@PathVariable("contentId") @Positive int contentId) {
-        List<Comment> comments = commentService.findContentComments(contentId);
+        List<Comment> comments = commentService.findByContentId(contentId);
         List<CommentResponseDto> commentResponseDtos = commentMapper.contentCommentsToCommentResponseDtos(comments);
         return ResponseEntity.ok(commentResponseDtos);
     }

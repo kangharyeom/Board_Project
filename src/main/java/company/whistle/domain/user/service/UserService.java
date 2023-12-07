@@ -58,7 +58,7 @@ public class UserService {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             // 회원 유무 확인
-            User findUser = existUser(userId);
+            User findUser = findByUserId(userId);
 
             // 새로 변경할 이메일 존재 유무 확인
             Optional.ofNullable(user.getEmail())
@@ -83,11 +83,6 @@ public class UserService {
         return user;
     }
 
-    // 회원 단건 조회
-    public User findUser(Long userId) {
-        return existUser(userId);
-    }
-
     // 회원 전체 조회
     public List<User> findAllUser() {
         return userRepository.findAll();
@@ -96,7 +91,7 @@ public class UserService {
     // 회원 탈퇴
     public void deleteUser(Long userId) {
         try {
-            User findUser = existUser(userId);
+            User findUser = findByUserId(userId);
             userRepository.delete(findUser);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
@@ -104,23 +99,15 @@ public class UserService {
         }
     }
 
-    // 회원 존재 유무 확인 메서드
-    public User existUser(Long userId) {
+    public User findByUserId(Long userId) {
         return userRepository.findById(userId).orElseThrow(() -> new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 
-    // 아이디, 이메일 중복 검사
+    // 아이디, 이메일 유효성 검사
     public void verifiedUser(String email) {
         Optional<User> userEmail = userRepository.findByEmail(email);
         if(userEmail.isPresent()) {
             throw new BusinessLogicException(Exceptions.EMAIL_EXISTS);
-        }
-    }
-
-    public void verifiedLoginId(String loginId) {
-        Optional<User> userLoginId = userRepository.findByLoginId(loginId);
-        if(userLoginId.isPresent()) {
-            throw new BusinessLogicException(Exceptions.LOGIN_ID_EXISTS);
         }
     }
 
@@ -143,12 +130,6 @@ public class UserService {
         if (user.getLoginType().equals(LoginType.SOCIAL)) {
             throw new BusinessLogicException(Exceptions.ACCESS_FORBIDDEN);
         }
-    }
-
-    public User findUserByName(String name) {
-        Optional<User> optionalUser = userRepository.findByName(name);
-        return optionalUser.orElseThrow(() ->
-                new BusinessLogicException(Exceptions.USER_NOT_FOUND));
     }
 
     public User findVerifiedUserByLeagueRole(LeagueRole leagueRole) {

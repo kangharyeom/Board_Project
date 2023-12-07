@@ -40,7 +40,7 @@ public class LeagueApplyController {
      */
     @GetMapping("/{leagueId}/{leagueApplyId}")
     public ResponseEntity<LeagueApplyResponseDto> getAppliesByLeagueApplyId(@PathVariable("leagueApplyId") Long leagueApplyId){
-        LeagueApply leagueApply = leagueApplyService.findLeagueApply(leagueApplyId);
+        LeagueApply leagueApply = leagueApplyService.findByLeagueApplyId(leagueApplyId);
         LeagueApplyResponseDto leagueApplyResponse = leagueApplyMapper.leagueApplyToLeagueApplyResponse(leagueApply);
         log.info("TOTAL LEAGUE_APPLY INFO:" + leagueApplyResponse);
         return ResponseEntity.ok(leagueApplyResponse);

@@ -39,7 +39,7 @@ public class ContentService {
                 log.info("userId: {}", userId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            User user = userService.findUser(userId);
+            User user = userService.findByUserId(userId);
 
             content.setUser(user);
             contentRepository.save(content);
@@ -60,7 +60,7 @@ public class ContentService {
             if (userId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            User user = userService.findUser(userId);
+            User user = userService.findByUserId(userId);
             content.setUser(user);
             blankCheck(filePaths);
             contentRepository.save(content);
@@ -89,9 +89,9 @@ public class ContentService {
             if (contentId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            Content findContent = findVerifiedContent(contentId);
+            Content findContent = findByContentId(contentId);
 
-            User writer = userService.findUser(findContent.getUser().getUserId()); // 작성자 찾기
+            User writer = userService.findByUserId(findContent.getUser().getUserId()); // 작성자 찾기
             if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())){ // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
@@ -109,13 +109,6 @@ public class ContentService {
             throw new BusinessLogicException(Exceptions.CONTENT_NOT_PATCHED);
         }
         return content;
-    }
-
-    /*
-     * 게시글 단건 조회
-     */
-    public Content findContent(Long contentId) {
-        return findVerifiedContent(contentId);
     }
 
     /*
@@ -167,7 +160,7 @@ public class ContentService {
      */
     public void deleteContent(Long contentId) {
         try {
-            Content findContent = findVerifiedContent(contentId);
+            Content findContent = findByContentId(contentId);
             contentRepository.delete(findContent);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
@@ -175,14 +168,10 @@ public class ContentService {
         }
     }
 
-    /*
-     * 게시글 검증 로직
-     */
-    public Content findVerifiedContent(Long contentId) {
-        Optional<Content> optionalContent = contentRepository.findByContentId(contentId);
-
+    public Content findByContentId(Long contentId) {
+        Optional<Content> optionalContent = contentRepository.findById(contentId);
         return optionalContent.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+                new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
     }
 
     private void blankCheck(List<String> filePaths) {

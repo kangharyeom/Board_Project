@@ -54,15 +54,15 @@ public class SquadService {
              * userId 중복 체크
              * squad DB에 teamId 가 있으면서 Team_Member_status 값이 ACTIVITY 이면 EXIST 를 던짐
              * */
-            checkDuplUserIdFromSquad(userId);
+            existByUserId(userId);
 
             /*
              * TeamApply 유효성 체크
              * TeamApply DB에 teamId 와  userId 값이 있으면서 ApplyStatus 값이 APPLIED 가 아닌 경우 TEAM_APPLY_NOT_FOUND 를 던짐
              * */
-            TeamApply teamApply = teamApplyService.findTeamApplyByTeamIdAndUserId(teamId, userId);
+            TeamApply teamApply = teamApplyService.findByTeamIdAndUserId(teamId, userId);
 
-            Team team = teamService.findVerifiedTeam(teamId);
+            Team team = teamService.findByTeamId(teamId);
             /*
              * SQUAD_CREATE(LOGIN 한 유저) 권한 검증
              * 해당 유저가 팀의 매니저이거나 부매니저가 아니라면 UNAUTHORIZED 를 던짐
@@ -74,7 +74,7 @@ public class SquadService {
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
-            User user = userService.findUser(userId);
+            User user = userService.findByUserId(userId);
 
             user.setTeamMemberRole(TeamMemberRole.MANAGER);
             user.setTeamId(teamId);
@@ -110,10 +110,10 @@ public class SquadService {
              * userId 중복 체크
              * squad DB에 teamId 가 있으면서 Team_Member_status 값이 ACTIVITY 이면 EXIST 를 던짐
              * */
-            checkDuplUserIdFromSquad(userId);
+            existByUserId(userId);
 
-            User user = userService.findUser(userId);
-            Team team = teamService.findTeamByUserId(userId);
+            User user = userService.findByUserId(userId);
+            Team team = teamService.findByUserId(userId);
 
             squad.setUser(user);
             squad.setTeam(team);
@@ -147,10 +147,10 @@ public class SquadService {
                 throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
 
-            String loginUser = userService.findUser(userId).getName();
-            Long teamId = findSquadByUserId(userId).getTeam().getTeamId();
+            String loginUser = userService.findByUserId(userId).getName();
+            Long teamId = findByUserId(userId).getTeam().getTeamId();
 
-            Team team = teamService.findVerifiedTeam(teamId);
+            Team team = teamService.findByTeamId(teamId);
             /*
              * SQUAD_CREATE(LOGIN 한 유저) 권한 검증
              * 해당 유저가 팀의 매니저이거나 부매니저가 아니라면 UNAUTHORIZED 를 던짐
@@ -162,7 +162,7 @@ public class SquadService {
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
-            Squad findSquad = findVerifiedSquad(squadId);
+            Squad findSquad = findBySquadId(squadId);
 
             Optional.ofNullable(squad.getPosition())
                     .ifPresent(findSquad::setPosition);
@@ -182,26 +182,19 @@ public class SquadService {
         }
         return squad;
     }
-
-    public Squad findSquad(long squadId) {
-        return findVerifiedSquad(squadId);
-    }
-
     public List<Squad> findSquadsNewest() {
-        return squadRepository.findSquadNewest();
+        return squadRepository.findSquadsNewest();
     }
-
     public List<Squad> findSquadsLatest() {
-        return squadRepository.findSquadLatest();
+        return squadRepository.findSquadsLatest();
     }
 
     public List<Squad> findHonorScore() {
         return squadRepository.findHonorScore();
     }
 
-
-    public List<Squad> findAllTeamsByLeagueId(long leagueId) {
-        return squadRepository.findAllTeamsByLeagueId(leagueId);
+    public List<Squad> findAllByLeagueId(long leagueId) {
+        return squadRepository.findAllByLeagueId(leagueId);
     }
 
     public List<Squad> findSquads() {
@@ -210,7 +203,7 @@ public class SquadService {
 
     public void deleteSquad(long squadId) {
         try {
-            Squad findSquad = findVerifiedSquad(squadId);
+            Squad findSquad = findBySquadId(squadId);
             squadRepository.delete(findSquad);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
@@ -218,28 +211,24 @@ public class SquadService {
         }
     }
 
-    public Squad findVerifiedSquad(long squadId) {
-        Optional<Squad> optionalTeam = squadRepository.findById(squadId);
-        return optionalTeam.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND));
+    public Squad findBySquadId(long squadId) {
+        Squad optionalTeam = squadRepository.findBySquadId(squadId);
+        if (optionalTeam == null) {
+                        throw new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND);
+        }
+        return optionalTeam;
     }
 
-    public Squad findSquadByUserId(long userId) {
-        Optional<Squad> optionalTeam = squadRepository.findById(userId);
-        return optionalTeam.orElseThrow(() ->
-                new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND));
-    }
-
-    public Long findTeamIdOfSquadByUserId(long userId) {
-        Long teamId = squadRepository.findTeamIdOfSquadByUserId(userId);
-        if (teamId == null) {
+    public Squad findByUserId(Long userId) {
+        Squad optionalTeam = squadRepository.findByUserId(userId);
+        if (optionalTeam == null) {
             throw new BusinessLogicException(Exceptions.SQUAD_NOT_FOUND);
         }
-        return teamId;
+        return optionalTeam;
     }
 
-    public void checkDuplUserIdFromSquad(long userId) {
-        Long squad = squadRepository.checkDuplUserIdFromSquad(userId);
+    public void existByUserId(Long userId) {
+        Long squad = squadRepository.existByUserId(userId);
         if(squad != null) {
             throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
         }

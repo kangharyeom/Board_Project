@@ -45,16 +45,16 @@ public class LeagueApplyService {
                 throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
 
-            Team team = teamService.findTeamByUserId(loginUserId);
+            Team team = teamService.findByUserId(loginUserId);
             if (team.getLeagueId() != null) {
                 throw new BusinessLogicException(Exceptions.LEAGUE_EXISTS);
             }
 
             //리그 apply에 신청한 팀 중복 검증
-            checkDuplLeagueApplyByTeamId(team.getTeamId());
+            existByTeamId(team.getTeamId());
 
             // team 매니저의 user정보 주입
-            User user = userService.findUser(team.getUser().getUserId());
+            User user = userService.findByUserId(team.getUser().getUserId());
             // 로그인한 유저 권한 검증
             if (!Objects.equals(loginUser.getName(), team.getManagerName()) || team.getManagerName()==null) {
                 if (!Objects.equals(loginUser.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
@@ -63,7 +63,7 @@ public class LeagueApplyService {
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
-            League league = leagueService.findLeague(leagueId);
+            League league = leagueService.findByLeagueId(leagueId);
 
             leagueApply.setLeague(league);
             leagueApply.setUser(user);
@@ -84,28 +84,20 @@ public class LeagueApplyService {
         return leagueApply;
     }
 
-    public LeagueApply findLeagueApply(Long leagueApplyId) {
-        return findVerifiedLeagueApply(leagueApplyId);
-    }
-
     public List<LeagueApply> findAllByLeagueId(Long leagueId){
         return leagueApplyRepository.findAllByLeagueId(leagueId);
     }
 
     public void deleteApply(Long leagueApplyId) {
         try {
-            LeagueApply findLeagueApply = findVerifiedLeagueApply(leagueApplyId);
+            LeagueApply findLeagueApply = findByLeagueApplyId(leagueApplyId);
             leagueApplyRepository.delete(findLeagueApply);
         } catch (Exception e) {
             throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_DELETED);
         }
     }
 
-    /*
-     * apply 검증 로직
-     * repository에 Apply가 없는 경우 exception을 리턴
-     */
-    public LeagueApply findVerifiedLeagueApply(Long leagueApplyId) {
+    public LeagueApply findByLeagueApplyId(Long leagueApplyId) {
         Optional<LeagueApply> optionalApply = leagueApplyRepository.findById(leagueApplyId);
 
         LeagueApply findLeagueApply =
@@ -115,26 +107,17 @@ public class LeagueApplyService {
         return findLeagueApply;
     }
 
-    public LeagueApply findLeagueApplyByTeamName(String teamName) {
-        Optional<LeagueApply> optionalApply = leagueApplyRepository.findByTeamName(teamName);
-
-        LeagueApply findLeagueApply =
-                optionalApply.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_FOUND));
-        log.info("APPLY EXIST: {}", findLeagueApply.toString());
-        return findLeagueApply;
-    }
-    public LeagueApply findLeagueApplyByTeamId(long teamId) {
-        LeagueApply optionalApply = leagueApplyRepository.findLeagueApplyByTeamId(teamId);
+    public LeagueApply findByTeamId(long teamId) {
+        LeagueApply optionalApply = leagueApplyRepository.findByTeamId(teamId);
         if (optionalApply == null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_NOT_FOUND);
         }
         return optionalApply;
     }
 
-    public void checkDuplLeagueApplyByTeamId(long teamId) {
-        Long chekTeamId = leagueApplyRepository.checkDuplLeagueApplyByTeamId(teamId);
-        if (chekTeamId != null) {
+    public void existByTeamId(long teamId) {
+        Long checkTeamId = leagueApplyRepository.existByTeamId(teamId);
+        if (checkTeamId != null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_APPLY_EXISTS);
         }
     }

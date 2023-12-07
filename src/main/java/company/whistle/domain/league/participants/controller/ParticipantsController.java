@@ -38,7 +38,7 @@ public class ParticipantsController {
 
     @GetMapping("/{participantsId}")
     public ResponseEntity<ParticipantsResponseDto> getParticipant(@PathVariable("participantsId") Long participantsId) {
-        Participants participants = participantsService.findParticipants(participantsId);
+        Participants participants = participantsService.findByParticipantsId(participantsId);
         ParticipantsResponseDto participantsResponse = participantsMapper.participantsToParticipantsResponse(participants);
 
         return ResponseEntity.ok(participantsResponse);

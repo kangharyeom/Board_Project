@@ -10,13 +10,13 @@ import java.util.Optional;
 
 public interface SquadRepository extends JpaRepository<Squad, Long> {
     @Query(value = "select * from squads where league_id = :leagueId", nativeQuery = true)
-    List<Squad> findAllTeamsByLeagueId(@Param("leagueId") long leagueId);
+    List<Squad> findAllByLeagueId(@Param("leagueId") long leagueId);
 
     @Query(value = "select * from squads order by created_at desc", nativeQuery = true)
-    List<Squad> findSquadNewest();
+    List<Squad> findSquadsNewest();
 
     @Query(value = "select * from squads order by created_at asc", nativeQuery = true)
-    List<Squad> findSquadLatest();
+    List<Squad> findSquadsLatest();
 
     @Query(value = "select * from squads order by honor_score desc", nativeQuery = true)
     List<Squad> findHonorScore();
@@ -25,6 +25,11 @@ public interface SquadRepository extends JpaRepository<Squad, Long> {
     Long findTeamIdOfSquadByUserId(@Param("userId") long userId);
 
     @Query(value = "select team_id from squads where user_id = :userId and team_member_status = 'ACTIVITY'", nativeQuery = true)
-    Long checkDuplUserIdFromSquad(@Param("userId") long userId);
+    Long existByUserId(@Param("userId") long userId);
 
+    @Query(value = "select * from squads where user_id = :userId", nativeQuery = true)
+    Squad findByUserId(@Param("userId") long userId);
+
+    @Query(value = "select * from squads where squad_id = :squadId", nativeQuery = true)
+    Squad findBySquadId(@Param("squadId") long squadId);
 }

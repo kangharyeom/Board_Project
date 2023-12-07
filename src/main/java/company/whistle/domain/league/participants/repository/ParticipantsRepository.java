@@ -14,7 +14,7 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Long
     Participants findWinnerByLeagueId(@Param("leagueId") long leagueId);
 
     @Query(value = "select * from Participants where team_id = :teamId", nativeQuery = true)
-    Optional<Participants> findParticipantsByTeamId(@Param("teamId") long teamId);
+    Optional<Participants> findByTeamId(@Param("teamId") long teamId);
 
     @Query(value = "select * from Participants where user_id = :userId", nativeQuery = true)
     List<Participants> findByUserId(@Param("userId") long userId);
@@ -29,7 +29,7 @@ public interface ParticipantsRepository extends JpaRepository<Participants, Long
     List<Participants> findHonorScore();
 
     @Query(value = "select team_id from Participants where team_id = :teamId and league_participants_status = 'ACTIVITY'", nativeQuery = true)
-    Long checkDuplTeamIdFromParticipants(@Param("teamId") long teamId);
+    Long existByTeamId(@Param("teamId") long teamId);
 
     @Query(value = "SELECT * from Participants WHERE league_id = :leagueId and league_participants_status = 'ACTIVITY' order by league_match_points desc ", nativeQuery = true)
     List<Participants> findAllParticipantsByLeagueId(@Param("leagueId") long leagueId);

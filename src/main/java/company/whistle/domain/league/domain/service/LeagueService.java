@@ -52,11 +52,11 @@ public class LeagueService {
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
             // 리그 정보에 managerTeamName이 있으면서도 league_season_status 가 ON_SEASON 이면 EXIST 를 던진다.
-            checkDuplManagerTeamName(managerTeamName);
-            checkDuplLeagueName(leagueName);
+            existByManagerTeamName(managerTeamName);
+            existByLeagueName(leagueName);
 
-            User user = userService.findUser(userId);
-            Team team = teamService.findTeamByTeamName(managerTeamName);
+            User user = userService.findByUserId(userId);
+            Team team = teamService.findByTeamName(managerTeamName);
 
             // 팀에 이미 leagueId 값이 있다면 예외 발생
             if (team.getLeagueId() != null) {
@@ -69,7 +69,7 @@ public class LeagueService {
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
-            checkDuplTeamId(team.getTeamId());
+            existByTeamId(team.getTeamId());
 
             league.setUser(user);
             league.setTeam(team);
@@ -98,7 +98,7 @@ public class LeagueService {
             if(leagueId==null || userId == null){
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            League findLeague = findLeagueByUserId(userId);
+            League findLeague = findByUserId(userId);
             // 리그 관리자만 수정 가능하도록
             User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
             if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 로그인한 유저와 관리자가 다른 경우
@@ -149,7 +149,7 @@ public class LeagueService {
             if(leagueId==null){
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            League league = findVerifiedLeague(leagueId);
+            League league = findByLeagueId(leagueId);
             long leagueEndCount = league.getLeagueEndCount();
             long teamCount = league.getTeamCount();
             long matchCount = league.getMatchCount();
@@ -160,7 +160,7 @@ public class LeagueService {
                 Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
 
                 // 우승한 팀에게 우승 점수 부여
-                Team team = teamService.findTeam(participants.getTeam().getTeamId());
+                Team team = teamService.findByTeamId(participants.getTeam().getTeamId());
                 participants.setChampionCount(participants.getChampionCount() + 1L);
                 team.setChampionCount(team.getChampionCount() + 1L);
                 team.setHonorScore(team.getHonorScore()+1000L);
@@ -197,7 +197,7 @@ public class LeagueService {
                 log.info("leagueId: {}", leagueId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            League findLeague = findVerifiedLeague(leagueId);
+            League findLeague = findByLeagueId(leagueId);
             findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
             leagueRepository.save(findLeague);
             log.info("LEAGUE_MATCH_END FOR LEAGUE_END_COUNT TO LEAGUE_REPOSITORY:{}", findLeague);
@@ -207,8 +207,6 @@ public class LeagueService {
             log.error(e.getMessage(),e);
         }
     }
-
-    public League findLeague(Long leagueId) {return findVerifiedLeague(leagueId);}
 
     public Page<League> findLeagues(int page, int size) {
         return leagueRepository.findAll(PageRequest.of(page, size,
@@ -241,7 +239,7 @@ public class LeagueService {
 
     public void deleteLeague(Long leagueId) {
         try {
-            League findLeague = findVerifiedLeague(leagueId);
+            League findLeague = findByLeagueId(leagueId);
             leagueRepository.delete(findLeague);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
@@ -250,53 +248,46 @@ public class LeagueService {
 
     }
 
-    public User findVerifiedUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-    }
-
-    public League findVerifiedLeague(Long leagueId) {
-        Optional<League> optionalLeague = leagueRepository.findByLeagueId(leagueId);
+    public League findByLeagueId(Long leagueId) {
+        Optional<League> optionalLeague = leagueRepository.findById(leagueId);
 
         return optionalLeague.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
+                new BusinessLogicException(Exceptions.CONTENT_NOT_FOUND));
     }
 
 
-    public League findLeagueByUserId(Long userId) {
+    public League findByUserId(Long userId) {
         League optionalLeague = leagueRepository.findByUserId(userId);
-
         if (optionalLeague == null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND);
         }
         return optionalLeague;
     }
 
-    public String findMgrNameOFLeagueByUserId(Long userId) {
-        String managerName = leagueRepository.findMgrNameOFLeagueByUserId(userId);
+    public String findManagerNameByUserId(Long userId) {
+        String managerName = leagueRepository.findManagerNameByUserId(userId);
         if (managerName == null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_NOT_FOUND);
         }
         return managerName;
     }
 
-    public void checkDuplTeamId(long teamId) {
-        Long league = leagueRepository.checkDuplTeamId(teamId);
+    public void existByTeamId(long teamId) {
+        Long league = leagueRepository.existByTeamId(teamId);
         if(league !=null) {
             throw new BusinessLogicException(Exceptions.YOUR_TEAM_ALREADY_HAS_LEAGUE);
         }
     }
 
-    public void checkDuplLeagueName(String leagueName) {
-        String league = leagueRepository.checkDuplLeagueName(leagueName);
+    public void existByLeagueName(String leagueName) {
+        String league = leagueRepository.existByLeagueName(leagueName);
         if(league !=null) {
             throw new BusinessLogicException(Exceptions.LEAGUE_NAME_EXISTS);
         }
     }
 
-    public void checkDuplManagerTeamName(String teamName) {
-        String checkTeamName = leagueRepository.checkDuplManagerTeamName(teamName);
+    public void existByManagerTeamName(String teamName) {
+        String checkTeamName = leagueRepository.existByManagerTeamName(teamName);
         if(checkTeamName !=null) {
             throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
         }

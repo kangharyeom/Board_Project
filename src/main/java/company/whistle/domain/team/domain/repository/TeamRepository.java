@@ -28,12 +28,15 @@ public interface TeamRepository extends JpaRepository<Team, Long> {
     @Query(value = "SELECT * FROM teams ORDER BY honor_score ASC", nativeQuery = true)
     List<Team> findByLowestHonorScore();
 
-    Optional<Team> findByTeamId(Long teamId);
+    @Query(value = "select * from teams where team_id = :teamId", nativeQuery = true)
+    Optional<Team> findByTeamId(@Param("teamId") Long teamId);
+    @Query(value = "select * from teams where user_id = :userId", nativeQuery = true)
+    Optional<Team> findByUserId(@Param("userId") Long userId);
 
     @Query(value = "select user_id from teams where user_id = :userId", nativeQuery = true)
     Long checkDuplUserId(@Param("userId") long userId);
 
     @Query(value = "select team_name from teams where team_name = :teamName", nativeQuery = true)
-    String checkDuplTeamName(@Param("teamName") String teamName);
+    String existByTeamName(@Param("teamName") String teamName);
 
 }

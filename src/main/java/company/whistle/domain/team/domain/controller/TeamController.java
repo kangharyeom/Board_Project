@@ -58,7 +58,7 @@ public class TeamController {
 
     @GetMapping("/{teamId}")
     public ResponseEntity<TeamResponseDto> getTeam(@PathVariable("teamId") @Positive Long teamId){
-        Team team = teamService.findTeam(teamId);
+        Team team = teamService.findByTeamId(teamId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
         log.info("팀 리스 폰스 {}",teamResponse);
 
@@ -67,7 +67,7 @@ public class TeamController {
 
     @GetMapping("/users/{userId}")
     public ResponseEntity<TeamResponseDto> getTeamByUserId(@PathVariable("userId") @Positive Long userId){
-        Team team = teamService.findTeamByUserId(userId);
+        Team team = teamService.findByUserId(userId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
 
         return ResponseEntity.ok(teamResponse);

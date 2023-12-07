@@ -9,22 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MatchRepository extends JpaRepository<Match, Long> {
-    @Query(value = "select * from matches where match_id = :matchId", nativeQuery = true)
-    List<Match> findAllByMatchId(@Param("matchId") long matchId);
 
-    @Query(value = "select * from matches where team_id = :teamId", nativeQuery = true)
-    List<Match> findAllByTeamId(@Param("teamId") long teamId);
-
-    @Query(value = "select * from matches where league_id = :leagueId", nativeQuery = true)
-    List<Match> findAllByLeagueId(@Param("leagueId") long leagueId);
-
-    @Query(value = "select * from matches where user_id = :userId", nativeQuery = true)
-    List<Match> findByUserId(@Param("userId") long userId);
-
-    @Query(value = "select * from matches where schedule_id = :scheduleId", nativeQuery = true)
-    List<Match> findByScheduleId(@Param("scheduleId") long scheduleId);
-
-    Optional<Match> findByMatchId(long matchId);
+    @Query(value = "select * from matches where match_apply_id = :matchApplyId", nativeQuery = true)
+    Optional<Match> findByMatchApplyId(@Param("matchApplyId") long matchApplyId);
 
     @Query(value = "select * from matches where title like %:keyword% or content like %:keyword% ", nativeQuery = true)
     List<Match> findAllSearch(@Param(value = "keyword")String keyword);
@@ -38,6 +25,4 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query(value = "select * from matches order by created_at asc", nativeQuery = true)
     List<Match> findMatchesLatest();
 
-    @Query(value = "select * from matches where team_id = :teamId", nativeQuery = true)
-    Match findByVerifiedTeamId(@Param("teamId") long teamId);
 }

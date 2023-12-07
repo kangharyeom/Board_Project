@@ -17,5 +17,5 @@ public interface MatchApplyRepository extends JpaRepository<MatchApply,Long> {
     List<MatchApply> findAllByTeamId(@Param("teamId") long teamId);
 
     @Query(value = "select team_id from match_applies where team_id = :teamId", nativeQuery = true)
-    Long checkDuplMatchApplyByTeamId(@Param("teamId") long teamId);
+    Long existByTeamId(@Param("teamId") long teamId);
 }

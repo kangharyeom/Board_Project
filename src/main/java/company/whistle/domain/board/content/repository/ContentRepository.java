@@ -12,13 +12,6 @@ public interface ContentRepository extends JpaRepository<Content, Long> {
     // content 전체 조회
     List<Content> findAll();
 
-    // userId 단위 조회
-    @Query(value = "select * from contents where user_id = :userId", nativeQuery = true)
-    List<Content> findByUserId(@Param("userId") long userId);
-
-    // contentId 단위 조회
-    Optional<Content> findByContentId(long contentId);
-
     /*
     * 게시글 검색 쿼리
     */

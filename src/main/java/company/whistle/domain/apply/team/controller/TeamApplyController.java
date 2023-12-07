@@ -41,7 +41,7 @@ public class TeamApplyController {
     @GetMapping("/{teamId}/{teamApplyId}")
     public ResponseEntity<TeamApplyResponseDto> getTeamAppliesByTeamApplyId(@PathVariable("teamApplyId") Long teamApplyId){
 
-        TeamApply teamApply = teamApplyService.findTeamApply(teamApplyId);
+        TeamApply teamApply = teamApplyService.findByTeamApplyId(teamApplyId);
         TeamApplyResponseDto teamApplyResponseDto = teamApplyMapper.teamApplyToTeamApplyResponse(teamApply);
         log.info("TEAM_APPLIY BY TEAM_APPLY_ID INFO:" + teamApplyResponseDto);
         return ResponseEntity.ok(teamApplyResponseDto);

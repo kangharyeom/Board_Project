@@ -38,7 +38,7 @@ public class MatchApplyService {
     public MatchApply createMatchApply(MatchApply matchApply, Long matchId, Long teamId) {
         try {
             // MatchApply에 중복된 teamId가 있는지 확인
-            checkDuplMatchApplyByTeamId(teamId);
+            existByTeamId(teamId);
 
             // 로그인한 유저 정보 조회
             User loginUser = userService.getLoginUser();
@@ -52,18 +52,18 @@ public class MatchApplyService {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
 
-            Team team = teamService.findTeamByUserId(loginUserId);
+            Team team = teamService.findByUserId(loginUserId);
             /*
              * user
              * 매니저 또는 부매니저가 매치를 생성할 수 있기 때문에
              * userId는 해당 팀의 매니저 userId를 주입
              * */
-            User user = userService.findUser(team.getUser().getUserId());
-            Match match = matchService.findMatch(matchId);
+            User user = userService.findByUserId(team.getUser().getUserId());
+            Match match = matchService.findByMatchId(matchId);
 
             // 로그인한 유저 권한 검증
-            if (!Objects.equals(loginUser.getName(), team.getManagerName()) || team.getManagerName()==null) {
-                if (!Objects.equals(loginUser.getName(), team.getSubManagerName())|| team.getManagerName()==null) {
+            if (!Objects.equals(loginUser.getName(), team.getManagerName()) || team.getManagerName() == null) {
+                if (!Objects.equals(loginUser.getName(), team.getSubManagerName()) || team.getManagerName() == null) {
                     throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
@@ -89,10 +89,6 @@ public class MatchApplyService {
         return matchApply;
     }
 
-    public MatchApply findMatchApply(Long matchApplyId) {
-        return findVerifiedMatchApply(matchApplyId);
-    }
-
     public List<MatchApply> findAllByTeamId(Long teamId){
         return matchApplyRepository.findAllByTeamId(teamId);
     }
@@ -103,18 +99,14 @@ public class MatchApplyService {
 
     public void deleteMatchApply(Long matchApplyId) {
         try {
-            MatchApply findMatchApply = findVerifiedMatchApply(matchApplyId);
+            MatchApply findMatchApply = findByMatchApplyId(matchApplyId);
             matchApplyRepository.delete(findMatchApply);
         } catch (Exception e) {
             throw new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_DELETED);
         }
     }
 
-    /*
-     * apply 검증 로직
-     * repository에 Apply가 없는 경우 exception을 리턴
-     */
-    public MatchApply findVerifiedMatchApply(Long matchApplyId) {
+    public MatchApply findByMatchApplyId(Long matchApplyId) {
         Optional<MatchApply> optionalApply = matchApplyRepository.findById(matchApplyId);
 
         MatchApply findMatchApply =
@@ -123,8 +115,9 @@ public class MatchApplyService {
         log.info("APPLY EXIST: {}", findMatchApply.toString());
         return findMatchApply;
     }
-    public void checkDuplMatchApplyByTeamId(Long teamId) {
-        Long checkTeamId = matchApplyRepository.checkDuplMatchApplyByTeamId(teamId);
+
+    public void existByTeamId(Long teamId) {
+        Long checkTeamId = matchApplyRepository.existByTeamId(teamId);
         if (checkTeamId == null) {
             throw new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_FOUND);
         }

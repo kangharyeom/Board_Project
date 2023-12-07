@@ -58,7 +58,7 @@ public class UserController {
     // 회원 단건 조회
     @GetMapping("/{userId}")
     public ResponseEntity<UserResponseDto> getUser(@PathVariable("userId") @Positive Long userId) {
-        User user = userService.findUser(userId);
+        User user = userService.findByUserId(userId);
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
 
         return ResponseEntity.ok(userResponseDto);

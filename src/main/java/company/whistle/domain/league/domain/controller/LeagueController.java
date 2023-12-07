@@ -60,7 +60,7 @@ public class LeagueController {
      */
     @GetMapping("/{leagueId}")
     public ResponseEntity<LeagueResponseDto> getLeague(@PathVariable("leagueId") Long leagueId) {
-        League league = leagueService.findLeague(leagueId);
+        League league = leagueService.findByLeagueId(leagueId);
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
         return ResponseEntity.ok(leagueResponseDto);

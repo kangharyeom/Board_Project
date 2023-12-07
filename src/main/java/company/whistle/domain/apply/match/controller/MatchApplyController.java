@@ -39,7 +39,7 @@ public class MatchApplyController {
      */
     @GetMapping("/{matchId}/{matchApplyId}")
     public ResponseEntity<MatchApplyResponseDto> getMatchAppliesByMatchApplyId(@PathVariable("matchApplyId") Long matchApplyId){
-        MatchApply matchApply = matchApplyService.findMatchApply(matchApplyId);
+        MatchApply matchApply = matchApplyService.findByMatchApplyId(matchApplyId);
         MatchApplyResponseDto matchApplyResponseDto = matchApplyMapper.matchApplyToMatchApplyResponse(matchApply);
         log.info("MATCH_APPLY INFO:" + matchApplyResponseDto);
         return ResponseEntity.ok(matchApplyResponseDto);

@@ -33,7 +33,7 @@ public class SquadController {
 
     @GetMapping("/{squadId}")
     public ResponseEntity<SquadResponseDto> getSquad(@PathVariable("squadId") Long squadId) {
-        Squad squad = squadService.findSquad(squadId);
+        Squad squad = squadService.findBySquadId(squadId);
         SquadResponseDto squadResponseDto = squadMapper.squadToSquadResponse(squad);
 
         return ResponseEntity.ok(squadResponseDto);

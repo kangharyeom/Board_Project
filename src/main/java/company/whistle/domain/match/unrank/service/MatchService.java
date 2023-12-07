@@ -41,15 +41,15 @@ public class MatchService {
 
     public Match createHomeTeamToMatch(Match match) {
         try {
-            Long loginUserId = userService.getLoginUser().getUserId();
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
             if (loginUserId == null) {
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
 
-            User user = userService.findUser(loginUserId);
-            Long teamId = squadService.findTeamIdOfSquadByUserId(loginUserId);
-            Team team  = teamService.findTeamByUserId(teamId);
-            String loginUserName = user.getName();
+            Squad squad = squadService.findByUserId(loginUserId);
+            Team team  = teamService.findByUserId(squad.getTeam().getTeamId());
+            String loginUserName = loginUser.getName();
             /*
              * CHECK USER AUTHORIZATION
              * 유저가 관리자 권한을 가지고 접근하는지 검사
@@ -61,7 +61,7 @@ public class MatchService {
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
-            match.setUser(user);
+            match.setUser(loginUser);
             match.setTeam(team);
 
             match.setHomeTeamName(team.getTeamName());
@@ -88,15 +88,15 @@ public class MatchService {
             if (matchId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            Match findMatch = findVerifiedMatch(match.getMatchId());
+            Match findMatch = findByMatchId(match.getMatchId());
             log.info("findMatch:{}",findMatch.toString());
             if (findMatch.getMatchStatus() != MatchStatus.valueOf("RIVAL_RECRUIT")) {
                 throw new BusinessLogicException(Exceptions.MATCH_IS_NOT_RECRUIT_RIVAL);
             }
-            userService.findUser(awayTeamUserId);
-            Team team = teamService.findTeam(awayTeamId);
+            userService.findByUserId(awayTeamUserId);
+            Team team = teamService.findByTeamId(awayTeamId);
 
-            findVerifiedMatchApply(matchApplyId);
+            findByMatchApplyId(matchApplyId);
 
             Optional.of(awayTeamId)
                     .ifPresent(findMatch::setAwayTeamId);
@@ -149,7 +149,7 @@ public class MatchService {
                 log.info("matchId: {}", matchId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            Match findMatch = findVerifiedMatch(match.getMatchId());
+            Match findMatch = findByMatchId(match.getMatchId());
 
             Optional.ofNullable(match.getHomeTeamName())
                     .ifPresent(findMatch::setHomeTeamName);
@@ -208,7 +208,7 @@ public class MatchService {
                 log.info("awayTeamId: {}", awayTeamId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            Match findMatch = findVerifiedMatch(match.getMatchId());
+            Match findMatch = findByMatchId(match.getMatchId());
 
             if(findMatch.getMatchStatus()==MatchStatus.valueOf("END")){
                 throw new BusinessLogicException(Exceptions.MATCH_ALREADY_END);
@@ -216,8 +216,8 @@ public class MatchService {
             log.info("homeTeamId: {}", homeTeamId);
             log.info("awayTeamId: {}", awayTeamId);
 
-            Team findHomeTeam = findVerifiedTeam(homeTeamId);
-            Team findAwayTeam = findVerifiedTeam(awayTeamId);
+            Team findHomeTeam = teamService.findByTeamId(homeTeamId);
+            Team findAwayTeam = teamService.findByTeamId(awayTeamId);
 
             findMatch.setTeam(findHomeTeam);
             findMatch.setTeam(findAwayTeam);
@@ -286,10 +286,6 @@ public class MatchService {
         }
     }
 
-    public Match findMatch(Long matchId) {
-        return findVerifiedMatch(matchId);
-    }
-
     public Page<Match> findMatches(int page, int size) {
         return matchRepository.findAll(PageRequest.of(page, size,
                 Sort.by("matchId").descending()));
@@ -313,7 +309,7 @@ public class MatchService {
 
     public void deleteMatch(Long matchId) {
         try {
-            Match findMatch = findVerifiedMatch(matchId);
+            Match findMatch = findByMatchId(matchId);
             matchRepository.delete(findMatch);
         } catch (Exception e) {
             log.error(e.getMessage(),e);
@@ -321,38 +317,18 @@ public class MatchService {
         }
     }
 
-    public User findVerifiedUser(Long userId) {
-        Optional<User> optionalUser = userRepository.findById(userId);
-        return optionalUser.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.USER_NOT_FOUND));
-    }
-
-    public Match findVerifiedMatch(Long matchId) {
+    public Match findByMatchId(Long matchId) {
         Optional<Match> optionalMatch = matchRepository.findById(matchId);
 
         return optionalMatch.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.MATCH_NOT_FOUND));
+                new BusinessLogicException(Exceptions.MATCH_NOT_FOUND));
     }
 
-
-    public Match findVerifiedMatchApply(Long matchApplyId) {
-        Optional<Match> optionalMatch = matchRepository.findById(matchApplyId);
+    public Match findByMatchApplyId(Long matchApplyId) {
+        Optional<Match> optionalMatch = matchRepository.findByMatchApplyId(matchApplyId);
 
         return optionalMatch.orElseThrow(() ->
                 new BusinessLogicException(Exceptions.MATCH_APPLY_NOT_FOUND));
-    }
-
-    public void findVerifiedExistsByTeamId(long teamId) {
-        Match match = matchRepository.findByVerifiedTeamId(teamId);
-        if(match !=null) {
-            throw new BusinessLogicException(Exceptions.MATCH_EXISTS);
-        }
-    }
-
-    public Team findVerifiedTeam(long teamId) {
-        Optional<Team> optionalTeam = teamRepository.findById(teamId);
-        return optionalTeam.orElseThrow(() ->
-                new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
     }
 
 }

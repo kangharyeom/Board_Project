@@ -69,7 +69,7 @@ public class MatchController {
 
     @GetMapping("/{matchId}")
     public ResponseEntity<BothTeamInfoResponseDto> getMatch(@PathVariable("matchId") Long matchId) {
-        Match match = matchService.findMatch(matchId);
+        Match match = matchService.findByMatchId(matchId);
         BothTeamInfoResponseDto matchResponseDto = matchMapper.matchBothTeamResponse(match);
 
         return ResponseEntity.ok(matchResponseDto);

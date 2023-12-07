@@ -48,7 +48,7 @@ public class TeamService {
              * 팀 이름 중복 체크
              * 팀 이름이 중복된 경우 TEAM_NAME_EXISTS 를 던짐
              * */
-            checkDuplTeamNameFromTeam(teamName);
+            existByTeamName(teamName);
 
             team.setUser(loginUser);
             team.setManagerName(loginUser.getName());
@@ -73,7 +73,7 @@ public class TeamService {
             }
             String managerName = userService.getLoginUser().getName();
 
-            Team findTeam = findVerifiedTeamByUserId(userId);
+            Team findTeam = findByUserId(userId);
             if (!Objects.equals(findTeam.getTeamId(), teamId) && Objects.equals(findTeam.getManagerName(), managerName)){
                 if (!Objects.equals(findTeam.getTeamId(), teamId) && Objects.equals(findTeam.getSubManagerName(), managerName)){
                      throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
@@ -114,8 +114,8 @@ public class TeamService {
                 log.info("awayTeamId: {}", awayTeamId);
                 throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
-            Team findHomeTeam = findVerifiedTeam(homeTeamId);
-            Team findAwayTeam = findVerifiedTeam(awayTeamId);
+            Team findHomeTeam = findByTeamId(homeTeamId);
+            Team findAwayTeam = findByTeamId(awayTeamId);
             if(homeTeamScore>awayTeamScore){
                 findHomeTeam.setHonorScore(findHomeTeam.getHonorScore()+300L);
                 findHomeTeam.setTotalWinRecord(findHomeTeam.getTotalWinRecord()+1L);
@@ -167,14 +167,6 @@ public class TeamService {
         }
     }
 
-    public Team findTeam(long teamId) {
-        return findVerifiedTeam(teamId);
-    }
-
-    public Team findTeamByUserId(long userId) {
-        return findVerifiedTeamByUserId(userId);
-    }
-
     public List<Team> findAllTeamsByLeagueId(long leagueId) {return teamRepository.findAllTeamsByLeagueId(leagueId);}
 
     // 명예 점수 상위 조회
@@ -190,7 +182,7 @@ public class TeamService {
 
     public void deleteTeam(long teamId) {
         try {
-            Team findTeam = findVerifiedTeam(teamId);
+            Team findTeam = findByTeamId(teamId);
             teamRepository.delete(findTeam);
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -198,19 +190,19 @@ public class TeamService {
         }
     }
 
-    public Team findVerifiedTeam(long teamId) {
+    public Team findByTeamId(long teamId) {
         Optional<Team> optionalTeam = teamRepository.findById(teamId);
         return optionalTeam.orElseThrow(() ->
                         new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
     }
 
-    public Team findVerifiedTeamByUserId(long userId) {
-        Optional<Team> optionalTeam = teamRepository.findById(userId);
+    public Team findByUserId(long userId) {
+        Optional<Team> optionalTeam = teamRepository.findByUserId(userId);
         return optionalTeam.orElseThrow(() ->
                 new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
     }
 
-    public Team findTeamByTeamName(String teamName) {
+    public Team findByTeamName(String teamName) {
         Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
         return optionalTeam.orElseThrow(() ->
                 new BusinessLogicException(Exceptions.TEAM_NAME_NOT_FOUND));
@@ -224,21 +216,8 @@ public class TeamService {
         return teamManagerName;
     }
 
-    public Team findTeamByTeamId(Long teamId) {
-        Optional<Team> optionalTeam = teamRepository.findByTeamId(teamId);
-        return optionalTeam.orElseThrow(() ->
-                new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
-    }
-
-    public void checkDuplUserIdFromTeam(long userId) {
-        Long team = teamRepository.checkDuplUserId(userId);
-        if(team != null) {
-            throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
-        }
-    }
-
-    public void checkDuplTeamNameFromTeam(String managerTeamName) {
-        String team = teamRepository.checkDuplTeamName(managerTeamName);
+    public void existByTeamName(String managerTeamName) {
+        String team = teamRepository.existByTeamName(managerTeamName);
         if(team != null) {
             throw new BusinessLogicException(Exceptions.TEAM_NAME_EXISTS);
         }

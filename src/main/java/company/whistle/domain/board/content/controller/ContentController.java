@@ -72,7 +72,7 @@ public class ContentController {
      */
     @GetMapping("/{contentId}")
     public ResponseEntity<ContentAllResponseDto> getContent(@PathVariable("contentId") Long contentId) {
-        Content content = contentService.findContent(contentId);
+        Content content = contentService.findByContentId(contentId);
         ContentAllResponseDto contentAllResponseDto = contentMapper.contentToContentAllResponse(content, contentFileRepository, commentRepository);
 
         return ResponseEntity.ok(contentAllResponseDto);

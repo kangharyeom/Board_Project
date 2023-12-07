@@ -40,15 +40,15 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     List<League> findLeagueRecruit();
 
     @Query(value = "select manager_name from leagues where user_id = :userId", nativeQuery = true)
-    String findMgrNameOFLeagueByUserId(@Param("userId") long userId);
+    String findManagerNameByUserId(@Param("userId") long userId);
 
     @Query(value = "select team_id from leagues where team_id = :teamId", nativeQuery = true)
-    Long checkDuplTeamId(@Param("teamId") long teamId);
+    Long existByTeamId(@Param("teamId") long teamId);
 
     @Query(value = "select league_name from leagues where league_name = :leagueName", nativeQuery = true)
-    String checkDuplLeagueName(@Param("leagueName") String leagueName);
+    String existByLeagueName(@Param("leagueName") String leagueName);
 
     @Query(value = "select manager_team_name from leagues where manager_team_name = :managerTeamName and league_season_status = 'ON_SEASON' or league_season_status = 'TEAM_RECRUIT'", nativeQuery = true)
-    String checkDuplManagerTeamName(@Param("managerTeamName") String managerTeamName);
+    String existByManagerTeamName(@Param("managerTeamName") String managerTeamName);
 
 }
