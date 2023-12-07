@@ -31,6 +31,9 @@ public class Squad extends Auditable {
     private TeamMemberRole teamMemberRole;
 
     @Enumerated(EnumType.STRING)
+    private TeamMemberStatus teamMemberStatus;
+
+    @Enumerated(EnumType.STRING)
     private AgeType ageType;
 
     @Enumerated(EnumType.STRING)

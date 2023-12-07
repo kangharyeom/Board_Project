@@ -64,6 +64,9 @@ public class Participants extends Auditable {
     @Enumerated(EnumType.STRING)
     private UniformType uniformType;
 
+    @Enumerated(EnumType.STRING)
+    private LeagueParticipantsStatus leagueParticipantsStatus;
+
     @Column
     private Long leagueMatchCount;
 

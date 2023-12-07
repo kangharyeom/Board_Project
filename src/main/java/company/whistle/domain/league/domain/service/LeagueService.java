@@ -2,8 +2,9 @@ package company.whistle.domain.league.domain.service;
 
 import company.whistle.domain.league.domain.repository.LeagueRepository;
 import company.whistle.domain.league.participants.entity.Participants;
+import company.whistle.global.constant.LeagueParticipantsStatus;
 import company.whistle.global.constant.LeagueRole;
-import company.whistle.global.constant.SeasonType;
+import company.whistle.global.constant.LeagueSeasonStatus;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.league.domain.entity.League;
@@ -50,13 +51,14 @@ public class LeagueService {
                 log.info("leagueName:{}", leagueName);
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-
+            // 리그 정보에 managerTeamName이 있으면서도 league_season_status 가 ON_SEASON 이면 EXIST 를 던진다.
             checkDuplManagerTeamName(managerTeamName);
             checkDuplLeagueName(leagueName);
+
             User user = userService.findUser(userId);
             Team team = teamService.findTeamByTeamName(managerTeamName);
 
-            //팀에 이미 leagueId 값이 있다면 예외 발생
+            // 팀에 이미 leagueId 값이 있다면 예외 발생
             if (team.getLeagueId() != null) {
                 throw new BusinessLogicException(Exceptions.TEAM_HAS_LEAGUE);
             }
@@ -145,7 +147,6 @@ public class LeagueService {
     public void checkEndTheLeague(Long leagueId) {
         try {
             if(leagueId==null){
-                log.info("leagueId: {}", leagueId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             League league = findVerifiedLeague(leagueId);
@@ -155,7 +156,7 @@ public class LeagueService {
             long endCount = (teamCount * matchCount) / 2;
 
             if (leagueEndCount == endCount) {
-                league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
+                league.setLeagueSeasonStatus(LeagueSeasonStatus.valueOf("OFF_SEASON"));
                 Participants participants = participantsRepository.findWinnerByLeagueId(leagueId);
 
                 // 우승한 팀에게 우승 점수 부여
@@ -172,6 +173,13 @@ public class LeagueService {
             for (Team team : teamList) {
                 team.setLeagueId(null);
                 teamRepository.save(team);
+            }
+
+            // 모든 팀 LeagueParticipantsStatus 값 League_END로 변경
+            List<Participants> participantsList = participantsRepository.findAllParticipantsByLeagueId(leagueId);
+            for (Participants participants : participantsList) {
+                participants.setLeagueParticipantsStatus(LeagueParticipantsStatus.LEAGUE_END);
+                participantsRepository.save(participants);
             }
 
             leagueRepository.save(league);

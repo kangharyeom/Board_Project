@@ -36,10 +36,18 @@ public class TeamService {
                 throw new BusinessLogicException(Exceptions.IDS_OR_NAMES_ARE_NULL);
             }
 
+            /*
+             * 팀 중복 가입 체크
+             * 해당 유저가 이미 팀이 있는 경우 USER_ALREADY_HAVE_TEAM 를 던짐
+             * */
             if (loginUser.getTeamId() != null) {
                 throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
             }
-            checkDuplUserIdFromTeam(loginUserId);
+
+            /*
+             * 팀 이름 중복 체크
+             * 팀 이름이 중복된 경우 TEAM_NAME_EXISTS 를 던짐
+             * */
             checkDuplTeamNameFromTeam(teamName);
 
             team.setUser(loginUser);

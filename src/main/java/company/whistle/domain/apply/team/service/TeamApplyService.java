@@ -33,21 +33,32 @@ public class TeamApplyService {
      */
     public TeamApply createTeamApply(TeamApply teamApply, Long teamId) {
         try {
+            User loginUser = userService.getLoginUser();
             Long userId = userService.getLoginUser().getUserId();
-            if (userId == null) {
+            if (teamId == null || userId == null ) {
+                log.info("teamId:{}",teamId);
+                log.info("userId:{}",userId);
                 throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
             }
-            checkDuplUserIdFromTeamApply(userId);
-            teamService.checkDuplUserIdFromTeam(userId);
-            User user = userService.findUser(userId);
-            if (user.getTeamId() != null) {
+
+            /*
+             * 팀 중복 가입 체크
+             * 해당 유저가 이미 팀이 있는 경우 USER_ALREADY_HAVE_TEAM 를 던짐
+             * */
+            if (loginUser.getTeamId() != null) {
                 throw new BusinessLogicException(Exceptions.USER_ALREADY_HAVE_TEAM);
             }
 
+            /*
+             * TeamApply 중복 체크
+             * 해당 유저가 이미 TeamApply 에 APPLIED 하였고 user_id 값이 DB에 있는 경우 TEAM_APPLY_EXISTS 를 던짐
+             * */
+            checkDuplUserIdFromTeamApply(userId);
+
             Team team = teamService.findTeam(teamId);
             teamApply.setTeam(team);
-            teamApply.setUser(user);
-            teamApply.setManagerName(user.getName());
+            teamApply.setUser(loginUser);
+            teamApply.setManagerName(loginUser.getName());
             teamApply.setTeamName(team.getTeamName());
             teamApply.setAgeType(team.getAgeType());
             teamApply.setLevelType(team.getLevelType());

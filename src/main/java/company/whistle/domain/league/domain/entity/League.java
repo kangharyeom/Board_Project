@@ -69,7 +69,7 @@ public class League extends Auditable {
     private Frequency frequency;
 
     @Enumerated(EnumType.STRING)
-    private SeasonType seasonType;
+    private LeagueSeasonStatus leagueSeasonStatus;
 
     @Column
     private Long honorScore;

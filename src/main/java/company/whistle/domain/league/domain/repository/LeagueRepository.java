@@ -48,7 +48,7 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     @Query(value = "select league_name from leagues where league_name = :leagueName", nativeQuery = true)
     String checkDuplLeagueName(@Param("leagueName") String leagueName);
 
-    @Query(value = "select manager_team_name from leagues where manager_team_name = :managerTeamName", nativeQuery = true)
+    @Query(value = "select manager_team_name from leagues where manager_team_name = :managerTeamName and league_season_status = 'ON_SEASON' or league_season_status = 'TEAM_RECRUIT'", nativeQuery = true)
     String checkDuplManagerTeamName(@Param("managerTeamName") String managerTeamName);
 
 }

@@ -6,7 +6,9 @@ import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.domain.league.participants.repository.ParticipantsRepository;
 import company.whistle.domain.team.domain.repository.TeamRepository;
 import company.whistle.domain.user.repository.UserRepository;
+import company.whistle.global.constant.LeagueParticipantsStatus;
 import company.whistle.global.constant.LeagueRole;
+import company.whistle.global.constant.TeamMemberStatus;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.league.domain.entity.League;
@@ -47,14 +49,17 @@ public class ParticipantsService {
                 throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
 
-            // team 중복 체크
+            /*
+            * teamId 중복 체크
+            * participants DB에 teamId 가 있으면서 league_participants_status 가 ACTIVITY 상태라면 EXIST 를 던짐
+            * */
             checkDuplTeamIdFromParticipants(teamId);
 
             League league = leagueService.findLeagueByUserId(loginUserId);
             if (!Objects.equals(userService.getLoginUser().getName(), league.getManagerName()))
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
-            // apply한 유저와 팀 정보 검색 및 주입
+            // apply 한 유저와 팀 정보 검색 및 주입
             Team team = teamService.findTeamByTeamId(teamId);
             LeagueApply leagueApply = leagueApplyService.findLeagueApplyByTeamId(teamId);
             User user = userService.findUser(team.getUser().getUserId());
@@ -71,6 +76,7 @@ public class ParticipantsService {
             participants.setMemberCount(team.getMemberCount());
             participants.setTeamName(team.getTeamName());
             participants.setSubManagerName(team.getSubManagerName());
+            participants.setLeagueParticipantsStatus(LeagueParticipantsStatus.ACTIVITY);
 
             participants.setLeagueName(league.getLeagueName());
 
@@ -99,7 +105,12 @@ public class ParticipantsService {
                 log.info("leagueId:{}", leagueId);
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
-            checkDupUserIdFromParticipants(userId);
+
+            /*
+             * teamId 중복 체크
+             * participants DB에 teamId 가 있으면서 league_participants_status 가 ACTIVITY 상태라면 EXIST 를 던짐
+             * */
+            checkDuplTeamIdFromParticipants(teamId);
 
             User user = userService.findUser(userId);
             Team team = teamService.findTeam(teamId);
@@ -128,6 +139,7 @@ public class ParticipantsService {
 
             participants.setManagerName(user.getName());
             user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
+            participants.setLeagueParticipantsStatus(LeagueParticipantsStatus.ACTIVITY);
             team.setLeagueId(league.getLeagueId());
 
             teamRepository.save(team);
@@ -287,13 +299,5 @@ public class ParticipantsService {
             throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
         }
     }
-
-    public void checkDupUserIdFromParticipants(Long userId) {
-        Optional<Participants> participants = participantsRepository.findById(userId);
-        if(participants.isPresent()) {
-            throw new BusinessLogicException(Exceptions.USER_ID_EXISTS);
-        }
-    }
-
 
 }

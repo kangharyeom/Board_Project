@@ -72,7 +72,6 @@ public class MatchService {
             match.setHomeTeamLevelType(team.getLevelType());
             match.setHomeTeamAgeType(team.getAgeType());
             match.setHomeTeamUniformType(team.getUniformType());
-//            match.setMatchType(match.getMatchType());
 
             matchRepository.save(match);
         } catch (BusinessLogicException e) {
