@@ -46,8 +46,7 @@ public class UserController {
                                       @RequestBody @Valid UserPatchDto requestBody) {
         requestBody.setUserId(userId);
 
-        User user = userService.updateUser(userMapper.userPatchDtoToUser(requestBody), userId);
-        user.setUserId(userId);
+        User user = userService.updateUser(userMapper.userPatchDtoToUser(requestBody));
 
         UserResponseDto userResponseDto = userMapper.userToUserResponseDto(user);
         log.info("USER PATCH FINISHED: {}", userResponseDto.toString());

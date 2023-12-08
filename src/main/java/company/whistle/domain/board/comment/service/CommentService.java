@@ -28,20 +28,18 @@ public class CommentService {
     private final UserService userService;
     private final ContentService contentService;
 
-    /*
-     * 댓글 등록
-     */
-    public Comment createComment(Comment comment, Long contentId, Long userId) {
+    public Comment createComment(Comment comment, Long contentId) {
         try {
-            if (userId == null || contentId == null) {
-                log.info("userId: {}", userId);
-                log.info("teamId: {}", contentId);
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if (contentId == null || loginUserId == null) {
+                log.info("loginUserId: {}", loginUserId);
+                log.info("contentId: {}", contentId);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
             Content content = contentService.findByContentId(contentId);
-            User user = userService.findByUserId(userId);
 
-            comment.setUser(user);
+            comment.setUser(loginUser);
             comment.setContent(content);
             commentRepository.save(comment);
         } catch (BusinessLogicException e) {
@@ -53,17 +51,21 @@ public class CommentService {
         return comment;
     }
 
-    /*
-     * 댓글 수정
-     */
     public Comment updateComment(Comment comment, Long commentId) {
         try {
-            if (commentId == null) {
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if (commentId == null || loginUserId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
+
             Comment findComment = findByCommentId(commentId);
+            /*
+             * 유저(LOGIN 한 유저) 권한 검증
+             * 해당 유저가 게시글을 작성한 유저가 아니라면 UNAUTHORIZED 를 던짐
+             * */
             User writer = userService.findByUserId(findComment.getUser().getUserId()); // 작성자 찾기
-            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 작성자와 로그인한 사람이 다를 경우
+            if (!Objects.equals(writer.getUserId(), loginUserId)) { // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
@@ -79,26 +81,23 @@ public class CommentService {
         return comment;
     }
 
-    /*
-     * 댓글 전체 조회
-     */
     public Page<Comment> findComments(int page, int size) {
         return commentRepository.findAll(PageRequest.of(page, size,
                 Sort.by("commentId").descending()));
     }
 
-    /*
-     * 댓글 삭제
-     */
     public void deleteComment(long commentId) {
         try {
             Comment findComment = findByCommentId(commentId);
 
+            /*
+             * 유저(LOGIN 한 유저) 권한 검증
+             * 해당 유저가 게시글을 작성한 유저가 아니라면 UNAUTHORIZED 를 던짐
+             * */
             User writer = userService.findByUserId(findComment.getUser().getUserId()); // 작성자 찾기
-            if (userService.getLoginUser().getUserId() != writer.getUserId()) { // 작성자와 로그인한 사람이 다를 경우
+            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
-
             commentRepository.delete(findComment);
         } catch (Exception e) {
             log.error(e.getMessage(),e);

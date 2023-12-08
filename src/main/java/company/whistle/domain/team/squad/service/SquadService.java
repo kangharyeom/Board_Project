@@ -52,13 +52,13 @@ public class SquadService {
 
             /*
              * userId 중복 체크
-             * squad DB에 teamId 가 있으면서 Team_Member_status 값이 ACTIVITY 이면 EXIST 를 던짐
+             * squad DB에 teamId 가 존재하며 Team_Member_status 값이 'ACTIVITY' 이면 EXIST 를 던짐
              * */
             existByUserId(userId);
 
             /*
              * TeamApply 유효성 체크
-             * TeamApply DB에 teamId 와  userId 값이 있으면서 ApplyStatus 값이 APPLIED 가 아닌 경우 TEAM_APPLY_NOT_FOUND 를 던짐
+             * TeamApply DB에 teamId 와  userId 값이 존재하며 ApplyStatus 값이 APPLIED 가 아닌 경우 TEAM_APPLY_NOT_FOUND 를 던짐
              * */
             TeamApply teamApply = teamApplyService.findByTeamIdAndUserId(teamId, userId);
 
@@ -68,7 +68,7 @@ public class SquadService {
              * 해당 유저가 팀의 매니저이거나 부매니저가 아니라면 UNAUTHORIZED 를 던짐
              * */
             if (!Objects.equals(team.getManagerName(), loginUserName)) {
-                if (Objects.equals(team.getSubManagerName(), loginUserName)) {
+                if (!Objects.equals(team.getSubManagerName(), loginUserName)) {
                     throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
                 }
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
@@ -108,7 +108,7 @@ public class SquadService {
             }
             /*
              * userId 중복 체크
-             * squad DB에 teamId 가 있으면서 Team_Member_status 값이 ACTIVITY 이면 EXIST 를 던짐
+             * squad DB에 teamId 가 존재하며 Team_Member_status 값이 'ACTIVITY' 이면 EXIST 를 던짐
              * */
             existByUserId(userId);
 
@@ -153,7 +153,7 @@ public class SquadService {
             Team team = teamService.findByTeamId(teamId);
             /*
              * SQUAD_CREATE(LOGIN 한 유저) 권한 검증
-             * 해당 유저가 팀의 매니저이거나 부매니저가 아니라면 UNAUTHORIZED 를 던짐
+             * 해당 유저가 팀의 매니저가 아니거나 부매니저가 아니라면 UNAUTHORIZED 를 던짐
              * */
             if (!Objects.equals(team.getManagerName(), loginUser)) {
                 if (Objects.equals(team.getSubManagerName(), loginUser)) {

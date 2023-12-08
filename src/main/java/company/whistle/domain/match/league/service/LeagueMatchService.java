@@ -43,23 +43,26 @@ public class LeagueMatchService {
     public LeagueMatch createLeagueMatch(LeagueMatch leagueMatch, Long leagueId, Long homeTeamId, Long awayTeamId
     ) {
         try {
-            if (leagueId == null || homeTeamId == null || awayTeamId == null) {
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            String loginUserName = loginUser.getName();
+            if (leagueId == null || homeTeamId == null || awayTeamId == null || loginUserId==null) {
                 log.info("leagueId:{}",leagueId);
                 log.info("homeTeamId:{}",homeTeamId);
                 log.info("awayTeamId:{}",awayTeamId);
-                throw new BusinessLogicException(Exceptions.TEAM_NAME_IS_NULL);
+                throw new BusinessLogicException(Exceptions.IDS_OR_NAMES_ARE_NULL);
             }
 
-            Long loginUserId = userService.getLoginUser().getUserId();
-            String loginUserName = userService.getLoginUser().getName();
-            if (loginUserId == null) {
-                throw new BusinessLogicException(Exceptions.USER_ID_IS_NULL);
-            }
-
+            /* HOME AND AWAY TEAM 정보 주입 */
             Team homeTeam = teamService.findByTeamId(homeTeamId);
             Team awayTeam = teamService.findByTeamId(awayTeamId);
+
+            /*
+             * CHECK USER AUTHORIZATION
+             * 유저가 관리자 권한을 가지고 접근하는지 검사
+             * 로그인한 유저가 '리그 관리자'가 아니거나, '홈' or '어웨이 팀 매니저'가 아닌 경우 예외처리
+             * */
             String loginTeamManagerName = teamService.findTeamManagerNameByUserId(loginUserId);
-            // 로그인한 유저가 리그 관리자가 아니거나, 홈 or 어웨이 팀 매니저가 아닌 경우 예외처리
             if ((!Objects.equals(leagueService.findManagerNameByUserId(loginUserId), loginUserName))) {
                 if ((!Objects.equals(homeTeam.getManagerName(), loginTeamManagerName))) {
                     if ((!Objects.equals(awayTeam.getManagerName(), loginTeamManagerName))) {

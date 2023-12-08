@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ContentRepository extends JpaRepository<Content, Long> {
-    // content 전체 조회
     List<Content> findAll();
 
     /*

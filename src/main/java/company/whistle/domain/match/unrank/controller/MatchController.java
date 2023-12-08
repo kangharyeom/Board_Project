@@ -4,8 +4,6 @@ import company.whistle.domain.match.unrank.dto.*;
 import company.whistle.domain.match.unrank.entity.Match;
 import company.whistle.domain.match.unrank.mapper.MatchMapper;
 import company.whistle.domain.match.unrank.service.MatchService;
-import company.whistle.global.exception.BusinessLogicException;
-import company.whistle.global.exception.Exceptions;
 import company.whistle.global.response.MultiResponseDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -52,7 +50,6 @@ public class MatchController {
     }
 
     @PostMapping("/{matchId}/end")
-//    @PatchMapping("/{matchId}/end")
     public ResponseEntity<MatchEndResponseDto> matchEnd(@RequestBody MatchEndDto requestBody,
                                                           @PathVariable("matchId") Long matchId) {
         requestBody.updateId(matchId);
@@ -132,8 +129,6 @@ public class MatchController {
 
         return ResponseEntity.ok(matchResponse);
     }
-
-
 
     @DeleteMapping("/{matchId}")
     public ResponseEntity<HttpStatus> deleteMatch(@PathVariable("matchId") Long matchId) {

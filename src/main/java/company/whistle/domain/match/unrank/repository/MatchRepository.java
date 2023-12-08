@@ -25,4 +25,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query(value = "select * from matches order by created_at asc", nativeQuery = true)
     List<Match> findMatchesLatest();
 
+    @Query(value = "select team_id from squads where team_id = :teamId and match_status = 'BEFORE' or match_status = 'IN_PROGRESS' or match_status = 'RIVAL_RECRUIT'", nativeQuery = true)
+    Long existByTeamId(@Param("teamId") long teamId);
+
 }

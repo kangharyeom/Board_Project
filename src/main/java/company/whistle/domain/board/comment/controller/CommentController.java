@@ -35,8 +35,7 @@ public class CommentController {
     @PostMapping
     public ResponseEntity<CommentResponseDto> postComment(@Valid @RequestBody CommentPostDto requestBody ){
         Comment comment = commentService.createComment(
-                commentMapper.commentPostDtoToComment(requestBody), requestBody.getContentId(), requestBody.getUserId()
-        );
+                commentMapper.commentPostDtoToComment(requestBody), requestBody.getContentId());
         CommentResponseDto commentResponseDto = commentMapper.commentToCommentResponseDto(comment);
         log.info("COMMENT POST COMPLETE: {}",commentResponseDto.toString());
 

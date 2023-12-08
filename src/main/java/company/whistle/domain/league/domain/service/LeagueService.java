@@ -100,7 +100,7 @@ public class LeagueService {
             }
             League findLeague = findByUserId(userId);
             // 리그 관리자만 수정 가능하도록
-            User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
+            User writer = userService.findByLeagueRole(findLeague.getUser().getLeagueRole());
             if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) { // 로그인한 유저와 관리자가 다른 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }

@@ -30,13 +30,11 @@ public class ContentService {
     private final ContentRepository contentRepository;
     private final ContentFileRepository contentFileRepository;
 
-    /*
-     * 게시글 생성
-     */
     public Content createContent(Content content, Long userId) {
         try {
-            if (userId == null) {
-                log.info("userId: {}", userId);
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if (loginUserId == null) {
                 throw new BusinessLogicException(Exceptions.ID_IS_NULL);
             }
             User user = userService.findByUserId(userId);
@@ -53,8 +51,8 @@ public class ContentService {
     }
 
     /*
-     * 게시글 파일 업로드
-     */
+     * 게시글 파일(or 이미지) 업로드
+     * */
     public Content createContentFile(Content content, Long userId,List<String> filePaths) {
         try {
             if (userId == null) {
@@ -81,18 +79,23 @@ public class ContentService {
         return content;
     }
 
-    /*
-     * 게시글 수정
-     */
     public Content updateContent(Content content, Long contentId) {
         try {
-            if (contentId == null) {
-                throw new BusinessLogicException(Exceptions.ID_IS_NULL);
+            User loginUser = userService.getLoginUser();
+            Long loginUserId = loginUser.getUserId();
+            if (contentId == null || loginUserId == null) {
+                log.info("contentId:{}", contentId);
+                log.info("loginUserId:{}", loginUserId);
+                throw new BusinessLogicException(Exceptions.IDS_ARE_NULL);
             }
             Content findContent = findByContentId(contentId);
 
+            /*
+             * 유저(LOGIN 한 유저) 권한 검증
+             * 해당 유저가 게시글을 작성한 유저가 아니라면 UNAUTHORIZED 를 던짐
+             * */
             User writer = userService.findByUserId(findContent.getUser().getUserId()); // 작성자 찾기
-            if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())){ // 작성자와 로그인한 사람이 다를 경우
+            if (!Objects.equals(writer.getUserId(), loginUserId)){ // 작성자와 로그인한 사람이 다를 경우
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
             }
 
@@ -111,18 +114,11 @@ public class ContentService {
         return content;
     }
 
-    /*
-     * 게시글 전체 조회
-     * pageNation 구현
-     */
     public Page<Content> findContents(int page, int size) {
         return contentRepository.findAll(PageRequest.of(page, size,
                 Sort.by("contentId").descending()));
     }
 
-    /*
-     * 게시글 검색 기능
-     */
     public List<Content> findAllSearch(String keyword){
         return contentRepository.findAllSearch(keyword);
     }
@@ -155,12 +151,17 @@ public class ContentService {
         return contentRepository.findAllByCategoryType(category);
     }
 
-    /*
-     * 게시글 삭제
-     */
     public void deleteContent(Long contentId) {
         try {
             Content findContent = findByContentId(contentId);
+            /*
+             * 유저(LOGIN 한 유저) 권한 검증
+             * 해당 유저가 게시글을 작성한 유저가 아니라면 UNAUTHORIZED 를 던짐
+             * */
+            User writer = userService.findByUserId(findContent.getUser().getUserId()); // 작성자 찾기
+            if (!Objects.equals(writer.getUserId(), userService.getLoginUser().getUserId())){ // 작성자와 로그인한 사람이 다를 경우
+                throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
+            }
             contentRepository.delete(findContent);
         } catch (Exception e) {
             log.error(e.getMessage(),e);

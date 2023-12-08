@@ -55,29 +55,30 @@ public class ParticipantsService {
             * */
             existByTeamId(teamId);
 
+            /*
+             * CHECK USER AUTHORIZATION
+             * 유저가 관리자 권한을 가지고 접근하는지 검사
+             * */
             League league = leagueService.findByUserId(loginUserId);
             if (!Objects.equals(userService.getLoginUser().getName(), league.getManagerName()))
                 throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
             // apply 한 유저와 팀 정보 검색 및 주입
             Team team = teamService.findByTeamId(teamId);
-            LeagueApply leagueApply = leagueApplyService.findByTeamId(teamId);
             User user = userService.findByUserId(team.getUser().getUserId());
+            LeagueApply leagueApply = leagueApplyService.findByTeamId(teamId);
 
             participants.setUser(user);
             participants.setTeam(team);
             participants.setLeagueApply(leagueApply);
             participants.setLeague(league);
-
             participants.setManagerName(user.getName());
-
             participants.setHonorScore(team.getHonorScore());
             participants.setChampionCount(team.getChampionCount());
             participants.setMemberCount(team.getMemberCount());
             participants.setTeamName(team.getTeamName());
             participants.setSubManagerName(team.getSubManagerName());
             participants.setLeagueParticipantsStatus(LeagueParticipantsStatus.ACTIVITY);
-
             participants.setLeagueName(league.getLeagueName());
 
             team.setLeagueId(league.getLeagueId());
