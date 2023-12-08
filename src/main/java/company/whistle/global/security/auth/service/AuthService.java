@@ -46,6 +46,8 @@ public class AuthService {
     @Value("${spring.mail.username}")
     private String teamEmail;
 
+    private static final String REFRESH_KEY = "refresh_";
+    private static final String CHAR_SET = "utf-8";
 
     public void logout(String accessToken) {
         String email = userService.getLoginUser().getEmail();
@@ -54,7 +56,7 @@ public class AuthService {
         Long atTime = jwtTokenizer.getExpiration(token, key);
 
         redisUtils.setBlackList(token, email + "expired_access", atTime);
-        redisUtils.delete("refresh_" + email);
+        redisUtils.delete(REFRESH_KEY + email);
     }
 
     public String reissuedToken(String refreshToken) {
@@ -63,8 +65,7 @@ public class AuthService {
         try {
             jwtTokenizer.verifySignature(refreshToken, encodeBase64SecretKey);
         } catch (
-//                SignatureException |
-                 MalformedJwtException | DecodingException e) {
+                MalformedJwtException | DecodingException e) {
             throw new BusinessLogicException(Exceptions.INVALID_VALUES);
         } catch (ExpiredJwtException e) {
             throw new BusinessLogicException(Exceptions.EXPIRED_JWT_TOKEN);
@@ -74,7 +75,7 @@ public class AuthService {
         String subject = claims.getBody().getSubject();
         Date expiration = jwtTokenizer.getTokenExpiration(jwtTokenizer.getAccessTokenExpirationMinutes());
 
-        if (!redisUtils.hasKey("refresh_" + subject) || !redisUtils.get("refresh_" + subject).equals(refreshToken)) {
+        if (!redisUtils.hasKey(REFRESH_KEY + subject) || !redisUtils.get(REFRESH_KEY + subject).equals(refreshToken)) {
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
         }
 
@@ -99,11 +100,12 @@ public class AuthService {
     }
 
     public void authorizedEmail(String authCode, String email) {
-        if (redisUtils.get("join_" + email) == null) {
+        String joinKey = "join_";
+        if (redisUtils.get(joinKey + email) == null) {
             throw new BusinessLogicException(Exceptions.EMAIL_AUTH_REQUIRED);
-        } else if (!redisUtils.get("join_" + email).equals("confirm")) {
-            if (redisUtils.get("join_" + email).equals(authCode)) {
-                redisUtils.set("join_" + email, "confirm", 10);
+        } else if (!redisUtils.get(joinKey + email).equals("confirm")) {
+            if (redisUtils.get(joinKey + email).equals(authCode)) {
+                redisUtils.set(joinKey + email, "confirm", 10);
             } else {
                 throw new BusinessLogicException(Exceptions.INVALID_EMAIL_AUTH_NUMBER);
             }
@@ -112,17 +114,17 @@ public class AuthService {
 
     private String createAuthCode() {
         SecureRandom random = new SecureRandom();
-        String key = "";
+        StringBuilder key = new StringBuilder();
 
         for (int i = 0; i < 3; i++) {
             int index = random.nextInt(25) + 65;
-            key += (char) index;
+            key.append((char) index);
         }
 
         int numIndex = random.nextInt(9999) + 1000;
-        key += numIndex;
+        key.append(numIndex);
 
-        return key;
+        return key.toString();
     }
 
     private MimeMessage createNewPasswordForm(String userEmail) throws MessagingException {
@@ -133,7 +135,7 @@ public class AuthService {
         mimeMessage.addRecipients(MimeMessage.RecipientType.TO, userEmail);
         mimeMessage.setSubject("[whistle] 비밀번호 변경 안내");
         mimeMessage.setFrom(teamEmail);
-        mimeMessage.setText(setPasswordContext(authCode), "utf-8", "html");
+        mimeMessage.setText(setPasswordContext(authCode), CHAR_SET, "html");
         return mimeMessage;
     }
 
@@ -145,7 +147,7 @@ public class AuthService {
         mimeMessage.addRecipients(MimeMessage.RecipientType.TO, userEmail);
         mimeMessage.setSubject("[whistle] 회원가입 이메일 인증");
         mimeMessage.setFrom(teamEmail);
-        mimeMessage.setText(setJoinContext(authCode), "utf-8", "html");
+        mimeMessage.setText(setJoinContext(authCode), CHAR_SET, "html");
         return mimeMessage;
     }
 
@@ -155,7 +157,7 @@ public class AuthService {
         mimeMessage.addRecipients(MimeMessage.RecipientType.TO, teamEmail);
         mimeMessage.setSubject(userEmail + " 회원으로부터 문의사항이 도착했습니다.");
         mimeMessage.setText(userEmail + " 회원으로부터 문의사항이 도착했습니다."
-                + "<br>" + "문의내용 : " + content, "utf-8", "html");
+                + "<br>" + "문의내용 : " + content, CHAR_SET, "html");
         return mimeMessage;
     }
 
@@ -181,7 +183,7 @@ public class AuthService {
     }
 
     public void sendEmailForJoin(String userEmail) throws MessagingException {
-        userService.verifiedUser(userEmail);
+        userService.existUser(userEmail);
         MimeMessage emailForm = createJoinForm(userEmail);
         javaMailSender.send(emailForm);
     }
