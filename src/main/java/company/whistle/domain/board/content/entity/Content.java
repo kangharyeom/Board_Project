@@ -3,7 +3,7 @@ package company.whistle.domain.board.content.entity;
 import company.whistle.global.audit.Auditable;
 import company.whistle.domain.board.comment.entity.Comment;
 import company.whistle.global.constant.CategoryType;
-import company.whistle.domain.league.domain.entity.League;
+import company.whistle.domain.league.league.entity.League;
 import company.whistle.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,6 @@
 package company.whistle.domain.league.participants.repository;
 
 import company.whistle.domain.league.participants.entity.Participants;
-import company.whistle.domain.team.domain.entity.Team;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

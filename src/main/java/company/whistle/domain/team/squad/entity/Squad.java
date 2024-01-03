@@ -1,9 +1,9 @@
 package company.whistle.domain.team.squad.entity;
 
-import company.whistle.domain.apply.team.entity.TeamApply;
+import company.whistle.domain.apply.teamApply.entity.TeamApply;
 import company.whistle.global.audit.Auditable;
 import company.whistle.global.constant.*;
-import company.whistle.domain.team.domain.entity.Team;
+import company.whistle.domain.team.team.entity.Team;
 import company.whistle.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

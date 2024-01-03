@@ -1,13 +1,13 @@
 package company.whistle.domain.league.participants.mapper;
 
-import company.whistle.domain.apply.league.entity.LeagueApply;
+import company.whistle.domain.apply.leagueApply.entity.LeagueApply;
 import company.whistle.domain.league.participants.dto.ParticipantsPatchDto;
 import company.whistle.domain.league.participants.dto.ParticipantsPostDto;
 import company.whistle.domain.league.participants.dto.ParticipantsResponseDto;
 import company.whistle.domain.league.participants.dto.ParticipantsResponseListDto;
 import company.whistle.domain.league.participants.entity.Participants;
-import company.whistle.domain.league.domain.entity.League;
-import company.whistle.domain.team.domain.entity.Team;
+import company.whistle.domain.league.league.entity.League;
+import company.whistle.domain.team.team.entity.Team;
 import company.whistle.domain.user.entity.User;
 import org.mapstruct.Mapper;
 

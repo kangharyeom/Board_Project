@@ -1,17 +1,17 @@
 package company.whistle.domain.user.entity;
 
-import company.whistle.domain.apply.league.entity.LeagueApply;
-import company.whistle.domain.apply.match.entity.MatchApply;
-import company.whistle.domain.apply.team.entity.TeamApply;
+import company.whistle.domain.apply.leagueApply.entity.LeagueApply;
+import company.whistle.domain.apply.matchApply.entity.MatchApply;
+import company.whistle.domain.apply.teamApply.entity.TeamApply;
 import company.whistle.domain.league.participants.entity.Participants;
 import company.whistle.domain.team.squad.entity.Squad;
 import company.whistle.global.audit.Auditable;
 import company.whistle.domain.board.comment.entity.Comment;
 import company.whistle.global.constant.*;
 import company.whistle.domain.board.content.entity.Content;
-import company.whistle.domain.league.domain.entity.League;
-import company.whistle.domain.match.unrank.entity.Match;
-import company.whistle.domain.team.domain.entity.Team;
+import company.whistle.domain.league.league.entity.League;
+import company.whistle.domain.match.unrankMatch.entity.Match;
+import company.whistle.domain.team.team.entity.Team;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

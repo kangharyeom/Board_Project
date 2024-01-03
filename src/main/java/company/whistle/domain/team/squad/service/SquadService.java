@@ -1,19 +1,18 @@
 package company.whistle.domain.team.squad.service;
 
-import company.whistle.domain.apply.team.entity.TeamApply;
-import company.whistle.domain.apply.team.repository.TeamApplyRepository;
-import company.whistle.domain.apply.team.service.TeamApplyService;
+import company.whistle.domain.apply.teamApply.entity.TeamApply;
+import company.whistle.domain.apply.teamApply.repository.TeamApplyRepository;
+import company.whistle.domain.apply.teamApply.service.TeamApplyService;
 import company.whistle.domain.team.squad.entity.Squad;
 import company.whistle.domain.user.repository.UserRepository;
 import company.whistle.global.constant.ApplyStatus;
-import company.whistle.global.constant.Position;
 import company.whistle.global.constant.TeamMemberRole;
 import company.whistle.global.constant.TeamMemberStatus;
 import company.whistle.global.exception.BusinessLogicException;
 import company.whistle.global.exception.Exceptions;
 import company.whistle.domain.team.squad.repository.SquadRepository;
-import company.whistle.domain.team.domain.entity.Team;
-import company.whistle.domain.team.domain.service.TeamService;
+import company.whistle.domain.team.team.entity.Team;
+import company.whistle.domain.team.team.service.TeamService;
 import company.whistle.domain.user.entity.User;
 import company.whistle.domain.user.service.UserService;
 import lombok.RequiredArgsConstructor;
