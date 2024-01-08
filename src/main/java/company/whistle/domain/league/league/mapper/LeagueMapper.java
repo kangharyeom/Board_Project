@@ -61,11 +61,6 @@ public interface LeagueMapper {
                 .teamAssist(participants.getTeamAssist())
                 .teamGoals(participants.getTeamGoals())
                 .cleanSheet(participants.getCleanSheet())
-
-//                .mostGoals(participants.getMostGoals())
-//                .mostAssist(participants.getMostAssist())
-//                .mostMom(participants.getMostMom())
-
                 .createdAt(participants.getCreatedAt())
                 .modifiedAt(participants.getModifiedAt())
                 .build();

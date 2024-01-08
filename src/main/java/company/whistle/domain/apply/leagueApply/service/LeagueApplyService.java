@@ -72,6 +72,8 @@ public class LeagueApplyService {
             leagueApply.setTeamName(team.getTeamName());
             leagueApply.setLevelType(team.getLevelType());
             leagueApply.setAgeType(team.getAgeType());
+
+            // 테스트 해보기
             leagueApply.setApplyType(leagueApply.getApplyType());
 
             leagueApplyRepository.save(leagueApply);

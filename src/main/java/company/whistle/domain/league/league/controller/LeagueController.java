@@ -75,7 +75,7 @@ public class LeagueController {
 
         Page<League> pageLeagues = leagueService.findLeagues(page - 1, size);
         List<League> leagues = pageLeagues.getContent();
-        log.info("전체 요청 : {}", leagues);
+        log.info("ALL LEAGUES : {}", leagues);
         return new ResponseEntity<>(
                 new MultiResponseDto<>(leagueMapper.leaguesToLeagueResponse(leagues),
                         pageLeagues),
@@ -83,7 +83,7 @@ public class LeagueController {
     }
 
     /*
-     * 최근 등록된 리그 순서 조회
+     * 최근 등록된 리그 조회
      */
     @GetMapping("/newest")
     public ResponseEntity<List<LeagueResponseDto>> getLeaguesNewest() {
@@ -105,7 +105,7 @@ public class LeagueController {
     }
 
     /*
-     * 명예점수 고득점 순서 리그 조회
+     * 명예 점수 고득점 순서 리그 조회
      */
     @GetMapping("/score")
     public ResponseEntity<List<LeagueResponseDto>> getLeaguesHonorScore() {
