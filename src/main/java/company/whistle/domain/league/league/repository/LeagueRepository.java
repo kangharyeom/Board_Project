@@ -28,15 +28,15 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     List<League> findHonorScore();
 
     // 시즌 단위 조회 (시즌 진행중)
-    @Query(value = "SELECT * FROM leagues WHERE season_type = 'ON_SEASON' ORDER BY league_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM leagues WHERE league_season_status = 'ON_SEASON' ORDER BY league_id DESC", nativeQuery = true)
     List<League> findLeagueOnSeason();
 
     // 시즌 단위 조회 (시즌 종료)
-    @Query(value = "SELECT * FROM leagues WHERE season_type = 'OFF_SEASON' ORDER BY league_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM leagues WHERE league_season_status = 'OFF_SEASON' ORDER BY league_id DESC", nativeQuery = true)
     List<League> findLeagueOffSeason();
 
     // 시즌 단위 조회 (팀 모집)
-    @Query(value = "SELECT * FROM leagues WHERE season_type = 'TEAM_RECRUIT' ORDER BY league_id DESC", nativeQuery = true)
+    @Query(value = "SELECT * FROM leagues WHERE league_season_status = 'TEAM_RECRUIT' ORDER BY league_id DESC", nativeQuery = true)
     List<League> findLeagueRecruit();
 
     @Query(value = "select manager_name from leagues where user_id = :userId", nativeQuery = true)

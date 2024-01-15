@@ -3,11 +3,11 @@ import company.whistle.global.constant.AuthProvider;
 import company.whistle.global.exception.BusinessLogicException;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 
 import java.util.Map;
 
-@Slf4j
+@Log4j2
 @Getter
 @Builder
 public class OAuth2Attributes {

@@ -79,6 +79,7 @@ public class LeagueService {
             league.setHonorScore(team.getHonorScore());
             league.setMemberCount(team.getMemberCount());
             user.setLeagueRole(LeagueRole.LEAGUE_MANAGER);
+            league.setLeagueSeasonStatus(LeagueSeasonStatus.TEAM_RECRUIT);
 
             userRepository.save(user);
             teamRepository.save(team);

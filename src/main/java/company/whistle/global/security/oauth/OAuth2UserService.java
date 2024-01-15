@@ -59,6 +59,8 @@ public class OAuth2UserService extends DefaultOAuth2UserService {
 
         user.setEmail(email);
         user.setName(nickname);
+        user.setLoginId("");
+        user.setPhone("");
 //        user.setProfileUrl(profileUrl);
 //        user.setProfileKey(profileKey);
         user.setPassword(profileKey);

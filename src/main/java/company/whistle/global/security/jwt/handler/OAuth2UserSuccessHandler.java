@@ -112,9 +112,10 @@ public class OAuth2UserSuccessHandler extends SimpleUrlAuthenticationSuccessHand
 
         return UriComponentsBuilder
                 .newInstance()
-                .scheme("https")
-                .host("https://dev.dovfpqk67sdce.amplifyapp.com")
-                .path("/auth/loading")
+                .scheme("http")
+                .host("localhost")
+                .port(3000)
+                .path("/")
                 .queryParams(queryParams)
                 .build()
                 .toUri();
