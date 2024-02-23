@@ -12,14 +12,14 @@ import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.team.entity.Team;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 

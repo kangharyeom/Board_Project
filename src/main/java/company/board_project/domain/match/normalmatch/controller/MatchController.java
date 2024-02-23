@@ -10,6 +10,7 @@ import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.match.normalmatch.mapper.MatchMapper;
 import company.board_project.domain.match.normalmatch.service.MatchService;
 import company.board_project.global.response.MultiResponseDto;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -18,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController

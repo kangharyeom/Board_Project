@@ -1,9 +1,9 @@
 package company.board_project.global.security.auth.dto;
 
+import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 
 @NoArgsConstructor
 @Getter

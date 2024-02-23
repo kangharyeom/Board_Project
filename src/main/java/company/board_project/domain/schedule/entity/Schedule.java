@@ -4,11 +4,11 @@ import company.board_project.domain.league.entity.League;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +22,8 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long scheduleId;
 
-
     @OneToMany(mappedBy = "schedule", cascade = CascadeType.REMOVE)
-    private List<Match> matchs = new ArrayList<>();
+    private List<Match> matches = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

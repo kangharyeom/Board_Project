@@ -11,6 +11,7 @@ import company.board_project.domain.content.service.ContentService;
 import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.global.response.MultiResponseDto;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController

@@ -15,7 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +32,6 @@ public class Apply extends Auditable {
     private Long userTeamApplyId;
     private Long userMatchApplyId;
     private Long userLeagueApplyId;
-
 
     @Column(nullable = false)
     private String managerName;

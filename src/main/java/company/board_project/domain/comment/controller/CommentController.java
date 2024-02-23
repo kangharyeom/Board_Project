@@ -7,6 +7,8 @@ import company.board_project.domain.comment.entity.Comment;
 import company.board_project.domain.comment.mapper.CommentMapper;
 import company.board_project.domain.comment.service.CommentService;
 import company.board_project.global.response.MultiResponseDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -15,8 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController

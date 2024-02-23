@@ -7,6 +7,8 @@ import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.mapper.UserMapper;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.List;
 @RestController
 @RequiredArgsConstructor

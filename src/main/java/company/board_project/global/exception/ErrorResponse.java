@@ -1,10 +1,10 @@
 package company.board_project.global.exception;
 
+import jakarta.validation.ConstraintViolation;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 
-import javax.validation.ConstraintViolation;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

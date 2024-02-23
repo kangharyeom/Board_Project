@@ -13,11 +13,11 @@ import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.service.UserService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 

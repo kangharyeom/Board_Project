@@ -1,10 +1,9 @@
 package company.board_project.domain.team.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.validation.constraints.NotBlank;
 
 @AllArgsConstructor
 @NoArgsConstructor

@@ -10,17 +10,16 @@ import company.board_project.domain.team.dto.TeamPatchDto;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.service.TeamService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController

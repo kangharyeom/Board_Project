@@ -7,13 +7,13 @@ import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.global.security.utils.CustomAuthorityUtils;
 import company.board_project.domain.user.entity.User;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 @Log4j2

@@ -1,11 +1,11 @@
 package company.board_project.domain.content.dto;
 
 import company.board_project.domain.content.entity.ContentFile;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @AllArgsConstructor

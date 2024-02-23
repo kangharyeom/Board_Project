@@ -12,7 +12,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,9 +152,6 @@ public class LeagueMatch extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private MatchResultStatus awayTeamMatchResultStatus;
-
-    @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
-    private List<Apply> applies = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "TEAM_ID")

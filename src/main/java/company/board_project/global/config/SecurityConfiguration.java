@@ -35,33 +35,41 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .headers().frameOptions().sameOrigin()
-                .and()
-                .csrf().disable()
+                .csrf((csrfConfig)->
+                        csrfConfig.disable()
+                )
+                .headers((headerConfig)->
+                        headerConfig.frameOptions((frameOptionsConfig ->
+                                frameOptionsConfig.sameOrigin())
+                        )
+                )
                 .cors(withDefaults())
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .formLogin().disable()
+                .sessionManagement((sessionManagementConfig)->
+                        sessionManagementConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .formLogin((formLoginConfig)->
+                        formLoginConfig.disable()
+                )
 //                .httpBasic().disable()
-                .exceptionHandling()
-                .authenticationEntryPoint(new UserAuthenticationEntryPoint())
-                .accessDeniedHandler(new UserAccessDeniedHandler())
-                .and()
-                .apply(new CustomFilterConfigurer())
-                .and()
-                .authorizeHttpRequests(auth -> auth
-                        .antMatchers(HttpMethod.GET, "/**").permitAll()
-                        .antMatchers(HttpMethod.POST ,"api/oauth","/api/login", "/api/users/join","/auth/email","/auth/password").permitAll()
-                        .antMatchers(HttpMethod.PATCH, "/auth/password").permitAll()
-                        .antMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
-                        .antMatchers("/h2/**").permitAll()
-                        .antMatchers(HttpMethod.OPTIONS).permitAll()
-                        .antMatchers( "/loading/**","/auth/**").permitAll()
+                .exceptionHandling((exceptionConfig) ->
+                        exceptionConfig.authenticationEntryPoint(new UserAuthenticationEntryPoint()).accessDeniedHandler(new UserAccessDeniedHandler())
+                )
+//                .apply()
+                .authorizeHttpRequests((auth) -> auth
+                        .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                        .requestMatchers(HttpMethod.POST ,"api/oauth","/api/login", "/api/users/join","/auth/email","/auth/password").permitAll()
+                        .requestMatchers(HttpMethod.PATCH, "/auth/password").permitAll()
+                        .requestMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
+                        .requestMatchers("/h2/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        .requestMatchers( "/loading/**","/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, userRepository,redisUtils))
-                        .userInfoEndpoint().userService(oAuth2UserService)
+                        .userInfoEndpoint(userInfoEndpointConfig ->
+                                userInfoEndpointConfig.userService(oAuth2UserService)
+                        )
                 );
 
         return http.build();

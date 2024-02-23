@@ -9,6 +9,7 @@ import company.board_project.domain.league.service.LeagueService;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.global.response.MultiResponseDto;
+import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
@@ -17,7 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.Positive;
 import java.util.List;
 
 @RestController

@@ -4,10 +4,10 @@ import company.board_project.global.exception.BusinessLogicException;
 import company.board_project.global.exception.Exceptions;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.schedule.repository.ScheduleRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
