@@ -1,8 +1,7 @@
 package company.board_project.domain.match.leaguematch.entity;
 
-import company.board_project.domain.apply.entity.Apply;
-import company.board_project.global.audit.Auditable;
-import company.board_project.global.constant.*;
+import company.board_project.audit.Auditable;
+import company.board_project.constant.*;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.schedule.entity.Schedule;
@@ -13,9 +12,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @NoArgsConstructor
 @Getter

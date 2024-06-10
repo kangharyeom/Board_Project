@@ -1,6 +1,6 @@
 package company.board_project.domain.comment.entity;
 
-import company.board_project.global.audit.Auditable;
+import company.board_project.audit.Auditable;
 import company.board_project.domain.content.entity.Content;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;

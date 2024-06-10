@@ -1,7 +1,7 @@
 package company.board_project.domain.schedule.service;
 
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.schedule.repository.ScheduleRepository;
 import jakarta.transaction.Transactional;

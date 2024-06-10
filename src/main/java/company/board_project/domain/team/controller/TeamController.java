@@ -4,7 +4,7 @@ import company.board_project.domain.list.teamlist.entity.TeamList;
 import company.board_project.domain.list.teamlist.service.TeamListService;
 import company.board_project.domain.team.dto.TeamPostDto;
 import company.board_project.domain.team.dto.TeamResponseDto;
-import company.board_project.global.response.MultiResponseDto;
+import company.board_project.response.MultiResponseDto;
 import company.board_project.domain.team.dto.TeamListDto;
 import company.board_project.domain.team.dto.TeamPatchDto;
 import company.board_project.domain.team.entity.Team;

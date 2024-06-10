@@ -8,7 +8,7 @@ import company.board_project.domain.league.mapper.LeagueMapper;
 import company.board_project.domain.league.service.LeagueService;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.leaguelist.service.LeagueListService;
-import company.board_project.global.response.MultiResponseDto;
+import company.board_project.response.MultiResponseDto;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

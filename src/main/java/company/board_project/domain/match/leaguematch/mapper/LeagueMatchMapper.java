@@ -1,7 +1,7 @@
 package company.board_project.domain.match.leaguematch.mapper;
 
+import company.board_project.constant.*;
 import company.board_project.domain.match.leaguematch.dto.*;
-import company.board_project.global.constant.*;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.match.leaguematch.entity.LeagueMatch;
 import company.board_project.domain.team.entity.Team;

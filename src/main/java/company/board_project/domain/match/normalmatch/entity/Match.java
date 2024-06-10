@@ -1,7 +1,7 @@
 package company.board_project.domain.match.normalmatch.entity;
 
-import company.board_project.global.audit.Auditable;
-import company.board_project.global.constant.*;
+import company.board_project.audit.Auditable;
+import company.board_project.constant.*;
 import company.board_project.domain.list.matchlist.entity.MatchList;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;

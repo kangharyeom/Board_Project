@@ -1,8 +1,8 @@
 package company.board_project.domain.list.matchlist.entity;
 
+import company.board_project.constant.*;
 import company.board_project.domain.apply.entity.Apply;
-import company.board_project.global.audit.Auditable;
-import company.board_project.global.constant.*;
+import company.board_project.audit.Auditable;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;

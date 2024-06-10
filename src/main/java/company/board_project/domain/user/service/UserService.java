@@ -1,11 +1,11 @@
 package company.board_project.domain.user.service;
 
+import company.board_project.constant.LeagueRole;
+import company.board_project.constant.LoginType;
 import company.board_project.domain.user.repository.UserRepository;
-import company.board_project.global.constant.LeagueRole;
-import company.board_project.global.constant.LoginType;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
-import company.board_project.global.security.utils.CustomAuthorityUtils;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
+import company.board_project.security.utils.CustomAuthorityUtils;
 import company.board_project.domain.user.entity.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

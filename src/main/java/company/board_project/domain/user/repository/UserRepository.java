@@ -1,7 +1,7 @@
 package company.board_project.domain.user.repository;
 
 import company.board_project.domain.user.entity.User;
-import company.board_project.global.constant.LeagueRole;
+import company.board_project.constant.LeagueRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

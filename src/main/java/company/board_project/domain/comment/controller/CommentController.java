@@ -6,7 +6,7 @@ import company.board_project.domain.comment.dto.CommentResponseDto;
 import company.board_project.domain.comment.entity.Comment;
 import company.board_project.domain.comment.mapper.CommentMapper;
 import company.board_project.domain.comment.service.CommentService;
-import company.board_project.global.response.MultiResponseDto;
+import company.board_project.response.MultiResponseDto;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;

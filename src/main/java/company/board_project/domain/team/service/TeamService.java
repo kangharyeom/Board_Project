@@ -1,9 +1,9 @@
 package company.board_project.domain.team.service;
 
+import company.board_project.constant.TeamMemberRole;
 import company.board_project.domain.user.repository.UserRepository;
-import company.board_project.global.constant.TeamMemberRole;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.repository.TeamRepository;
 import company.board_project.domain.user.entity.User;

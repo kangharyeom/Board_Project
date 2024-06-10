@@ -2,8 +2,8 @@ package company.board_project.domain.apply.service;
 
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.repository.ApplyRepository;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.league.service.LeagueService;
 import company.board_project.domain.match.normalmatch.entity.Match;

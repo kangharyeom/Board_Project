@@ -1,11 +1,10 @@
 package company.board_project.domain.match.normalmatch.service;
 
-import company.board_project.domain.league.entity.League;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.match.normalmatch.repository.MatchRepository;
 import company.board_project.domain.team.repository.TeamRepository;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;

@@ -1,12 +1,12 @@
 package company.board_project.domain.list.teamlist.service;
 
+import company.board_project.constant.Position;
+import company.board_project.constant.TeamMemberRole;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
 import company.board_project.domain.user.repository.UserRepository;
-import company.board_project.global.constant.Position;
-import company.board_project.global.constant.TeamMemberRole;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.list.teamlist.entity.TeamList;
 import company.board_project.domain.list.teamlist.repository.TeamListRepository;
 import company.board_project.domain.team.entity.Team;

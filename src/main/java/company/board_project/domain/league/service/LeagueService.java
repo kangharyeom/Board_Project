@@ -1,10 +1,10 @@
 package company.board_project.domain.league.service;
 
+import company.board_project.constant.LeagueRole;
+import company.board_project.constant.SeasonType;
 import company.board_project.domain.league.repository.LeagueRepository;
-import company.board_project.global.constant.LeagueRole;
-import company.board_project.global.constant.SeasonType;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.leaguelist.repository.LeagueListRepository;

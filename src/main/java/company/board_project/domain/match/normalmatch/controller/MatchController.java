@@ -9,7 +9,7 @@ import company.board_project.domain.match.normalmatch.dto.MatchResponseDto;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.match.normalmatch.mapper.MatchMapper;
 import company.board_project.domain.match.normalmatch.service.MatchService;
-import company.board_project.global.response.MultiResponseDto;
+import company.board_project.response.MultiResponseDto;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

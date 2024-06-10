@@ -1,12 +1,12 @@
 package company.board_project.domain.list.matchlist.service;
 
+import company.board_project.constant.MatchResultStatus;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.apply.service.ApplyService;
 import company.board_project.domain.list.matchlist.repository.MatchListRepository;
 import company.board_project.domain.user.repository.UserRepository;
-import company.board_project.global.constant.MatchResultStatus;
-import company.board_project.global.exception.BusinessLogicException;
-import company.board_project.global.exception.Exceptions;
+import company.board_project.exception.BusinessLogicException;
+import company.board_project.exception.Exceptions;
 import company.board_project.domain.list.matchlist.entity.MatchList;
 import company.board_project.domain.match.normalmatch.entity.Match;
 import company.board_project.domain.match.normalmatch.service.MatchService;

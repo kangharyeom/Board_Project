@@ -1,8 +1,8 @@
 package company.board_project.domain.content.entity;
 
-import company.board_project.global.audit.Auditable;
+import company.board_project.audit.Auditable;
+import company.board_project.constant.CategoryType;
 import company.board_project.domain.comment.entity.Comment;
-import company.board_project.global.constant.CategoryType;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;

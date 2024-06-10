@@ -5,7 +5,6 @@ import company.board_project.domain.list.teamlist.dto.TeamListPatchDto;
 import company.board_project.domain.list.teamlist.dto.TeamListPostDto;
 import company.board_project.domain.list.teamlist.dto.TeamListResponseDto;
 import company.board_project.domain.list.teamlist.dto.TeamListResponseListDto;
-import company.board_project.global.constant.*;
 import company.board_project.domain.list.teamlist.entity.TeamList;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;

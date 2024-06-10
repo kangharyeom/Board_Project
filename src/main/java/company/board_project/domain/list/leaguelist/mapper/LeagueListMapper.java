@@ -6,7 +6,6 @@ import company.board_project.domain.list.leaguelist.dto.LeagueListPostDto;
 import company.board_project.domain.list.leaguelist.dto.LeagueListResponseDto;
 import company.board_project.domain.list.leaguelist.dto.LeagueListResponseListDto;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.global.constant.*;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;

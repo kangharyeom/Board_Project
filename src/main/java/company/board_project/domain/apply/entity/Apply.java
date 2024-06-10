@@ -1,9 +1,9 @@
 package company.board_project.domain.apply.entity;
 
-import company.board_project.global.audit.Auditable;
-import company.board_project.global.constant.AgeType;
-import company.board_project.global.constant.ApplyType;
-import company.board_project.global.constant.LevelType;
+import company.board_project.audit.Auditable;
+import company.board_project.constant.AgeType;
+import company.board_project.constant.ApplyType;
+import company.board_project.constant.LevelType;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.matchlist.entity.MatchList;
