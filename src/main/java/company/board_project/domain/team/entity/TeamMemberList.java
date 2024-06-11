@@ -50,4 +50,21 @@ public class TeamMemberList {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "APPLY_ID")
     private Apply apply;
+
+    @Override
+    public String toString() {
+        return "TeamMemberList{" +
+                "teamMemberListId=" + teamMemberListId +
+                ", name='" + name + '\'' +
+                ", position=" + position +
+                ", teamMemberRole=" + teamMemberRole +
+                ", ageType=" + ageType +
+                ", locationType=" + locationType +
+                ", levelType=" + levelType +
+                ", frequency=" + frequency +
+                ", user=" + user +
+                ", team=" + team +
+                ", apply=" + apply +
+                '}';
+    }
 }

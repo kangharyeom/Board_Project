@@ -15,4 +15,14 @@ public class TeamMemberListPostDto {
     private Long teamId;
     private String name;
     private String teamMemberRole;
+
+    @Override
+    public String toString() {
+        return "TeamMemberListPostDto{" +
+                "userId=" + userId +
+                ", teamId=" + teamId +
+                ", name='" + name + '\'' +
+                ", teamMemberRole='" + teamMemberRole + '\'' +
+                '}';
+    }
 }

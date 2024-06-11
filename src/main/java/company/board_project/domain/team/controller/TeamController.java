@@ -6,6 +6,7 @@ import company.board_project.response.MultiResponseDto;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.service.TeamService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -27,19 +28,20 @@ public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
 
+    @Transactional
     @PostMapping
     public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody) {
-        Team team = teamService.createTeam(teamMapper.teamPostDtoToTeam(requestBody), requestBody.getUserId());
+        Team team = teamService.createTeamAndTeamMemberList(teamMapper.teamPostDtoToTeam(requestBody), requestBody.getUserId());
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("teamResponseDto.getTeamId() : {}", teamResponseDto.getTeamId());
         log.info("teamResponseDto.getUserId() : {}", teamResponseDto.getUserId());
         log.info("requestBody.getUserId() : {}", requestBody.getUserId());
 
         TeamMemberListPostDto teamMemberListPostDto = new TeamMemberListPostDto();
-        teamMemberListPostDto.setUserId(requestBody.getUserId());
-        teamMemberListPostDto.setTeamId(teamResponseDto.getTeamId());
-        teamMemberListPostDto.setName(requestBody.getManagerName());
+        teamMemberListPostDto.setName(teamResponseDto.getManagerName());
         teamMemberListPostDto.setTeamMemberRole("MANAGER");
+        log.info("teamMemberListPostDto[{}]", teamMemberListPostDto.toString());
+        teamService.createTeamMemberList(teamMapper.teamMemberListPostDtoToTeam(teamMemberListPostDto),teamResponseDto.getUserId(),teamResponseDto.getTeamId());
 
         return ResponseEntity.ok(teamResponseDto);
     }

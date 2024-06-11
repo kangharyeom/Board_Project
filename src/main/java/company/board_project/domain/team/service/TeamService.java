@@ -2,6 +2,7 @@ package company.board_project.domain.team.service;
 
 import company.board_project.constant.TeamMemberRole;
 import company.board_project.domain.team.entity.TeamMemberList;
+import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.repository.TeamMemberListRepository;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.exception.BusinessLogicException;
@@ -12,6 +13,7 @@ import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +24,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@Log4j2
 @Transactional
 @RequiredArgsConstructor
 public class TeamService {
@@ -29,7 +32,8 @@ public class TeamService {
     private final TeamMemberListRepository teamMemberListRepository;
     private final UserRepository userRepository;
     private final UserService userService;
-    public Team createTeam(
+
+    public Team createTeamAndTeamMemberList(
             Team team, Long userId) {
 
         findVerifiedExistsTeamByUserId(userId);
@@ -45,10 +49,16 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public TeamMemberList createTeamMemberList(
-            TeamMemberList teamMemberList) {
+    public void createTeamMemberList(
+            TeamMemberList teamMemberList, long userId, long teamId) {
+        log.info("teamMemberList SERVICE [{}]", teamMemberList.toString());
+        User user = userService.findUser(userId);
+        Team team = findTeam(teamId);
 
-        return teamMemberListRepository.save(teamMemberList);
+        teamMemberList.setUser(user);
+        teamMemberList.setTeam(team);
+
+        teamMemberListRepository.save(teamMemberList);
     }
 
     public Team updateTeam(
