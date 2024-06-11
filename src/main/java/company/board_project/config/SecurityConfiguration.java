@@ -15,6 +15,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,42 +36,38 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrfConfig)->
-                        csrfConfig.disable()
-                )
-                .headers((headerConfig)->
-                        headerConfig.frameOptions((frameOptionsConfig ->
-                                frameOptionsConfig.sameOrigin())
+                .csrf(AbstractHttpConfigurer::disable)
+                .headers((headerConfig) ->
+                        headerConfig.frameOptions((HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                         )
                 )
                 .cors(withDefaults())
-                .sessionManagement((sessionManagementConfig)->
+                .sessionManagement((sessionManagementConfig) ->
                         sessionManagementConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .formLogin((formLoginConfig)->
-                        formLoginConfig.disable()
-                )
-//                .httpBasic().disable()
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .exceptionHandling((exceptionConfig) ->
                         exceptionConfig.authenticationEntryPoint(new UserAuthenticationEntryPoint()).accessDeniedHandler(new UserAccessDeniedHandler())
                 )
-//                .apply()
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                        .requestMatchers(HttpMethod.POST ,"api/oauth","/api/login", "/api/users/join","/auth/email","/auth/password").permitAll()
+                        .requestMatchers(HttpMethod.POST, "api/oauth", "/api/login", "/api/users/join", "/auth/email", "/auth/password").permitAll()
                         .requestMatchers(HttpMethod.PATCH, "/auth/password").permitAll()
                         .requestMatchers(HttpMethod.DELETE, "/user").hasRole("USER")
                         .requestMatchers("/h2/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
-                        .requestMatchers( "/loading/**","/auth/**").permitAll()
+                        .requestMatchers("/loading/**", "/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
-                        .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, userRepository,redisUtils))
+                        .successHandler(new OAuth2UserSuccessHandler(jwtTokenizer, userRepository, redisUtils))
                         .userInfoEndpoint(userInfoEndpointConfig ->
                                 userInfoEndpointConfig.userService(oAuth2UserService)
                         )
                 );
+
+        http.with(new CustomFilterConfigurer(), CustomFilterConfigurer::build);
 
         return http.build();
 
@@ -96,6 +93,11 @@ public class SecurityConfiguration {
 
             builder.addFilter(jwtAuthenticationFilter)
                     .addFilterAfter(jwtVerificationFilter, JwtAuthenticationFilter.class);
+
+
+        }
+        public HttpSecurity build(){
+            return getBuilder();
         }
     }
 }
