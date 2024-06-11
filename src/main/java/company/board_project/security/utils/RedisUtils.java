@@ -4,6 +4,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -14,7 +15,7 @@ public class RedisUtils {
     private final RedisTemplate<String, Object> redisBlackListTemplate;
 
     public void set(String key, Object o, int minutes) {
-        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(o.getClass()));
+        redisTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(o.getClass()));
         redisTemplate.opsForValue().set(key, o, minutes, TimeUnit.MINUTES);
     }
 
@@ -30,8 +31,12 @@ public class RedisUtils {
         return redisTemplate.hasKey(key);
     }
 
+    public void setStream(String streamName, HashMap<String, Object> hashMap) {
+        redisTemplate.opsForStream().add(streamName, hashMap);
+    }
+
     public void setBlackList(String key, Object o, Long seconds) {
-        redisBlackListTemplate.setValueSerializer(new Jackson2JsonRedisSerializer(o.getClass()));
+        redisBlackListTemplate.setValueSerializer(new Jackson2JsonRedisSerializer<>(o.getClass()));
         redisBlackListTemplate.opsForValue().set(key, o, seconds, TimeUnit.SECONDS);
     }
 

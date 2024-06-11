@@ -15,32 +15,37 @@ public class RedisConfig {
     @Value("${spring.redis.host}")
     private String host;
 
-    @Value("${spring.redis.port}")
-    private int port;
-
     @Value("${spring.redis.password}")
     private String password;
 
+    @Value("${spring.redis.port}")
+    private int port;
+
+    @Value("${spring.redis.master}")
+    private String master;
+
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
-        RedisSentinelConfiguration config = new RedisSentinelConfiguration()
-                .master("mymaster")
-                .sentinel(host, 26379)
-                .sentinel(host, 26380)
-                .sentinel(host, 26381);
-        config.setPassword(password);
-
-//        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-//        redisStandaloneConfiguration.setHostName(host);
-//        redisStandaloneConfiguration.setPort(port);
+//        RedisSentinelConfiguration redisStandaloneConfiguration = new RedisSentinelConfiguration()
+//                .master(master)
+//                .sentinel(host, 26379)
+//                .sentinel(host, 26380)
+//                .sentinel(host, 26381);
 //        redisStandaloneConfiguration.setPassword(password);
-        return new LettuceConnectionFactory(config);
+
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(host);
+        redisStandaloneConfiguration.setPort(port);
+//        redisStandaloneConfiguration.setPassword(password);
+        return new LettuceConnectionFactory(redisStandaloneConfiguration);
     }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         redisTemplate.setKeySerializer(new StringRedisSerializer());
 

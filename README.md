@@ -1,16 +1,25 @@
-# Board_Project v0.65(project_whistle) - 2023.09.25
+# Board_Project v0.7(project_whistle) - 2024.06.10
 프로젝트 "휘슬"은 축구를 사랑하는 축구인들을 위한 팀 매칭 서비스를 제공합니다.
 
 축구인들끼리 팀을 형성하고 더 나아가 리그를 생성하여 나만의 추억을 만들 수 있는 서비스 입니다.
 
 ## 개발 환경
-- Java 11
-- Spring Boot 2.7.14 (Gradle 8.2.1과 호환되는 버전)
-- Gradle 8.2.1
+- Java 17
+- Spring Boot 3.2.3
+- Gradle 8.5
 - Maria DB 10.6.15
-- Redis 5.0.7
-- npm 9.6.7
-- React
+- Redis 7.0.5
+- spring security 6
+
+## 프로젝트 기여자
+- 프론트 엔드(강하렴) - 구현중
+- 백엔드 (강하렴)
+
+## ERD
+
+
+## 통신 테스트
+
 
 ## 구현 예정 기능 - 2023.09.25
 완료된 기능은 구현 하단의 구현 완료로 이동함
