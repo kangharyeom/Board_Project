@@ -47,6 +47,7 @@ public class SecurityConfiguration {
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
+                .with(new CustomFilterConfigurer(), CustomFilterConfigurer::build)
                 .exceptionHandling((exceptionConfig) ->
                         exceptionConfig.authenticationEntryPoint(new UserAuthenticationEntryPoint()).accessDeniedHandler(new UserAccessDeniedHandler())
                 )
@@ -66,8 +67,6 @@ public class SecurityConfiguration {
                                 userInfoEndpointConfig.userService(oAuth2UserService)
                         )
                 );
-
-        http.with(new CustomFilterConfigurer(), CustomFilterConfigurer::build);
 
         return http.build();
 
