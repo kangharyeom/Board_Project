@@ -1,6 +1,6 @@
 package company.board_project.domain.schedule.controller;
 
-import company.board_project.domain.match.normalmatch.repository.MatchRepository;
+import company.board_project.domain.match.match.repository.MatchRepository;
 import company.board_project.domain.schedule.dto.ScheduleListDto;
 import company.board_project.domain.schedule.dto.SchedulePostDto;
 import company.board_project.domain.schedule.dto.ScheduleResponseDto;

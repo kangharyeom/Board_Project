@@ -1,6 +1,6 @@
 package company.board_project.domain.schedule.dto;
 
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.match.match.entity.Match;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

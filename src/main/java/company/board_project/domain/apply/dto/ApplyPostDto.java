@@ -8,17 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class ApplyPostDto {
-    private Long userId;
-    private Long teamId;
-    private Long leagueId;
-    private Long matchId;
-    private Long teamListId;
+    private long userId;
+    private long teamId;
+    private long leagueId;
+    private long matchId;
+    private long teamListId;
     private String managerName;
     private String teamName;
     private String levelType;
     private String ageType;
     private String applyType;
-    private Long userTeamApplyId;
-    private Long userMatchApplyId;
-    private Long userLeagueApplyId;
 }

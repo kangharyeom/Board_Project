@@ -3,15 +3,14 @@ package company.board_project.domain.list.matchlist.mapper;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.list.matchlist.dto.*;
 import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.match.normalmatch.dto.MatchEndDto;
-import company.board_project.domain.match.normalmatch.dto.MatchEndResponseDto;
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.match.match.dto.MatchEndDto;
+import company.board_project.domain.match.match.dto.MatchEndResponseDto;
+import company.board_project.domain.match.match.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface MatchListMapper {

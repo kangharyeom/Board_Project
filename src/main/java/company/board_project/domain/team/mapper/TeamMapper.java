@@ -2,11 +2,9 @@ package company.board_project.domain.team.mapper;
 
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.schedule.entity.Schedule;
-import company.board_project.domain.team.dto.TeamPatchDto;
-import company.board_project.domain.team.dto.TeamPostDto;
-import company.board_project.domain.team.dto.TeamResponseDto;
-import company.board_project.domain.team.dto.TeamListDto;
+import company.board_project.domain.team.dto.*;
 import company.board_project.domain.team.entity.Team;
+import company.board_project.domain.team.entity.TeamMemberList;
 import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
 
@@ -64,6 +62,8 @@ public interface TeamMapper {
                 .modifiedAt(team.getModifiedAt())
                 .build();
     }
+
+    TeamMemberList teamMemberListPostDtoToTeam(TeamMemberListPostDto requestBody);
 
     default TeamListDto teamListDtoToTeamResponse(List<Team> teams){
 

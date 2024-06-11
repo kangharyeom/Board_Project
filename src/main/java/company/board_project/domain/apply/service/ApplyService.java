@@ -6,8 +6,8 @@ import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.league.service.LeagueService;
-import company.board_project.domain.match.normalmatch.entity.Match;
-import company.board_project.domain.match.normalmatch.service.MatchService;
+import company.board_project.domain.match.match.entity.Match;
+import company.board_project.domain.match.match.service.MatchService;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;
@@ -15,6 +15,7 @@ import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Optional;
 /*
  * ApplyService
  */
+@Log4j2
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -33,40 +35,35 @@ public class ApplyService {
     private final MatchService matchService;
     private final LeagueService leagueService;
 
-    /*
-     * Apply 생성
-     * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
-     */
-    public Apply createApply(Apply apply, Long userId, Long teamId) {
-        User user = userService.findUser(userId);
-        Team team = teamService.findTeam(teamId);
-
-        apply.setTeam(team);
-        apply.setUser(user);
-
-        applyRepository.save(apply);
-
-        return apply;
-    }
+//    /*
+//     * Apply 생성
+//     * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
+//     */
+//    public Apply createApply(Apply apply, Long userId, Long teamId) {
+//        User user = userService.findUser(userId);
+//        Team team = teamService.findTeam(teamId);
+//
+//        apply.setTeam(team);
+//        apply.setUser(user);
+//
+//        applyRepository.save(apply);
+//
+//        return apply;
+//    }
 
     /*
      * TeamApply 생성
-     * user, team이 존재하는지 확인 후 team, user가 존재하면 applyRepository에 저장
      */
-    public Apply createTeamApply(Apply apply, Long userId, Long teamId) {
+    public Apply createTeamApply(Apply apply, long userId, long teamId) {
+        log.info("CREATE TEAM APPLY START[{}]", apply);
+
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
         apply.setTeam(team);
         apply.setUser(user);
-        apply.setManagerName(user.getName());
-        apply.setTeamName(team.getTeamName());
-        apply.setAgeType(team.getAgeType());
-        apply.setLevelType(team.getLevelType());
-        apply.setUserTeamApplyId(team.getTeamId());
 
         applyRepository.save(apply);
-
         return apply;
     }
 
@@ -75,6 +72,8 @@ public class ApplyService {
      * user, team, match가 존재하는지 확인 후 team, user, match가 존재하면 applyRepository에 저장
      */
     public Apply createMatchApply(Apply apply, Long userId, Long matchId, Long teamId) {
+        log.info("CREATE MATCH APPLY START[{}]", apply);
+
         User user = userService.findUser(userId);
         Match match = matchService.findMatch(matchId);
         Team team = teamService.findTeam(teamId);
@@ -83,12 +82,9 @@ public class ApplyService {
         apply.setMatch(match);
         apply.setTeam(team);
 
-        apply.setManagerName(user.getName());
         apply.setTeamName(team.getTeamName());
         apply.setLevelType(team.getLevelType());
         apply.setAgeType(team.getAgeType());
-        apply.setApplyType(apply.getApplyType());
-        apply.setUserMatchApplyId(match.getMatchId());
 
         applyRepository.save(apply);
 
@@ -100,6 +96,8 @@ public class ApplyService {
      * user, team, league가 존재하는지 확인 후 team, user, league가 존재하면 applyRepository에 저장
      */
     public Apply createLeagueApply(Apply apply, Long userId, Long leagueId, Long teamId) {
+        log.info("CREATE LEAGUE APPLY START[{}]", apply);
+
         User user = userService.findUser(userId);
         League league = leagueService.findLeague(leagueId);
         Team team = teamService.findTeam(teamId);
@@ -107,12 +105,6 @@ public class ApplyService {
         apply.setLeague(league);
         apply.setUser(user);
         apply.setTeam(team);
-        apply.setManagerName(user.getName());
-        apply.setTeamName(team.getTeamName());
-        apply.setLevelType(team.getLevelType());
-        apply.setAgeType(team.getAgeType());
-        apply.setApplyType(apply.getApplyType());
-        apply.setUserLeagueApplyId(league.getLeagueId());
 
         applyRepository.save(apply);
 

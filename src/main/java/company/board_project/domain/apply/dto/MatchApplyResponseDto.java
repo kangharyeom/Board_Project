@@ -10,16 +10,15 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class MatchApplyResponseDto {
-    private Long applyId;
-    private Long userId;
-    private Long teamId;
-    private Long matchId;
-    private Long userMatchApplyId;
-    private String managerName;
+    private long applyId;
+    private long userId;
+    private long teamId;
+    private long matchId;
+    private String applierName;
     private String teamName;
     private String levelType;
     private String ageType;
-    private String applyType;
+    private String matchType;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 }

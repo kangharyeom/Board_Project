@@ -1,7 +1,7 @@
 package company.board_project.domain.schedule.entity;
 
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.match.match.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
 import jakarta.persistence.*;

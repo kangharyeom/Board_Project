@@ -3,7 +3,7 @@ package company.board_project.domain.apply.mapper;
 import company.board_project.domain.apply.dto.*;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.match.normalmatch.entity.Match;
+import company.board_project.domain.match.match.entity.Match;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
 import org.mapstruct.Mapper;
@@ -14,13 +14,13 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface ApplyMapper {
 
-    Apply applyPostDtoToApply(ApplyPostDto requestBody);
+//    Apply applyPostDtoToApply(ApplyPostDto requestBody);
 
-    Apply applyPostDtoToTeamApply(ApplyPostDto requestBody);
+    Apply teamApplyPostDtoToTeamApply(TeamApplyPostDto requestBody);
 
-    Apply applyPostDtoToMatchApply(ApplyPostDto requestBody);
+    Apply matchApplyPostDtoToMatchApply(MatchApplyPostDto requestBody);
 
-    Apply applyPostDtoToLeagueApply(ApplyPostDto requestBody);
+    Apply leagueApplyPostDtoToLeagueApply(LeagueApplyPostDto requestBody);
 
     default ApplyResponseDto applyToApplyResponse(Apply apply){
 
@@ -37,25 +37,7 @@ public interface ApplyMapper {
                 .build();
     }
 
-    default TeamApplyResponseDto applyToTeamApplyResponse(Apply apply){
-
-        User user = apply.getUser();
-        Team team = apply.getTeam();
-
-        return TeamApplyResponseDto.builder()
-                .userId(user.getUserId())
-                .teamId(team.getTeamId())
-                .applyId(apply.getApplyId())
-                .userTeamApplyId(apply.getUserTeamApplyId())
-                .managerName(apply.getManagerName())
-                .teamName(apply.getTeamName())
-                .ageType(String.valueOf(apply.getAgeType()))
-                .levelType(String.valueOf(apply.getLevelType()))
-                .applyType(String.valueOf(apply.getApplyType()))
-                .createdAt(apply.getCreatedAt())
-                .modifiedAt(apply.getModifiedAt())
-                .build();
-    }
+    TeamApplyResponseDto applyToTeamApplyResponse(Apply apply);
 
     default LeagueApplyResponseDto applyToLeagueApplyResponse(Apply apply){
 
@@ -68,12 +50,11 @@ public interface ApplyMapper {
                 .teamId(team.getTeamId())
                 .leagueId(league.getLeagueId())
                 .applyId(apply.getApplyId())
-                .userLeagueApplyId(apply.getUserLeagueApplyId())
                 .teamName(apply.getTeamName())
-                .managerName(apply.getManagerName())
+                .applierName(apply.getApplierName())
                 .levelType(String.valueOf(apply.getLevelType()))
                 .ageType(String.valueOf(apply.getAgeType()))
-                .applyType(String.valueOf(apply.getApplyType()))
+                .matchType(String.valueOf(apply.getMatchType()))
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
                 .build();
@@ -90,11 +71,10 @@ public interface ApplyMapper {
                 .teamId(team.getTeamId())
                 .matchId(match.getMatchId())
                 .applyId(apply.getApplyId())
-                .userMatchApplyId(apply.getUserMatchApplyId())
-                .managerName(apply.getManagerName())
+                .applierName(apply.getApplierName())
                 .levelType(String.valueOf(apply.getLevelType()))
                 .ageType(String.valueOf(apply.getAgeType()))
-                .applyType(String.valueOf(apply.getApplyType()))
+                .matchType(String.valueOf(apply.getMatchType()))
                 .teamName(apply.getTeamName())
                 .createdAt(apply.getCreatedAt())
                 .modifiedAt(apply.getModifiedAt())
@@ -113,8 +93,8 @@ public interface ApplyMapper {
                 .map(apply -> ApplyResponseDto.builder()
                         .applyId(apply.getApplyId())
                         .teamName(apply.getTeamName())
-                        .managerName(apply.getManagerName())
-                        .applyType(String.valueOf(apply.getApplyType()))
+                        .matchType(apply.getApplierName())
+                        .matchType(String.valueOf(apply.getMatchType()))
                         .levelType(String.valueOf(apply.getLevelType()))
                         .ageType(String.valueOf(apply.getAgeType()))
                         .createdAt(apply.getCreatedAt())

@@ -1,12 +1,8 @@
 package company.board_project.domain.team.controller;
 
-import company.board_project.domain.list.teamlist.entity.TeamList;
-import company.board_project.domain.list.teamlist.service.TeamListService;
-import company.board_project.domain.team.dto.TeamPostDto;
-import company.board_project.domain.team.dto.TeamResponseDto;
+import company.board_project.domain.team.dto.*;
+import company.board_project.domain.team.entity.TeamMemberList;
 import company.board_project.response.MultiResponseDto;
-import company.board_project.domain.team.dto.TeamListDto;
-import company.board_project.domain.team.dto.TeamPatchDto;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.service.TeamService;
@@ -30,26 +26,27 @@ import java.util.List;
 public class TeamController {
     private final TeamService teamService;
     private final TeamMapper teamMapper;
-    private final TeamListService teamListService;
+
     @PostMapping
-    public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody ){
-        Team team = teamService.createTeam(
-                teamMapper.teamPostDtoToTeam(requestBody),
-                requestBody.getUserId()
-        );
+    public ResponseEntity postTeam(@Valid @RequestBody TeamPostDto requestBody) {
+        Team team = teamService.createTeam(teamMapper.teamPostDtoToTeam(requestBody), requestBody.getUserId());
         TeamResponseDto teamResponseDto = teamMapper.teamToTeamResponseDto(team);
         log.info("teamResponseDto.getTeamId() : {}", teamResponseDto.getTeamId());
         log.info("teamResponseDto.getUserId() : {}", teamResponseDto.getUserId());
         log.info("requestBody.getUserId() : {}", requestBody.getUserId());
 
-        teamListService.createTeamListByTeamController(new TeamList(), teamResponseDto.getTeamId(),requestBody.getUserId());
+        TeamMemberListPostDto teamMemberListPostDto = new TeamMemberListPostDto();
+        teamMemberListPostDto.setUserId(requestBody.getUserId());
+        teamMemberListPostDto.setTeamId(teamResponseDto.getTeamId());
+        teamMemberListPostDto.setName(requestBody.getManagerName());
+        teamMemberListPostDto.setTeamMemberRole("MANAGER");
 
         return ResponseEntity.ok(teamResponseDto);
     }
 
     @PatchMapping("/{teamId}")
     public ResponseEntity patchTeam(@Valid @RequestBody TeamPatchDto requestBody,
-                                       @PathVariable("teamId") @Positive Long teamId){
+                                    @PathVariable("teamId") @Positive Long teamId) {
         Team team = teamService.updateTeam(
                 teamMapper.teamPatchDtoToTeam(requestBody),
                 teamId);
@@ -61,16 +58,16 @@ public class TeamController {
     }
 
     @GetMapping("/{teamId}")
-    public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId){
+    public ResponseEntity getTeam(@PathVariable("teamId") @Positive Long teamId) {
         Team team = teamService.findTeam(teamId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
-        log.info("팀 리스 폰스 {}",teamResponse);
+        log.info("팀 리스 폰스 {}", teamResponse);
 
         return ResponseEntity.ok(teamResponse);
     }
 
     @GetMapping("/users/{userId}")
-    public ResponseEntity getTeamByUserId(@PathVariable("userId") @Positive Long userId){
+    public ResponseEntity getTeamByUserId(@PathVariable("userId") @Positive Long userId) {
         Team team = teamService.findTeamByUserId(userId);
         TeamResponseDto teamResponse = teamMapper.teamToTeamResponseDto(team);
 
@@ -88,7 +85,7 @@ public class TeamController {
 
     @GetMapping
     public ResponseEntity getTeams(@Positive @RequestParam("page") int page,
-                                      @Positive @RequestParam("size") int size) {
+                                   @Positive @RequestParam("size") int size) {
         Page<Team> pageTeams = teamService.findTeams(page - 1, size);
         List<Team> teams = pageTeams.getContent();
 
