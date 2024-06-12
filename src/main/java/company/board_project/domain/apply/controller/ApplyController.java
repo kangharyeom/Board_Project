@@ -38,7 +38,8 @@ public class ApplyController {
     public ResponseEntity postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody, @PathVariable("hostTeamId") @Positive long hostTeamId) {
         requestBody.setHostTeamId(hostTeamId);
 
-        Apply apply = applyService.createTeamApply(applyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), requestBody.getTeamId());
+        log.info("requestBody[{}]", requestBody);
+        Apply apply = applyService.createTeamApply(applyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), hostTeamId);
         TeamApplyResponseDto teamApplyResponseDto = applyMapper.applyToTeamApplyResponse(apply);
 
         return ResponseEntity.ok(teamApplyResponseDto);

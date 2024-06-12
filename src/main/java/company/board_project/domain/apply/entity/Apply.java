@@ -44,7 +44,7 @@ public class Apply extends Auditable {
     private String applyMessage;
 
     @Column
-    long age;
+    int age;
 
     @Enumerated(EnumType.STRING)
     private LevelType levelType;
@@ -73,4 +73,26 @@ public class Apply extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "MATCH_ID")
     private Match match;
+
+    @Override
+    public String toString() {
+        return "Apply{" +
+                "applyId=" + applyId +
+                ", hostTeamId=" + hostTeamId +
+                ", hostMatchId=" + hostMatchId +
+                ", hostLeagueId=" + hostLeagueId +
+                ", applierName='" + applierName + '\'' +
+                ", teamName='" + teamName + '\'' +
+                ", applyMessage='" + applyMessage + '\'' +
+                ", age=" + age +
+                ", levelType=" + levelType +
+                ", ageType=" + ageType +
+                ", matchType=" + matchType +
+                ", acceptType=" + acceptType +
+                ", user=" + user +
+                ", team=" + team +
+                ", league=" + league +
+                ", match=" + match +
+                '}';
+    }
 }

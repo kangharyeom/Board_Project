@@ -13,6 +13,7 @@ import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
+import company.board_project.util.CommonUtils;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -34,6 +35,7 @@ public class ApplyService {
     private final TeamService teamService;
     private final MatchService matchService;
     private final LeagueService leagueService;
+    private final CommonUtils commonUtils;
 
 //    /*
 //     * Apply 생성
@@ -55,13 +57,18 @@ public class ApplyService {
      * TeamApply 생성
      */
     public Apply createTeamApply(Apply apply, long userId, long teamId) {
+        int age =0;
         log.info("CREATE TEAM APPLY START[{}]", apply);
 
+        log.info("apply[{}]", apply);
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 
+        apply.setApplierName(user.getName());
+        apply.setTeamName(team.getTeamName());
         apply.setTeam(team);
         apply.setUser(user);
+        apply.setAgeType(commonUtils.ageChecker(apply.getAge()));
 
         applyRepository.save(apply);
         return apply;
