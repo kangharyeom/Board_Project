@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-11T14:55:01+0900",
+    date = "2024-06-12T09:14:05+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -31,10 +31,18 @@ public class LeagueMapperImpl implements LeagueMapper {
 
         League league = new League();
 
-        league.setMatchCount( requestBody.getMatchCount() );
-        league.setLeagueEndCount( requestBody.getLeagueEndCount() );
-        league.setTeamCount( requestBody.getTeamCount() );
-        league.setMemberCount( requestBody.getMemberCount() );
+        if ( requestBody.getMatchCount() != null ) {
+            league.setMatchCount( requestBody.getMatchCount().intValue() );
+        }
+        if ( requestBody.getLeagueEndCount() != null ) {
+            league.setLeagueEndCount( requestBody.getLeagueEndCount().intValue() );
+        }
+        if ( requestBody.getTeamCount() != null ) {
+            league.setTeamCount( requestBody.getTeamCount().intValue() );
+        }
+        if ( requestBody.getMemberCount() != null ) {
+            league.setMemberCount( requestBody.getMemberCount().intValue() );
+        }
         league.setLeagueName( requestBody.getLeagueName() );
         league.setManagerName( requestBody.getManagerName() );
         league.setManagerTeamName( requestBody.getManagerTeamName() );
@@ -58,7 +66,6 @@ public class LeagueMapperImpl implements LeagueMapper {
         if ( requestBody.getSeasonType() != null ) {
             league.setSeasonType( Enum.valueOf( SeasonType.class, requestBody.getSeasonType() ) );
         }
-        league.setHonorScore( requestBody.getHonorScore() );
 
         return league;
     }
@@ -71,10 +78,18 @@ public class LeagueMapperImpl implements LeagueMapper {
 
         League league = new League();
 
-        league.setLeagueId( requestBody.getLeagueId() );
-        league.setMatchCount( requestBody.getMatchCount() );
-        league.setTeamCount( requestBody.getTeamCount() );
-        league.setMemberCount( requestBody.getMemberCount() );
+        if ( requestBody.getLeagueId() != null ) {
+            league.setLeagueId( requestBody.getLeagueId() );
+        }
+        if ( requestBody.getMatchCount() != null ) {
+            league.setMatchCount( requestBody.getMatchCount().intValue() );
+        }
+        if ( requestBody.getTeamCount() != null ) {
+            league.setTeamCount( requestBody.getTeamCount().intValue() );
+        }
+        if ( requestBody.getMemberCount() != null ) {
+            league.setMemberCount( requestBody.getMemberCount().intValue() );
+        }
         league.setLeagueName( requestBody.getLeagueName() );
         if ( requestBody.getSportsType() != null ) {
             league.setSportsType( Enum.valueOf( SportsType.class, requestBody.getSportsType() ) );
@@ -96,7 +111,6 @@ public class LeagueMapperImpl implements LeagueMapper {
         if ( requestBody.getSeasonType() != null ) {
             league.setSeasonType( Enum.valueOf( SeasonType.class, requestBody.getSeasonType() ) );
         }
-        league.setHonorScore( requestBody.getHonorScore() );
 
         return league;
     }
