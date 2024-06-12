@@ -15,11 +15,23 @@ import lombok.Setter;
 @Setter
 public class TeamApplyPostDto {
     private long userId;
-    private long teamId;
     private long hostTeamId;
     private int age;
     private String applierName;
     private String applyMessage;
     private LevelType levelType;
     private AcceptType acceptType;
+
+    @Override
+    public String toString() {
+        return "TeamApplyPostDto{" +
+                "userId=" + userId +
+                ", hostTeamId=" + hostTeamId +
+                ", age=" + age +
+                ", applierName='" + applierName + '\'' +
+                ", applyMessage='" + applyMessage + '\'' +
+                ", levelType=" + levelType +
+                ", acceptType=" + acceptType +
+                '}';
+    }
 }
