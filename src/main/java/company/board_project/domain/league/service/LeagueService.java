@@ -8,8 +8,6 @@ import company.board_project.domain.league.repository.LeagueParticipantsListRepo
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.domain.list.leaguelist.repository.LeagueListRepository;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.repository.TeamRepository;
 import company.board_project.domain.team.service.TeamService;
@@ -37,7 +35,6 @@ public class LeagueService {
     private final UserRepository userRepository;
     private final TeamService teamService;
     private final TeamRepository teamRepository;
-    private final LeagueListRepository leagueListRepository;
     private final LeagueParticipantsListRepository leagueParticipantsListRepository;
 
     /*
@@ -143,11 +140,11 @@ public class LeagueService {
         long endCount = (teamCount * matchCount) / 2;
 
         if(leagueEndCount == endCount){
-            league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
+          /*  league.setSeasonType(SeasonType.valueOf("OFF_SEASON"));
             LeagueList leagueList = leagueListRepository.findWinnerByLeagueId(leagueId);
             Team team = teamService.findTeam(leagueList.getTeam().getTeamId());
             leagueList.setChampionCount(leagueList.getChampionCount()+1L);
-            team.setChampionCount(team.getChampionCount()+1L);
+            team.setChampionCount(team.getChampionCount()+1L);*/
         }
 
         return leagueRepository.save(league);

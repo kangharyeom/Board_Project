@@ -4,7 +4,6 @@ import company.board_project.domain.league.service.LeagueService;
 import company.board_project.domain.match.leaguematch.dto.*;
 import company.board_project.domain.match.leaguematch.mapper.LeagueMatchMapper;
 import company.board_project.domain.match.leaguematch.service.LeagueMatchService;
-import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.domain.match.leaguematch.entity.LeagueMatch;
 import company.board_project.response.MultiResponseDto;
 import company.board_project.domain.team.service.TeamService;
@@ -28,7 +27,6 @@ public class LeagueMatchController {
     private final LeagueMatchService leagueMatchService;
     private final LeagueMatchMapper leagueMatchMapper;
     private final TeamService teamService;
-    private final LeagueListService leagueListService;
     private final LeagueService leagueService;
 
     @PostMapping
@@ -137,7 +135,7 @@ public class LeagueMatchController {
 
         leagueMatchService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, leagueMatchId);
         teamService.updateForLeagueMatchEnd(homeTeamScore,awayTeamScore, requestBody.getHomeTeamId(),requestBody.getAwayTeamId());
-        leagueListService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, requestBody.getHomeTeamLeagueListId(), requestBody.getAwayTeamLeagueListId());
+//        leagueListService.updateForLeagueMatchEnd(homeTeamScore, awayTeamScore, requestBody.getHomeTeamLeagueListId(), requestBody.getAwayTeamLeagueListId());
         leagueService.updateForLeagueMatchEnd(requestBody.getLeagueId());
         leagueService.checkEndTheLeague(requestBody.getLeagueId());
 

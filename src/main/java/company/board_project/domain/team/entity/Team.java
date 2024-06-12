@@ -3,7 +3,6 @@ package company.board_project.domain.team.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.list.matchlist.entity.MatchList;
 import company.board_project.domain.match.match.entity.Match;
 import company.board_project.domain.schedule.entity.Schedule;
@@ -119,9 +118,6 @@ public class Team extends Auditable {
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<MatchList> matchLists = new ArrayList<>();
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<LeagueList> leagueLists = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Match> matches = new ArrayList<>();

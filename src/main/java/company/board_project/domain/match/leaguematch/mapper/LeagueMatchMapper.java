@@ -2,7 +2,6 @@ package company.board_project.domain.match.leaguematch.mapper;
 
 import company.board_project.constant.*;
 import company.board_project.domain.match.leaguematch.dto.*;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.match.leaguematch.entity.LeagueMatch;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
@@ -44,19 +43,19 @@ public interface LeagueMatchMapper {
         awayTeam.setAgeType(AgeType.valueOf(requestBody.getAwayTeamAgeType()));
         awayTeam.setUniformType(UniformType.valueOf(requestBody.getAwayTeamUniformType()));
 
-        LeagueList homeTeamLeagueList = new LeagueList();
-        homeTeamLeagueList.setLeagueListId(requestBody.getHomeTeamLeagueListId());
-        homeTeamLeagueList.setLeagueMatchPoints(requestBody.getHomeTeamLeagueMatchPoints());
-        homeTeamLeagueList.setLeagueWinRecord(requestBody.getHomeTeamLeagueWinRecord());
-        homeTeamLeagueList.setLeagueDrawRecord(requestBody.getHomeTeamLeagueDrawRecord());
-        homeTeamLeagueList.setLeagueLoseRecord(requestBody.getHomeTeamLeagueLoseRecord());
+//        LeagueList homeTeamLeagueList = new LeagueList();
+//        homeTeamLeagueList.setLeagueListId(requestBody.getHomeTeamLeagueListId());
+//        homeTeamLeagueList.setLeagueMatchPoints(requestBody.getHomeTeamLeagueMatchPoints());
+//        homeTeamLeagueList.setLeagueWinRecord(requestBody.getHomeTeamLeagueWinRecord());
+//        homeTeamLeagueList.setLeagueDrawRecord(requestBody.getHomeTeamLeagueDrawRecord());
+//        homeTeamLeagueList.setLeagueLoseRecord(requestBody.getHomeTeamLeagueLoseRecord());
 
-        LeagueList awayTeamLeagueList = new LeagueList();
-        awayTeamLeagueList.setLeagueListId(requestBody.getAwayTeamLeagueListId());
-        awayTeamLeagueList.setLeagueMatchPoints(requestBody.getAwayTeamLeagueMatchPoints());
-        awayTeamLeagueList.setLeagueWinRecord(requestBody.getAwayTeamLeagueWinRecord());
-        awayTeamLeagueList.setLeagueDrawRecord(requestBody.getAwayTeamLeagueDrawRecord());
-        awayTeamLeagueList.setLeagueLoseRecord(requestBody.getAwayTeamLeagueLoseRecord());
+//        LeagueList awayTeamLeagueList = new LeagueList();
+//        awayTeamLeagueList.setLeagueListId(requestBody.getAwayTeamLeagueListId());
+//        awayTeamLeagueList.setLeagueMatchPoints(requestBody.getAwayTeamLeagueMatchPoints());
+//        awayTeamLeagueList.setLeagueWinRecord(requestBody.getAwayTeamLeagueWinRecord());
+//        awayTeamLeagueList.setLeagueDrawRecord(requestBody.getAwayTeamLeagueDrawRecord());
+//        awayTeamLeagueList.setLeagueLoseRecord(requestBody.getAwayTeamLeagueLoseRecord());
 
         LeagueMatch leagueMatch = new LeagueMatch();
 
@@ -66,8 +65,8 @@ public interface LeagueMatchMapper {
         leagueMatch.setTeam(homeTeam);
         leagueMatch.setTeam(awayTeam);
 
-        leagueMatch.setLeagueList(homeTeamLeagueList);
-        leagueMatch.setLeagueList(awayTeamLeagueList);
+//        leagueMatch.setLeagueList(homeTeamLeagueList);
+//        leagueMatch.setLeagueList(awayTeamLeagueList);
 
         leagueMatch.setHomeTeamScore(requestBody.getHomeTeamScore());
         leagueMatch.setHomeTeamHonorScore(requestBody.getHomeTeamHonorScore());
@@ -173,8 +172,8 @@ public interface LeagueMatchMapper {
         User awayTeamUser = leagueMatch.getUser();
         Team homeTeam = leagueMatch.getTeam();
         Team awayTeam = leagueMatch.getTeam();
-        LeagueList homeTeamLeagueList = leagueMatch.getLeagueList();
-        LeagueList awayTeamLeagueList = leagueMatch.getLeagueList();
+//        LeagueList homeTeamLeagueList = leagueMatch.getLeagueList();
+//        LeagueList awayTeamLeagueList = leagueMatch.getLeagueList();
 
         return LeagueMatchResponseDto.builder()
                 .leagueMatchId(leagueMatch.getLeagueMatchId())
@@ -182,8 +181,8 @@ public interface LeagueMatchMapper {
                 .awayTeamUserId(awayTeamUser.getUserId())
                 .homeTeamId(homeTeam.getTeamId())
                 .awayTeamId(awayTeam.getTeamId())
-                .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
-                .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
+//                .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
+//                .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
                 .homeTeamScore(leagueMatch.getHomeTeamScore())
                 .homeTeamHonorScore(leagueMatch.getHomeTeamHonorScore())
                 .homeTeamName(leagueMatch.getHomeTeamName())
@@ -237,8 +236,8 @@ public interface LeagueMatchMapper {
         User awayTeamUser = leagueMatch.getUser();
         Team homeTeam = leagueMatch.getTeam();
         Team awayTeam = leagueMatch.getTeam();
-        LeagueList homeTeamLeagueList = leagueMatch.getLeagueList();
-        LeagueList awayTeamLeagueList = leagueMatch.getLeagueList();
+//        LeagueList homeTeamLeagueList = leagueMatch.getLeagueList();
+//        LeagueList awayTeamLeagueList = leagueMatch.getLeagueList();
 
         return LeagueMatchEndResponseDto.builder()
                 .leagueMatchId(leagueMatch.getLeagueMatchId())
@@ -246,8 +245,8 @@ public interface LeagueMatchMapper {
                 .awayTeamUserId(awayTeamUser.getUserId())
                 .homeTeamId(homeTeam.getTeamId())
                 .awayTeamId(awayTeam.getTeamId())
-                .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
-                .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
+//                .homeTeamLeagueListId(homeTeamLeagueList.getLeagueListId())
+//                .awayTeamLeagueListId(awayTeamLeagueList.getLeagueListId())
                 .homeTeamScore(leagueMatch.getHomeTeamScore())
                 .awayTeamScore(leagueMatch.getAwayTeamScore())
                 .matchStatus(String.valueOf(leagueMatch.getMatchStatus()))

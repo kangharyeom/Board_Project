@@ -3,7 +3,7 @@ package company.board_project.domain.match.leaguematch.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
+//import company.board_project.domain.list.leaguelist.entity.LeagueList;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
@@ -164,9 +164,5 @@ public class LeagueMatch extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "SCHEDULE_ID")
     private Schedule schedule;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "LEAGUE_LIST_ID")
-    private LeagueList leagueList;
 
 }

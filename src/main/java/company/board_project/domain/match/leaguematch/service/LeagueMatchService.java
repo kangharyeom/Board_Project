@@ -6,8 +6,6 @@ import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.league.repository.LeagueRepository;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.domain.match.leaguematch.entity.LeagueMatch;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.team.service.TeamService;
@@ -32,7 +30,6 @@ public class LeagueMatchService {
     private final UserService userService;
     private final UserRepository userRepository;
     private final TeamService teamService;
-    private final LeagueListService leagueListService;
     private final LeagueRepository leagueRepository;
 
     public LeagueMatch createLeagueMatch(LeagueMatch leagueMatch
@@ -47,25 +44,25 @@ public class LeagueMatchService {
         User awayTeamUser = userService.findUser(awayTeamUserId);
         Team homeTeam = teamService.findTeam(homeTeamId);
         Team awayTeam = teamService.findTeam(awayTeamId);
-        LeagueList homeTeamLeagueList = leagueListService.findLeagueList(homeTeamLeagueListId);
-        LeagueList awayTeamLeagueList = leagueListService.findLeagueList(awayTeamLeagueListId);
+//        LeagueList homeTeamLeagueList = leagueListService.findLeagueList(homeTeamLeagueListId);
+//        LeagueList awayTeamLeagueList = leagueListService.findLeagueList(awayTeamLeagueListId);
 
         leagueMatch.setUser(homeTeamUser);
         leagueMatch.setUser(awayTeamUser);
         leagueMatch.setTeam(homeTeam);
         leagueMatch.setTeam(awayTeam);
-        leagueMatch.setLeagueList(homeTeamLeagueList);
-        leagueMatch.setLeagueList(awayTeamLeagueList);
+//        leagueMatch.setLeagueList(homeTeamLeagueList);
+//        leagueMatch.setLeagueList(awayTeamLeagueList);
 
         // 홈팀 정보 주입
         leagueMatch.setHomeTeamId(homeTeam.getTeamId());
         leagueMatch.setHomeTeamUserId(homeTeamUser.getUserId());
-        leagueMatch.setHomeTeamLeagueListId(homeTeamLeagueList.getLeagueListId());
+//        leagueMatch.setHomeTeamLeagueListId(homeTeamLeagueList.getLeagueListId());
 
         // 어웨이팀 정보 주입
         leagueMatch.setAwayTeamId(awayTeam.getTeamId());
         leagueMatch.setAwayTeamUserId(awayTeamUser.getUserId());
-        leagueMatch.setAwayTeamLeagueListId(awayTeamLeagueList.getLeagueListId());
+//        leagueMatch.setAwayTeamLeagueListId(awayTeamLeagueList.getLeagueListId());
 
         // 홈팀 정보 주입
         leagueMatch.setHomeTeamScore(leagueMatch.getHomeTeamScore());
@@ -78,10 +75,10 @@ public class LeagueMatchService {
         leagueMatch.setHomeTeamLevelType(homeTeam.getLevelType());
         leagueMatch.setHomeTeamAgeType(homeTeam.getAgeType());
         leagueMatch.setHomeTeamUniformType(homeTeam.getUniformType());
-        leagueMatch.setHomeTeamLeagueMatchPoints(homeTeamLeagueList.getLeagueMatchPoints());
-        leagueMatch.setHomeTeamLeagueWinRecord(homeTeamLeagueList.getLeagueWinRecord());
-        leagueMatch.setHomeTeamLeagueDrawRecord(homeTeamLeagueList.getLeagueDrawRecord());
-        leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamLeagueList.getLeagueLoseRecord());
+//        leagueMatch.setHomeTeamLeagueMatchPoints(homeTeamLeagueList.getLeagueMatchPoints());
+//        leagueMatch.setHomeTeamLeagueWinRecord(homeTeamLeagueList.getLeagueWinRecord());
+//        leagueMatch.setHomeTeamLeagueDrawRecord(homeTeamLeagueList.getLeagueDrawRecord());
+//        leagueMatch.setHomeTeamLeagueLoseRecord(homeTeamLeagueList.getLeagueLoseRecord());
         leagueMatch.setHomeTeamMatchResultStatus(leagueMatch.getHomeTeamMatchResultStatus());
 
         // 어웨이팀 정보 주입
@@ -95,10 +92,10 @@ public class LeagueMatchService {
         leagueMatch.setAwayTeamLevelType(awayTeam.getLevelType());
         leagueMatch.setAwayTeamAgeType(awayTeam.getAgeType());
         leagueMatch.setAwayTeamUniformType(awayTeam.getUniformType());
-        leagueMatch.setAwayTeamLeagueMatchPoints(awayTeamLeagueList.getLeagueMatchPoints());
-        leagueMatch.setAwayTeamLeagueWinRecord(awayTeamLeagueList.getLeagueWinRecord());
-        leagueMatch.setAwayTeamLeagueDrawRecord(awayTeamLeagueList.getLeagueDrawRecord());
-        leagueMatch.setAwayTeamLeagueLoseRecord(awayTeamLeagueList.getLeagueLoseRecord());
+//        leagueMatch.setAwayTeamLeagueMatchPoints(awayTeamLeagueList.getLeagueMatchPoints());
+//        leagueMatch.setAwayTeamLeagueWinRecord(awayTeamLeagueList.getLeagueWinRecord());
+//        leagueMatch.setAwayTeamLeagueDrawRecord(awayTeamLeagueList.getLeagueDrawRecord());
+//        leagueMatch.setAwayTeamLeagueLoseRecord(awayTeamLeagueList.getLeagueLoseRecord());
         leagueMatch.setAwayTeamMatchResultStatus(leagueMatch.getAwayTeamMatchResultStatus());
 
         leagueMatchRepository.save(leagueMatch);
