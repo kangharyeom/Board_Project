@@ -14,7 +14,6 @@ public class LeaguePatchDto {
     private Long teamId;
     private Long matchCount;
     private Long memberCount;
-    private Long honorScore;
     private Long winPoints;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;

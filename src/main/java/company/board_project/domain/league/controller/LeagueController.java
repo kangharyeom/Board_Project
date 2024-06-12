@@ -6,9 +6,8 @@ import company.board_project.domain.league.dto.LeagueResponseDto;
 import company.board_project.domain.league.entity.League;
 import company.board_project.domain.league.mapper.LeagueMapper;
 import company.board_project.domain.league.service.LeagueService;
-import company.board_project.domain.list.leaguelist.entity.LeagueList;
-import company.board_project.domain.list.leaguelist.service.LeagueListService;
 import company.board_project.response.MultiResponseDto;
+import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -28,19 +27,19 @@ import java.util.List;
 public class LeagueController {
     private final LeagueService leagueService;
     private final LeagueMapper leagueMapper;
-    private final LeagueListService leagueListService;
 
     /*
      * 리그 생성
      */
     @PostMapping
+    @Transactional
     public ResponseEntity postLeague(@RequestBody LeaguePostDto requestBody){
 
         League league = leagueService.createLeague(leagueMapper.leaguePostDtoToLeague(requestBody), requestBody.getUserId(), requestBody.getTeamId());
         LeagueResponseDto leagueResponseDto = leagueMapper.leagueToLeagueResponse(league);
 
         // 리그 리스트 생성
-        leagueListService.createLeagueListByLeagueController(new LeagueList(),requestBody.getUserId(), requestBody.getTeamId(), leagueResponseDto.getLeagueId());
+        leagueService.createLeagueParticipantsList(leagueResponseDto);
 
         return ResponseEntity.ok(leagueResponseDto);
     }

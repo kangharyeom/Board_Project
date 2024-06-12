@@ -23,21 +23,21 @@ import java.util.List;
 public class League extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long leagueId;
+    private long leagueId;
 
     @Column(nullable = false)
-    private Long matchCount;
+    private int matchCount;
 
     // matchCount == leagueEndCount 일경우 리그 종료
     // leagueEndCount == (각 팀 경기수 총합/팀 수)
     @Column
-    private Long leagueEndCount;
+    private int leagueEndCount;
 
     @Column
-    private Long teamCount;
+    private int teamCount;
 
     @Column
-    private Long memberCount;
+    private int memberCount;
 
     @Column(nullable = false)
     private String leagueName;
@@ -72,18 +72,11 @@ public class League extends Auditable {
     @Enumerated(EnumType.STRING)
     private SeasonType seasonType;
 
-    @Column
-    private Long honorScore;
-
-
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Schedule> schedules = new ArrayList<>();
-
-    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
-    private List<LeagueList> leagueLists = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

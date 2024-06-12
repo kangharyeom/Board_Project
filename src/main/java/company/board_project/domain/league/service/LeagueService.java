@@ -1,8 +1,10 @@
 package company.board_project.domain.league.service;
 
-import company.board_project.constant.LeagueRole;
-import company.board_project.constant.SeasonType;
+import company.board_project.constant.*;
+import company.board_project.domain.league.dto.LeagueResponseDto;
+import company.board_project.domain.league.entity.LeagueParticipantsList;
 import company.board_project.domain.league.repository.LeagueRepository;
+import company.board_project.domain.league.repository.LeagueParticipantsListRepository;
 import company.board_project.exception.BusinessLogicException;
 import company.board_project.exception.Exceptions;
 import company.board_project.domain.league.entity.League;
@@ -14,8 +16,8 @@ import company.board_project.domain.team.service.TeamService;
 import company.board_project.domain.user.entity.User;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.domain.user.service.UserService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -23,11 +25,12 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
+@Log4j2
 public class LeagueService {
     private final LeagueRepository leagueRepository;
     private final UserService userService;
@@ -35,6 +38,7 @@ public class LeagueService {
     private final TeamService teamService;
     private final TeamRepository teamRepository;
     private final LeagueListRepository leagueListRepository;
+    private final LeagueParticipantsListRepository leagueParticipantsListRepository;
 
     /*
     * 리그 생성
@@ -51,7 +55,6 @@ public class LeagueService {
         team.setLeagueName(league.getLeagueName());
         league.setManagerName(user.getName());
         league.setManagerTeamName(team.getTeamName());
-        league.setHonorScore(team.getHonorScore());
 
         userRepository.save(user);
         teamRepository.save(team);
@@ -60,13 +63,38 @@ public class LeagueService {
         return league;
     }
 
+    // 리그 참가자 목록 생성
+    public void createLeagueParticipantsList(LeagueResponseDto leagueResponseDto) {
+        LeagueParticipantsList leagueParticipantsList = new LeagueParticipantsList();
+
+        User user = userService.findUser(leagueResponseDto.getUserId());
+        Team team = teamService.findTeam(leagueResponseDto.getTeamId());
+        League league = findLeague(leagueResponseDto.getLeagueId());
+
+        leagueParticipantsList.setUser(user);
+        leagueParticipantsList.setTeam(team);
+        leagueParticipantsList.setLeague(league);
+        leagueParticipantsList.setFormation(team.getFormation());
+        leagueParticipantsList.setUniformType(team.getUniformType());
+        leagueParticipantsList.setLevelType(LevelType.valueOf(leagueResponseDto.getLevelType()));
+        leagueParticipantsList.setAgeType(AgeType.valueOf(leagueResponseDto.getAgeType()));
+        leagueParticipantsList.setFrequency(Frequency.valueOf(leagueResponseDto.getFrequency()));
+        leagueParticipantsList.setManagerName(user.getName());
+        leagueParticipantsList.setTeamName(team.getTeamName());
+        leagueParticipantsList.setLeagueName(league.getLeagueName());
+
+        log.info("leagueParticipantsList CREATE [{}]", leagueParticipantsList.toString());
+
+        leagueParticipantsListRepository.save(leagueParticipantsList);
+    }
+
     public League updateLeague(League league) {
 
         League findLeague = findVerifiedLeague(league.getLeagueId());
 
         // 리그 관리자만 수정 가능하도록
         User writer = userService.findVerifiedUserByLeagueRole(findLeague.getUser().getLeagueRole());
-        if (userService.getLoginUser().getUserId() != writer.getUserId()) // 로그인한 유저와 관리자가 다른 경우
+        if (!Objects.equals(userService.getLoginUser().getUserId(), writer.getUserId())) // 로그인한 유저와 관리자가 다른 경우
             throw new BusinessLogicException(Exceptions.UNAUTHORIZED);
 
         Optional.ofNullable(league.getLeagueName())
@@ -126,11 +154,11 @@ public class LeagueService {
     }
 
     public League updateForLeagueMatchEnd(
-            Long leagueId
+            long leagueId
     ) {
         League findLeague = findVerifiedLeague(leagueId);
 
-        findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1L);
+        findLeague.setLeagueEndCount(findLeague.getLeagueEndCount()+1);
 
         return leagueRepository.save(findLeague);
     }
