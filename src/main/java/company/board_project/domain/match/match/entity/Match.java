@@ -2,6 +2,7 @@ package company.board_project.domain.match.match.entity;
 
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
+import company.board_project.domain.league.entity.League;
 import company.board_project.domain.list.matchlist.entity.MatchList;
 import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
@@ -45,6 +46,15 @@ public class Match extends Auditable {
     @Column
     private Long homeTeamTotalLoseRecord;
 
+    @Column
+    private Long homeTeamLeagueWinRecord;
+
+    @Column
+    private Long homeTeamLeagueDrawRecord;
+
+    @Column
+    private Long homeTeamLeagueLoseRecord;
+
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
 
@@ -80,6 +90,15 @@ public class Match extends Auditable {
     @Column
     private Long awayTeamTotalLoseRecord;
 
+    @Column
+    private Long awayTeamLeagueWinRecord;
+
+    @Column
+    private Long awayTeamLeagueDrawRecord;
+
+    @Column
+    private Long awayTeamLeagueLoseRecord;
+
     @Enumerated(EnumType.STRING)
     private LevelType awayTeamLevelType;
 
@@ -114,7 +133,6 @@ public class Match extends Auditable {
     @Enumerated(EnumType.STRING)
     private MatchStatus matchStatus = MatchStatus.BEFORE;
 
-
     @OneToMany(mappedBy = "match", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
 
@@ -125,6 +143,10 @@ public class Match extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
     private User user;
+
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name = "LEAGUE_ID")
+    private League league;
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "SCHEDULE_ID")
