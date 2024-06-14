@@ -13,12 +13,12 @@ public class MatchResponseDto {
     private Long matchId;
     private Long userId;
     private Long teamId;
-    private Long homeTeamHonorScore;
+    private Integer homeTeamHonorScore;
     private String homeTeamName;
     private String homeTeamManagerName;
-    private Long homeTeamTotalWinRecord;
-    private Long homeTeamTotalDrawRecord;
-    private Long homeTeamTotalLoseRecord;
+    private Integer homeTeamTotalWinRecord;
+    private Integer homeTeamTotalDrawRecord;
+    private Integer homeTeamTotalLoseRecord;
     private String homeTeamLevelType;
     private String homeTeamAgeType;
     private String homeTeamUniformType;

@@ -12,8 +12,6 @@ import lombok.Setter;
 public class LeagueApplyPostDto {
     private long userId;
     private long teamId;
-    private long leagueId;
-    private long hostLeagueId;
     private String applierName;
     private String teamName;
     private String levelType;

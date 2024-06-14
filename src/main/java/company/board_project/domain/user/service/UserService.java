@@ -109,8 +109,8 @@ public class UserService {
     }
 
     // 본인만 접근 허용
-    public void checkJwtAndUser(Long userId) {
-        if (!getLoginUser().getUserId().equals(userId)) {
+    public void checkJwtAndUser(long userId) {
+        if (!(getLoginUser().getUserId()==userId)) {
             throw new BusinessLogicException(Exceptions.ACCESS_FORBIDDEN);
         }
     }

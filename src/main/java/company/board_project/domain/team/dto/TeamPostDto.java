@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class TeamPostDto {
-    private Long userId;
+    private long userId;
 
     @NotBlank(message = "팀 이름을 입력 해야 합니다.")
     private String teamName;
@@ -29,20 +29,20 @@ public class TeamPostDto {
     private String leagueName;
     private String formation;
 
-    private Long championCount = 0L ;
-    private Long memberCount = 1L ;
-    private Long leagueMatchPoints = 0L;
-    private Long leagueMatchCount = 0L;
-    private Long leagueWinRecord = 0L ;
-    private Long leagueDrawRecord = 0L ;
-    private Long leagueLoseRecord = 0L ;
-    private Long totalMatchCount = 0L;
-    private Long totalWinRecord = 0L ;
-    private Long totalDrawRecord = 0L ;
-    private Long totalLoseRecord = 0L ;
-    private Long honorScore = 0L ;
-    private Long mostGoals = 0L ;
-    private Long mostAssist = 0L ;
-    private Long mostMom = 0L ;
+    private int championCount = 0;
+    private int memberCount = 1;
+    private int leagueMatchPoints = 0;
+    private int leagueMatchCount = 0;
+    private int leagueWinRecord = 0;
+    private int leagueDrawRecord = 0;
+    private int leagueLoseRecord = 0;
+    private int totalMatchCount = 0;
+    private int totalWinRecord = 0;
+    private int totalDrawRecord = 0;
+    private int totalLoseRecord = 0;
+    private int honorScore = 0;
+    private int mostGoals = 0;
+    private int mostAssist = 0;
+    private int mostMom = 0;
 
 }

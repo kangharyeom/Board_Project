@@ -13,8 +13,8 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 @Setter
 public class UserPatchDto {
-    private Long userId;
-    private Long teamId;
+    private long userId;
+    private long teamId;
 
     private String loginId;
 

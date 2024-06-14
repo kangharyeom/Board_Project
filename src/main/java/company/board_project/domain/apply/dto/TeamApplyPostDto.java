@@ -15,7 +15,6 @@ import lombok.Setter;
 @Setter
 public class TeamApplyPostDto {
     private long userId;
-    private long hostTeamId;
     private int age;
     private String applierName;
     private String applyMessage;
@@ -26,7 +25,6 @@ public class TeamApplyPostDto {
     public String toString() {
         return "TeamApplyPostDto{" +
                 "userId=" + userId +
-                ", hostTeamId=" + hostTeamId +
                 ", age=" + age +
                 ", applierName='" + applierName + '\'' +
                 ", applyMessage='" + applyMessage + '\'' +

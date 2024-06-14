@@ -9,23 +9,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class TeamPatchDto {
-    private Long teamId;
-    private Long userId;
-    private Long championCount;
-    private Long memberCount;
-    private Long leagueMatchPoints;
-    private Long leagueMatchCount;
-    private Long leagueWinRecord;
-    private Long leagueDrawRecord;
-    private Long leagueLoseRecord;
-    private Long totalMatchCount;
-    private Long totalWinRecord;
-    private Long totalDrawRecord;
-    private Long totalLoseRecord;
-    private Long honorScore;
-    private Long mostGoals;
-    private Long mostAssist;
-    private Long mostMom;
+    private long teamId;
+    private long userId;
+    private int championCount;
+    private int memberCount;
+    private int leagueMatchPoints;
+    private int leagueMatchCount;
+    private int leagueWinRecord;
+    private int leagueDrawRecord;
+    private int leagueLoseRecord;
+    private int totalMatchCount;
+    private int totalWinRecord;
+    private int totalDrawRecord;
+    private int totalLoseRecord;
+    private int honorScore;
+    private int mostGoals;
+    private int mostAssist;
+    private int mostMom;
 
     private String formation;
     private String introduction;

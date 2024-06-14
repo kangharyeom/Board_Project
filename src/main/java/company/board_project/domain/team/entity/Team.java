@@ -3,9 +3,7 @@ package company.board_project.domain.team.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.matchlist.entity.MatchList;
 import company.board_project.domain.match.match.entity.Match;
-import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;
@@ -27,49 +25,46 @@ public class Team extends Auditable {
     private Long teamId;
 
     @Column
-    private Long championCount;
+    private Integer championCount;
 
     @Column
-    private Long memberCount;
+    private Integer memberCount;
 
     @Column
-    private Long leagueMatchCount;
+    private Integer leagueMatchCount;
 
     @Column
-    private Long leagueMatchPoints;
+    private Integer leagueMatchPoints;
 
     @Column
-    private Long leagueWinRecord;
+    private Integer leagueWinRecord;
 
     @Column
-    private Long leagueDrawRecord;
+    private Integer leagueDrawRecord;
 
     @Column
-    private Long leagueLoseRecord;
+    private Integer leagueLoseRecord;
 
     @Column
-    private Long totalMatchCount;
+    private Integer totalMatchCount;
 
     @Column
-    private Long totalWinRecord;
+    private Integer totalWinRecord;
 
     @Column
-    private Long totalDrawRecord;
+    private Integer totalDrawRecord;
 
     @Column
-    private Long totalLoseRecord;
+    private Integer totalLoseRecord;
 
     @Column
-    private Long honorScore;
+    private Integer honorScore;
 
     @Column
-    private Long mostGoals;
+    private Integer teamGoals;
 
     @Column
-    private Long mostAssist;
-
-    @Column
-    private Long mostMom;
+    private Integer teamAssist;
 
     @Column(nullable = false)
     private String teamName;
@@ -108,16 +103,10 @@ public class Team extends Auditable {
     private Formation formation;
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<League> leagues = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Apply> applies = new ArrayList<>();
-
-    @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
-    private List<MatchList> matchLists = new ArrayList<>();
 
     @OneToMany(mappedBy = "team", cascade = CascadeType.REMOVE)
     private List<Match> matches = new ArrayList<>();

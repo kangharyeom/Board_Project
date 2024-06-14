@@ -6,14 +6,19 @@ import company.board_project.constant.AcceptType;
 import company.board_project.constant.LevelType;
 import company.board_project.constant.MatchType;
 import company.board_project.domain.league.entity.League;
+import company.board_project.domain.league.entity.LeagueParticipantsList;
 import company.board_project.domain.match.match.entity.Match;
 import company.board_project.domain.team.entity.Team;
+import company.board_project.domain.team.entity.TeamMemberList;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -23,16 +28,13 @@ import jakarta.persistence.*;
 public class Apply extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long applyId;
+    private Long applyId;
 
     @Column
-    private long hostTeamId;
+    private Long hostTeamId;
 
     @Column
-    private long hostMatchId;
-
-    @Column
-    private long hostLeagueId;
+    private Long hostLeagueId;
 
     @Column
     private String applierName;
@@ -79,7 +81,6 @@ public class Apply extends Auditable {
         return "Apply{" +
                 "applyId=" + applyId +
                 ", hostTeamId=" + hostTeamId +
-                ", hostMatchId=" + hostMatchId +
                 ", hostLeagueId=" + hostLeagueId +
                 ", applierName='" + applierName + '\'' +
                 ", teamName='" + teamName + '\'' +

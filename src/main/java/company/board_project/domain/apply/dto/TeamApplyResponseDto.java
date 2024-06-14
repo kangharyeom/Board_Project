@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @Getter
 @Builder
 public class TeamApplyResponseDto {
-    private long applyId;
-    private long userId;
-    private long teamId;
-    private int age;
+    private Long applyId;
+    private Long userId;
+    private Long teamId;
+    private Integer age;
     private String applierName;
     private String applyMessage;
     private LevelType levelType;

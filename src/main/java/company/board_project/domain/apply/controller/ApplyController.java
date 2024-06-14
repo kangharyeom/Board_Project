@@ -34,12 +34,10 @@ public class ApplyController {
     /*
     * 팀 가입 신청
     */
-    @PostMapping("/teams/{hostTeamId}/applies")
-    public ResponseEntity postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody, @PathVariable("hostTeamId") @Positive long hostTeamId) {
-        requestBody.setHostTeamId(hostTeamId);
-
+    @PostMapping("/teams/{teamId}/applies")
+    public ResponseEntity postTeamApply(@Validated @RequestBody TeamApplyPostDto requestBody, @PathVariable("teamId") @Positive long teamId) {
         log.info("requestBody[{}]", requestBody);
-        Apply apply = applyService.createTeamApply(applyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), hostTeamId);
+        Apply apply = applyService.createTeamApply(applyMapper.teamApplyPostDtoToTeamApply(requestBody),requestBody.getUserId(), teamId);
         TeamApplyResponseDto teamApplyResponseDto = applyMapper.applyToTeamApplyResponse(apply);
 
         return ResponseEntity.ok(teamApplyResponseDto);
@@ -48,11 +46,10 @@ public class ApplyController {
     /*
     * 매치 신청
     */
-    @PostMapping("/matches/{hostMatchId}/applies")
-    public ResponseEntity postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody, @PathVariable("matchId") @Positive long hostMatchId) {
+    @PostMapping("/matches/{matchId}/applies")
+    public ResponseEntity postMatchApply(@Validated @RequestBody MatchApplyPostDto requestBody, @PathVariable("matchId") @Positive long matchId) {
 
-        requestBody.setHostMatchId(hostMatchId);
-        Apply apply = applyService.createMatchApply(applyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), requestBody.getMatchId(), requestBody.getTeamId());
+        Apply apply = applyService.createMatchApply(applyMapper.matchApplyPostDtoToMatchApply(requestBody),requestBody.getUserId(), matchId, requestBody.getTeamId());
         MatchApplyResponseDto matchApplyResponseDto = applyMapper.applyToMatchApplyResponse(apply);
 
         return ResponseEntity.ok(matchApplyResponseDto);
@@ -61,11 +58,10 @@ public class ApplyController {
     /*
      * 리그 가입 신청
      */
-    @PostMapping("/leagues/{hostLeagueId}/applies")
-    public ResponseEntity postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody, @PathVariable("leagueId") @Positive long hostLeagueId) {
-        requestBody.setHostLeagueId(hostLeagueId);
+    @PostMapping("/leagues/{leagueId}/applies")
+    public ResponseEntity postLeagueApply(@Validated @RequestBody LeagueApplyPostDto requestBody, @PathVariable("leagueId") @Positive long leagueId) {
 
-        Apply apply = applyService.createLeagueApply(applyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), requestBody.getLeagueId(), requestBody.getTeamId());
+        Apply apply = applyService.createLeagueApply(applyMapper.leagueApplyPostDtoToLeagueApply(requestBody),requestBody.getUserId(), leagueId, requestBody.getTeamId());
         LeagueApplyResponseDto leagueApplyResponseDto = applyMapper.applyToLeagueApplyResponse(apply);
 
         return ResponseEntity.ok(leagueApplyResponseDto);

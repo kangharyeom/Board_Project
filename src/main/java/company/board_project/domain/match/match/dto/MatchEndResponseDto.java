@@ -16,8 +16,8 @@ public class MatchEndResponseDto {
     private Long awayTeamUserId;
     private Long homeTeamId;
     private Long awayTeamId;
-    private Long homeTeamScore;
-    private Long awayTeamScore;
+    private Integer homeTeamScore;
+    private Integer awayTeamScore;
     private String matchStatus;
     private String matchTime;
     private String matchDate;

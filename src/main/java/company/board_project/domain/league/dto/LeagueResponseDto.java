@@ -1,7 +1,6 @@
 package company.board_project.domain.league.dto;
 
 import company.board_project.domain.content.entity.Content;
-import company.board_project.domain.list.matchlist.entity.MatchList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -35,7 +34,6 @@ public class LeagueResponseDto {
     private String seasonType;
 
     private List<Content> contents;
-    private List<MatchList> matchLists;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

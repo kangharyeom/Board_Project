@@ -16,7 +16,7 @@ import lombok.Setter;
 public class TeamMemberList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long teamMemberListId;
+    private long teamMemberListId;
 
     @Column
     private String name;

@@ -3,7 +3,6 @@ package company.board_project.domain.league.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.content.entity.Content;
-import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;
@@ -22,21 +21,21 @@ import java.util.List;
 public class League extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long leagueId;
+    private Long leagueId;
 
     @Column(nullable = false)
-    private int matchCount;
+    private Integer matchCount;
 
     // matchCount == leagueEndCount 일경우 리그 종료
     // leagueEndCount == (각 팀 경기수 총합/팀 수)
     @Column
-    private int leagueEndCount;
+    private Integer leagueEndCount;
 
     @Column
-    private int teamCount;
+    private Integer teamCount;
 
     @Column
-    private int memberCount;
+    private Integer memberCount;
 
     @Column(nullable = false)
     private String leagueName;
@@ -73,9 +72,6 @@ public class League extends Auditable {
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
-
-    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
-    private List<Schedule> schedules = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

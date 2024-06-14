@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class LeaguePatchDto {
-    private Long leagueId;
-    private Long userId;
-    private Long teamId;
-    private Long matchCount;
-    private Long memberCount;
-    private Long winPoints;
+    private long leagueId;
+    private long userId;
+    private long teamId;
+    private int matchCount;
+    private int memberCount;
+    private int winPoints;
     @NotBlank(message = "리그의 이름을 입력 해야 합니다.")
     private String leagueName;
     @NotBlank(message = "운동의 유형을 입력 해야 합니다.")
     private String sportsType;
-    private Long teamCount;
+    private int teamCount;
     @NotBlank(message = "연령대를 입력 해야 합니다.")
     private String ageType;
     @NotBlank(message = "지역을 입력 해야 합니다.")

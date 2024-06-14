@@ -89,6 +89,7 @@ public class ApplyService {
         apply.setMatch(match);
         apply.setTeam(team);
 
+        apply.setApplierName(team.getManagerName());
         apply.setTeamName(team.getTeamName());
         apply.setLevelType(team.getLevelType());
         apply.setAgeType(team.getAgeType());

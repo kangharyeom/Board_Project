@@ -12,10 +12,6 @@ import lombok.Setter;
 public class MatchApplyPostDto {
     private long userId;
     private long teamId;
-    private long matchId;
-    private long hostMatchId;
-    private String applierName;
-    private String teamName;
     private String levelType;
     private String ageType;
     private String matchType;

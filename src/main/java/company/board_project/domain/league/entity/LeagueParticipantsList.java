@@ -17,7 +17,7 @@ import lombok.Setter;
 public class LeagueParticipantsList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long leagueParticipantsListId;
+    private Long leagueParticipantsListId;
 
     @Column
     private String teamName;
@@ -44,35 +44,35 @@ public class LeagueParticipantsList {
     private UniformType uniformType;
 
     @Column
-    private int leagueMatchCount = 0;
+    private Integer leagueMatchCount = 0;
 
     @Column
-    private int leagueMatchPoints = 0;
+    private Integer leagueMatchPoIntegers = 0;
 
     @Column
-    private int leagueWinRecord = 0;
+    private Integer leagueWinRecord = 0;
 
     @Column
-    private int leagueDrawRecord = 0;
+    private Integer leagueDrawRecord = 0;
 
     @Column
-    private int leagueLoseRecord = 0;
+    private Integer leagueLoseRecord = 0;
 
     @Column
-    private int teamGoals = 0;
+    private Integer teamGoals = 0;
 
     @Column
-    private int teamAssist = 0;
+    private Integer teamAssist = 0;
 
     @Column
-    private int cleanSheet = 0;
+    private Integer cleanSheet = 0;
 
     /*@Column
-    private int mostGoals;
+    private Integer mostGoals;
     @Column
-    private int mostAssists;
+    private Integer mostAssists;
     @Column
-    private int mostMoMs;*/
+    private Integer mostMoMs;*/
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")
@@ -103,7 +103,7 @@ public class LeagueParticipantsList {
                 ", frequency=" + frequency +
                 ", uniformType=" + uniformType +
                 ", leagueMatchCount=" + leagueMatchCount +
-                ", leagueMatchPoints=" + leagueMatchPoints +
+                ", leagueMatchPoIntegers=" + leagueMatchPoIntegers +
                 ", leagueWinRecord=" + leagueWinRecord +
                 ", leagueDrawRecord=" + leagueDrawRecord +
                 ", leagueLoseRecord=" + leagueLoseRecord +

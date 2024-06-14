@@ -1,6 +1,5 @@
 package company.board_project.domain.team.dto;
 
-import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,21 +14,20 @@ import java.util.List;
 public class TeamResponseDto {
     private Long teamId;
     private Long userId;
-    private Long championCount;
-    private Long memberCount;
-    private Long leagueMatchPoints;
-    private Long leagueMatchCount;
-    private Long leagueWinRecord;
-    private Long leagueDrawRecord;
-    private Long leagueLoseRecord;
-    private Long totalMatchCount;
-    private Long totalWinRecord;
-    private Long totalDrawRecord;
-    private Long totalLoseRecord;
-    private Long honorScore;
-    private Long mostGoals;
-    private Long mostAssist;
-    private Long mostMom;
+    private Integer championCount;
+    private Integer memberCount;
+    private Integer leagueMatchPoints;
+    private Integer leagueMatchCount;
+    private Integer leagueWinRecord;
+    private Integer leagueDrawRecord;
+    private Integer leagueLoseRecord;
+    private Integer totalMatchCount;
+    private Integer totalWinRecord;
+    private Integer totalDrawRecord;
+    private Integer totalLoseRecord;
+    private Integer honorScore;
+    private Integer mostGoals;
+    private Integer mostAssist;
 
     private String formation;
     private String teamName;
@@ -46,6 +44,5 @@ public class TeamResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    private List<Schedule> scheduleList;
     private List<Apply> applies;
 }

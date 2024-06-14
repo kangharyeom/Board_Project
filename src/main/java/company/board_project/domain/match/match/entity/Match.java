@@ -3,8 +3,6 @@ package company.board_project.domain.match.match.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.league.entity.League;
-import company.board_project.domain.list.matchlist.entity.MatchList;
-import company.board_project.domain.schedule.entity.Schedule;
 import company.board_project.domain.apply.entity.Apply;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
@@ -29,31 +27,31 @@ public class Match extends Auditable {
 
     // HOME TEAM INFO
     @Column
-    private Long homeTeamHonorScore;
-
-    @Column
     private String homeTeamName;
 
     @Column
     private String homeTeamManagerName;
 
     @Column
-    private Long homeTeamTotalWinRecord;
+    private Integer homeTeamHonorScore;
 
     @Column
-    private Long homeTeamTotalDrawRecord;
+    private Integer homeTeamTotalWinRecord;
 
     @Column
-    private Long homeTeamTotalLoseRecord;
+    private Integer homeTeamTotalDrawRecord;
 
     @Column
-    private Long homeTeamLeagueWinRecord;
+    private Integer homeTeamTotalLoseRecord;
 
     @Column
-    private Long homeTeamLeagueDrawRecord;
+    private Integer homeTeamLeagueWinRecord;
 
     @Column
-    private Long homeTeamLeagueLoseRecord;
+    private Integer homeTeamLeagueDrawRecord;
+
+    @Column
+    private Integer homeTeamLeagueLoseRecord;
 
     @Enumerated(EnumType.STRING)
     private LevelType homeTeamLevelType;
@@ -70,34 +68,37 @@ public class Match extends Auditable {
 
     // AWAY TEAM INFO
     @Column
-    private Long awayTeamId;
-
-    @Column
-    private Long awayTeamHonorScore;
-
-    @Column
     private String awayTeamName;
 
     @Column
     private String awayTeamManagerName;
 
     @Column
-    private Long awayTeamTotalWinRecord;
+    private Long awayTeamUserId;
 
     @Column
-    private Long awayTeamTotalDrawRecord;
+    private Long awayTeamId;
 
     @Column
-    private Long awayTeamTotalLoseRecord;
+    private Integer awayTeamHonorScore;
 
     @Column
-    private Long awayTeamLeagueWinRecord;
+    private Integer awayTeamTotalWinRecord;
 
     @Column
-    private Long awayTeamLeagueDrawRecord;
+    private Integer awayTeamTotalDrawRecord;
 
     @Column
-    private Long awayTeamLeagueLoseRecord;
+    private Integer awayTeamTotalLoseRecord;
+
+    @Column
+    private Integer awayTeamLeagueWinRecord;
+
+    @Column
+    private Integer awayTeamLeagueDrawRecord;
+
+    @Column
+    private Integer awayTeamLeagueLoseRecord;
 
     @Enumerated(EnumType.STRING)
     private LevelType awayTeamLevelType;
@@ -120,6 +121,9 @@ public class Match extends Auditable {
 
     @Enumerated(EnumType.STRING)
     private SportsType sportsType;
+
+    @Column
+    private String matchAddress;
 
     @Column
     private String matchTime;
@@ -147,9 +151,4 @@ public class Match extends Auditable {
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "LEAGUE_ID")
     private League league;
-
-    @ManyToOne(cascade = CascadeType.DETACH)
-    @JoinColumn(name = "SCHEDULE_ID")
-    private Schedule schedule;
-
 }

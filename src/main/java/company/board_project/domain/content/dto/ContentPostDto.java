@@ -12,7 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 public class ContentPostDto {
-    private Long userId;
+    private long userId;
     @NotBlank(message = "게시글의 제목을 입력해야 합니다.")
     private String title;
     @NotBlank(message = "게시글의 내용을 입력해야 합니다.")

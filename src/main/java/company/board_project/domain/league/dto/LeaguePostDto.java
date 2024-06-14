@@ -10,16 +10,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 public class LeaguePostDto {
-    private Long userId;
-    private Long teamId;
-    private Long memberCount;
-    private Long matchCount;
-    private Long teamCount = 1L;
-    private Long leagueEndCount = 0L;
+    private long userId;
+    private long teamId;
+    private int memberCount;
+    private int matchCount;
+    private int teamCount = 1;
+    private int leagueEndCount = 0;
     private String teamName;
-    private Long teamGoals = 0L;
-    private Long teamAssist = 0L;
-    private Long cleanSheet = 0L;
+    private int teamGoals = 0;
+    private int teamAssist = 0;
+    private int cleanSheet = 0;
     private String managerName;
     private String subManagerName;
     private String managerTeamName;

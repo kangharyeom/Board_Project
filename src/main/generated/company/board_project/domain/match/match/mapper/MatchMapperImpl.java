@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-12T09:14:04+0900",
+    date = "2024-06-14T18:57:04+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -32,35 +32,11 @@ public class MatchMapperImpl implements MatchMapper {
 
         Match match = new Match();
 
-        match.setHomeTeamHonorScore( requestBody.getHomeTeamHonorScore() );
-        match.setHomeTeamName( requestBody.getHomeTeamName() );
-        match.setHomeTeamManagerName( requestBody.getHomeTeamManagerName() );
-        match.setHomeTeamTotalWinRecord( requestBody.getHomeTeamTotalWinRecord() );
-        match.setHomeTeamTotalDrawRecord( requestBody.getHomeTeamTotalDrawRecord() );
-        match.setHomeTeamTotalLoseRecord( requestBody.getHomeTeamTotalLoseRecord() );
-        if ( requestBody.getHomeTeamLevelType() != null ) {
-            match.setHomeTeamLevelType( Enum.valueOf( LevelType.class, requestBody.getHomeTeamLevelType() ) );
-        }
-        if ( requestBody.getHomeTeamAgeType() != null ) {
-            match.setHomeTeamAgeType( Enum.valueOf( AgeType.class, requestBody.getHomeTeamAgeType() ) );
-        }
-        if ( requestBody.getHomeTeamUniformType() != null ) {
-            match.setHomeTeamUniformType( Enum.valueOf( UniformType.class, requestBody.getHomeTeamUniformType() ) );
-        }
         if ( requestBody.getLocationType() != null ) {
             match.setLocationType( Enum.valueOf( LocationType.class, requestBody.getLocationType() ) );
         }
-        if ( requestBody.getMatchType() != null ) {
-            match.setMatchType( Enum.valueOf( MatchType.class, requestBody.getMatchType() ) );
-        }
-        if ( requestBody.getSportsType() != null ) {
-            match.setSportsType( Enum.valueOf( SportsType.class, requestBody.getSportsType() ) );
-        }
         match.setMatchTime( requestBody.getMatchTime() );
         match.setMatchRules( requestBody.getMatchRules() );
-        if ( requestBody.getMatchStatus() != null ) {
-            match.setMatchStatus( Enum.valueOf( MatchStatus.class, requestBody.getMatchStatus() ) );
-        }
 
         return match;
     }
@@ -74,12 +50,15 @@ public class MatchMapperImpl implements MatchMapper {
         Match match = new Match();
 
         match.setMatchId( requestBody.getMatchId() );
-        match.setHomeTeamHonorScore( requestBody.getHomeTeamHonorScore() );
         match.setHomeTeamName( requestBody.getHomeTeamName() );
         match.setHomeTeamManagerName( requestBody.getHomeTeamManagerName() );
+        match.setHomeTeamHonorScore( requestBody.getHomeTeamHonorScore() );
         match.setHomeTeamTotalWinRecord( requestBody.getHomeTeamTotalWinRecord() );
         match.setHomeTeamTotalDrawRecord( requestBody.getHomeTeamTotalDrawRecord() );
         match.setHomeTeamTotalLoseRecord( requestBody.getHomeTeamTotalLoseRecord() );
+        match.setHomeTeamLeagueWinRecord( requestBody.getHomeTeamLeagueWinRecord() );
+        match.setHomeTeamLeagueDrawRecord( requestBody.getHomeTeamLeagueDrawRecord() );
+        match.setHomeTeamLeagueLoseRecord( requestBody.getHomeTeamLeagueLoseRecord() );
         if ( requestBody.getHomeTeamLevelType() != null ) {
             match.setHomeTeamLevelType( Enum.valueOf( LevelType.class, requestBody.getHomeTeamLevelType() ) );
         }

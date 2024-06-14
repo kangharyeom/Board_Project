@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-12T09:14:05+0900",
+    date = "2024-06-14T18:57:04+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -31,18 +31,10 @@ public class LeagueMapperImpl implements LeagueMapper {
 
         League league = new League();
 
-        if ( requestBody.getMatchCount() != null ) {
-            league.setMatchCount( requestBody.getMatchCount().intValue() );
-        }
-        if ( requestBody.getLeagueEndCount() != null ) {
-            league.setLeagueEndCount( requestBody.getLeagueEndCount().intValue() );
-        }
-        if ( requestBody.getTeamCount() != null ) {
-            league.setTeamCount( requestBody.getTeamCount().intValue() );
-        }
-        if ( requestBody.getMemberCount() != null ) {
-            league.setMemberCount( requestBody.getMemberCount().intValue() );
-        }
+        league.setMatchCount( requestBody.getMatchCount() );
+        league.setLeagueEndCount( requestBody.getLeagueEndCount() );
+        league.setTeamCount( requestBody.getTeamCount() );
+        league.setMemberCount( requestBody.getMemberCount() );
         league.setLeagueName( requestBody.getLeagueName() );
         league.setManagerName( requestBody.getManagerName() );
         league.setManagerTeamName( requestBody.getManagerTeamName() );
@@ -78,18 +70,10 @@ public class LeagueMapperImpl implements LeagueMapper {
 
         League league = new League();
 
-        if ( requestBody.getLeagueId() != null ) {
-            league.setLeagueId( requestBody.getLeagueId() );
-        }
-        if ( requestBody.getMatchCount() != null ) {
-            league.setMatchCount( requestBody.getMatchCount().intValue() );
-        }
-        if ( requestBody.getTeamCount() != null ) {
-            league.setTeamCount( requestBody.getTeamCount().intValue() );
-        }
-        if ( requestBody.getMemberCount() != null ) {
-            league.setMemberCount( requestBody.getMemberCount().intValue() );
-        }
+        league.setLeagueId( requestBody.getLeagueId() );
+        league.setMatchCount( requestBody.getMatchCount() );
+        league.setTeamCount( requestBody.getTeamCount() );
+        league.setMemberCount( requestBody.getMemberCount() );
         league.setLeagueName( requestBody.getLeagueName() );
         if ( requestBody.getSportsType() != null ) {
             league.setSportsType( Enum.valueOf( SportsType.class, requestBody.getSportsType() ) );
