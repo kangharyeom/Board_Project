@@ -65,6 +65,13 @@ public enum Exceptions {
     COMMENT_CHECK_EXISTS(409, "Comment Check exists"),
 
     /*
+     * 팀 예외 처리
+     */
+    TEAM_NOT_PATCHED(403, "Team not patched"),
+    TEAM_NOT_FOUND(404, "Team Not Found"),
+    TEAM_CHECK_EXISTS(409, "Team Check exists"),
+
+    /*
      * Apply(경기 or 팀 or 리그 신청) 예외 처리
      */
     APPLY_NOT_PATCHED(403, "Apply not patched"),
@@ -76,6 +83,8 @@ public enum Exceptions {
     */
     CONTENT_FILE_NOT_FOUND(404, "Content_File Not Found"),
     CONTENT_FILE_CHECK_ERROR(409, "Content_File Check ERROR");
+
+
 
     @Getter
     private int status;
