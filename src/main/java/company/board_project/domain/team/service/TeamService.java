@@ -2,7 +2,6 @@ package company.board_project.domain.team.service;
 
 import company.board_project.constant.TeamMemberRole;
 import company.board_project.domain.team.entity.TeamMemberList;
-import company.board_project.domain.team.mapper.TeamMapper;
 import company.board_project.domain.team.repository.TeamMemberListRepository;
 import company.board_project.domain.user.repository.UserRepository;
 import company.board_project.exception.BusinessLogicException;
@@ -217,6 +216,9 @@ public class TeamService {
     public Team findTeam(long teamId) {
         return findVerifiedTeam(teamId);
     }
+    public Team findTeamByTeamName(String teamName) {
+        return findVerifiedTeamName(teamName);
+    }
 
     public Team findTeamByUserId(long userId) {
         return findVerifiedTeamByUserId(userId);
@@ -249,7 +251,7 @@ public class TeamService {
         Optional<Team> optionalTeam = teamRepository.findById(teamId);
         Team findTeam =
                 optionalTeam.orElseThrow(() ->
-                        new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND));
+                        new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
         return findTeam;
     }
 
@@ -258,20 +260,27 @@ public class TeamService {
         try {
             team = teamRepository.findByUserId(userId);
         } catch (NoSuchElementException ex) {
-            throw new BusinessLogicException(Exceptions.COMMENT_NOT_FOUND);
+            throw new BusinessLogicException(Exceptions.TEAM_NOT_FOUND);
         }
         return team;
     }
 
-    public Team findVerifiedExistsTeamByUserId(long userId) {
+    public void findVerifiedExistsTeamByUserId(long userId) {
         Team team = teamRepository.findByUserId(userId);
         if(team ==null) {
             try {
             } catch (NoSuchElementException ex) {
                 throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
             }
-        return team;
         }
         throw new BusinessLogicException(Exceptions.TEAM_EXISTS);
+    }
+
+    public Team findVerifiedTeamName(String teamName) {
+        Optional<Team> optionalTeam = teamRepository.findByTeamName(teamName);
+        Team findTeam =
+                optionalTeam.orElseThrow(() ->
+                        new BusinessLogicException(Exceptions.TEAM_NOT_FOUND));
+        return findTeam;
     }
 }
