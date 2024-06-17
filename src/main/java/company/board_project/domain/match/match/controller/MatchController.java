@@ -1,5 +1,6 @@
 package company.board_project.domain.match.match.controller;
 
+import company.board_project.constant.MatchType;
 import company.board_project.domain.match.match.dto.MatchListDto;
 import company.board_project.domain.match.match.dto.MatchPatchDto;
 import company.board_project.domain.match.match.dto.MatchPostDto;
@@ -10,7 +11,7 @@ import company.board_project.domain.match.match.service.MatchService;
 import company.board_project.response.MultiResponseDto;
 import jakarta.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +23,7 @@ import java.util.List;
 @RestController
 @Validated
 @RequiredArgsConstructor
-@Slf4j
+@Log4j2
 @RequestMapping("/api/matches")
 public class MatchController {
     private final MatchService matchService;
@@ -31,10 +32,16 @@ public class MatchController {
     @PostMapping
     public ResponseEntity postMatch(@Validated @RequestBody MatchPostDto requestBody) {
 
-        Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(),requestBody.getTeamId());
-        MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+        if (requestBody.getMatchType().equals(String.valueOf(MatchType.NORMAL_MATCH))) {
+            Match match = matchService.createMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(), requestBody.getTeamId());
+            MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+            return ResponseEntity.ok(matchResponseDto);
 
-        return ResponseEntity.ok(matchResponseDto);
+        } else {
+            Match match = matchService.createTournamentMatch(matchMapper.matchPostDtoToMatch(requestBody), requestBody.getUserId(), requestBody.getTeamId());
+            MatchResponseDto matchResponseDto = matchMapper.matchToMatchResponse(match);
+            return ResponseEntity.ok(matchResponseDto);
+        }
     }
 
     @GetMapping("/{matchId}")

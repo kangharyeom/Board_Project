@@ -18,4 +18,6 @@ public class MatchPostDto {
     @NotBlank(message = "경기 날짜를 입력 해야 합니다.")
     private String matchDate;
     private String matchRules;
+    @NotBlank(message = "경기 타입을 입력 해야 합니다.")
+    private String matchType;
 }

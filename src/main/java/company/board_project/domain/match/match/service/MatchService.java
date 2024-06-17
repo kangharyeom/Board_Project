@@ -23,7 +23,6 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional
 public class MatchService {
     private final MatchRepository matchRepository;
     private final UserService userService;
@@ -32,6 +31,30 @@ public class MatchService {
     private final TeamRepository teamRepository;
 
     public Match createMatch(Match match, Long userId, Long teamId) {
+        User user = userService.findUser(userId);
+        Team team = teamService.findTeam(teamId);
+
+        match.setUser(user);
+        match.setTeam(team);
+
+        match.setHomeTeamHonorScore(team.getHonorScore());
+        match.setHomeTeamName(team.getTeamName());
+        match.setHomeTeamManagerName(team.getManagerName());
+        match.setHomeTeamTotalWinRecord(team.getTotalWinRecord());
+        match.setHomeTeamTotalDrawRecord(team.getTotalDrawRecord());
+        match.setHomeTeamTotalLoseRecord(team.getTotalLoseRecord());
+        match.setHomeTeamLevelType(team.getLevelType());
+        match.setHomeTeamAgeType(team.getAgeType());
+        match.setHomeTeamUniformType(team.getUniformType());
+        match.setMatchType(match.getMatchType());
+
+        userRepository.save(user);
+        matchRepository.save(match);
+
+        return match;
+    }
+
+    public Match createTournamentMatch(Match match, Long userId, Long teamId) {
         User user = userService.findUser(userId);
         Team team = teamService.findTeam(teamId);
 

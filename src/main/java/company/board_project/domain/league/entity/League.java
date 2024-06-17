@@ -3,6 +3,7 @@ package company.board_project.domain.league.entity;
 import company.board_project.audit.Auditable;
 import company.board_project.constant.*;
 import company.board_project.domain.content.entity.Content;
+import company.board_project.domain.match.leagueMatch.entity.LeagueMatch;
 import company.board_project.domain.team.entity.Team;
 import company.board_project.domain.user.entity.User;
 import lombok.Getter;
@@ -72,6 +73,9 @@ public class League extends Auditable {
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
     private List<Content> contents = new ArrayList<>();
+
+    @OneToMany(mappedBy = "league", cascade = CascadeType.REMOVE)
+    private List<LeagueMatch> leagueMatches = new ArrayList<>();
 
     @ManyToOne(cascade = CascadeType.DETACH)
     @JoinColumn(name = "USER_ID")

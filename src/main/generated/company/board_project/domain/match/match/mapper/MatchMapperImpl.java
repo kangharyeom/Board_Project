@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-06-14T18:57:04+0900",
+    date = "2024-06-17T10:38:13+0900",
     comments = "version: 1.5.3.Final, compiler: javac, environment: Java 17.0.10 (JetBrains s.r.o.)"
 )
 @Component
@@ -34,6 +34,9 @@ public class MatchMapperImpl implements MatchMapper {
 
         if ( requestBody.getLocationType() != null ) {
             match.setLocationType( Enum.valueOf( LocationType.class, requestBody.getLocationType() ) );
+        }
+        if ( requestBody.getMatchType() != null ) {
+            match.setMatchType( Enum.valueOf( MatchType.class, requestBody.getMatchType() ) );
         }
         match.setMatchTime( requestBody.getMatchTime() );
         match.setMatchRules( requestBody.getMatchRules() );
