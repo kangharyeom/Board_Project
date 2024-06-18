@@ -76,15 +76,31 @@
 <div id="7"></div>
 
 ## 팀 소개
-- 프론트 엔드(강하렴) - 구현중
-- 백엔드 (강하렴)
+| ![강하렴](https://avatars.githubusercontent.com/u/108250233?s=400&u=4d95286f52bc324b5a32dd231aca253297afaef8&v=4) | ![조선](https://avatars.githubusercontent.com/u/77006790?v=4) |
+|:--------------------------------------------------------------------------------------------------------------:|:-----------------------------------------------------------:|
+|                                   [강하렴<br >(팀장)](https://github.com/kangharyeom)                                   |                  [조선](https://github.com/kangharyeom)                  |
+
+
+| <center>이름</center> |       <center>역할</center>        |<center>개발 내용</center>|어려웠던 점과 배운 점|
+|:-------------------:|:--------------------------------:|----|----|
+|         강하렴       |    BackEnd & FrontEnd & Infra    |- 이벤트 기반의 스프링 클라우드 MSA 프로젝트 세팅 <br > - 서킷브레이커 도입하여 멤버 서비스 예비 시스템 가동 <br > - 로그 및 사용자 요청 모니터링 시스템 구축(Zipkin, ELK stack) <br > - 통합 알림 시스템 구축(ver1: SSE+Kafka ver2: FCM+Kafka) <br >- 데일리미션 관련 API 개발|- 스프링 클라우드 MSA 개발에서 각 요소들이 왜 필요한지, 어떻게 사용되는지 알 수 있었습니다. 클라우드 컨피그 및 쿠버네티스를 활용하지 못하여 MSA의 여러 장점을 쓰지 못하여 아쉽습니다. <br > - 카프카의 작동 원리 및 Spring 에서의 개발 방법을 알 수 있었습니다. 카프카를 활용하여 SAGA패턴을 구현해보았고 프론트와 연동하여 동기/비동기 처리가 언제 적용되는지에 대해 알 수 있었습니다. <br > - REST통신 외에 소켓통신/SSE/메세지큐를 사용해보았습니다.|
+|         조선         | User Interface & User Experience | - Nginx, Docker를 이용한 서버 구축 <br > - Jenkins를 통한 CI/CD 구현 <br > - Blue-Green 무중단 배포 구현 <br > - 'JPA', 'MongoTemplate'을 통한 포스트잇 API 구현 및 'redis'를 이용한 성능 최적화 | - 서버에서 발생하는 다양한 이슈들을 해결하면서 서버가 어떻게 동작하고 유지시키는지 학습할 수 있었습니다. 또한, 무중단 배포와 배포 자동화를 통해 안정적인 서비스를 운영할 수 있었습니다. <br > - 제한된 메모리 안에서 많은 서비스를 제공하려다 보니 메모리 부족 현상이 발생하였습니다. 그래서 서비스의 메모리 상태를 관찰하고, 서비스 운영 및 성능 상 문제가 없는 컨테이너 위주로 최대 메모리 사용 제한을 두었습니다. 또한, 15G인 메모리 용량에 따라 8G의 Swap 공간을 설정하여 서버 다운을 방지하였습니다. |
+
 
 <div id="8"></div>
 
 ## 이슈 정리
 [팀, 매치, 리그] 생성과 [팀 리스트(팀원 목록), 매치 리스트(경기 매치 팀 리스트), 리그 리스트(리그 팀 목록)] 생성 관계
-- [팀, 매치, 리그](이하 팀으로 통일)을 생성한 유저는 팀 생성과 동시에 팀원 목록에 보여야 하므로 팀이 생성되는 단계에서 팀 리스트도 생성되어야 한다.
+- [팀, 매치, 리그] (이하 팀으로 통일)을 생성한 유저는 팀 생성과 동시에 팀원 목록에 보여야 하므로 팀이 생성되는 단계에서 팀 리스트도 생성되어야 한다.
   - 따라서, 팀 컨트롤러 단에서 postTeam이 팀과 팀리스트를 생성하도록 구현했다.
+  - [Match 테이블과 Team의 다대다 연관 관계 필요성에 관련한 문제](https://findthelostedhobby.tistory.com/154) 
+  - [match와 leagueList사이에서 순환참조가 발생함](https://findthelostedhobby.tistory.com/155) 
+
+[Spring Security] Migration 중 발생한 에러 해결
+- whistle은 java 11, spring boot 2.7.14 버전으로 시작해서 java 17, spring boot 3.2.3으로 Migration했다.
+- 다른 코드들은 호환되었지만 Spring Security의 일부 기능이 expired 되어서 새로운 환경에 맞는 코드로 바꿔주어야 했다.
+- [Spring Security 마이그레이션 중 발생한 에러 해결](https://findthelostedhobby.tistory.com/164)
+- [Spring Security 마이그레이션 중 발생한 에러 해결2](https://findthelostedhobby.tistory.com/165)
 
 <div id="9"></div>
 
