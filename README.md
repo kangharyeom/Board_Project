@@ -94,35 +94,6 @@
 
      src
     ├── main
-    │   ├── generated
-    │   │   └── company
-    │   │       └── board_project
-    │   │           └── domain
-    │   │               ├── apply
-    │   │               │   └── mapper
-    │   │               │       └── ApplyMapperImpl.java
-    │   │               ├── comment
-    │   │               │   └── mapper
-    │   │               │       └── CommentMapperImpl.java
-    │   │               ├── content
-    │   │               │   └── mapper
-    │   │               │       └── ContentMapperImpl.java
-    │   │               ├── league
-    │   │               │   └── mapper
-    │   │               │       └── LeagueMapperImpl.java
-    │   │               ├── match
-    │   │               │   ├── leagueMatch
-    │   │               │   │   └── mapper
-    │   │               │   │       └── LeagueMatchMapperImpl.java
-    │   │               │   └── match
-    │   │               │       └── mapper
-    │   │               │           └── MatchMapperImpl.java
-    │   │               ├── team
-    │   │               │   └── mapper
-    │   │               │       └── TeamMapperImpl.java
-    │   │               └── user
-    │   │                   └── mapper
-    │   │                       └── UserMapperImpl.java
     │   ├── java
     │   │   └── company
     │   │       └── board_project
