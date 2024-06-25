@@ -62,7 +62,8 @@
 
 ## DATABASE
 ### Maria DB ERD
-
+[Whistle Project ERD 설명](https://findthelostedhobby.tistory.com/155)
+![img1.png](img%2Fimg1.png)
 ### Redis DB 구조
 
 <div id="5"></div>
